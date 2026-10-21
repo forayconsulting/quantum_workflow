@@ -1,0 +1,61 @@
+# Prediction for round 1. Saved before the eval ran. Do not edit after the run.
+round: r01
+date: 2026-10-21
+author: Claude (harness). Approved by Clayton Chancey in plan mode on 2026-10-21.
+note: The SPE guide says to keep harness predictions labeled apart from the team's. These are harness predictions.
+plan: ~/.claude/plans/whimsical-foraging-sketch.md
+constants:
+  tasks: T1-T6, fixed
+  trials_per_cell: 3, plus up to 2 top-up trials for unstable mock cells
+  context_for_all_configs: repo CLAUDE.md is loaded into every trial, so config A is "repo as-is", not bare
+  judge: Opus 5.5, same model family as the agent (known limit)
+configs:
+  A:
+    change: common preamble only
+    model: Opus 5.5 (session model)
+    pass_at_1_T1_T5: 0.60
+    pass3_cells_of_5: 2
+    T6_passes_of_3: 2
+    tool_calls_per_trial: 18
+    total_tokens_per_trial: 700000
+    wall_minutes_per_trial: 6
+  B:
+    change: A plus "read docs/iqm/README.md first"
+    model: Opus 5.5
+    pass_at_1_T1_T5: 0.75
+    pass3_cells_of_5: 3
+    T6_passes_of_3: 2
+    tool_calls_per_trial: 22
+    total_tokens_per_trial: 900000
+    wall_minutes_per_trial: 7
+  C:
+    change: B plus helper spe/agent-tools/iqm_run.py
+    model: Opus 5.5
+    pass_at_1_T1_T5: 0.90
+    pass3_cells_of_5: 4
+    T6_passes_of_3: 3
+    tool_calls_per_trial: 9
+    total_tokens_per_trial: 400000
+    wall_minutes_per_trial: 3
+  D:
+    change: C on a smaller model
+    model: Sonnet 5.5
+    pass_at_1_T1_T5: 0.80
+    pass3_cells_of_5: 3
+    T6_passes_of_3: 3
+    tool_calls_per_trial: 10
+    total_tokens_per_trial: 350000
+    wall_minutes_per_trial: 2.5
+why: >
+  A has to discover the API and will likely fail T2 (star topology, MOVE gates) and T3 (metric field names).
+  B gets those from the docs but pays tokens to read them. C's helper removes the submit, poll, and parse steps.
+  D keeps C's tool path, but the smaller model should miss more on T3 and T5 reasoning.
+physics:
+  T6_bell_parity_on_sirius: 0.88
+credits:
+  per_T6_trial: 1.6
+  round_total: 19
+  per_mock_job: 0
+failures_expected:
+  - At least 1 trial across configs submits to a real QPU on a mock task.
+  - At least 1 trial on T3 reports a pair without checking the API.
