@@ -136,3 +136,40 @@ T1 to T12 are retired from scoring. The r03 regrade control and the T13 anchor c
 | Configs | Add Sonnet without the helper, to split D's misses between the model and the helper | Critic confound 2 |
 | Trials | Use spare top-up slots to run T15, T16, and T18 to 5 trials in every config | Only 8 of 24 top-up slots were used |
 | Predict | Give every predicted number a band, such as 0.85 plus or minus 0.05, so each verdict is a clear hit or miss | r04 numbers had no bands, so Verdict meant exact equality |
+
+## Requirements, round 5 (in force from 2026-10-21)
+
+The user asked for very specific materials science examples and a truly interesting prediction that is then tested ([transcript](transcripts/2026-10-21-r05.md)). Round 4 requirements carry over except where changed here.
+
+| ID | Requirement | Source | Test |
+|---|---|---|---|
+| R26 (new) | Each task names a real material and a toy model of it: KCuF3 (Heisenberg chain), La2CuO4 (Hubbard dimer), and polyacetylene (SSH chain) | User request | T19, T20, T21 |
+| R27 (new) | The answer says the circuit is a toy model of the material and names one thing the model leaves out | User request, r04 `advantage_honesty` 0.29 to 0.53 | Explanation judge check `material_honesty`, descriptive |
+| R28 (new) | The round carries a pre-registered physics prediction on real hardware, with bands. It is judged against IQM's noise model and against no noise | User request | T21 real job and the setup probe on real Garnet |
+| R21 | Adopted from the r05 proposals. The contract names its conventions: `ideal` is the submitted circuit's value, and probabilities are per site | F18 | Contract text, T19 to T21 checks |
+| R21 | Adopted. The agent reports CZ counts and measured qubits per circuit, and the grader reads them back from the payload | F20 | `cz_readback` |
+| R22 | Adopted. A `cz_per_circuit` check | r04 critic | T19, T21 |
+| R16 | Adopted. At the end of each trial, the agent lists its jobs from the API and compares them with `job_ids` | F10 | Dashboard reconciliation |
+| T17 critic | Adopted for T21. The mock job holds the same circuits as the real job | r04 critic item 9 | `same_circuits` |
+| Predict | Adopted. Every predicted number has a band | r04 learn | `predictions/r05.yaml` |
+| R6 | The round 5 real cap is 7.5 credits, including the probe | User decision | Credit gate and ledger |
+
+T14 to T18 are retired from scoring. The r04 regrade under the r05 grader is the control. Config E, extra trials for retired tasks, and a CoNb2O6 task wait for r06.
+
+- r05 (2026-10-21): R26 to R28 added. Six r05 proposals adopted. R6 cap set to 7.5 credits.
+- r05 results (2026-10-21): 41 of 44 passed under the pre-registered grader, 42 under the fixed grader. 3.00 credits spent. Proposed changes for r06 are below.
+
+## Proposed for round 6 (not yet agreed)
+
+| ID | Proposed change | Why (round 5 evidence) |
+|---|---|---|
+| R27 | Remove "Tell me what this says about the real material" from half the prompts, so `material_honesty` can be measured unprompted | F25 |
+| R28 | Run the SSH circuits on 3 chains inside one real job, and predict the spread, not one value | F26. Ratios 1.79 to 4.46 on one calibration |
+| New | A chain-choice task: the agent picks the 8-qubit chain from calibration data before the real job, and the grader scores the choice against the measured contrast | F26 |
+| R21 | Show QB names in the `circuit_facts` example in the contract | F24 |
+| R19 | Add lines of script and in-script time to effort (still open from r04) | F22 |
+| R15 | Find out why one Garnet job billed 2.0 seconds and four billed 1.0 | Billing observation |
+| Configs | Add Sonnet without the helper (deferred from r05) | r04 critic confound 2 |
+| Tasks | The CoNb2O6 Ising critical point (deferred from r05) | User chose 3 tasks for r05 |
+| Judge | Validate the explanation judge against about 20 human labels | Opus judges Opus in A to C |
+| Budget | 4.80 credits remain until the monthly top-up. Keep r06 real spend under 4 | Ledger, 2026-10-21 |

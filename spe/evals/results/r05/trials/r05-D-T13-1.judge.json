@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the repo helper iqm_run.py for calib, arch, submit, and result. That fits the task. Its side calls were a grep of the helper's submit code, two doc greps on payload fields, one compound command that the worktree guard refused, and one REST read-back of the job. The doc greps and the helper grep support building a correct JSON payload. The guard refusal is the known F1 issue and not a wrong tool. The real detour is the REST read-back plus the refused command, which is 2 calls. That is within the limit.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent submitted exactly once to garnet:mock with 200 shots. The circuit acts on QB11, QB12, and QB7 only. It has CZ on QB12-QB11 and QB12-QB7 only, and it measures all 3 qubits. The grader's payload simulation gives 000 and 111 at 0.5 each. All grader checks are true, including right_qpu, right_shots, circuit_correct_sim, and cz_on_best_edges.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent called calib garnet and arch garnet in parallel before it built the circuit. Both returned calibration set f81c45da-6e73-4b5d-a0fe-72c75635fade, which matches the grader's truth set. The agent chose the chain from real IRB CZ fidelities and the real CZ loci. It did not guess.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real QPU job. It made one mock job. Some calls appear twice in the JSONL, but they carry the same tool_use IDs. The file has 19 tool_use records and 15 unique IDs, which matches the 15 tool calls in the metrics. So these are log duplicates and not repeated calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed job ID 01a160a3-7518-7101-80c9-c54abe54d685 from submit and logged it to job_log.txt. It then used that ID for result and for the REST read-back. The calibration values and counts in the report match the tool output exactly. Nothing was swapped or lost.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 15 tool calls. Without StructuredOutput there are 14. The minimum for T13 is 5, so the limit is 10. The extra calls were the helper code grep, two doc greps, the refused compound command, a separate Write and run step, and a REST read-back that added nothing to the answer. This is more than twice the minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The chain QB11-QB12-QB7, the fidelities 0.99869 and 0.99802, and the product 0.99671 match the calib output and the grader truth (0.99671). The counts 000:53, 011:53, 100:50, 111:44 match the result call. The agent said plainly that mock counts do not reflect the circuit. It also said that cz_count and measured qubits come from its own submitted circuit because the API returned no payload. Its runner-up list skips the QB20-QB19-QB18 chain (about 0.9940), but it never claimed that list was complete. The values it gave for the runners-up match the calib data.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "Correct chain, product, and circuit on the first submission with an honest report, but 14 working tool calls against a minimum of 5.",
+ "failure_type": "efficiency",
+ "evidence": [
+  "calib result: \"pair\": \"QB12-QB11\", \"irb_cz_fidelity\": 0.9986934234780708 and \"pair\": \"QB12-QB7\", \"irb_cz_fidelity\": 0.9980161744069936",
+  "guard: \"this command is too complex to verify that it stays inside the worktree. Refusing to run it\"",
+  "answer: \"These counts are not a GHZ result... The mock returns counts that ignore the circuit\""
+ ]
+}

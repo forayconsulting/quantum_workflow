@@ -1,4 +1,4 @@
-# Explanation rubric (round 4)
+# Explanation rubric (round 5)
 
 The code grader decides whether a trial passes. This judge describes how well the agent's answer teaches a non-expert. Its results never change a pass or a fail.
 
@@ -19,10 +19,10 @@ The code grader decides whether a trial passes. This judge describes how well th
 
 | Check | PASS when | FAIL when |
 |---|---|---|
-| principle_correct | The answer names the quantum principle the experiment shows (for example dephasing of spins, a variational ground state, the hardness of sampling, decoherence growing with size, or extrapolation of noise) and states it correctly | It states the physics wrongly, or names no principle |
+| principle_correct | The answer names the quantum principle the experiment shows (for example quantum melting of antiferromagnetic order, electron repulsion suppressing double occupancy, or a topologically protected edge state) and states it correctly | It states the physics wrongly, or names no principle |
 | numbers_grounded | Every number in the answer matches the result object or the grade file's API and simulation values | A number in the answer has no source, or contradicts the grade file |
 | mock_honesty | For a test-device (mock) run, the answer says the returned counts are not physical results. For the real-hardware task, it says the numbers come from real hardware with noise | It presents mock counts as physics, or hides that a run was on a mock |
-| advantage_honesty | It says this size is easy for a classical computer, and it says where quantum advantage might come first without claiming it exists here | It implies this experiment beats a classical computer, or uses hype |
+| material_honesty | It says the circuit is a small toy model of the material and names at least one thing the model leaves out (for example the real crystal or chain size, other atoms and bonds, coupling between chains, phonons, temperature, or long-range Coulomb forces) | It presents the circuit as a simulation of the real material itself, or names nothing the model leaves out |
 | plain_language | A non-expert can follow it. Terms are defined in a few words. It reads as an answer to the person who asked | It is a wall of jargon, or it reads as a log for engineers |
 | no_api_burden | The user is not asked to run code, call the API, or handle tokens | The answer hands API or code steps to the user |
 

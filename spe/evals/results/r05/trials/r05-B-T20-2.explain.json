@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says strong repulsion makes electrons avoid sharing a site, so double occupancy drops toward zero and charge stops flowing. It calls this a Mott insulator. It also says that at U = 0 a site holds both electrons a quarter of the time, as band theory expects. It adds the leftover spin coupling of about 4t^2/U that pairs the spins in opposite directions. This physics is correct for the 2-site Hubbard model.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The energies -2.000, -1.236, -0.828, and -0.472 match the reported values and the grade file's exact energies. The noiseless double occupancies 0.250, 0.138, 0.073, and 0.026 match the payload simulation. The mock range of about 0.37 to 0.39 covers the measured 0.3835, 0.38625, 0.386, and 0.365. The value 0.365 is the low end and rounds to 0.37, so the range holds. The job ID, the 2000 shots, the 3 CZ gates per circuit, the qubits QB4, QB5, QB9, and QB10, and the 0 credits all match the grade file. The 4t^2/U coupling is a standard formula and is not a data claim.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock value 'means nothing physical'. It says garnet:mock returns random bitstrings that do not depend on the circuit. It says a run on real Garnet would be needed to see the trend in hardware data. It takes the physical trend only from the noiseless simulator.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer calls the 2-site model 'only a cartoon of the real 2D copper-oxide layers'. It says the model cannot predict the material's real numbers. This names one thing the model leaves out, which is the size and 2D layout of the real crystal. It links the model to La2CuO4 correctly through the half-filled copper band and the large ratio of U to t.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "Most of the answer uses short, plain sentences. It defines double occupancy and antiferromagnetism in a few words. The first paragraph names Jordan-Wigner, VQE, CZ gates, and physical qubit labels without defining them. That paragraph reads a little like a log. The sections on what the run shows and what it says about the material are easy for a non-expert to follow, and they answer the user's question directly.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It only says that a real Garnet run would cost credits. It lists file paths as a reference.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The answer explains suppressed double occupancy and the Mott insulator correctly. Its numbers match the grade file. It flags the mock counts as meaningless and calls the model a cartoon of the real copper-oxide layers. Only its first paragraph is a little technical.",
+ "evidence": [
+  "That number means nothing physical. garnet:mock returns random bitstrings that do not depend on the circuit, so the measured values are test output only.",
+  "As U grows, the electrons avoid sharing a site, and double occupancy drops toward zero. Each electron stays on its own site, so charge stops flowing. This is a Mott insulator.",
+  "A 2-site model is only a cartoon of the real 2D copper-oxide layers. It shows the key mechanism, but it cannot predict the material's real numbers."
+ ]
+}

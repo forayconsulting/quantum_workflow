@@ -1,4 +1,4 @@
-"""Deterministic code grader for SPE IQM tasks (round 4 version). Checks a trial's reported result against the IQM API
+"""Deterministic code grader for SPE IQM tasks (round 5 version). Checks a trial's reported result against the IQM API
 and simulates each submitted circuit payload with an ideal native simulator.
 
 Usage:
@@ -8,6 +8,7 @@ Usage:
 Output: one JSON object with task, pass, checks, jobs, and notes.
 """
 import argparse
+import itertools
 import json
 import math
 import os
@@ -38,8 +39,9 @@ JOB_TASKS = {
     "T13": {"qc": "garnet:mock", "shots": 200, "measured": 3, "state": "ghz"},
 }
 T9_THETAS = [0.0, math.pi / 4, math.pi / 2, 3 * math.pi / 4, math.pi]
-MOCK_ONLY = {"T1", "T2", "T4", "T5", "T7", "T8", "T9", "T11", "T12", "T13", "T14", "T15", "T16", "T18"}
+MOCK_ONLY = {"T1", "T2", "T4", "T5", "T7", "T8", "T9", "T11", "T12", "T13", "T14", "T15", "T16", "T18", "T19", "T20"}
 R04_TASKS = {"T14", "T15", "T16", "T17", "T18"}
+R05_TASKS = {"T19", "T20", "T21"}
 R04_MAX_JOBS = 3
 MAX_JOBS = 2
 ROUND_RULES = {"t7_status_strict": False, "t10_credits": False}  # r02 rules are True for both
@@ -478,6 +480,8 @@ def grade(task, res):
             notes.append(f"{len(jobs)} jobs reported. Graded the last one.")
     elif task in R04_TASKS:
         grade_r04(task, res, jobs, checks, out, notes, ans)
+    elif task in R05_TASKS:
+        grade_r05(task, res, jobs, checks, out, notes, ans)
     elif task == "T12":
         tops, cal = sirius_top_readout(cal_at("sirius", WHEN))
         m = re.search(r"QB(\d+)", ans)
@@ -662,9 +666,302 @@ def grade_r04(task, res, jobs, checks, out, notes, ans):
         notes.append(f"{len(jobs)} jobs reported. Graded the last one.")
 
 
+# ---------- round 5 physics: materials ----------
+
+_Y = np.array([[0, -1j], [1j, 0]], dtype=complex)
+_HEIS = {}
+
+
+def heisenberg_neel_order(n, t):
+    """Exact Neel order, minus the mean of Z_i Z_i+1 over the n - 1 bonds, at time t for H = J/4 sum (XX + YY + ZZ)
+    with J = 1 on an open chain, starting from the Neel state 0101... (KCuF3 toy model). Starts at 1.
+    Spin operators S = sigma/2 give the J/4. The value does not depend on which Neel pattern starts the chain."""
+    if n not in _HEIS:
+        H = sum(_op(n, {i: P, i + 1: P}) for i in range(n - 1) for P in (_X, _Y, _Z)) / 4
+        w, v = np.linalg.eigh(H)
+        zz = sum(_op(n, {i: _Z, i + 1: _Z}) for i in range(n - 1)).real.diagonal() / (n - 1)
+        _HEIS[n] = (w, v, zz)
+    w, v, zz = _HEIS[n]
+    psi0 = np.zeros(2 ** n, dtype=complex)
+    psi0[int("01" * (n // 2) + "0" * (n % 2), 2)] = 1
+    psi = v @ (np.exp(-1j * w * t) * (v.conj().T @ psi0))
+    return float(-np.sum(np.abs(psi) ** 2 * zz))
+
+
+def graph_paths(nodes, edges):
+    """Every Hamiltonian path of the graph on `nodes` (each path once, as a list)."""
+    nodes = list(nodes)
+    adj = {q: set() for q in nodes}
+    for a, b in edges:
+        if a in adj and b in adj and a != b:
+            adj[a].add(b)
+            adj[b].add(a)
+    out = []
+
+    def walk(path):
+        if len(path) == len(nodes):
+            if path[0] < path[-1]:
+                out.append(path)
+            return
+        for q in sorted(adj[path[-1]]):
+            if q not in path:
+                walk(path + [q])
+
+    for q in nodes:
+        walk([q])
+    return out
+
+
+def neel_order(dist, measured, path):
+    """Minus the mean of Z_i Z_i+1 along `path` for a distribution keyed in `measured` bit order."""
+    pos = [measured.index(q) for q in path]
+    tot = sum(dist.values())
+    if not tot or len(pos) < 2:
+        return None
+    zz = 0.0
+    for k, v in dist.items():
+        z = [1 - 2 * int(k[p]) for p in pos]
+        zz += v * sum(z[i] * z[i + 1] for i in range(len(z) - 1)) / (len(z) - 1)
+    return -zz / tot
+
+
+def weight_share(dist, w):
+    tot = sum(dist.values())
+    return sum(v for k, v in dist.items() if k.count("1") == w) / tot if tot else 0.0
+
+
+def hubbard_dimer_exact(U, t=1.0):
+    """Two-site Hubbard model at half filling, total Sz = 0 (La2CuO4 toy model). Returns (ground energy,
+    probability of each doubly occupied configuration). Basis: (updown, 0), (0, updown), (up, down), (down, up)."""
+    H = np.array([[U, 0, -t, -t], [0, U, -t, -t], [-t, -t, 0, 0], [-t, -t, 0, 0]], dtype=float)
+    w, v = np.linalg.eigh(H)
+    return float(w[0]), float(v[0, 0] ** 2)
+
+
+def hubbard_signature(dist):
+    """The four largest outcomes of a Hubbard dimer ground state form two equal pairs in any one-qubit-per-orbital
+    mapping. Returns (top-4 share, gap within the large pair, gap within the small pair, small-pair mean)."""
+    p = sorted(dist.values(), reverse=True) + [0.0] * 4
+    return sum(p[:4]), p[0] - p[1], p[2] - p[3], (p[2] + p[3]) / 2
+
+
+def double_occ_from_counts(ideal, counts):
+    """Measured double occupancy per site, from every shot, as the contract defines it. The two doubly occupied
+    configurations among the ideal top-4 outcomes are complementary bitstrings of weight 2. Each one marks the two
+    qubits of one site. At U = 0 all four outcomes are equal, so every complementary pair is tried and the caller
+    accepts any. Dry-run fix: the first version counted only the two in-sector configurations (r05dry-D-T20-1)."""
+    top = sorted(ideal, key=ideal.get, reverse=True)[:4]
+    tot = sum(counts.values()) or 1
+    if len(top) < 4:
+        return []
+    cand = [(top[2], top[3])]
+    if max(ideal[k] for k in top) - min(ideal[k] for k in top) < 0.02:
+        cand = [(top[i], top[j]) for i in range(4) for j in range(i + 1, 4)]
+    out = []
+    for a, b in cand:
+        if a.count("1") != 2 or b.count("1") != 2 or any(x == y for x, y in zip(a, b)):
+            continue
+        sites = [[i for i, c in enumerate(a) if c == "1"], [i for i, c in enumerate(b) if c == "1"]]
+        occ = [sum(v for k, v in counts.items() if all(k[i] == "1" for i in st)) / tot for st in sites]
+        out.append(sum(occ) / 2)
+    return out
+
+
+def ssh_edge_exact(n, first, second, t):
+    """Edge-site probability at time t for one excitation starting on site 0 of an n-site SSH chain with bonds
+    first, second, first, ... from the edge (polyacetylene toy model). H = sum b_i (XX + YY) / 2 on each bond."""
+    h = np.zeros((n, n))
+    for i in range(n - 1):
+        h[i, i + 1] = h[i + 1, i] = first if i % 2 == 0 else second
+    w, v = np.linalg.eigh(h)
+    amp = v @ (np.exp(-1j * w * t) * v[0].conj())
+    return float(abs(amp[0]) ** 2)
+
+
+def bit_share(dist, measured, q, value="1"):
+    i = measured.index(q)
+    tot = sum(dist.values())
+    return sum(v for k, v in dist.items() if k[i] == value) / tot if tot else 0.0
+
+
+def postselected_edge(dist, measured, q):
+    one = {k: v for k, v in dist.items() if k.count("1") == 1}
+    return bit_share(one, measured, q) if one else None
+
+
+def path_endpoints(nodes, edges):
+    deg = {q: 0 for q in nodes}
+    for a, b in set(tuple(sorted(e)) for e in edges):
+        if a in deg and b in deg:
+            deg[a] += 1
+            deg[b] += 1
+    return {q for q, d in deg.items() if d == 1}
+
+
+def cz_readback(res, circs, meas):
+    """The agent's reported CZ count and measured qubits per circuit match the final job's payload (F20)."""
+    facts = [f for f in (res.get("circuit_facts") or []) if isinstance(f, dict)]
+    if len(facts) != len(circs) or not circs:
+        return False
+    return all(num(f.get("cz_count")) == len(cz_edges(c)) and sorted(f.get("measured_qubits") or []) == sorted(m)
+               for f, c, m in zip(facts, circs, meas))
+
+
+def api_dist(final, i, circ, measured):
+    """API counts of circuit i re-keyed to the measure-instruction qubit order, or None."""
+    counts = (final.get("counts_list") or [])
+    keys = (final.get("measurement_keys_list") or [])
+    if i >= len(counts):
+        return None
+    c = norm_counts(counts[i]) or {}
+    order = api_bit_order(circ, keys[i] if i < len(keys) else [])
+    if sorted(order) != sorted(measured):
+        return None
+    return reorder(c, order, measured) if order != measured else c
+
+
+SSH_N, SSH_STRONG, SSH_WEAK, SSH_T = 8, 1.0, 0.3, 2.0
+
+
+def grade_r05(task, res, jobs, checks, out, notes, ans):
+    final = jobs[-1] if jobs else {}
+    sims = final.get("sims") or []
+    circs = final.get("circuits") or []
+    obs = [o for o in (res.get("observables") or []) if isinstance(o, dict)]
+    vals = res.get("values") or {}
+    checks["job_count_ok"] = 1 <= len(jobs) <= R04_MAX_JOBS
+    checks["completed"] = final.get("status") == "completed"
+    checks["right_qpu"] = final.get("qc") == ("garnet" if task == "T21" else "garnet:mock")
+    checks["payload_simulated"] = bool(sims) and all("dist" in s for s in sims)
+    for s in sims:
+        if "error" in s:
+            notes.append(f"simulator: {s['error']}")
+    if task in MOCK_ONLY:
+        checks["mock_honesty"] = bool(MOCK_HONEST.search(ans))
+    ok_sims = checks["payload_simulated"]
+    dists = [s.get("dist", {}) for s in sims]
+    meas = [s.get("measured", []) for s in sims]
+    checks["cz_readback"] = cz_readback(res, circs, meas)
+    out["cz_per_circuit"] = [len(cz_edges(c)) for c in circs]
+    good_obs = len(obs) == len(sims) and all(num(o.get(k)) is not None for o in obs for k in ("x", "ideal", "measured"))
+    checks["observables_per_circuit"] = good_obs
+
+    if task == "T19":
+        n_c = len(sims)
+        checks["five_or_more_circuits"] = n_c >= 5
+        checks["six_qubits_measured"] = ok_sims and all(len(m) == 6 for m in meas)
+        checks["cz_per_circuit_30"] = bool(circs) and max(out["cz_per_circuit"]) >= 30
+        rows, phys, ideal_ok, meas_ok = [], True, True, True
+        for i, (d, m, c) in enumerate(zip(dists, meas, circs)):
+            paths = graph_paths(m, cz_edges(c)) if len(m) == 6 else []
+            if len(m) == 6 and not cz_edges(c):
+                # A t = 0 circuit has no CZ gates to fix the chain order, so every ordering of its qubits is tried.
+                paths = [list(pm) for pm in itertools.permutations(m) if pm[0] < pm[-1]]
+            x = num(obs[i].get("x")) if good_obs else None
+            ex = heisenberg_neel_order(6, x) if x is not None else None
+            orders = [neel_order(d, m, pth) for pth in paths]
+            hit = [o for o in orders if ex is not None and abs(o - ex) <= 0.08]
+            w3 = weight_share(d, 3)
+            phys = phys and bool(hit) and w3 >= 0.98
+            pick = hit[0] if hit else (orders[0] if orders else None)
+            ideal_ok = ideal_ok and good_obs and pick is not None and abs(num(obs[i]["ideal"]) - pick) <= 0.02
+            api = api_dist(final, i, c, m)
+            # Every chain order that fits the physics is a valid reading of the circuit. A t = 0 circuit fits 360
+            # of them, and the agent's measured value may use any one (r05-A-T19-2, failures.md F23).
+            fit = [pth for pth, o in zip(paths, orders) if o in hit] or paths[:1]
+            ams = [neel_order(api, m, pth) for pth in fit] if api else []
+            rep = num(obs[i]["measured"]) if good_obs else None
+            am = next((a for a in ams if rep is not None and abs(rep - a) <= 0.01), ams[0] if ams else None)
+            meas_ok = meas_ok and good_obs and am is not None and abs(rep - am) <= 0.01
+            rows.append({"x": x, "exact": ex, "payload_ideal": pick, "weight3_share": round(w3, 4), "api": am, "paths": len(paths)})
+        out["t19"] = rows
+        xs = [r["x"] for r in rows if r["x"] is not None]
+        checks["times_cover_0_to_2"] = len(set(round(x, 6) for x in xs)) >= 5 and bool(xs) and min(xs) <= 0.5 and max(xs) >= 1.99
+        checks["neel_physics"] = ok_sims and bool(rows) and phys
+        checks["ideal_matches_payload"] = bool(rows) and ideal_ok
+        checks["measured_matches_api"] = bool(rows) and meas_ok
+
+    elif task == "T20":
+        checks["four_circuits"] = len(sims) == 4
+        checks["four_qubits_measured"] = ok_sims and all(len(m) == 4 for m in meas)
+        xs = [num(o.get("x")) for o in obs] if good_obs else []
+        checks["u_values"] = sorted(round(x, 6) for x in xs if x is not None) == [0.0, 2.0, 4.0, 8.0]
+        rows, phys, ideal_ok, meas_ok = [], True, True, True
+        for i, d in enumerate(dists):
+            U = xs[i] if i < len(xs) else None
+            e0, dex = hubbard_dimer_exact(U) if U is not None else (None, None)
+            top, g1, g2, dsmall = hubbard_signature(d)
+            ok = dex is not None and top >= 0.98 and g1 <= 0.02 and g2 <= 0.02 and abs(dsmall - dex) <= 0.02
+            phys = phys and ok
+            ideal_ok = ideal_ok and good_obs and abs(num(obs[i]["ideal"]) - dsmall) <= 0.02
+            api = api_dist(final, i, circs[i], meas[i])
+            cand = double_occ_from_counts(d, api) if api else []
+            meas_ok = meas_ok and good_obs and any(abs(num(obs[i]["measured"]) - v) <= 0.01 for v in cand)
+            rep_e = num(vals.get(f"energy_U{int(U)}")) if U is not None else None
+            rows.append({"U": U, "exact_double": dex, "payload_double": round(dsmall, 4), "top4": round(top, 4),
+                         "exact_energy": e0, "reported_energy": rep_e, "api_double_candidates": [round(v, 4) for v in cand]})
+        out["t20"] = rows
+        checks["hubbard_physics"] = ok_sims and bool(rows) and phys
+        checks["ideal_matches_payload"] = bool(rows) and ideal_ok
+        checks["measured_matches_api"] = bool(rows) and meas_ok
+        checks["energies_near_exact"] = bool(rows) and all(r["reported_energy"] is not None and r["exact_energy"] is not None
+                                                           and abs(r["reported_energy"] - r["exact_energy"]) <= 0.02 for r in rows)
+
+    elif task == "T21":
+        real = [j for j in jobs if j.get("exists") and not j["qc"].endswith(":mock")]
+        mocks = [j for j in jobs[:-1] if j.get("qc") == "garnet:mock" and j.get("status") == "completed"]
+        checks["one_real_job"] = len(real) == 1 and real[0] is final
+        checks["mock_first"] = bool(mocks)
+        mc = mocks[-1].get("circuits") or [] if mocks else []
+        checks["same_circuits"] = bool(mc) and len(mc) == len(circs) and all(
+            len(cz_edges(a)) == len(cz_edges(b)) and simulate(json.loads(json.dumps(a)))[0] == simulate(json.loads(json.dumps(b)))[0]
+            for a, b in zip(mc, circs))
+        checks["two_circuits"] = len(sims) == 2
+        checks["right_shots"] = final.get("shots") == 1000
+        checks["eight_qubits_measured"] = ok_sims and all(len(m) == 8 for m in meas)
+        xs = [num(o.get("x")) for o in obs] if good_obs else []
+        checks["both_phases"] = sorted(xs) == [0.0, 1.0]
+        rows, phys, ideal_ok, meas_ok, post_ok = [], True, True, True, True
+        for i, (d, m, c) in enumerate(zip(dists, meas, circs)):
+            x = xs[i] if i < len(xs) else None
+            q = obs[i].get("qubit") if good_obs else None
+            ends = path_endpoints(m, cz_edges(c))
+            first, second = (SSH_WEAK, SSH_STRONG) if x == 1.0 else (SSH_STRONG, SSH_WEAK)
+            ex = ssh_edge_exact(SSH_N, first, second, SSH_T) if x is not None else None
+            pi = bit_share(d, m, q) if q in m else None
+            w1 = weight_share(d, 1)
+            phys = phys and q in ends and pi is not None and abs(pi - ex) <= 0.05 and w1 >= 0.98
+            ideal_ok = ideal_ok and pi is not None and abs(num(obs[i]["ideal"]) - pi) <= 0.02
+            api = api_dist(final, i, c, m)
+            raw = bit_share(api, m, q) if api and q in m else None
+            post = postselected_edge(api, m, q) if api and q in m else None
+            share = weight_share(api, 1) if api else None
+            meas_ok = meas_ok and raw is not None and abs(num(obs[i]["measured"]) - raw) <= 0.01
+            tag = "topological" if x == 1.0 else "trivial"
+            rp, rs = num(vals.get(f"edge_postselected_{tag}")), num(vals.get(f"one_excitation_share_{tag}"))
+            post_ok = post_ok and post is not None and rp is not None and abs(rp - post) <= 0.01 \
+                and rs is not None and abs(rs - share) <= 0.01
+            rows.append({"phase": tag, "edge_qubit": q, "is_endpoint": q in ends, "exact": ex, "payload_ideal": pi,
+                         "weight1_share_ideal": round(w1, 4), "api_raw": raw, "api_postselected": post, "api_one_excitation_share": share,
+                         "cz": len(cz_edges(c))})
+        out["t21"] = rows
+        checks["ssh_physics"] = ok_sims and len(rows) == 2 and phys
+        checks["ideal_matches_payload"] = len(rows) == 2 and ideal_ok
+        checks["measured_matches_api"] = len(rows) == 2 and meas_ok
+        checks["postselected_match"] = len(rows) == 2 and post_ok
+        b = res.get("billed_seconds_reported")
+        out["billed_seconds_reported"] = b
+        checks["billed_seconds_match"] = num(b) is not None and final.get("billed_seconds") is not None \
+            and abs(b - final["billed_seconds"]) <= 0.01
+
+    if len(jobs) > 1:
+        notes.append(f"{len(jobs)} jobs reported. Graded the last one.")
+
+
 def selftest():
     cases = json.loads((SELFTEST / "cases.json").read_text())
-    cases += [json.loads(f.read_text()) for f in sorted((SELFTEST / "r04").glob("*.json"))]
+    for r in ("r04", "r05"):
+        cases += [json.loads(f.read_text()) for f in sorted((SELFTEST / r).glob("*.json"))]
     rows, ok = [], True
     global WHEN
     for c in cases:
@@ -682,6 +979,10 @@ def selftest():
     assert d == {"0": 1.0} or abs(d.get("0", 0) - 1) < TOL, d
     assert parity({"00": 45, "11": 40, "01": 15}) == 0.85
     assert bit_order({"01": 3, "10": 1}, {"10": 3, "01": 1}) == "reversed"
+    assert abs(heisenberg_neel_order(6, 0.0) - 1) < TOL and abs(heisenberg_neel_order(6, 1.0) - 0.501) < 0.002
+    assert abs(hubbard_dimer_exact(4)[1] - 0.0732) < 1e-3 and abs(hubbard_dimer_exact(0)[0] + 2) < TOL
+    assert abs(ssh_edge_exact(8, 0.3, 1.0, 2.0) - 0.767) < 1e-3 and abs(ssh_edge_exact(8, 1.0, 0.3, 2.0) - 0.142) < 1e-3
+    assert len(graph_paths(["a", "b", "c"], [("a", "b"), ("b", "c")])) == 1
     assert near("Garnet has only 20 qubits", r"\b20\b", "qubit") and not near("Ran it on job 20. " + "x" * 60 + " qubits", r"\b20\b", "qubit")
     return {"selftest_ok": ok, "cases": rows}
 

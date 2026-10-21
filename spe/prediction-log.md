@@ -161,3 +161,58 @@ The baseline ("everything passes, effort like r03 T13") beat Claude on every eff
 - Harder, plain-language tasks finally separate the configs on accuracy. Opus passed every trial with and without the helper (A and C). Sonnet with the helper (D) passed 11 of 18 on the new mock tasks.
 - D's real failures share one trait. The report describes what the agent meant to do, not what the payload did (F20). In 3 T18 trials the folds were wrong, and the answer still said 3x and 5x.
 - The explanation judge agrees. D's `numbers_grounded` rate is 0.57, against 0.73 to 0.76 for the others. Every config is weak on `advantage_honesty` (0.29 to 0.53). Agents rarely say where quantum advantage might come first, even when asked to explain the principle.
+
+## Round 5 (2026-10-21)
+
+Prediction: [predictions/r05.yaml](predictions/r05.yaml), committed at 802b159 before any harness work or real job. Results: [evals/results/r05/r05-scorecard.md](evals/results/r05/r05-scorecard.md). Run `wf_8040e0a9-69b`: 166 agents, 23 minutes, 44 trials, 0 incomplete, 0 peeked. Every number in r05.yaml has a band, so each verdict below is a plain hit or miss.
+
+Pass rates are given as "pre-registered grader / fixed grader". The fix (F23) changed only r05-A-T19-2.
+
+### Physics on real Garnet (the headline prediction)
+
+Measured is the mean of the 5 real SSH jobs (the setup probe and the 4 agent trials), all on calibration `f81c45da`. The noise model is IQMFakeGarnet on the 42-CZ oracle circuit, computed after the prediction was committed.
+
+| Quantity | Predicted | Measured (mean of 5, range) | IQM noise model | No noise | Verdict | Closer |
+|---|---|---|---|---|---|---|
+| Raw edge, topological | 0.60 ± 0.08 | 0.693 (0.606 to 0.786) | 0.724 | 0.760 | Miss | Noise model |
+| Raw edge, trivial | 0.15 ± 0.06 | 0.235 (0.164 to 0.339) | 0.210 | 0.145 | Miss | Noise model |
+| Post-selected edge, topological | 0.72 ± 0.07 | 0.712 (0.642 to 0.821) | 0.717 | 0.760 | Hit | Noise model, by 0.003 |
+| Post-selected edge, trivial | 0.15 ± 0.06 | 0.189 (0.132 to 0.264) | 0.159 | 0.145 | Hit | Noise model |
+| One-excitation share, topological | 0.70 ± 0.10 | 0.647 (0.524 to 0.775) | 0.502 | 1.000 | Hit | Prediction |
+| One-excitation share, trivial | 0.70 ± 0.10 | 0.654 (0.535 to 0.792) | 0.528 | 1.000 | Hit | Prediction |
+| Raw ratio, topological over trivial | 3 or more | 3.25 mean, 3.63 median (1.79 to 4.46). 3 of 5 jobs reached 3 | 3.45 | 5.24 | Hit on the pool. Miss on the probe and on C-T21 | Tie |
+
+The headline call held on the pool: the edge state stays clearly visible on real Garnet. It failed on 2 of the 5 chains. IQM's noise model was closer than Claude on the 4 edge probabilities. Claude was closer on how many shots keep exactly one excitation, where the noise model was too pessimistic by about 0.14.
+
+### Agents
+
+| Metric | Config | Predicted | Measured | Same as last round | Verdict | Closer |
+|---|---|---|---|---|---|---|
+| T13 anchor | all | 1.00 | 1.00 | 1.00 | Hit | Tie |
+| T19 KCuF3 | A | 1.00 | 0.80 / 1.00 (5 trials) | 1.00 | Miss / Hit | Tie |
+| T19 KCuF3 | B, C | 1.00 | 1.00 | 1.00 | Hit | Tie |
+| T19 KCuF3 | D | 0.90 ± 0.10 | 0.60 (3 of 5) | 1.00 | Miss | Prediction |
+| T20 La2CuO4 | A, B, C | 1.00 | 1.00 | 1.00 | Hit | Tie |
+| T20 La2CuO4 | D | 0.70 ± 0.15 | 1.00 | 0.80 | Miss | Baseline |
+| T21 polyacetylene, real | A, B, C | 1.00 | 1.00 (1 trial each) | 1.00 | Hit | Tie |
+| T21 polyacetylene, real | D | 0.67 ± 0.15 | 1.00 (1 trial) | 1.00 | Miss | Baseline |
+| `material_honesty` judge | A, B, C, D | 0.45, 0.50, 0.45, 0.30 (± 0.15) | 0.89, 0.86, 0.71, 0.89 | 0.29 to 0.53 (`advantage_honesty`) | Miss for all | Prediction, but both far off |
+| Median tool calls, T19 to T21 | A, B, C, D | 9, 9, 11, 9 (± 3) | 15, 11, 12, 14 | 8, 8, 11, 9 | Miss A and D. Hit B and C | Prediction for A and B. Tie for C and D |
+| Median wall minutes, T19 to T21 | A, B, C, D | 1.5, 1.4, 1.5, 1.0 (± 0.5, D ± 0.4) | 2.4, 2.3, 2.0, 1.7 | 1.3, 1.2, 1.3, 0.8 | Hit C only | Prediction for all |
+| Median fresh tokens, T19 to T21 | A, B, C, D | 37k ± 10k, 50k ± 12k, 45k ± 10k, 41k ± 10k | 49k, 54k, 50k, 48k | 35k, 49k, 45k, 41k | Miss A. Hit B, C, D | Prediction for all |
+| Unreported jobs | all | 0 to 1 | 0 | 3 | Hit | Prediction |
+| r04 regrade control | | 73 of 80 | 73 of 80 | n/a | Hit | Matched |
+| Peeks | | 0 | 0 | 0 | Hit | Tie |
+
+### Which "why" broke
+
+- **"The trivial value sits near 1/8, where noise has little to move."** Wrong. With the strong bond at the edge, the ideal electron sits mostly on the next site. Noise that interrupts the hopping leaves it near the edge, so the trivial edge reading rose to 0.235. IQM's noise model captured this (0.210). Claude's intuition did not.
+- **"About 42 CZ at roughly 99.5 percent leaves about 80 percent of the signal."** Too simple. The ratio ranged from 1.79 to 4.46 across 5 chains on one calibration set. CZ count did not order the results: D's 28-CZ chain scored 3.63, and A's 50-CZ chain scored 4.09. Which chain an experiment uses matters as much as how deep it is (F26).
+- **"Agents rarely state a model's limits unprompted."** The premise was right, but the prompts were not unprompted. Every T19 to T21 prompt ended with "Tell me what this says about the real material." That line invited the limits answer the judge looked for (F25).
+- **"Sonnet stopped the optimizer early on T15, so D drops on T20."** Wrong. D passed T20 3 of 3. The dimer has an exact closed form, and every D trial found it.
+- **"D reports intended CZ counts on T21, and the read-back check catches it."** Wrong task. The read-back check caught D on T19, where 2 trials reported measured qubits as local indices ("0", "1") instead of payload names (F24). D passed T21.
+- **"One script per experiment, as in r04."** Partly wrong. The real lane needed more calls (T21 medians of 16 to 31), and A spent extra calls on SDK readback errors.
+
+### The SPE extra check
+
+For the first time in 5 rounds, Claude's effort predictions beat the "same as last round" baseline on every wall-time and token cell. Moving the numbers up, with bands, helped. The baseline still won on D's pass rates for T20 and T21. On the physics, IQM's own noise model beat Claude on the edge probabilities, and Claude beat the noise model on the one-excitation share.

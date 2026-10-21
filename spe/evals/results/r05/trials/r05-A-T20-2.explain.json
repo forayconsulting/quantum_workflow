@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says that as U grows, the electrons stop sharing a site, so double occupancy falls. It ties this to La2CuO4. Band theory ignores U and predicts a metal. The real U is several times t, so charge cannot flow. It also says the leftover virtual hops line up neighboring spins opposite to each other, which gives the antiferromagnet. It notes that doping brings back motion and superconductivity. It says that a real Mott transition needs many sites. All of this physics is stated correctly.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The four energies (-2.000, -1.236, -0.828, -0.472) match the result object and the grade file's exact energies. The ideal double occupancies (0.250, 0.138, 0.073, 0.026) match the payload simulation. The measured values (0.354, 0.363, 0.370, 0.391) are rounded from 0.3545, 0.36325, 0.3695, and 0.391. They match the grade file's API candidates. I recomputed 0.391 from the U=8 counts and got the same value. The job ID, the 2000 shots, the 3 CZ gates, and the qubits QB9, QB10, QB4, and QB5 all match. The method details (4 angles, 1 entangling gate, 12 random starts) cannot be checked from these files, but they are process facts and not results.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that garnet:mock returns made-up counts that do not depend on the circuit. It says the measured values do not show the effect and only confirm that the job ran. It adds that the returned bitstrings do not even have one up and one down electron, and that check is correct for 1000. It says the physics comes from the ideal values, and that a run on the real Garnet would cost credits and add noise.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer calls the 2-site model only a cartoon of the real crystal. It names one thing the model leaves out, which is that a real Mott transition needs many sites. It does not claim to simulate La2CuO4 itself. It could have named more omissions, such as oxygen atoms or temperature, but the rubric needs only one.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "Most of the answer uses short, plain sentences. It defines double occupancy in a few words, and it explains what the mock device does. The material paragraph reads as a direct answer to the person who asked. The \"What I built\" paragraph uses terms it does not define, such as Jordan-Wigner, BFGS, CZ gates, and qubit names. The closing note on Qiskit bit order is also aimed at engineers. These parts are short and set apart, so the main explanation stays easy to follow.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the job and did the readback itself. It lists file paths for reference, but it does not ask the user to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The trial r05-A-T20-2 passes all 6 checks. Its physics is correct and its numbers are grounded. It is honest about the mock and the toy model. Only its build paragraph is jargon-heavy.",
+ "evidence": [
+  "garnet:mock is a free test device. It accepts and checks the circuits, but it returns made-up counts that do not depend on the circuit.",
+  "In the real crystal, U is several times larger than the hopping t, which is the U=8 regime here. Two electrons almost never share a copper atom, so charge cannot flow, and the crystal is an insulator.",
+  "This 2-site model is only a cartoon of the real crystal. A real Mott transition needs many sites."
+ ]
+}

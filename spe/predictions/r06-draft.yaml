@@ -1,0 +1,29 @@
+# Draft only. Not a prediction until r06 tasks are set and approved. Then rename to r06.yaml.
+round: r06
+status: draft
+author: Claude (harness)
+date: 2026-10-21
+baseline_same_as_last_round:
+  pass_rate_fixed_grader:
+    T13: {A: 1.00, B: 1.00, C: 1.00, D: 1.00}
+    T19: {A: 1.00, B: 1.00, C: 1.00, D: 0.60}
+    T20: {A: 1.00, B: 1.00, C: 1.00, D: 1.00}
+    T21: {A: 1.00, B: 1.00, C: 1.00, D: 1.00}
+  effort_T19_to_T21_pooled:
+    median_tool_calls: {A: 15, B: 11, C: 12, D: 14}
+    median_wall_minutes: {A: 2.4, B: 2.3, C: 2.0, D: 1.7}
+    median_fresh_tokens: {A: 49037, B: 53503, C: 50129, D: 48479}
+  material_honesty_rate_prompted: {A: 0.89, B: 0.86, C: 0.71, D: 0.89}
+  ssh_real_garnet_mean_of_5:
+    raw_edge: {topological: 0.693, trivial: 0.235}
+    postselected_edge: {topological: 0.712, trivial: 0.189}
+    one_excitation_share: {topological: 0.647, trivial: 0.654}
+    ratio: {mean: 3.25, median: 3.63, min: 1.79, max: 4.46}
+  real_credits_per_garnet_job: 0.50 (one job billed 1.00)
+  unreported_jobs: 0
+lesson: Banded effort predictions beat the baseline for the first time. IQM's noise model beat Claude's intuition on real edge probabilities. Chain choice spread the real results more than any single number captured.
+open_choices:
+  - unprompted material_honesty (F25)
+  - multi-chain real job and a chain-choice task (F26)
+  - config E, Sonnet without the helper
+  - the CoNb2O6 task

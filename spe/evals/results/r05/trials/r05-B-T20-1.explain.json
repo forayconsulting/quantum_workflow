@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the right principle. It says electron repulsion pushes double occupancy down as U grows, so each electron stays on its own site and charge cannot move. It also explains the weak spin pull of about 4t^2/U that makes the spins point opposite ways. The energy formula U/2 - sqrt(U^2/4 + 4) is correct for t = 1. There is one small slip. The answer says that at U = 0 the electrons land on the same site a quarter of the time. The simulation gives 0.25 for each site, so both electrons share some site half the time. The reported value of 0.25 is right as a per-site number, so the physics is still stated correctly overall.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The four energies (-2.000, -1.236, -0.828, -0.472) match reported_energy and exact_energy in the grade file. The four ideal double occupancies (0.250, 0.138, 0.073, 0.026) match payload_double and exact_double. The job ID, the 4000 shots, the 3 CZ gates, and the measured qubits QB9, QB10, QB4, QB5 all match the grade file. The measured value of about 0.38 matches the API candidates 0.3826, 0.3852, 0.3791, and 0.3784. The '8 random starts' and the 6-digit match are process claims that the files cannot check. The 6-digit claim agrees with the energies.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says early on that the test device returns random results. Later it says the mock does not run the circuit and that the measured numbers carry no physics. It says only a real-hardware run would test the trend. The mock counts are never presented as physics.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer says that two sites are only a toy version of a real crystal. It names one thing the model leaves out. A large lattice has a sharp metal-to-insulator transition, and two sites cannot show it. It links the large-U picture to La2CuO4 without claiming the circuit simulates the material itself.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "Most sentences are short and plain. The answer defines double occupancy in one line and explains why repulsion blocks current. A few terms are not defined, such as Jordan-Wigner transformation, COBYLA, exact diagonalization, and CZ gates. These sit in the 'What I ran' section, and a reader can skip them and still follow the physics. The answer speaks to the person who asked and does not read like an engineering log.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It lists file locations for reference only. It explains that a real-hardware run would cost credits and says the agent did not do it. It does not hand that run to the user.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "All 6 checks pass for trial r05 B T20 1. The numbers match the grade file, the answer is honest about the mock run and the toy model, and it explains the Mott effect plainly. It has one small slip: it says the electrons share a site a quarter of the time at U = 0, but they share some site half the time. Rubric, result, and grade files: /Users/claytonchancey/Desktop/quantum/spe/evals/graders/explain.md, /Users/claytonchancey/Desktop/quantum/spe/evals/results/r05/trials/r05-B-T20-1.result.json, /Users/claytonchancey/Desktop/quantum/spe/evals/results/r05/trials/r05-B-T20-1.grade.json.",
+ "evidence": [
+  "The mock does not run the circuit and gives a random mix of outcomes, so these measured numbers carry no physics.",
+  "Two sites are only a toy version of a real crystal. They show the cause of the effect but not the sharp metal-to-insulator transition of a large lattice.",
+  "When U = 0, the electrons move freely and land on the same site a quarter of the time, as band theory says."
+ ]
+}

@@ -1,0 +1,34 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/69eba65d-ce0d-461c-9501-193f4ac9a72b/subagents/workflows/wf_8040e0a9-69b/agent-afad2aa3dbfd84f3c.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 121.4,
+ "ended": "2026-10-21T22:46:12.086000Z",
+ "api_calls": 17,
+ "tokens": {
+  "input_tokens": 34,
+  "output_tokens": 2014,
+  "cache_read_input_tokens": 877672,
+  "cache_creation_input_tokens": 47251,
+  "total": 926971,
+  "fresh": 49299
+ },
+ "tool_calls": 23,
+ "tool_errors": 3,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 3,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 18,
+  "Write": 4,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "grep -n -i -E \"calibration|quality|metric|irb|fidelity\" /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r05-A-T13-1"
+}

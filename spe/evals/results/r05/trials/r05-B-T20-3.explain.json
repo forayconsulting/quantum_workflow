@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the right principle. It says strong on-site repulsion U keeps the two electrons on different sites, so double occupancy falls from 0.25 at U = 0 to 0.026 at U = 8. It ties the leftover energy of about -4t^2/U to virtual hops and to antiferromagnetic coupling. It explains that La2CuO4 is an antiferromagnetic Mott insulator because hopping onto an occupied copper site costs U, and that doping opens empty sites. All of this physics is stated correctly.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The energies -2.000, -1.236, -0.828, and -0.472 match the reported and exact energies in the grade file. The ideal double occupancies 0.250, 0.138, 0.073, and 0.026 match payload_double and the simulated distributions. The measured values 0.38, 0.37, 0.41, and 0.35 match api_double_candidates. The job ID, 1000 shots, 4 CZ gates per circuit, and qubits QB4, QB5, QB9, and QB10 all match. The answer lists the returned bitstrings as 0000, 0010, 1101, and 1111. The grade file shows 0000, 0100, 1011, and 1111. This is the same set with the bit order reversed, which is a plausible relabeling into the agent's qubit order. It is not a contradiction. The claim that no bitstring has exactly one up and one down electron holds in either order. The claim of a match to 12 decimal places cannot be checked here, but the reported energies agree with the exact values to every digit shown.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that the measured values tell you nothing about the physics. It explains that garnet:mock returns random bitstrings that do not depend on the circuit. It says the job only checks that the circuits are valid and the API calls work. It says a real Garnet run would cost credits and was not done. It takes the physics numbers from a noiseless simulation of the exact circuits the server received.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer calls the circuit the smallest version of the physics. It says the model shows the mechanism but does not give real material numbers. It does not name a specific thing the model leaves out. It never says that the real crystal has a large two-dimensional lattice of copper sites, that it has oxygen atoms and bonds, or that temperature, phonons, or long-range Coulomb forces are missing. The word 'smallest' hints at size, but the rubric asks the answer to name at least one omitted feature. This is a borderline case, and it falls on the fail side.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer reads as a reply to the person who asked. It defines double occupancy in one sentence. It explains what each variational angle controls. It explains why band theory predicts a metal and why repulsion makes an insulator. A few engineer terms appear without definition, such as Jordan-Wigner, COBYLA, CZ gates, and the counts_list field. They sit in side sections, and a non-expert can still follow the main story.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It mentions that a real Garnet run would cost credits, but it does not give steps for that. It lists script and log paths for reference only.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer for r05 B T20 3 teaches the Mott physics correctly. Its numbers match the grade file, and it is honest about the mock run. It does not name a specific thing the 2-site model leaves out of the real La2CuO4 crystal.",
+ "evidence": [
+  "\"These numbers tell you nothing about the physics. The garnet:mock device is a free test service, and it returns random bitstrings that do not depend on the circuit.\"",
+  "\"As the repulsion U grows, the lowest-energy state keeps the two electrons on different sites. Double occupancy falls about 10 times, to 0.026 at U = 8.\"",
+  "\"This 2-site model is the smallest version of that physics. It shows the mechanism, but it does not give real material numbers.\""
+ ]
+}

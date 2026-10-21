@@ -1,0 +1,36 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/69eba65d-ce0d-461c-9501-193f4ac9a72b/subagents/workflows/wf_8040e0a9-69b/agent-a8b790853b87cac19.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 101.8,
+ "ended": "2026-10-21T22:49:53.488000Z",
+ "api_calls": 9,
+ "tokens": {
+  "input_tokens": 18,
+  "output_tokens": 341,
+  "cache_read_input_tokens": 457952,
+  "cache_creation_input_tokens": 45157,
+  "total": 503468,
+  "fresh": 45516
+ },
+ "tool_calls": 9,
+ "tool_errors": 0,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 7,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "cat /Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -n -i \"payload\" /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md | head; sed -n 380,420p /Users/claytonchancey/Desktop/quantum/docs/iqm/05-results-and-data.md",
+  "grep -n -i \"submitted\\|get_job\\|circuits_batch\\|retrieve_job\\|def get_\\|request.circuits\\|job.circuits\\|get_run_request\" /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md /Users/claytonchancey/Desktop/quantum/docs/iqm/05-results-and-data.md | head -60"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r05-B-T19-3"
+}

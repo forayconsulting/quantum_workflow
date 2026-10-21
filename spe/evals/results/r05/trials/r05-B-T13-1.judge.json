@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent fetched the calibration and metrics through the REST endpoints, which is the right path. It then built and submitted the circuit with iqm-client 35.0.3. Every tool it used could do the job. It spent about 5 calls on SDK introspection and doc greps to find a way to read the payload back. That was optional verification, not a wrong tool, and the efficiency check covers it.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent made one submission, to garnet:mock with 200 shots. It used 2 CZ gates on QB12-QB7 and QB12-QB11 and measured QB7, QB12, QB11. The server payload readback confirms this. The grader checks right_qpu, right_shots, circuit_correct_sim, best_triple_measured, and cz_on_best_edges all passed.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before it chose a chain, the agent read the default dynamic quantum architecture for real garnet (calset f81c45da). It used that set's 28 CZ loci and its IRB CZ fidelities from the metrics endpoint. It also checked that the metrics set describes the same calibration set ID. It ran an ideal simulation before submitting.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real-QPU job. Its only job ran on garnet:mock. It ran a dry run without --submit first and then submitted once. The transcript shows the readback write and run twice, but the metrics count 3 Writes and 10 Bash calls, which matches one readback. So the second copy is a JSONL duplicate and not a repeated call.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent carried job ID 01a160a4-460c-7078-99e0-af490fbb2937 from the submit output into the readback script and into the final report. The counts in the report match the submit output and the grader's API counts. The fidelities and product carried through unchanged. The mock job compiled against calset f04fe114, which is the mock set. The grader truth used the real default set f81c45da, which is the set the agent used for selection.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The rubric minimum for T13 is 5 calls, so the limit is 10. The agent made 16 tool calls (15 without StructuredOutput). It made 2 Reads, 10 Bash calls, and 3 Writes. Several of these were doc greps and SDK introspection. The submit script also crashed after submission on a payload attribute, which forced a separate readback script.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report gives chain QB7-QB12-QB11 and product 0.9967121899050079. Both match the tool output and the grader truth. It also gives calset f81c45da, the 16:42Z timestamp, the runner-up chain, and counts 000=42, 001=46, 110=56, 111=56. All of these match what the tools returned. The report says plainly that mock counts do not depend on the circuit. It did not mention the post-submit traceback, but it worked around that with a readback that succeeded.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent found the correct chain QB7-QB12-QB11 and ran one correct GHZ job on garnet:mock. It reported the results accurately but used 16 tool calls against a minimum of 5.",
+ "failure_type": "efficiency",
+ "evidence": [
+  "chosen QB7 QB12 QB11 F_ab (0.9980161744069936, ('QB12', 'QB7')) F_bc (0.9986934234780708, ('QB12', 'QB11')) product 0.9967121899050079",
+  "AttributeError: 'dict' object has no attribute 'instructions'",
+  "metrics.json: tool_calls 16 (Read 2, Bash 10, Write 3, StructuredOutput 1)"
+ ]
+}

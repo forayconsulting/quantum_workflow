@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says a weak bond at the chain end creates a state that sits on the edge at zero energy, so the electron stays put. It says a strong bond at the end gives no such state, so the electron spreads away. It adds that the state is protected by the bond pattern and links this to solitons in polyacetylene. This matches SSH physics.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match the grade file. These include the ideal values 0.783 and 0.138, the exact values 0.767 and 0.142, the raw values 78.6% and 19.2%, the one-excitation share of 67.2%, the postselected values 0.821 and 0.132, 50 CZ gates, and 1.0 billed second. The 69% second-site share in the trivial chain is also correct. I computed 0.691 from the API counts. One claim contradicts the data. The answer says the real chip shows the same sixfold gap as the ideal circuits, 0.79 against 0.19. But 0.786 divided by 0.192 is about 4.1, which is fourfold. Only the ideal ratio of about 5.7 and the postselected ratio of about 6.2 are near sixfold. The cost of about 0.30 credits also has no source in the inputs. The grade file estimates 0.5 credits for this job.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock returns random bits and was used only to check that the server accepts the job. It reports the real Garnet numbers as hardware results. It says noise added or lost an electron in about a third of shots, and it mentions 50 noisy two-qubit gates.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer says this is a simplified model and not a simulation of real polyacetylene. It names several things the model leaves out. These are electron-electron repulsion, lattice vibrations, more than one electron, and longer times. It also says the run does not predict new properties of the material.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer opens with a direct yes and is split into clear sections. Most sentences are short and plain. A few terms are not defined. These include second-order Trotter steps, CZ gates, and Qiskit bit order. The bit order note reads like a note for engineers. Overall a non-expert can still follow the main result and what it means.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer asks the user to do nothing. It lists file paths for scripts and the job log only for reference. It does not hand over any code, API, or token steps.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer teaches the SSH edge state clearly and honestly. It fails numbers_grounded because it calls the raw hardware gap of 0.79 against 0.19 sixfold when that gap is about fourfold, and it cites a 0.30 credit cost while the grade file estimates 0.5.",
+ "evidence": [
+  "The real chip shows the same sixfold gap as the ideal circuits (0.79 against 0.19), even with 50 noisy two-qubit gates.",
+  "The mock returns random bits, so I used it only to check that the server accepts the job.",
+  "This is a simplified model and not a simulation of real polyacetylene. The model has one electron, no electron-electron repulsion, no lattice vibrations, and a short time window."
+ ]
+}

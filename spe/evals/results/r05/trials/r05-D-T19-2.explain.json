@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names quantum melting of Neel order. It says neighboring spins swap through the XX and YY terms, so the perfect up-down pattern decays even at zero temperature. It also says a 1D chain has no stable long-range Neel order and keeps only short-range anti-alignment. This is correct physics for the Heisenberg chain. It also correctly blames the level-off and wobble on the small size of 6 spins.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values 1.00, 0.88, 0.62, 0.41, 0.34, 0.38 match payload_ideal in the grade file. The exact values 0.8815, 0.6228, 0.4108, 0.3412, 0.3707 match the grade file's exact column. The measured values -0.24, -0.42, -0.40, -0.43, -0.40, -0.40 match the api column. The CZ counts 0, 60, 120, 180, 240, 300 match cz_per_circuit. The job ID, the 1000 shots, and the 0 credits all match. The answer names the bitstrings 011011 and 100100. These match the result object's counts. The grade file shows them in reversed bit order as 110110 and 001001, so this is a bit-order difference and not a contradiction. The phrase 'about a third by t of about 1.5' is a fair reading of 0.34 at t=1.6.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that the mock's numbers do not track the physics. It says the mock returns random-looking results and does not simulate the circuit. It points out that t=0 should be exactly 1 but came back negative. It says the mock only proves the job was accepted and returned, and that the numbers should not be read as physics.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer calls the 6-site chain 'a rough model'. It names finite chain size as something the model gets wrong, and it ties the level-off to that size. This meets the rubric's bar of one named omission. The coverage is thin. It does not mention coupling between chains, which makes real KCuF3 order at low temperature, and it does not mention temperature or phonons.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer has clear section labels and defines Neel order as '1 = perfect up-down pattern'. But many terms are never defined: Trotter approximation, Trotter error, even and odd bonds, CZ gates, shots, bitstrings, and XX+YY terms. The first paragraph reads like a run log for engineers, with step sizes, a job ID, and gate counts. A non-expert would struggle with it. The later sections are easier to follow, but the rubric asks for terms defined in a few words, and the answer does not define them.",
+  "verdict": "FAIL"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It says a real-device run would be needed, but it does not hand the user any steps.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The physics is correct, every number checks out, and the mock and model limits are stated honestly. The answer fails plain_language because Trotter, CZ gates, shots, and bitstrings are never defined and the opening reads like an engineer's log.",
+ "evidence": [
+  "\"These do not track the physics. The mock returns random-looking results, not a simulation of my circuit.\" (/Users/claytonchancey/Desktop/quantum/spe/evals/results/r05/trials/r05-D-T19-2.result.json)",
+  "\"evolved with a Trotter approximation (step 0.1, even and odd bonds alternating) ... The server received 0, 60, 120, 180, 240 and 300 CZ gates\" (/Users/claytonchancey/Desktop/quantum/spe/evals/results/r05/trials/r05-D-T19-2.result.json)",
+  "\"a 1D chain has no stable long-range Neel order, only short-range anti-alignment. A 6-site chain is a rough model, and the finite size causes the level-off and wobble.\" (/Users/claytonchancey/Desktop/quantum/spe/evals/results/r05/trials/r05-D-T19-2.result.json)"
+ ]
+}

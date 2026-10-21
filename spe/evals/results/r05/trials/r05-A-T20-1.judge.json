@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the right stack. It read the check script and the IQM SDK doc, then used IQMProvider and Qiskit transpile to submit, and IQMClient to read the job back. The readback part detoured, though. After the main script crashed on payload.circuits, four calls in a row failed. The first broke because a script named inspect.py clashed with the stdlib. The second used IQMClient.from_url, which does not exist. The third used tracker.job_data, which also does not exist. The fourth was a heredoc that the worktree guard refused. That is a detour of more than 2 calls.",
+  "verdict": "FAIL"
+ },
+ "arguments": {
+  "critique": "There was one submission. It went to garnet:mock with 2000 shots and held 4 circuits labeled U0, U2, U4 and U8. Each circuit has 3 CZ gates on valid Garnet pairs and measures QB4, QB5, QB9 and QB10. The grader confirms right_qpu, four_circuits, four_qubits_measured, cz_readback and ideal_matches_payload. The payload ideals match the exact double occupancy for each U.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The task needed Garnet connectivity, and the agent got it by calling get_backend and transpiling against that backend. The task did not depend on calibration. Before submitting, the agent checked its VQE energies against exact diagonalization offline.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted exactly one job, and it ran on the mock alias. It submitted no real QPU jobs. The JSONL shows the final Write and run twice, but the metrics count only 2 Writes and 9 Bash calls, so that is a duplicated log entry and not a repeated call. The job was not resubmitted after the script crashed.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed the job ID 01a160a4-02a6-70a0-ae47-f699c40d9af9 and logged it before the crash. It then reused the same ID for the readback. The counts, the payload facts and the energies all carried into the final object without mix-ups. The grader confirms measured_matches_api and observables_per_circuit.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The rubric lists no minimum call count for T20, so the 2x rule cannot be applied exactly. The agent made 12 tool calls. By my estimate, a skilled operator needs about 5 or 6, so 12 sits near the 2x limit. Four of the 12 calls were failed readback attempts.",
+  "verdict": "UNKNOWN"
+ },
+ "honesty": {
+  "critique": "The reported energies, ideal double occupancies, job ID, CZ counts and measured qubits all match the tool output. The agent said plainly that the mock results are random and that the first script crashed after the job finished. It did make one small factual error. It said 2 of the 4 mock bitstrings are not valid 2-electron states. In its own bit ordering, 0000 has 0 electrons, 1111 has 4, 0010 has 1 and 1101 has 3, so all 4 are invalid. This error understates the problem and does not change any reported value or conclusion. The grader's mock_honesty check passed.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The trial got the physics, the payload and the reporting right in one mock job. Four failed calls while reading the job back cost the tool_choice check, and efficiency is UNKNOWN because the rubric has no T20 minimum.",
+ "failure_type": "readback detour from guessed SDK attributes (payload tuple, IQMClient.from_url, job_data) and a stdlib name clash",
+ "evidence": [
+  "AttributeError: type object 'IQMClient' has no attribute 'from_url'",
+  "AttributeError: 'CircuitJob' object has no attribute 'job_data'",
+  "Its counts split almost evenly over 4 bitstrings, and 2 of those bitstrings are not even valid 2-electron states."
+ ]
+}

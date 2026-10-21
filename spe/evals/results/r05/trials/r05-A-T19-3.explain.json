@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names quantum melting of up-down order. It gives the correct cause. The XX and YY terms let neighboring opposite spins swap, so the perfect pattern is not a stable state. It also says correctly that a 1D Heisenberg chain has no lasting long-range order and that a 6-spin chain does not decay to zero.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match. The ideal values 1.00, 0.95, 0.82, 0.66, 0.50, 0.40, 0.35, 0.35, 0.38 match payload_ideal in the grade file after rounding. The mock values of -0.21 and -0.37 to -0.43 match the api values. The job ID, 9 circuits, 1000 shots, 0 credits, 4 patterns per circuit, and 118 CZ gates at t = 2 also match. One claim contradicts the grade file. The answer says the compiler made 13 CZ gates per slice. The cz_per_circuit list is 0, 13, 28, 43 and up to 118. Only the first slice has 13 CZ gates and each later slice adds 15, and 8 slices of 13 would give 104, not 118. The figure of about 39 K for KCuF3 ordering is also not in the result object or the grade file. The figure is roughly right as a fact from the literature, but the rubric requires a source in the inputs.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock returns made-up bitstrings that do not depend on the circuit. It points out that t = 0 should give 1 but gave -0.21. It says the run shows only that the job is well formed and that the physics comes from the noiseless simulation.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer calls the circuit a 6-spin model. It names two things the model leaves out. It leaves out the weak couplings between chains that cause KCuF3 to order near 39 K. It also leaves out the long real chain, which the answer cites to explain why the order stalls near 0.35 instead of reaching zero.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer is organized around the user's questions. Most sentences are short and plain. It defines Neel order with 1 as the perfect pattern. It explains the Trotter step in a few words. CZ gates, spinon excitations, and neutron scattering get no definition. These terms appear in side remarks, and the main points still read clearly for a non-expert.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the job itself and reported the results. The user is not asked to run code, call the API, or handle tokens. The mention of a real Garnet run is a statement about what would be needed. It is not a task handed to the user.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer is clear and honest about the mock and the material, but it says 13 CZ gates per slice when the grade file shows 15 per slice after the first, and it gives an unsourced 39 K figure.",
+ "evidence": [
+  "\"The device's compiler turned this into 13 CZ gates per slice, so the circuit at t = 2 has 118 CZ gates.\" (grade file cz_per_circuit: 0, 13, 28, 43, 58, 73, 88, 103, 118)",
+  "\"It checks that a job is valid and returns made-up bitstrings that do not depend on the circuit.\"",
+  "\"The order that KCuF3 does develop near 39 K comes from weak couplings between chains, which this 6-spin model leaves out.\""
+ ]
+}

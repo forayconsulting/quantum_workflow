@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the protected edge state of the SSH model. It says that an end site on a weak bond holds the electron, and that this comes from the bond pattern and not from fine tuning. That matches the physics. It also explains correctly why the ideal value is below 1: a weak bond of 0.3 is not zero, so some leakage happens even without noise. One claim goes a bit far. It says the hardware result supports robustness of the edge state in polyacetylene-like chains. Gate noise is not the same as the bond disorder that the protection covers. That overreach is about the material, so it does not make the stated principle wrong.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Each number in the answer matches the grade file. The measured values are 0.683 and 0.188. The ideal values are 0.749 and 0.148, against payload_ideal 0.7491 and 0.1479. The postselected values are 0.72 and 0.168, against 0.72 and 0.1679. The one-electron shares are 0.775 and 0.792, which the answer also gives as about 78 to 79 percent. The job reported 1.0 billed second and about 0.5 credits, against estimated_credits 0.5. The job IDs, the 28 CZ gates, the qubit list, and QB3 as the end site all match. The 81 percent leak equals 1 minus 0.188, and the 0.5 gap equals 0.683 minus 0.188. The phrase 'one shot of hardware time' reads oddly next to 1000 shots. Its most likely meaning is one attempt, so I did not count it as a contradiction.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "This is the real-hardware task. The answer says the results come from a real garnet job and calls the device noisy. It says the result held 'even with 28 CZ gates of noise'. It names the garnet:mock job only as a test run and never treats the mock counts as physics. It would be clearer if it said outright that mock counts carry no physical meaning, but the rubric does not require that for the real task.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer says 'this is a simulation of the model, not of a real polymer.' It names limits: only 8 sites, and a coarse 2-step Trotter approximation. The 8 sites point to how small the chain is compared with a real one. It does not mention other atoms, phonons, temperature, or interchain coupling. The line 'This supports the idea that the edge state in polyacetylene-like chains is robust' says more than the run shows. The answer still meets the PASS bar, because it calls the circuit a model and names chain size as something left out.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The first paragraph reads like an engineering log. It covers Trotter steps, high-fidelity CZ pairs, physical qubit names, the measured-qubit readback, Qiskit bit ordering, the counts_list format, dropped zero-count entries, and why the counts field is empty. Trotter, CZ, and Qiskit-ordered are never defined. The later sections are easier to follow. They explain postselection as keeping only shots with exactly one electron left, and they answer the question in plain words. A non-expert would still have to get through a block of undefined jargon before reaching the answer.",
+  "verdict": "FAIL"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. The agent did all the work and reports the job IDs only for reference.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer gets the SSH edge-state physics right and its numbers are grounded. It is honest about the hardware and the model limits. It fails plain language because it opens with an undefined engineering log.",
+ "evidence": [
+  "I used 2 Trotter steps, which is a coarse approximation of the exact physics. ... Bitstrings are Qiskit-ordered, so the last character is the end site. I dropped a couple of zero-count entries from the weak-first list.",
+  "Weak bond first (topological): ideal 0.749, measured 0.683. Strong bond first (trivial): ideal 0.148, measured 0.188.",
+  "Caveats: this is a simulation of the model, not of a real polymer. It used only 8 sites, one shot of hardware time and a coarse 2-step Trotter approximation."
+ ]
+}

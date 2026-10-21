@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the repo helper for calib, arch, submit and result. It used one direct REST GET of the job payload to check the circuit it sent. It spent about 4 calls reading the helper source and the REST doc to learn the native JSON format. That was learning, not a detour. One compound Bash command hit the worktree guard and the agent recovered in one step by using Write.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "There was one submission. It went to garnet:mock with 200 shots. It used CZ only on QB12-QB7 and QB12-QB11, and it measured QB7, QB12 and QB11. The grader confirms right_qpu, right_shots, cz_on_best_edges, best_triple_measured and circuit_correct_sim.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before it built the circuit, the agent pulled the garnet default calibration (set f81c45da) and the garnet architecture. It enumerated every connected chain from real loci. It did not assume the topology.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real QPU job and only one mock job. It did call calib garnet twice, but with different top values, once by hand and once inside its script. Those calls were not identical. No call was repeated after it had succeeded.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed the job ID 01a160a4-0f93-7289-931e-a0f48abf1a43 and logged it right after the submit. It used the same ID for the result fetch and for the payload readback. The reported fidelities and product match the calib output.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 17 tool calls. The T13 minimum is 5, so the limit is 10. The calls included a help call, 2 doc reads, 2 greps, a helper source read, a refused Bash call, and a payload readback. Even without StructuredOutput the count is 16, which is over twice the minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The reported chain QB7-QB12-QB11, the product 0.9967121899050079 and the counts 000:54, 001:51, 110:53, 111:42 all match the tool output. The bit order QB7 QB12 QB11 matches the measured order. The agent said correctly that the mock counts are placeholders and do not reflect the circuit. It also said the mock run cost 0 credits.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent picked the correct best chain from live calibration, made one correct mock submission, and reported honestly, but it used 17 tool calls against a minimum of 5.",
+ "failure_type": "efficiency",
+ "evidence": [
+  "(0.9967121899050079, 'QB7', 'QB12', 'QB11')",
+  "ghz3 cz 2 [['QB12', 'QB7'], ['QB12', 'QB11']] measured ['QB7', 'QB12', 'QB11']",
+  "metrics.json: \"tool_calls\": 17"
+ ]
+}

@@ -1,0 +1,112 @@
+{
+ "name": "r05 T19 time doubled",
+ "task": "T19",
+ "expect_pass": false,
+ "result": {
+  "status": "done",
+  "job_ids": [
+   "01a16094-2f1b-7172-8b3b-47d99c414421"
+  ],
+  "quantum_computer": "garnet:mock",
+  "shots": 200,
+  "counts": {},
+  "counts_list": [],
+  "billed_seconds_reported": 0,
+  "observables": [
+   {
+    "label": "t=0.0",
+    "x": 0.0,
+    "ideal": 1.0,
+    "measured": -0.6
+   },
+   {
+    "label": "t=0.5",
+    "x": 0.5,
+    "ideal": 0.5011315245358487,
+    "measured": -0.598
+   },
+   {
+    "label": "t=1.0",
+    "x": 1.0,
+    "ideal": 0.37046729872133227,
+    "measured": -0.574
+   },
+   {
+    "label": "t=1.5",
+    "x": 1.5,
+    "ideal": 0.49226468098706827,
+    "measured": -0.594
+   },
+   {
+    "label": "t=2.0",
+    "x": 2.0,
+    "ideal": 0.5251068729227033,
+    "measured": -0.5820000000000001
+   }
+  ],
+  "values": {},
+  "circuit_facts": [
+   {
+    "label": "c0",
+    "cz_count": 0,
+    "measured_qubits": [
+     "QB1",
+     "QB2",
+     "QB5",
+     "QB4",
+     "QB3",
+     "QB8"
+    ]
+   },
+   {
+    "label": "c1",
+    "cz_count": 99,
+    "measured_qubits": [
+     "QB1",
+     "QB2",
+     "QB5",
+     "QB4",
+     "QB3",
+     "QB8"
+    ]
+   },
+   {
+    "label": "c2",
+    "cz_count": 195,
+    "measured_qubits": [
+     "QB1",
+     "QB2",
+     "QB5",
+     "QB4",
+     "QB3",
+     "QB8"
+    ]
+   },
+   {
+    "label": "c3",
+    "cz_count": 291,
+    "measured_qubits": [
+     "QB1",
+     "QB2",
+     "QB5",
+     "QB4",
+     "QB3",
+     "QB8"
+    ]
+   },
+   {
+    "label": "c4",
+    "cz_count": 387,
+    "measured_qubits": [
+     "QB1",
+     "QB2",
+     "QB5",
+     "QB4",
+     "QB3",
+     "QB8"
+    ]
+   }
+  ],
+  "answer": "Neel order melts from 1 as spin flips spread along the chain. The mock returns made-up counts, so the measured values are not physical results."
+ }
+}

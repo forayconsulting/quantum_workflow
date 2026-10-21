@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the right principle. It says electron repulsion pushes double occupancy toward zero as U grows, so each electron stays on its own site and stops carrying current. It also says the leftover energy of about -4t^2/U makes neighboring spins point opposite ways, which is the correct link to antiferromagnetism. The claim that current needs a hop onto an occupied site is right for one electron per site. The physics is stated correctly.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match. The energies -2.000, -1.236, -0.828 and -0.472 match the reported and exact values in the grade file. The ideal double occupancies 0.250, 0.138, 0.073 and 0.026 match the grade file's payload simulation. The measured value of about 0.37 matches the API candidates 0.3867, 0.3728, 0.3778 and 0.3702. The job ID, 2000 shots, 3 CZ gates and QB4, QB5, QB9, QB10 all match. One claim contradicts the data. The answer says 2 of the 4 returned bitstrings are not valid 2-electron states. The API counts are 0000, 0100, 1011 and 1111, which hold 0, 1, 3 and 4 electrons. The agent's own counts (1101, 1111, 0000, 0010) also hold 3, 4, 0 and 1. So all 4 bitstrings are invalid, not 2. This count has no support in either file.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer opens by saying garnet:mock returns random results and the measured numbers are not real data. It repeats that the 0.37 values say nothing about the circuits. It says a real Garnet run would be needed for real measured values. It keeps the mock counts apart from the physics.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer says the 2-site model is a toy that shows the mechanism. It says the model cannot reproduce the real material's gap or phase diagram. Those are results the model fails to give. They are not things the model leaves out. The answer never names a missing ingredient, such as the many copper sites in the real crystal, the oxygen atoms, coupling between layers, or temperature. The contrast between 2 sites and a whole crystal is only implied. This is a borderline case, but the rubric asks for at least one named omission.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer reads as a reply to the person who asked. It uses short sentences and clear sections. It defines double occupancy in one sentence and explains why repulsion stops current. A few terms go undefined, such as Jordan-Wigner, CZ gates and the qubit names QB4 to QB10. These sit in the short method section and do not block the main story. The closing note about script paths and an error reads like an engineer log, but it is brief.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API or handle tokens. It mentions that a real Garnet run would cost credits, which is a fact and not a task for the user. It lists where the scripts are saved, but only as a record.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "Correct physics, clear mock disclosure and plain prose, but it miscounts the invalid mock bitstrings and names no missing ingredient of the real material.",
+ "evidence": [
+  "\"Its counts split almost evenly over 4 bitstrings, and 2 of those bitstrings are not even valid 2-electron states.\" The API counts in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r05/trials/r05-A-T20-1.grade.json are 0000, 0100, 1011 and 1111, and none of them holds 2 electrons.",
+  "\"This 2-site model is a toy. It shows the mechanism, but it cannot reproduce the real material's gap or its phase diagram.\"",
+  "\"The measured numbers from the test device are not real data, because garnet:mock returns random results.\""
+ ]
+}

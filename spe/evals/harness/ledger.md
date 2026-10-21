@@ -138,3 +138,62 @@ The dashboard listed 425 jobs. The known set was 422: 315 from earlier rounds, 1
 Output: `evals/results/r04/unreported_jobs.json`.
 
 The print-the-ID line in the preamble did not prevent these. A script that crashes inside the submit call never reaches the print.
+
+## Round 5 setup (2026-10-21)
+
+Balance before setup: 7.80 (round 4 close-out). Cap: 7.5 including the probe.
+
+| Task | Jobs | QPU | Purpose | Credits |
+|---|---|---|---|---|
+| T19 | `01a16094-1cd7-77de-861f-25df3dc3d73d`, `01a16094-2f1b-7172-8b3b-47d99c414421` | garnet:mock | Oracle, and a negative with time doubled | 0 |
+| T20 | `01a16094-4a3c-7513-9790-c9b785b185ba`, `01a16094-5c92-763e-ad5d-a4daeb779226` | garnet:mock | Oracle, and a negative with U labels swapped | 0 |
+| T20 | `01a160a1-6d92-7099-8b0c-379cbf1a30c2`, `01a160a1-7e2b-7670-b1df-2d54ffb2c0b1` | garnet:mock | Oracle and negative rerun after the dry-run fix to the double-occupancy definition. They replace the two T20 jobs above as fixtures | 0 |
+| T21 | `01a16095-301a-7478-a162-eca33a7b1e0a` | garnet:mock | Mock-only test of the oracle circuits | 0 |
+| T21 | `01a16095-bcae-71d0-948b-0fb2af1138a9` | garnet:mock | Mock test inside the real probe | 0 |
+| T21 | `01a16095-cb06-7507-8148-8d116616820f` | garnet | **Real probe.** 2 circuits, 42 CZ each, 1000 shots, QB1 to QB10 path, calibration `f81c45da` | 1.00 (billed 2.0 s at 0.5) |
+
+**Probe result.** Real Garnet billed 2.0 seconds for a 2-circuit, 1000-shot job, which is 1.00 credit. The real lane gets floor((7.5 minus 1.0) / (4 times 1.0)) = 1 trial per config. The workflow cap is 6.5 and the reserve is 1.5.
+
+**Physics, first real result (prediction committed at 802b159 before any of this ran).**
+
+| Quantity | Predicted | IQM noise model (IQMFakeGarnet, same 42-CZ circuits, 4000 shots, seed 5) | Real Garnet probe | Ideal (payload) |
+|---|---|---|---|---|
+| Raw edge, topological | 0.60 ± 0.08 | 0.724 | 0.606 | 0.760 |
+| Raw edge, trivial | 0.15 ± 0.06 | 0.210 | 0.339 | 0.145 |
+| Post-selected edge, topological | 0.72 ± 0.07 | 0.717 | 0.649 | 0.760 |
+| Post-selected edge, trivial | 0.15 ± 0.06 | 0.159 | 0.264 | 0.145 |
+| One-excitation share, topological | 0.70 ± 0.10 | 0.502 | 0.524 | 1.000 |
+| One-excitation share, trivial | 0.70 ± 0.10 | 0.528 | 0.535 | 1.000 |
+| Raw ratio, topological over trivial | 3 or more | 3.45 | 1.79 | 5.24 |
+
+The headline call missed on the probe. The edge state stayed visible (0.606 against 0.339), but the contrast fell to 1.79, below the predicted 3. Agent trials add more real data.
+
+Dry run `wf_dd9c267c-1c6` (r05dry, 3 cells, 12 agents, 5.6 minutes): A-T19 passed. D-T20 failed only on the grader's double-occupancy definition, which was fixed (spec/disagreements.md). C-T21 failed only on the real-QPU checks, as designed, because its real step went to the mock. All 3 judges and all 3 explanation judges returned. 0 credits.
+
+## Round 5 real-QPU spend (run `wf_8040e0a9-69b`, about 22:37Z to 23:13Z)
+
+| Item | Value | Source |
+|---|---|---|
+| Real jobs reported | 4 on `garnet`, all T21, one per config. Each had 2 circuits and 1000 shots | Grade files |
+| Billed seconds | 1.0 for every trial job. The setup probe of the same shape billed 2.0 | IQM API `metrics.billed_seconds` |
+| Workflow estimate | 2.00 credits | 4 jobs at 0.50 |
+| Dashboard after the run (23:2xZ) | Balance 4.80. Credit history: "- 3.00 IQM Garnet, 5 jobs" for the day | Account page and Credits page |
+
+**Result:** 1.00 for the probe plus 4 jobs at 0.50 is 3.00, which matches the dashboard. Round 5 spent 3.00 of its 7.5 cap. The credit gate skipped no trial.
+
+## Job reconciliation (round 5)
+
+The dashboard Jobs list, paged with its next button, showed 61 jobs created since the first r05 setup job (22:28Z). The known set was 61: 11 from setup, 4 from the dry run, and 46 reported by r05 trials. Every dashboard suffix matched a reported job, and every reported job appeared on the dashboard. **0 unreported jobs.** The `?page=N` URL parameter does not page the list. It always returns page 1.
+
+## Round 5 real physics (SSH edge state, 8 sites, t = 2, 1000 shots, calibration `f81c45da` for all 5 jobs)
+
+| Job | Edge qubit | CZ per circuit | Raw edge, topological | Raw edge, trivial | Ratio | Post-selected, topological | Post-selected, trivial | One-excitation share (topo, triv) |
+|---|---|---|---|---|---|---|---|---|
+| Setup probe | QB1 | 42 | 0.606 | 0.339 | 1.79 | 0.649 | 0.264 | 0.524, 0.535 |
+| r05-A-T21-1 | QB4 | 50 | 0.786 | 0.192 | 4.09 | 0.821 | 0.132 | 0.672, 0.672 |
+| r05-B-T21-1 | QB20 | 42 | 0.731 | 0.164 | 4.46 | 0.726 | 0.140 | 0.705, 0.722 |
+| r05-C-T21-1 | QB7 | 32 | 0.660 | 0.293 | 2.25 | 0.642 | 0.241 | 0.559, 0.551 |
+| r05-D-T21-1 | QB3 | 28 | 0.683 | 0.188 | 3.63 | 0.720 | 0.168 | 0.775, 0.792 |
+| Mean of 5 | | | 0.693 | 0.235 | 3.25 (median 3.63) | 0.712 | 0.189 | 0.647, 0.654 |
+
+The edge qubit's T1 and readout error in set `f81c45da` do not explain the spread. QB1 (worst) and QB4 (second best) have similar T1 (24.8 and 22.4 microseconds) and readout fidelity (0.989 and 0.992).

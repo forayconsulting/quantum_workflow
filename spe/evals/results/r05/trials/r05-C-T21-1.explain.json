@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the topological edge state of the SSH model and explains it correctly. A weak end bond leaves an energy state pinned to the edge, so the electron stays. A strong end bond pairs the end site with its neighbor, so the electron moves into the chain. It also correctly links domain-wall defects to solitons in doped polyacetylene.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The numbers match the grade file. Ideal values 0.78 and 0.14 match payload_ideal 0.783 and 0.138. Measured values 0.66 and 0.29 match api_raw 0.66 and 0.293. Postselected values 0.64 and 0.24 match 0.642 and 0.241. The exact values 0.77 and 0.14 match exact 0.767 and 0.142, so the gap of about 0.02 is right. The 56 percent one-electron share matches 0.559 and 0.551. The answer reports 32 CZ gates, 1.0 billed second, about 0.5 credits, and both job IDs, and all of these match. The '2.7 times' ratio comes from the postselected values (0.642 / 0.241). The raw ratio is 2.25. The answer does not say which ratio it used. The '3 Trotter steps' is a method detail that the grade file cannot confirm. Neither one contradicts the sources.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock returns random counts and only checks that the job is accepted. It says the real Garnet run is noisy. It names gate errors, readout errors, and energy decay, and it shows how noise pulls both numbers toward the middle.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer says the experiment does not measure the plastic and only simulates the simplest model of it. It names three things the model leaves out: electron-electron interactions, lattice vibrations, and disorder. It does not say that 8 sites is far shorter than a real chain. The rubric needs only one omission, so this passes.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer opens with the verdict in plain words. It defines Trotter steps as small time slices. It explains in a few words why a perfect machine would show exactly one electron. Some terms are not defined, such as CZ gates and the phrase 'exactly one 1'. The closing file list reads like an engineer's log. Most of the text still answers the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It lists file paths for reference only.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The answer explains the SSH edge state correctly and matches the grade file numbers. It is honest about the mock and about noise, names what the model leaves out, and mostly reads plainly. Its weak points are an unlabeled 2.7x ratio and a log-like file list.",
+ "evidence": [
+  "\"The mock returns random counts, so it only checks that the job is accepted.\"",
+  "\"Weak bond first (topological): ideal 0.78, measured 0.66. Among shots with exactly one electron, it was 0.64.\"",
+  "\"this experiment does not measure the plastic. It simulates the simplest model of it. ... The real material also has electron-electron interactions, lattice vibrations, and disorder, and this model leaves all of those out.\""
+ ]
+}

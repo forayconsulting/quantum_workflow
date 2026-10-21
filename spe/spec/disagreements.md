@@ -34,3 +34,20 @@ The user made 3 decisions in plan mode. Claude chose the other items as defaults
 | Trials | 3 per cell, top-up cap 24 | Claude default | Same as r03 |
 | T16 scrambling window | 256 times sum of p squared between 1.3 and 3 | Claude default, kept after the dry run | Full scrambling gives about 2, which is ideal XEB about 1. The dry run's D-T16 circuit had sparse CZ layers and scored 3.78, so it failed. The window is in the approved plan, so it stays. Overrule to widen it |
 | T14 qubit placement | Each circuit is checked on its own qubits | Claude, dry-run fix | The first grader required one qubit set for all circuits. The task never asked for that, and mean Z does not depend on placement. r04dry-A-T14-1 had correct physics and failed only on this |
+
+## Round 5 decisions and defaults (2026-10-21)
+
+The user made 3 decisions in plan mode and asked for a plain-language explainer at the end. Claude chose the other items as defaults. Each default stays open for Clayton Chancey to overrule.
+
+| Item | Value | Decided by | Why |
+|---|---|---|---|
+| Tasks | KCuF3 chain, La2CuO4 Hubbard dimer, polyacetylene SSH chain on real Garnet. T13 anchor | User | The user asked for specific materials |
+| Credit cap | 7.5 of 7.80, including the probe | User | |
+| Configs | A to D, unchanged | User | Keeps effort comparable with r04 |
+| Explainer | `spe/knowledge/quantum-materials-explainer.md` | User | Reader knows neither Claude Code nor quantum computing |
+| T19 tolerance | Return probability and staggered magnetization within 0.08 of exact | Claude default | Same Trotter allowance as T14 |
+| T20 tolerance | Double occupancy within 0.02 of exact, pairs equal within 0.02 | Claude default | Exact values range from 0.026 to 0.25 |
+| T21 tolerance | Payload-ideal edge probability within 0.05 of exact, one-excitation share 0.98 or more | Claude default | 3 Trotter steps miss exact by 0.008 |
+| T21 time | t = 2 | Claude default | The trivial chain revives to 0.79 at t = 3, so a free time choice would blur the contrast |
+| Real lane size | From the probe: floor((7.5 minus probe) / (4 times probe)) trials per config, capped at 3 | Claude default | Fits the cap after the probe |
+| T20 measured double occupancy | Counted from every shot, per site, with the sites read from the ideal doubly occupied pair | Claude, dry-run fix | The first grader counted only the two in-sector configurations. The contract defines double occupancy from any shot, and r05dry-D-T20-1 followed the contract and failed only on this |

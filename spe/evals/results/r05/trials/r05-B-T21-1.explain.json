@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the SSH edge state and describes it correctly. A chain that ends on a weak bond has a state stuck to the end site. A chain that ends on a strong bond has no such state, so the electron spreads into the chain. It links this to solitons in polyacetylene. It never uses the word topological, but it states the physics correctly.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match the grade file. These include 75.9 and 73.1, 14.5 and 16.4, 72.6 and 14.0, about 71 percent one-excitation share (70.5 and 72.2), 42 CZ, 451 shots on QB19, 1.0 billed second, and exact values of 76.7 and 14.2. Two numbers are wrong. The answer says it used 3 Trotter steps of 0.5 each. Three steps of 0.5 only reach time 1.5. The agent's script ssh_run.py sets DT = T / STEPS = 2/3. The answer also says the Trotter gap is 0.4 to 0.8 points. The trivial chain gap is 14.47 minus 14.24, which is about 0.2 points.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer calls the garnet:mock run a test that cost no credits. It reports no mock counts as physics. It says the real QPU numbers carry noise, and it says about 29 percent of shots picked up errors.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer says the run is a small 8-site toy model on qubits and does not simulate the real molecule. It names three things the model leaves out: electron-electron forces, lattice vibrations, and long disordered chains.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The main sections speak to the person who asked. They use plain phrases like 'a perfect machine would find the electron on the end site 75.9% of the time'. Some terms are never defined, such as Trotter steps, CZ gates, and Qiskit bitstrings. The closing note on counts reads like an engineering log. The core answer is still easy to follow.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer asks the user to do nothing. It gives file paths for scripts and logs as a reference only. It hands over no code or API steps.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "A clear answer with correct physics and honest limits, but it misstates the Trotter step size and the size of the Trotter gap.",
+ "evidence": [
+  "using 3 Trotter steps of 0.5 each (the script at /Users/claytonchancey/Desktop/quantum/.claude/worktrees/wf_8040e0a9-69b-101/work/ssh_run.py sets DT = T / STEPS with T = 2 and STEPS = 3)",
+  "The Trotter steps put these 0.4 to 0.8 points away from the exact model values of 76.7% and 14.2%.",
+  "This experiment shows the effect in a small 8-site toy model on qubits. It does not simulate the real molecule."
+ ]
+}

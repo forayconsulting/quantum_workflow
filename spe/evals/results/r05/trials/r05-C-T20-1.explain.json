@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says electron repulsion makes the electrons avoid sharing a site. It shows the chance of double occupancy falling from 0.250 to 0.026 as U grows. It ties this to why a half-filled band becomes an insulator. Hopping onto an occupied neighbor costs energy U. It also correctly says the spins pair into a singlet and that La2CuO4 is antiferromagnetic. The physics is stated correctly.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The energies -2.000, -1.236, -0.828 and -0.472 match the result values and the grade file's exact energies. The simulated double occupancies 0.250, 0.138, 0.073 and 0.026 match the grade file's payload_double and sims. The mock values 0.370, 0.378, 0.392 and 0.387 are the rounded api_double_candidates. The job ID, 1000 shots, qubits QB4, QB5, QB9 and QB10, 4 CZ gates, and 1.0 billed second all match the grade file. The formula U/2 - sqrt(U^2/4 + 4) gives the reported energies. The claim that U is several times t in the real crystal is general domain context, not a computed number.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that garnet:mock returns made-up results. It says the mock values do not follow U and include bitstrings with the wrong electron count. It says the counts only confirm that the job went through. It takes the physics from a noiseless simulation of the payload the server received, and it says so.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer says the 2-site model is the smallest version of the physics and is not a full simulation of the crystal. It does not name a specific thing the model leaves out. It never mentions the oxygen atoms, the size of the real copper-oxide plane, temperature, or long-range forces. A reader can infer that the crystal has more than 2 sites, but the rubric asks for at least one named omission. This is a borderline fail.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer is organized into what was run, what the numbers show, and what it means for the material. Most sentences are short and plain. It explains double occupancy as the chance that a site holds both electrons. Some terms go undefined, such as singlet, variational optimizer, CZ gates, and bitstrings. The closing file list reads like an engineer's note. Overall a non-expert can still follow the main point.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer lists where the scripts and outputs live. It does not ask the user to run code, call the API, or handle a token. The agent did all of the work.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer explains the physics clearly, every number checks out, and it is honest about the mock run. It fails material_honesty because it never names a specific thing the 2-site model leaves out of La2CuO4.",
+ "evidence": [
+  "The test device's counts cannot show it, because garnet:mock returns made-up results.",
+  "The chance that a site holds both electrons falls from 0.250 at U=0 to 0.138 at U=2, 0.073 at U=4, and 0.026 at U=8.",
+  "This 2-site model is the smallest version of that physics. It is not a full simulation of the crystal."
+ ]
+}

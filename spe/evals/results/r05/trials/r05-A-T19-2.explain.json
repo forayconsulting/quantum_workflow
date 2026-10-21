@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says neighboring spins can swap their up and down, and this quantum swapping spreads and blurs the perfect pattern. That is the quantum melting of antiferromagnetic order. It also says the order does not reach zero in a 6-spin chain and wobbles near 0.35 to 0.4. The grade file's exact values support that (0.341 at t=1.6, 0.371 at t=2.0). Its reason for the leftover order is that the energy stays fixed. That reason is loose, because finite size is the real cause. It is not wrong enough to fail.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match. The ideal values 1.000, 0.882, 0.624, 0.415, 0.348 and 0.380 match payload_ideal in the grade file. The CZ counts 0, 28, 58, 73, 103 and 118 match cz_per_circuit. The 1000 shots, the job ID and the zero credits also match. The claim that the ideal values are within 0.01 of exact physics holds, since the largest gap is 0.0097 at t=2.0. The measured values from t=0.4 to t=2.0 match the grade file's api values. The t=0 measured value does not match. The answer gives -0.378, and the grade file gives api -0.7928. The grade file also sets measured_matches_api to false. At t=0 the grader tried 360 qubit-order paths because the circuit has no CZ gates, so its own value may be ambiguous. Even so, the answer's number contradicts the grade file. The step size of at most 0.25 and the 8 steps have no source in the inputs.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says clearly that the test device does not simulate the circuit. It says the device returned the same four fixed patterns for every circuit. It points out that the value at t=0 should be near 1 on any working device. It says the run only shows that the job was accepted, compiled and run, and that it says nothing about the physics.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer says a 6-spin model over a short time cannot reproduce the real material's numbers and only shows the mechanism. That names the chain size and the short time as things the model leaves out. It does not mention coupling between chains, which is why real KCuF3 orders at low temperature. It does not mention temperature or the other atoms either. The answer meets the bar with one clear limit.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer is organized under plain headings that follow the user's questions. It defines Neel order in one sentence. It explains time steps simply. Some parts read like an engineer's log. Examples are the qubit names QB9 to QB6, the job ID, and the CZ gate counts. The phrase spinon excitations in neutron scattering is never defined. A non-expert can still follow the main story.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer asks the user to run no code and to handle no tokens. It mentions that real Garnet would cost credits, but it does not hand the user any steps.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "This answer teaches clearly and is honest about the mock and the model. It fails numbers_grounded because its t=0 test-device value of -0.378 contradicts the grade file's api value of -0.7928.",
+ "evidence": [
+  "\"t = 0.0: 1.000, then -0.378\" (answer) versus \"x\": 0.0 ... \"api\": -0.7928 in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r05/trials/r05-A-T19-2.grade.json",
+  "\"The test device does not simulate the circuit. ... It says nothing about the physics.\"",
+  "\"A 6-spin model over a short time cannot reproduce the real material's numbers. It does show the mechanism.\""
+ ]
+}

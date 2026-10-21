@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names electron repulsion that suppresses double occupancy. It defines double occupancy as the chance that one site holds both electrons. It shows that this chance falls from 0.25 at U = 0 to 0.026 at U = 8. It ties the effect to the Mott insulator. Conduction needs a hop onto an occupied copper atom, and that hop costs about U. The extra points are also correct. The singlet energy gain of about 4t^2/U is the standard large-U result. Antiferromagnetic order and doping are linked to the cuprates correctly. The exact energy formula U/2 - sqrt(U^2/4 + 4) is correct for t = 1.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The energies -2.000, -1.236, -0.828 and -0.472 match the result values and the grade file's exact energies. The ideal double occupancies 0.250, 0.138, 0.073 and 0.026 match the grade file's payload_double and exact_double. The measured values 0.353, 0.390, 0.387 and 0.378 match the api_double_candidates after rounding. 0.3895 is shown as 0.390. The figures 1000 shots, 3 CZ gates per circuit, qubits QB4, QB5, QB9 and QB10, and the job ID all match the grade file. The figure 2.6% is 0.026 written as a percent. I found no number without a source.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says that garnet:mock is a free test device. It says the device returns random bitstrings that do not depend on the circuit. It says the job confirms only that the circuits ran, and that it cannot confirm the physics. It also notes that outcomes like 0000 and 1111 do not hold 2 electrons. It keeps the measured numbers apart from the ideal ones.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer calls the circuit a small model and a tiny version of the material's behavior. It then contrasts the model with 'the real crystal' when it describes antiferromagnetic order. This is a borderline case. The answer never states what the model leaves out. It does not say that the real crystal has many copper atoms in a 2D lattice. It does not mention the oxygen atoms, temperature, phonons, or long-range Coulomb forces. The rubric requires the answer to name at least one omission, and this answer only implies one.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer reads as a reply to the person who asked. It leads with the main result. It defines double occupancy in plain words. It explains in short sentences why U = 0 behaves like a metal and large U does not. Some terms are not defined, such as VQE, CZ gates, and singlet. The 'What I ran' section and the file paths read a little like an engineering log. The core explanation is still easy for a non-expert to follow.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The user is not asked to run code, call the API, or handle tokens. The answer lists file paths only for reference. It says it would need the user's approval before a paid run on real Garnet, but it does not hand the user any steps to do that run.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "Correct physics, grounded numbers, and an honest mock disclaimer. The answer calls the model small but never names anything it leaves out of the real La2CuO4 crystal.",
+ "evidence": [
+  "\"It returns random bitstrings that do not depend on the circuit. ... So the job confirms that the circuits were accepted and executed. It cannot confirm the physics.\"",
+  "\"At U = 8 a site is doubly occupied only about 2.6% of the time. Each electron then stays on its own site.\"",
+  "\"The 2 electrons that stay apart in this small model are a tiny version of that behavior.\""
+ ]
+}

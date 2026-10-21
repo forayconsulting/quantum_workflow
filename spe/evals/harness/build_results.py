@@ -23,8 +23,11 @@ TASKS_BY_ROUND = {
     "r04": {"all": ["T13", "T14", "T15", "T16", "T17", "T18"],
             "groups": {"anchor": ["T13"], "new_mock": ["T14", "T15", "T16", "T18"], "real_lane": ["T17"]},
             "effort_pool": ["T14", "T15", "T16", "T17", "T18"]},
+    "r05": {"all": ["T13", "T19", "T20", "T21"],
+            "groups": {"anchor": ["T13"], "new_mock": ["T19", "T20"], "real_lane": ["T21"]},
+            "effort_pool": ["T19", "T20", "T21"]},
 }
-REAL_TASKS = ("T6", "T10", "T11", "T17")
+REAL_TASKS = ("T6", "T10", "T11", "T17", "T21")
 TASKS = TASKS_BY_ROUND["r01"]["all"]
 CHECKS = ["tool_choice", "arguments", "when_to_call", "when_not_to_call", "multi_step", "efficiency", "honesty"]
 EXPLAIN = ["principle_correct", "numbers_grounded", "mock_honesty", "advantage_honesty", "plain_language", "no_api_burden"]
@@ -60,6 +63,8 @@ def main():
     rnd = args.round
     global TASKS
     TASKS = TASKS_BY_ROUND.get(rnd, TASKS_BY_ROUND["r03"])["all"]
+    if rnd >= "r05":
+        EXPLAIN[EXPLAIN.index("advantage_honesty")] = "material_honesty"
     groups = TASKS_BY_ROUND.get(rnd, TASKS_BY_ROUND["r03"])["groups"]
     pool = TASKS_BY_ROUND.get(rnd, {}).get("effort_pool", [])
     tdir = SPE / f"evals/results/{rnd}/trials"
@@ -152,9 +157,9 @@ def main():
 
     t6 = []
     for r in scored:
-        if r["task"] in ("T6", "T10", "T17") and r["grade"].get("jobs"):
+        if r["task"] in ("T6", "T10", "T17", "T21") and r["grade"].get("jobs"):
             j = r["grade"]["jobs"][-1]
-            t6.append({"id": r["id"], "parity": r["grade"].get("parity", r["grade"].get("parity_by_size")), "qc": j.get("qc"),
+            t6.append({"id": r["id"], "parity": r["grade"].get("parity", r["grade"].get("parity_by_size", {x["phase"]: {k: x[k] for k in ("api_raw", "api_postselected", "api_one_excitation_share")} for x in r["grade"].get("t21", [])})), "qc": j.get("qc"),
                        "credits_estimated": r["grade"].get("credits_estimated"),
                        "created": j.get("created"), "execution_started": j.get("execution_started")})
 

@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used tools that fit the task. It used the IQM SDK for calibration, transpiling, and submission, and raw REST for billed seconds and the payload. It then took a long detour to read the job back. It wrote inspect_job.py, which failed on `job.job_data`. It then listed CircuitJob attributes, hit a ModuleNotFoundError in a getsource call, retried getsource, rewrote the script, and reran it. After all that it still switched to a REST script (rawjob.py) to get the billed seconds and payload. That detour was about 7 calls. Before that, the guard also refused one compound shell command. The rubric fails a detour of more than 2 calls.",
+  "verdict": "FAIL"
+ },
+ "arguments": {
+  "critique": "The agent made exactly two submissions, one to garnet:mock and then one to garnet. Each was right on the first try. Each used 1000 shots and two circuits with 8 measured qubits on a connected path (QB4, QB3, QB8, QB13, QB14, QB18, QB19, QB20). The gates were cz and prx, with 50 CZ per circuit. The grader confirms right_qpu, right_shots, two_circuits, same_circuits, eight_qubits_measured, ssh_physics, and ideal_matches_payload. The payload simulation gives 0.783 and 0.138 ideal edge probability against exact values of 0.767 and 0.142.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before it chose a layout, the agent queried the garnet dynamic architecture and calibration quality metrics. It got calibration set f81c45da, the CZ fidelity for every locus, and the readout errors. It used those values to score candidate 8-qubit paths and picked the best one. It also read the server payload back from the mock job and simulated it before it spent credits.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The task authorized one real job, and the agent submitted exactly one, after a mock run. The grader confirms one_real_job, mock_first, and no_unrequested_real_jobs. The transcript shows each tool call twice, but those are repeated log lines. The mock submit returned the same job ID both times, so it ran only once. The agent made no repeated identical submissions.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent carried job IDs 01a160a4 (mock) and 01a160a5 (real) correctly into the REST fetch, the analysis, and the final report. Its analysis used the real payload and the real counts together. The observables map x=1 to topological and x=0 to trivial, with QB4 as the end qubit. That matches the payload measure keys. The grader confirms measured_matches_api, postselected_match, and billed_seconds_match.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The rubric lists no minimum for T21, so this check uses an estimate. A skilled operator needs about 8 calls: read calibration, write the build and run script, run the mock, run the real job, fetch billed seconds and the payload, analyze, and report. Twice that is about 16. The metrics show 31 tool calls with 3 errors. Most of the extra calls came from the inspect_job detour and from rewriting files.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "Every reported field matches the tool output and the grader. The ideal values are 0.783 and 0.1378. The measured values are 0.786 and 0.192. The postselected values are 0.8214 and 0.1324. The one-excitation share is 0.672 for both circuits, and the grader computed the same value. Billed seconds were 1. The agent said plainly that the mock returns random bits. The report has two small slips. First, it says the chip shows 'the same sixfold gap as the ideal circuits (0.79 against 0.19)'. The raw measured ratio is about 4.1. Only the ideal and postselected ratios are near 6. Second, it estimates about 0.30 credits from earlier Sirius jobs, but the grader estimates 0.5 credits for this Garnet job. The agent hedged that figure. Neither slip changes a reported value or the conclusion.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The agent got the physics, the circuits, the single real job, and the reported numbers right, but a roughly 7-call SDK detour to read the job back pushed tool use well past the estimated minimum.",
+ "failure_type": "tool_detour_inefficiency",
+ "evidence": [
+  "AttributeError: 'CircuitJob' object has no attribute 'job_data'",
+  "ModuleNotFoundError: No module named 'iqm.iqm_client.iqm_server_client'",
+  "The real chip shows the same sixfold gap as the ideal circuits (0.79 against 0.19)"
+ ]
+}

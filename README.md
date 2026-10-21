@@ -5,6 +5,10 @@ This project asks two simple questions.
 1. Can an AI assistant run real quantum experiments for someone who knows nothing about quantum computing?
 2. When will a quantum computer first beat an ordinary computer at something useful?
 
+## Start here
+
+[Can an AI assistant run materials experiments on a quantum computer?](spe/knowledge/quantum-materials-explainer.md) is a plain-language write-up of the latest round. It needs no background in AI tools or quantum computing.
+
 ## Where this is going
 
 In our view, the first real wins for quantum computers will come from simulating nature, such as new materials and molecules. That is where our recent tests focus.

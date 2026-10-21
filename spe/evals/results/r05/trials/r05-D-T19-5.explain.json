@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says neighboring opposite spins can swap places under the Heisenberg exchange, and that this quantum motion melts the perfect alternating pattern. That is correct for the 6-spin chain. It also explains correctly why the order levels off near 0.35 to 0.4 in a short open chain. One sentence about the real crystal is wrong. That error is scored under material_honesty.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values 1.00, 0.88, 0.62, 0.41, 0.35, 0.38 match payload_ideal in the grade file. The mock values -0.18, -0.41, -0.39, -0.40, -0.41, -0.41 match the api values after rounding. The CZ counts 0 to 150, the job ID, the 1000 shots, the billed 1.0 second, and the 0 credits all match. The 25% shares match the counts, which run from 229 to 283 out of 1000. The answer says a perfect device returns 101010 at t=0. The simulation lists 010101. That difference is a bit-order convention and not a wrong value.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that the mock is a plumbing test of the job path and not a simulator. It says the counts carry no physics. It shows that the mock gives the same four-pattern spread for every circuit. It also says real Garnet would add noise.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer calls the circuit a 6-spin toy model that shows the trend and not material numbers. It never names anything the model leaves out. It does not mention the real chain length, the coupling between chains, or temperature. It also says that the real crystal has no ordinary frozen up-down order at low temperature. That is wrong for KCuF3. The coupling between its chains makes it order at about 39 K. The answer applies the 1D toy result to the whole crystal and leaves out the very effect that changes the result.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The sections on the perfect computer, the test device, and KCuF3 speak to the user in short sentences. The first paragraph reads like an engineering log. It uses Trotter steps, even and odd bonds, CZ gates, and payload readback, and it defines none of them. Later the answer uses Neel order, finite-size effect, Trotter error, and units of 1/J, and it defines none of these either. A non-expert would lose the thread in the opening paragraph.",
+  "verdict": "FAIL"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the job and reported the result itself. The user is not asked to run code, call the API, or handle a token.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "The answer gives accurate numbers and is honest about the mock. It reads like a log in its opening paragraph. It also claims wrongly that real KCuF3 has no frozen order and names nothing the toy model leaves out.",
+ "evidence": [
+  "\"The mock is a plumbing test of the job path, not a simulator, so its counts carry no physics.\"",
+  "\"In the real crystal, this is why the spin chain has no ordinary frozen up-down order at low temperature.\"",
+  "\"It then evolves them under the Heisenberg chain (J = 1, spin = Pauli/2) in Trotter steps of 0.2. Each step applies the bond gates on even bonds, then odd bonds.\""
+ ]
+}

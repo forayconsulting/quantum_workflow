@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names quantum melting of the up-down (Neel) order. It says the Sx Sx + Sy Sy terms let opposite neighbors swap, so the perfect pattern is not a stable state. It says the order falls fast and then wobbles near 0.35 to 0.4 without coming back to 1. It also says the true lowest-energy state of the chain is not the simple up-down pattern. All of this is correct for a 6-spin Heisenberg chain after a quench.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values 1.00, 0.88, 0.62, 0.41, 0.35 and 0.38 match the grade file payload_ideal values. They are within 0.01 of the exact values, so the 'within 0.01' claim holds. The largest gap is 0.0097 at t=2. The mock values -0.24, -0.39, -0.37, -0.42, -0.41 and -0.40 match the API values. The job ID, 1000 shots, 120 CZ gates, and 0 credits match too. The step size of at most 0.25 fits the CZ counts of 30, 60, 75, 105 and 120. The opening line says the order melts 'to about 0.35 by time 2', but the value at t=2 is 0.38. That is loose but hedged. The claim that order appears 'only below about 39 K' has no source in the result object or the grade file. It matches the published Neel temperature of KCuF3, but the rubric requires every number to come from these inputs.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock numbers 'carry no physics' and are 'meaningless'. It says garnet:mock does not simulate the circuit and only checks the job format. It points out that the mock gave -0.24 at t=0, where the true value is exactly 1. It also says real Garnet hardware would be needed and that noise from 120 CZ gates would push values toward 0.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer says 'Six spins is a tiny model, so this shows the trend, not the material's exact numbers.' It names weak couplings between chains as the reason real KCuF3 orders at low temperature, which is something the model leaves out. It also mentions temperature. It does not claim that the circuit simulates the crystal itself.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer uses short sections with clear headings. Its sentences are short. It explains the main mechanism in plain words: opposite spins swap places. A few terms are not defined, such as CZ gates, neutron scattering, and spinons. Spinons get only a short gloss in brackets. The answer still reads as a reply to the person who asked, not as an engineering log.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer lists the paths of the script, the results, and the job log for reference. It does not ask the user to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "This is a clear and honest answer, and its job numbers match the grade file. It fails numbers_grounded only because it cites a Neel temperature of 39 K that appears in neither input file. That figure is accurate in the literature.",
+ "evidence": [
+  "These numbers are meaningless. garnet:mock does not simulate the circuit. It returns made-up patterns such as 000000 and 111111.",
+  "A small order appears only below about 39 K, and only because weak couplings between chains help it. Six spins is a tiny model, so this shows the trend, not the material's exact numbers.",
+  "1.00 at t=0, 0.88 at t=0.4, 0.62 at t=0.8, 0.41 at t=1.2, 0.35 at t=1.6, and 0.38 at t=2.0. These match the exact Heisenberg model within 0.01"
+ ]
+}

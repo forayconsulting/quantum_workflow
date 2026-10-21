@@ -1,0 +1,38 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/69eba65d-ce0d-461c-9501-193f4ac9a72b/subagents/workflows/wf_8040e0a9-69b/agent-a3dcbe489d21a8ce2.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 109.7,
+ "ended": "2026-10-21T22:46:02.241000Z",
+ "api_calls": 9,
+ "tokens": {
+  "input_tokens": 18,
+  "output_tokens": 246,
+  "cache_read_input_tokens": 489526,
+  "cache_creation_input_tokens": 50014,
+  "total": 539804,
+  "fresh": 50278
+ },
+ "tool_calls": 11,
+ "tool_errors": 0,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 7,
+  "Read": 1,
+  "Write": 2,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/.venv-iqm/bin/python -c \"import scipy, qiskit; print(scipy.__version__, qiskit.__version__)\"; sed -n 300,420p /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md",
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -n \"jobs/\" /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md | head -30",
+  "grep -n -i \"get_submitted_circuits\\|get_job\\b\\|get_job(\\|circuits_batch\\|submitted\\|get_run\\|payload\" /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md /Users/claytonchancey/Desktop/quantum/docs/iqm/05-results-and-data.md | head -50"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r05-B-T20-1"
+}

@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the named helper iqm_run.py for calib, arch, submit, and result. It wrote native circuit JSON and a small local simulator. It used one direct REST call to read back the job payload. Three calls went to learning the JSON format (grep docs, sed docs, sed of the helper source). Those calls served the task and were not a detour away from it.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission went to garnet:mock with 200 shots. It used physical qubits QB7, QB12, QB11. It placed CZ only on QB12-QB7 and QB12-QB11 and measured all 3 qubits. The grader confirms right_qpu, right_shots, best_triple_measured, cz_on_best_edges, and circuit_correct_sim.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent read the default garnet calibration and the dynamic architecture before it chose the chain. Its script asserted that both came from the same calibration set f81c45da. It ranked every connected chain. It simulated the circuit before it submitted it.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, and that job went to the mock. It made no real QPU jobs and no repeated submissions. The script re-ran calib and arch after the agent had already called them once by hand. That was a re-read of the inputs, not a repeated job.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The script printed the job ID right after submit and logged it. It then used the same ID for the result and payload reads. The reported counts and bit order match the result and the server payload. The chain and product carried from the build step to the final report without change.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 15 tool calls. Without StructuredOutput the count is 14. The minimum for T13 is 5, so the limit is 10. The agent spent extra calls on two help commands, three doc and source reads, a separate simulator file, and the standalone calib and arch calls that its script repeated.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report states the chain QB7-QB12-QB11, the product 0.9967121899050079, both fidelities, the job ID, and the counts exactly as the tools returned them. The grader's truth product matches. The agent said that the mock counts do not reflect the circuit. That matches the known mock behavior and explains the 001 and 110 outcomes without claiming they are errors.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent chose the right chain, ran a correct GHZ on garnet:mock, and reported it accurately. It used 14 working tool calls against a limit of 10.",
+ "failure_type": "efficiency",
+ "evidence": [
+  "best chain QB7 QB12 QB11 product 0.9967121899050079 f_ab 0.9980161744069936 f_bc 0.9986934234780708",
+  "server circuit ghz3 cz_count 2 cz_loci [['QB12', 'QB7'], ['QB12', 'QB11']] measured ['QB7', 'QB12', 'QB11'] shots 200",
+  "metrics: tool_calls 15 (Bash 10, Read 1, Write 3, StructuredOutput 1) vs T13 minimum 5"
+ ]
+}
