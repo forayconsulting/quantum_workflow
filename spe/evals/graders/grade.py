@@ -746,17 +746,25 @@ def hubbard_signature(dist):
 
 
 def double_occ_from_counts(ideal, counts):
-    """Measured double occupancy: the mean count share of the two smallest of the ideal top-4 outcomes. At U = 0 all
-    four are equal, so every pairing of the four is returned and the caller accepts any."""
+    """Measured double occupancy per site, from every shot, as the contract defines it. The two doubly occupied
+    configurations among the ideal top-4 outcomes are complementary bitstrings of weight 2. Each one marks the two
+    qubits of one site. At U = 0 all four outcomes are equal, so every complementary pair is tried and the caller
+    accepts any. Dry-run fix: the first version counted only the two in-sector configurations (r05dry-D-T20-1)."""
     top = sorted(ideal, key=ideal.get, reverse=True)[:4]
     tot = sum(counts.values()) or 1
-    share = {k: counts.get(k, 0) / tot for k in top}
     if len(top) < 4:
         return []
-    pairs = [(top[2], top[3])]
+    cand = [(top[2], top[3])]
     if max(ideal[k] for k in top) - min(ideal[k] for k in top) < 0.02:
-        pairs = [(top[i], top[j]) for i in range(4) for j in range(i + 1, 4)]
-    return [(share[a] + share[b]) / 2 for a, b in pairs]
+        cand = [(top[i], top[j]) for i in range(4) for j in range(i + 1, 4)]
+    out = []
+    for a, b in cand:
+        if a.count("1") != 2 or b.count("1") != 2 or any(x == y for x, y in zip(a, b)):
+            continue
+        sites = [[i for i, c in enumerate(a) if c == "1"], [i for i, c in enumerate(b) if c == "1"]]
+        occ = [sum(v for k, v in counts.items() if all(k[i] == "1" for i in st)) / tot for st in sites]
+        out.append(sum(occ) / 2)
+    return out
 
 
 def ssh_edge_exact(n, first, second, t):

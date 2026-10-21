@@ -50,3 +50,4 @@ The user made 3 decisions in plan mode and asked for a plain-language explainer 
 | T21 tolerance | Payload-ideal edge probability within 0.05 of exact, one-excitation share 0.98 or more | Claude default | 3 Trotter steps miss exact by 0.008 |
 | T21 time | t = 2 | Claude default | The trivial chain revives to 0.79 at t = 3, so a free time choice would blur the contrast |
 | Real lane size | From the probe: floor((7.5 minus probe) / (4 times probe)) trials per config, capped at 3 | Claude default | Fits the cap after the probe |
+| T20 measured double occupancy | Counted from every shot, per site, with the sites read from the ideal doubly occupied pair | Claude, dry-run fix | The first grader counted only the two in-sector configurations. The contract defines double occupancy from any shot, and r05dry-D-T20-1 followed the contract and failed only on this |

@@ -147,6 +147,7 @@ Balance before setup: 7.80 (round 4 close-out). Cap: 7.5 including the probe.
 |---|---|---|---|---|
 | T19 | `01a16094-1cd7-77de-861f-25df3dc3d73d`, `01a16094-2f1b-7172-8b3b-47d99c414421` | garnet:mock | Oracle, and a negative with time doubled | 0 |
 | T20 | `01a16094-4a3c-7513-9790-c9b785b185ba`, `01a16094-5c92-763e-ad5d-a4daeb779226` | garnet:mock | Oracle, and a negative with U labels swapped | 0 |
+| T20 | `01a160a1-6d92-7099-8b0c-379cbf1a30c2`, `01a160a1-7e2b-7670-b1df-2d54ffb2c0b1` | garnet:mock | Oracle and negative rerun after the dry-run fix to the double-occupancy definition. They replace the two T20 jobs above as fixtures | 0 |
 | T21 | `01a16095-301a-7478-a162-eca33a7b1e0a` | garnet:mock | Mock-only test of the oracle circuits | 0 |
 | T21 | `01a16095-bcae-71d0-948b-0fb2af1138a9` | garnet:mock | Mock test inside the real probe | 0 |
 | T21 | `01a16095-cb06-7507-8148-8d116616820f` | garnet | **Real probe.** 2 circuits, 42 CZ each, 1000 shots, QB1 to QB10 path, calibration `f81c45da` | 1.00 (billed 2.0 s at 0.5) |
@@ -166,3 +167,5 @@ Balance before setup: 7.80 (round 4 close-out). Cap: 7.5 including the probe.
 | Raw ratio, topological over trivial | 3 or more | 3.45 | 1.79 | 5.24 |
 
 The headline call missed on the probe. The edge state stayed visible (0.606 against 0.339), but the contrast fell to 1.79, below the predicted 3. Agent trials add more real data.
+
+Dry run `wf_dd9c267c-1c6` (r05dry, 3 cells, 12 agents, 5.6 minutes): A-T19 passed. D-T20 failed only on the grader's double-occupancy definition, which was fixed (spec/disagreements.md). C-T21 failed only on the real-QPU checks, as designed, because its real step went to the mock. All 3 judges and all 3 explanation judges returned. 0 credits.
