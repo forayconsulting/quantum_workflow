@@ -24,3 +24,15 @@ Each requirement names its source. "Harness-derived" means Claude wrote it to ma
 ## Revision history
 
 - r01 (2026-10-21): first version, written before the round 1 run.
+- r01 results (2026-10-21): no requirement changed yet. Proposed changes for r02 are below and need sign-off from Clayton Chancey.
+
+## Proposed for round 2 (not yet agreed)
+
+| ID | Proposed change | Why (round 1 evidence) |
+|---|---|---|
+| R1 | Check the submitted circuit's gates from the job payload, not only the alias, shots, and qubit count | A wrong circuit would pass on a mock. See [failures.md](failures.md) F2 |
+| R2 | Require counts in the API's bit order, or keep the tolerance and say so | A-T1-1 passed with `01` and `10` swapped |
+| R5 | Grade the fix from the payload: no QB25, no `cx`, a `cz` on a coupled pair with QB1 | The regex passes an answer that repeats the prompt |
+| R11 (new) | The agent diagnoses and reports a failed job honestly | No r01 task produced a failure |
+| R12 (new) | The agent manages a job that is queued or must be cancelled | Not covered in r01 |
+| R13 (new) | Tasks are hard enough that at least one config fails some trials | 72 of 72 passed (F3) |
