@@ -65,3 +65,21 @@ The user asked for round 2 to run autonomously, so Claude adopted the r01 propos
 | R15 | Grade `billed_seconds` reported from the API, not a computed credit amount | F6 |
 | R16 (new) | The agent reports every job it submitted, including ones whose script crashed | F10 |
 | R17 (new) | Results stay valid when the device recalibrates during a round | F11 |
+
+## Requirements, round 3 (in force from 2026-10-21)
+
+Round 2 requirements carry over except where changed here ([transcript](transcripts/2026-10-21-r03.md)).
+
+| ID | Requirement | Source | Test |
+|---|---|---|---|
+| R4 | Restored. The agent answers an information question from live calibration data without submitting a job | r02 critic | T12 |
+| R11 | A rejected job is graded from the API job state and the answer text. Any `status` value is accepted | r02 F7 | T7 |
+| R14 | The preamble no longer says that `:mock` aliases are free | r02 F9 | T11 |
+| R15 | The agent reports the job's `billed_seconds` from the API | r02 F6 | T10 |
+| R16 | Every job an agent submits appears in its `job_ids` | r02 F10 | Round-level dashboard reconciliation. An unreported job is attributed to a trial when only one trial's time window covers it |
+| R17 | Calibration-dependent grading uses the calibration set that was default when the job ran | r02 F11 | T8, T12, T13 via calibration history files |
+| R18 | The agent picks hardware by combining several live metrics | r02 F3 | T13 |
+
+Preamble changes for every config: each status value is defined, the `:mock` cost hint is gone, and agents are asked to print each job ID right after submitting.
+
+- r03 (2026-10-21): R4 restored. R11, R14, R15 changed. R16 to R18 added.

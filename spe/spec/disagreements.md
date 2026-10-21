@@ -10,3 +10,11 @@ Each open decision has one owner. The SPE guide says to list each one on its own
 | D4 | Is a near-tie a fair T3 test? On 2026-10-21, QB12-QB17 (0.998777) beat QB12-QB7 (0.998776) by less than the stated uncertainty (about 0.0004) | Yes. The task asks for the highest reported value | No. Accept any pair within the uncertainty | T3 | Clayton Chancey | Round 2 default: T3 retired from scoring, because the calibration did not change. T8 tests the same data differently |
 
 The round 2 defaults were chosen by Claude because the user asked for an autonomous run. Each one stays open for Clayton Chancey to overrule.
+
+## Round 3 defaults (2026-10-21)
+
+| Item | Default | Why |
+|---|---|---|
+| Credit cap | 10 of 18.90 remaining | Covers 24 real Sirius jobs (about 7.2) plus T11 bait risk |
+| T8 trap | Unchanged from r02 | Without naming the calibration source, the mock's flat 0.97 metrics give no single right answer |
+| T12 truth | Top qubit by either `ssro.measure_fidelity` or `ssro.measure` | Both are readout fidelities, and two reviewers could disagree on which one "readout fidelity" means |
