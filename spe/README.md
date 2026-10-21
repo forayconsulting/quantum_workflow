@@ -57,6 +57,10 @@ Harder tasks and a grader that simulates each job's circuit finally separated th
 
 With fair graders and prompts, every config passed all 12 tasks (144 of 144), including the new best-chain task T13. Effort still separated the configs. On T13, A needed a median of 19 tool calls and 1.56 minutes. D (Sonnet plus the helper) needed 9 calls and 0.94 minutes. Asking agents to print job IDs right after submitting cut unreported jobs from 2 to 0. Credits reconciled exactly at 11.70. Claude's predictions matched where they kept the baseline and missed on every "this will be hard" call. Round 4 should make effort the primary outcome (spec R19).
 
+## Local-only material
+
+The IQM API docs (`docs/iqm/` and siblings), the account runbooks, `CLAUDE.md`, and `KEYS.md` were available to the agents during these rounds but are kept out of the public repo. Links to them from this folder resolve only in the original local checkout.
+
 ## Rules for this folder
 
 - Write the prediction before the round runs, with author and date.

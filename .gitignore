@@ -4,3 +4,12 @@ __pycache__/
 .playwright-cli/
 spe/agent-tools/calls.log.jsonl
 .claude/worktrees/
+
+# Local-only: API docs, setup runbooks, agent instructions, key registry
+docs/ibm/
+docs/iqm/
+docs/dwave/
+docs/README.md
+docs/runbooks/
+CLAUDE.md
+KEYS.md
