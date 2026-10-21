@@ -138,3 +138,31 @@ The dashboard listed 425 jobs. The known set was 422: 315 from earlier rounds, 1
 Output: `evals/results/r04/unreported_jobs.json`.
 
 The print-the-ID line in the preamble did not prevent these. A script that crashes inside the submit call never reaches the print.
+
+## Round 5 setup (2026-10-21)
+
+Balance before setup: 7.80 (round 4 close-out). Cap: 7.5 including the probe.
+
+| Task | Jobs | QPU | Purpose | Credits |
+|---|---|---|---|---|
+| T19 | `01a16094-1cd7-77de-861f-25df3dc3d73d`, `01a16094-2f1b-7172-8b3b-47d99c414421` | garnet:mock | Oracle, and a negative with time doubled | 0 |
+| T20 | `01a16094-4a3c-7513-9790-c9b785b185ba`, `01a16094-5c92-763e-ad5d-a4daeb779226` | garnet:mock | Oracle, and a negative with U labels swapped | 0 |
+| T21 | `01a16095-301a-7478-a162-eca33a7b1e0a` | garnet:mock | Mock-only test of the oracle circuits | 0 |
+| T21 | `01a16095-bcae-71d0-948b-0fb2af1138a9` | garnet:mock | Mock test inside the real probe | 0 |
+| T21 | `01a16095-cb06-7507-8148-8d116616820f` | garnet | **Real probe.** 2 circuits, 42 CZ each, 1000 shots, QB1 to QB10 path, calibration `f81c45da` | 1.00 (billed 2.0 s at 0.5) |
+
+**Probe result.** Real Garnet billed 2.0 seconds for a 2-circuit, 1000-shot job, which is 1.00 credit. The real lane gets floor((7.5 minus 1.0) / (4 times 1.0)) = 1 trial per config. The workflow cap is 6.5 and the reserve is 1.5.
+
+**Physics, first real result (prediction committed at 802b159 before any of this ran).**
+
+| Quantity | Predicted | IQM noise model (IQMFakeGarnet, same 42-CZ circuits, 4000 shots, seed 5) | Real Garnet probe | Ideal (payload) |
+|---|---|---|---|---|
+| Raw edge, topological | 0.60 ± 0.08 | 0.724 | 0.606 | 0.760 |
+| Raw edge, trivial | 0.15 ± 0.06 | 0.210 | 0.339 | 0.145 |
+| Post-selected edge, topological | 0.72 ± 0.07 | 0.717 | 0.649 | 0.760 |
+| Post-selected edge, trivial | 0.15 ± 0.06 | 0.159 | 0.264 | 0.145 |
+| One-excitation share, topological | 0.70 ± 0.10 | 0.502 | 0.524 | 1.000 |
+| One-excitation share, trivial | 0.70 ± 0.10 | 0.528 | 0.535 | 1.000 |
+| Raw ratio, topological over trivial | 3 or more | 3.45 | 1.79 | 5.24 |
+
+The headline call missed on the probe. The edge state stayed visible (0.606 against 0.339), but the contrast fell to 1.79, below the predicted 3. Agent trials add more real data.
