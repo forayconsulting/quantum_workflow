@@ -1,0 +1,7 @@
+config: B
+name: docs pointer
+model: inherit (Opus 5.5)
+change: adds a pointer to the IQM docs
+prediction: predictions/r01.yaml#configs.B
+preamble_extra: |
+  Reference docs for this API are at /Users/claytonchancey/Desktop/quantum/docs/iqm/README.md. Read it first, then read the section files you need.

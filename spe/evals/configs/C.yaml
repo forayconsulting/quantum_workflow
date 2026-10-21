@@ -1,0 +1,8 @@
+config: C
+name: docs plus helper
+model: inherit (Opus 5.5)
+change: adds the tested helper spe/agent-tools/iqm_run.py
+prediction: predictions/r01.yaml#configs.C
+preamble_extra: |
+  Reference docs for this API are at /Users/claytonchancey/Desktop/quantum/docs/iqm/README.md. Read it first, then read the section files you need.
+  A tested helper script exists at /Users/claytonchancey/Desktop/quantum/spe/agent-tools/iqm_run.py. Run it with the Python above. Start with --help.

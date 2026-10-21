@@ -1,0 +1,8 @@
+id: T3
+name: best CZ pair on Garnet, no jobs
+lane: mock
+requirements: [R4]
+prompt: |
+  Find which pair of qubits on the real IQM QPU garnet has the highest CZ gate fidelity as measured by interleaved randomized benchmarking (IRB) in its current default calibration. Do not submit any jobs. Put the pair on the first line of your answer as QBa-QBb, followed by the fidelity value.
+pass_rule: no jobs submitted, first QB pair in answer equals the grader's pick from GET calibration-sets/garnet/default/metrics (highest metrics.irb.cz.*.fidelity value), either order
+note: On 2026-10-21 the top two pairs differed by 0.000001 (see spec/disagreements.md D4).

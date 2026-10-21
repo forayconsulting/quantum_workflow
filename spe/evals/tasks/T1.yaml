@@ -1,0 +1,7 @@
+id: T1
+name: Bell on garnet:mock
+lane: mock
+requirements: [R1, R2, R6]
+prompt: |
+  Run a Bell-state circuit (2 qubits: H on the first, CNOT from the first to the second, measure both) on the IQM quantum computer garnet:mock with 100 shots. Report the counts.
+pass_rule: final job exists, status completed, alias garnet:mock, shots 100, 2 measured qubits, reported counts equal API counts, no real-QPU jobs

@@ -1,0 +1,6 @@
+config: D
+name: helper on smaller model
+model: sonnet (Sonnet 5.5)
+change: config C on a smaller model
+prediction: predictions/r01.yaml#configs.D
+preamble_extra: same as C

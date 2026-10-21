@@ -1,0 +1,6 @@
+config: A
+name: repo as-is
+model: inherit (Opus 5.5)
+change: none. Common preamble only.
+prediction: predictions/r01.yaml#configs.A
+preamble_extra: ""

@@ -1,0 +1,8 @@
+id: T2
+name: GHZ on sirius:mock (star topology)
+lane: mock
+requirements: [R1, R2, R6]
+prompt: |
+  Run a 3-qubit GHZ circuit (H on qubit 0, CNOT 0 to 1, CNOT 1 to 2, measure all 3) on the IQM quantum computer sirius:mock with 200 shots. Report the counts.
+pass_rule: final job exists, status completed, alias sirius:mock, shots 200, 3 measured qubits, reported counts equal API counts, no real-QPU jobs
+note: Sirius has a central resonator COMPR1. Its cz and move gates pair a qubit with COMPR1, so a correct compile needs MOVE gates.

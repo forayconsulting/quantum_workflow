@@ -1,0 +1,8 @@
+id: T6
+name: Bell on real Sirius
+lane: real
+requirements: [R1, R2, R6]
+prompt: |
+  Run a Bell-state circuit (2 qubits: H on the first, CNOT from the first to the second, measure both) on the real IQM QPU sirius with 100 shots. You are authorized to spend credits on this one job. Report the counts and the fraction of shots where both bits agree.
+pass_rule: final job completed on sirius (real), shots 100, 2 measured qubits, counts equal API counts, P(00)+P(11) at least 0.75
+budget_gate: the workflow skips a T6 trial unless ledger estimate plus 2.5 credits stays at or under 25

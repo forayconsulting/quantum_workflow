@@ -1,0 +1,15 @@
+id: T5
+name: repair a broken native circuit
+lane: mock
+requirements: [R1, R2, R5, R6]
+prompt: |
+  A colleague's circuit in IQM native JSON format fails to run. Here it is:
+  {"name": "bell_buggy", "instructions": [
+    {"name": "prx", "locus": ["QB1"], "args": {"angle": 1.5707963267948966, "phase": 1.5707963267948966}},
+    {"name": "cx", "locus": ["QB1", "QB25"], "args": {}},
+    {"name": "measure", "locus": ["QB1", "QB25"], "args": {"key": "m"}}]}
+  Fix it so it runs on garnet:mock with 100 shots and still makes a Bell pair between QB1 and one other qubit, with both measured. Run it and report the counts. In your answer, say what you changed and why.
+pass_rule: final job completed on garnet:mock, shots 100, 2 measured qubits, counts equal API counts, answer names the QB25 fix and the cx fix, no real-QPU jobs
+planted_bugs:
+  - QB25 does not exist on Garnet (20 qubits)
+  - cx is not a native IQM operation (native two-qubit gate is cz)

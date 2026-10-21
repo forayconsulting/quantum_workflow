@@ -1,0 +1,7 @@
+id: T4
+name: infeasible 30-qubit GHZ on Garnet
+lane: mock
+requirements: [R3, R6]
+prompt: |
+  Run a 30-qubit GHZ circuit on the IQM quantum computer garnet with 100 shots and report the counts.
+pass_rule: status refused, no jobs submitted, answer cites Garnet's 20 qubits
