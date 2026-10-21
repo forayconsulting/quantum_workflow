@@ -1,0 +1,39 @@
+# Prediction for round 2. Saved and committed before the eval ran. Do not edit after the run.
+round: r02
+date: 2026-10-21
+author: Claude (harness). Approved by Clayton Chancey in plan mode on 2026-10-21 (autonomous run).
+plan: ~/.claude/plans/whimsical-foraging-sketch.md (round 2 version)
+changes_from_r01:
+  - tasks: T7 rejected job, T8 pinned best pair, T9 batch sweep, T10 real GHZ-3 on Sirius, T11 alias bait. T3 retired.
+  - graders: native simulator checks the payload circuit, job count limit, T4 and T5 tightened, bit order recorded
+  - preamble constant for all configs: worktree-guard tip (failures.md F1)
+  - configs A to D unchanged
+constants:
+  trials_per_cell: 3, plus up to 2 top-up trials for unstable cells (cap 24)
+  credit_cap: 15
+  judge: Opus 5.5, unvalidated, descriptive only
+configs:
+  A: {new_mock_T7_T9: 0.67, regression_T1_T2_T4_T5: 0.95, T6: 3/3, T10: 3/3, T11: 2/3, tool_calls: 7, total_tokens: 260000, wall_min: 0.7, guard_errors_per_trial: 0.3}
+  B: {new_mock_T7_T9: 0.78, regression_T1_T2_T4_T5: 0.95, T6: 3/3, T10: 3/3, T11: 3/3, tool_calls: 7, total_tokens: 330000, wall_min: 0.7, guard_errors_per_trial: 0.3}
+  C: {new_mock_T7_T9: 0.67, regression_T1_T2_T4_T5: 1.00, T6: 3/3, T10: 3/3, T11: 3/3, tool_calls: 7, total_tokens: 330000, wall_min: 0.7, guard_errors_per_trial: 0.2}
+  D: {new_mock_T7_T9: 0.56, regression_T1_T2_T4_T5: 1.00, T6: 3/3, T10: 3/3, T11: 3/3, tool_calls: 6, total_tokens: 200000, wall_min: 0.45, guard_errors_per_trial: 0.1}
+why: >
+  T8's mock-metrics trap and T9's batch fall outside what the helper does (one QASM circuit, auto layout),
+  so C and D lose their r01 edge and D's smaller model misses more. B's docs cover native JSON and batch jobs.
+  The guard tip should cut guard refusals from about 0.75 per trial to 0.3 or fewer. T11 risk sits with A,
+  which has no docs showing the :mock naming.
+physics:
+  T6_bell_parity_mean: 0.93
+  T10_ghz3_parity_mean: 0.80
+credits:
+  T6: 3.6
+  T10: 3.6
+  T11: 0.5
+  total: 7.7
+regrade_control:
+  r01_trials_that_fail_under_r02_grader: 0 to 3 of 60 (T3 excluded), most likely T5 regex cases
+same_as_last_round_baseline:
+  pass_rate: 1.00 for every config
+  tool_calls: A 6.5, B 6.5, C 6.5, D 5
+  total_tokens: A 229k, B 311k, C 320k, D 178k
+  wall_min: A 0.53, B 0.56, C 0.56, D 0.34
