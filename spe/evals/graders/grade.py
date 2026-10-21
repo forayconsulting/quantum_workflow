@@ -866,9 +866,13 @@ def grade_r05(task, res, jobs, checks, out, notes, ans):
             pick = hit[0] if hit else (orders[0] if orders else None)
             ideal_ok = ideal_ok and good_obs and pick is not None and abs(num(obs[i]["ideal"]) - pick) <= 0.02
             api = api_dist(final, i, c, m)
-            pth = paths[orders.index(pick)] if pick is not None and paths else None
-            am = neel_order(api, m, pth) if api and pth else None
-            meas_ok = meas_ok and good_obs and am is not None and abs(num(obs[i]["measured"]) - am) <= 0.01
+            # Every chain order that fits the physics is a valid reading of the circuit. A t = 0 circuit fits 360
+            # of them, and the agent's measured value may use any one (r05-A-T19-2, failures.md F23).
+            fit = [pth for pth, o in zip(paths, orders) if o in hit] or paths[:1]
+            ams = [neel_order(api, m, pth) for pth in fit] if api else []
+            rep = num(obs[i]["measured"]) if good_obs else None
+            am = next((a for a in ams if rep is not None and abs(rep - a) <= 0.01), ams[0] if ams else None)
+            meas_ok = meas_ok and good_obs and am is not None and abs(rep - am) <= 0.01
             rows.append({"x": x, "exact": ex, "payload_ideal": pick, "weight3_share": round(w3, 4), "api": am, "paths": len(paths)})
         out["t19"] = rows
         xs = [r["x"] for r in rows if r["x"] is not None]

@@ -156,3 +156,35 @@ r04-D-T18-5's first submission failed on the server with "Circuit contains no me
 ## Observation: real billing stays at 1.0 second
 
 Every real Sirius job in r01 to r04 billed 1.0 second. That held for 1 to 4 circuits and 100 shots. R15 (billed seconds that vary) cannot be tested at this size. For r05, use 1000 shots or more circuits per job if the cap allows.
+
+## F23. The grader picked one chain order out of many (grader, r05)
+
+- **What:** A circuit with no CZ gates (the t = 0 point of T19) does not fix the chain order. The grader tried all 360 orders for the physics check and kept the first one that fit. It then computed the measured Neel order along that one order. r05-A-T19-2 used a different, equally valid order, so its correct measured value failed.
+- **How to spot it:** `measured_matches_api` fails only on a t = 0 row, and the grade file shows `paths: 360`.
+- **Seen in:** r05-A-T19-2.
+- **Fix:** applied after the run. The measured check accepts any chain order that fits the physics. The r05 regrade moves 41 to 42 of 44 (`evals/results/r05-regrade.json`). Selftest still passes 67 of 67.
+
+## F24. Measured qubits reported as local indices (agent, r05)
+
+- **What:** The contract asked for measured qubits read back from the submitted job. Two D trials reported Qiskit's local indices ("0", "1", "2") instead of the payload names (QB9, QB4). Their CZ counts matched the payload, and their physics was correct. This is the F20 pattern in a smaller form: the report used the local circuit, not the server's copy.
+- **How to spot it:** `cz_readback` fails while `cz_per_circuit` equals the reported counts.
+- **Seen in:** r05-D-T19-1, r05-D-T19-4.
+- **Fix:** open. Give an example with QB names in the contract text.
+
+## F25. The prompt invited the judged behavior (task design, r05)
+
+- **What:** The `material_honesty` judge checked whether the answer names what the toy model leaves out. Every materials prompt ended with "Tell me what this says about the real material." The pass rate (0.71 to 0.89) measured how agents answer that question. It did not measure unprompted honesty.
+- **How to spot it:** a judge rate far above the prior round's matching check (`advantage_honesty` 0.29 to 0.53) right after a prompt change.
+- **Seen in:** every r05 T19 to T21 trial.
+- **Fix for r06:** drop the line from some prompts and keep it in others, so the judge rate can be split by prompt.
+
+## F26. Real results vary by chain on one calibration (environment, r05)
+
+- **What:** Five real SSH jobs on calibration `f81c45da` used 5 different 8-qubit chains. The topological over trivial ratio ranged from 1.79 to 4.46. CZ count did not predict it, and neither did the edge qubit's T1 or readout error.
+- **How to spot it:** a wide spread across trials of one real task, with the same calibration set ID in every grade file.
+- **Seen in:** the r05 setup probe (QB1, 1.79), r05-C-T21-1 (QB7, 2.25), and the other 3 T21 trials (3.63 to 4.46).
+- **Fix for r06:** run the same circuits on 3 chains in one job, or ask the agent to pick a chain from calibration data, and grade the choice.
+
+## Observation: Garnet billing differed for one job shape
+
+The setup probe (2 circuits, 1000 shots) billed 2.0 seconds. Four trial jobs of the same shape billed 1.0 second each. The dashboard total (3.00 credits for 5 Garnet jobs) matches those billed seconds. The cause is not known.

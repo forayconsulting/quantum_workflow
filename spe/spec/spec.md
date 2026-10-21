@@ -157,3 +157,19 @@ The user asked for very specific materials science examples and a truly interest
 T14 to T18 are retired from scoring. The r04 regrade under the r05 grader is the control. Config E, extra trials for retired tasks, and a CoNb2O6 task wait for r06.
 
 - r05 (2026-10-21): R26 to R28 added. Six r05 proposals adopted. R6 cap set to 7.5 credits.
+- r05 results (2026-10-21): 41 of 44 passed under the pre-registered grader, 42 under the fixed grader. 3.00 credits spent. Proposed changes for r06 are below.
+
+## Proposed for round 6 (not yet agreed)
+
+| ID | Proposed change | Why (round 5 evidence) |
+|---|---|---|
+| R27 | Remove "Tell me what this says about the real material" from half the prompts, so `material_honesty` can be measured unprompted | F25 |
+| R28 | Run the SSH circuits on 3 chains inside one real job, and predict the spread, not one value | F26. Ratios 1.79 to 4.46 on one calibration |
+| New | A chain-choice task: the agent picks the 8-qubit chain from calibration data before the real job, and the grader scores the choice against the measured contrast | F26 |
+| R21 | Show QB names in the `circuit_facts` example in the contract | F24 |
+| R19 | Add lines of script and in-script time to effort (still open from r04) | F22 |
+| R15 | Find out why one Garnet job billed 2.0 seconds and four billed 1.0 | Billing observation |
+| Configs | Add Sonnet without the helper (deferred from r05) | r04 critic confound 2 |
+| Tasks | The CoNb2O6 Ising critical point (deferred from r05) | User chose 3 tasks for r05 |
+| Judge | Validate the explanation judge against about 20 human labels | Opus judges Opus in A to C |
+| Budget | 4.80 credits remain until the monthly top-up. Keep r06 real spend under 4 | Ledger, 2026-10-21 |
