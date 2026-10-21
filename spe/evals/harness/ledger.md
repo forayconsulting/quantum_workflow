@@ -63,3 +63,13 @@ The dashboard listed 194 jobs. The known set was 192: 61 from r01, 8 from r02 se
 |---|---|---|
 | `a9c744` | about 16:10 | r02-B-T5-1. Its script submitted a job and then crashed on `job.result_counts()` before printing an ID. The agent resubmitted and reported only the second job |
 | `7a2293` | about 16:20 | Not attributed. Neither ID appears in any transcript or in the helper's call log, so an SDK script (config A or B) submitted it without printing the ID |
+
+## Round 3 setup (2026-10-21, before the run)
+
+| Job | QPU | Purpose | Credits |
+|---|---|---|---|
+| `01a15f98-afe1-776d-aa62-817abeb1f8eb` | garnet:mock | T13 oracle, GHZ on QB11-QB12-QB7 | 0 |
+| `01a15f98-b828-74a1-8a49-b58c088e36d3` | garnet:mock | T13 negative, wrong triple QB18-QB19-QB20 | 0 |
+| `01a15f98-c045-7231-bf45-b467f3b3408e` | garnet:mock | T13 negative, right qubits but not a GHZ circuit | 0 |
+
+Balance before round 3: 18.90.

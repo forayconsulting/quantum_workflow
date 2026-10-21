@@ -4,5 +4,5 @@ lane: mock
 round_added: r02
 requirements: [R11, R6]
 prompt: see evals/harness/r02-workflow.js TASKS.T7 (cz on uncoupled QB1 and QB20 on garnet:mock, submit unchanged, report what happened)
-pass_rule: status failed, no completed job, answer names QB1 and QB20 and the cause (locus, coupling, or calibration)
+pass_rule: no completed job, answer names QB1 and QB20 and the cause (locus, coupling, or calibration). From r03 any status value is accepted (R11)
 note: The client library rejects the circuit before sending it. Helper submits reach the server, which fails the job with "No calibration data for 'cz.crf_crf' at ('QB1', 'QB20')". Both count.

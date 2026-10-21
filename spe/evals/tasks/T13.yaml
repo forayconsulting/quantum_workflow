@@ -1,0 +1,8 @@
+id: T13
+name: GHZ-3 on real Garnet's best connected triple, run on garnet:mock
+lane: mock
+round_added: r03
+requirements: [R18, R12, R17, R1, R2]
+prompt: see evals/harness/r03-workflow.js TASKS.T13
+pass_rule: final job completed on garnet:mock with 200 shots, measured qubits equal the best chain a-b-c (highest product of its two IRB CZ fidelities in the real-Garnet calibration at job time), every cz on one of the chain's two edges, simulated payload is GHZ, counts match
+note: On 2026-10-21 (calibration f81c45da) the best chain was QB11-QB12-QB7 (product 0.99671), ahead of QB12-QB11-QB16 (0.99469).

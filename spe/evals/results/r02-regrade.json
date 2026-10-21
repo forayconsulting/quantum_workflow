@@ -1,0 +1,862 @@
+{
+ "note": "r02 trial results regraded with the r03 grader (r03 rules) on 2026-10-21.",
+ "trials": 126,
+ "fail_to_pass": [
+  {
+   "id": "r02-D-T7-1",
+   "r02_pass": false,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T7-5",
+   "r02_pass": false,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  }
+ ],
+ "pass_to_fail": [
+  {
+   "id": "r02-A-T10-3",
+   "r02_pass": true,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-C-T10-1",
+   "r02_pass": true,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-C-T10-2",
+   "r02_pass": true,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-C-T10-3",
+   "r02_pass": true,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-D-T10-1",
+   "r02_pass": true,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-D-T10-2",
+   "r02_pass": true,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-D-T10-3",
+   "r02_pass": true,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  }
+ ],
+ "rows": [
+  {
+   "id": "r02-A-T1-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T1-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T1-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T10-1",
+   "r02_pass": false,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-A-T10-2",
+   "r02_pass": false,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-A-T10-3",
+   "r02_pass": true,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-A-T11-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T11-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T11-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T2-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T2-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T2-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T4-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T4-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T4-3",
+   "r02_pass": false,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "refused"
+   ]
+  },
+  {
+   "id": "r02-A-T4-4",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T4-5",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T5-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T5-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T5-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T6-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T6-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T6-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T7-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T7-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T7-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T8-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T8-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T8-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T9-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T9-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-A-T9-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T1-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T1-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T1-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T10-1",
+   "r02_pass": false,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-B-T10-2",
+   "r02_pass": false,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-B-T10-3",
+   "r02_pass": false,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-B-T11-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T11-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T11-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T2-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T2-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T2-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T4-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T4-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T4-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T5-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T5-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T5-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T6-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T6-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T6-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T7-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T7-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T7-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T8-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T8-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T8-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T9-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T9-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-B-T9-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T1-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T1-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T1-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T10-1",
+   "r02_pass": true,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-C-T10-2",
+   "r02_pass": true,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-C-T10-3",
+   "r02_pass": true,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-C-T11-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T11-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T11-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T2-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T2-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T2-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T4-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T4-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T4-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T5-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T5-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T5-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T6-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T6-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T6-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T7-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T7-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T7-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T8-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T8-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T8-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T9-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T9-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-C-T9-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T1-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T1-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T1-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T10-1",
+   "r02_pass": true,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-D-T10-2",
+   "r02_pass": true,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-D-T10-3",
+   "r02_pass": true,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "billed_seconds_match"
+   ]
+  },
+  {
+   "id": "r02-D-T11-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T11-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T11-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T2-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T2-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T2-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T4-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T4-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T4-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T5-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T5-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T5-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T6-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T6-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T6-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T7-1",
+   "r02_pass": false,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T7-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T7-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T7-4",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T7-5",
+   "r02_pass": false,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T8-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T8-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T8-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T8-4",
+   "r02_pass": false,
+   "r03_grader_pass": false,
+   "failed_checks": [
+    "circuit_correct_sim"
+   ]
+  },
+  {
+   "id": "r02-D-T8-5",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T9-1",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T9-2",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  },
+  {
+   "id": "r02-D-T9-3",
+   "r02_pass": true,
+   "r03_grader_pass": true,
+   "failed_checks": []
+  }
+ ]
+}

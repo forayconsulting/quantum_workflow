@@ -82,6 +82,7 @@ def measure(path):
         "transcript": str(path),
         "model": model,
         "wall_seconds": round((max(times) - min(times)).total_seconds(), 1) if times else None,
+        "ended": max(times).isoformat().replace("+00:00", "Z") if times else None,
         "api_calls": len(seen),
         "tokens": {**usage, "total": total,
                    "fresh": usage["input_tokens"] + usage["output_tokens"] + usage["cache_creation_input_tokens"]},
@@ -90,7 +91,7 @@ def measure(path):
         "tool_errors_by_class": {"guard": errors["guard"], "agent": errors["agent"], "other": errors["other"]},
         "tools": dict(tools),
         "used_helper": any("iqm_run.py" in c for c in bash_cmds),
-        "read_docs": sorted({f for f in files_read if "/docs/" in f} | {c for c in bash_cmds if "docs/iqm" in c and re.search(r"\b(cat|head|tail|sed|grep|less|awk)\b", c)}),
+        "read_docs": sorted({f for f in files_read if "/docs/" in f} | {c for c in bash_cmds if re.search(r"docs/(iqm|runbooks)", c) and re.search(r"\b(cat|head|tail|sed|grep|less|awk)\b", c)}),
         "peeked": bool(peeks),
         "peek_evidence": peeks[:5],
     }

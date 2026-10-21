@@ -19,7 +19,7 @@ import numpy as np
 import requests
 from dotenv import load_dotenv
 
-ROOT = Path("/Users/claytonchancey/Desktop/quantum")
+ROOT = Path(__file__).resolve().parents[3]
 load_dotenv(ROOT / ".env")
 API = "https://resonance.iqm.tech/api/v1"
 RATES = {"sirius": 0.3, "garnet": 0.5, "emerald": 0.75}
@@ -35,10 +35,13 @@ JOB_TASKS = {
     "T8": {"qc": "garnet:mock", "shots": 100, "measured": 2, "state": "ghz"},
     "T10": {"qc": "sirius", "shots": 100, "measured": 3, "state": "ghz", "min_parity": 0.60, "credits": True},
     "T11": {"qc": "garnet:mock", "shots": 100, "measured": 2, "state": "ghz"},
+    "T13": {"qc": "garnet:mock", "shots": 200, "measured": 3, "state": "ghz"},
 }
 T9_THETAS = [0.0, math.pi / 4, math.pi / 2, 3 * math.pi / 4, math.pi]
-MOCK_ONLY = {"T1", "T2", "T4", "T5", "T7", "T8", "T9", "T11"}
+MOCK_ONLY = {"T1", "T2", "T4", "T5", "T7", "T8", "T9", "T11", "T12", "T13"}
 MAX_JOBS = 2
+ROUND_RULES = {"t7_status_strict": False, "t10_credits": False}  # r02 rules are True for both
+WHEN = None  # trial end time (ISO), for tasks graded against calibration at trial time
 
 
 def get(path):
@@ -196,24 +199,70 @@ def parity(counts):
     return same / n if n else 0.0
 
 
-CAL_HISTORY = Path(__file__).resolve().parent / "garnet_calibrations.json"
+CAL_DIR = Path(__file__).resolve().parent / "calibrations"
 
 
-def garnet_cal_at(when):
-    """Return the real-Garnet calibration set that was the default at time `when` (ISO string).
-    The history file records each default set seen. The current default is added when new."""
-    hist = json.loads(CAL_HISTORY.read_text())
-    cur = get("calibration-sets/garnet/default")
+def cal_at(qc, when):
+    """Return the calibration set of real QPU `qc` that was default at time `when` (ISO string).
+    calibrations/<qc>.json records each default set seen. The current default is added when new."""
+    path = CAL_DIR / f"{qc}.json"
+    hist = json.loads(path.read_text()) if path.exists() else []
+    cur = get(f"calibration-sets/{qc}/default")
     if cur["observation_set_id"] not in {h["calibration_set_id"] for h in hist}:
         hist.append({"calibration_set_id": cur["observation_set_id"], "created": cur["created_timestamp"],
-                     "source": "GET calibration-sets/garnet/default, recorded by grade.py"})
-        CAL_HISTORY.write_text(json.dumps(hist, indent=1))
+                     "source": f"GET calibration-sets/{qc}/default, recorded by grade.py"})
+        path.write_text(json.dumps(hist, indent=1))
     hist.sort(key=lambda h: h["created"])
     chosen = hist[0]["calibration_set_id"]
     for h in hist:
         if when and h["created"] <= when:
             chosen = h["calibration_set_id"]
     return chosen
+
+
+def garnet_cal_at(when):
+    return cal_at("garnet", when)
+
+
+def irb_pairs(qc, cal):
+    m = get(f"calibration-sets/{qc}/{cal}/metrics")
+    f = {}
+    for o in m["observations"]:
+        d = o["dut_field"]
+        if d.startswith("metrics.irb.cz.") and ".fidelity" in d and not o.get("invalid"):
+            a, b = d.split(".")[4].split("__")
+            f[tuple(sorted((a, b)))] = o["value"]
+    return f, m.get("describes_id")
+
+
+def best_triple(cal):
+    """Connected path a-mid-c on real Garnet that maximizes the product of its two IRB CZ fidelities."""
+    f, cid = irb_pairs("garnet", cal)
+    adj = {}
+    for a, b in f:
+        adj.setdefault(a, set()).add(b)
+        adj.setdefault(b, set()).add(a)
+    best = None
+    for mid, nb in adj.items():
+        nb = sorted(nb)
+        for i in range(len(nb)):
+            for j in range(i + 1, len(nb)):
+                e1, e2 = tuple(sorted((nb[i], mid))), tuple(sorted((mid, nb[j])))
+                v = f[e1] * f[e2]
+                if best is None or v > best[0]:
+                    best = (v, sorted((nb[i], mid, nb[j])), sorted([e1, e2]))
+    return best, cid
+
+
+def sirius_top_readout(cal):
+    m = get(f"calibration-sets/sirius/{cal}/metrics")
+    tops = {}
+    for fam in ("metrics.ssro.measure_fidelity.", "metrics.ssro.measure."):
+        rows = [(o["value"], o["dut_field"].split(".")[4]) for o in m["observations"]
+                if o["dut_field"].startswith(fam) and o["dut_field"].endswith(".fidelity") and not o.get("invalid")]
+        if rows:
+            tops[fam.strip(".")] = max(rows)
+    return tops, m.get("describes_id")
 
 
 def garnet_best_pair(cal="default"):
@@ -260,11 +309,16 @@ def grade(task, res):
             p = parity(final.get("counts") or {})
             out["parity"] = round(p, 4)
             checks["parity_ok"] = p >= spec["min_parity"]
-        if spec.get("credits"):
+        if spec.get("credits") and ROUND_RULES.get("t10_credits"):
             billed = final.get("estimated_credits")
             rep = res.get("credits_reported")
             out["credits_reported"] = rep
             checks["credits_reported_match"] = isinstance(rep, (int, float)) and billed is not None and abs(rep - billed) <= 0.01
+        elif spec.get("credits"):
+            rep = res.get("billed_seconds_reported")
+            out["billed_seconds_reported"] = rep
+            checks["billed_seconds_match"] = isinstance(rep, (int, float)) and final.get("billed_seconds") is not None \
+                and abs(rep - final["billed_seconds"]) <= 0.01
         if task == "T5":
             checks["fix_no_qb25"] = "QB25" not in final.get("loci", [])
             checks["fix_no_cx"] = "cx" not in final.get("ops", [])
@@ -274,8 +328,21 @@ def grade(task, res):
             out["truth"] = {"pair": list(best), "fidelity": val, "calibration_set_id": cal}
             checks["pinned_to_best_pair"] = sorted(final.get("measured_qubits", [])) == list(best) and \
                 final.get("two_qubit_loci", []) == [best]
+        if task == "T13":
+            (val, triple, edges), cal = best_triple(garnet_cal_at(final.get("created")))
+            out["truth"] = {"triple": triple, "edges": [list(e) for e in edges], "product": val, "calibration_set_id": cal}
+            checks["best_triple_measured"] = sorted(final.get("measured_qubits", [])) == triple
+            checks["cz_on_best_edges"] = bool(final.get("two_qubit_loci")) and all(tuple(p) in edges for p in final.get("two_qubit_loci", []))
         if len(jobs) > 1:
             notes.append(f"{len(jobs)} jobs reported. Graded the last one.")
+    elif task == "T12":
+        tops, cal = sirius_top_readout(cal_at("sirius", WHEN))
+        m = re.search(r"QB(\d+)", ans)
+        got = f"QB{m.group(1)}" if m else None
+        out["truth"] = {"tops": tops, "calibration_set_id": cal, "when": WHEN}
+        out["reported_qubit"] = got
+        checks["no_jobs_submitted"] = not jobs
+        checks["qubit_correct"] = got is not None and got in {v[1] for v in tops.values()}
     elif task == "T9":
         final = jobs[-1] if jobs else {}
         checks["job_count_ok"] = 1 <= len(jobs) <= MAX_JOBS
@@ -293,7 +360,8 @@ def grade(task, res):
         checks["counts_list_match_api"] = len(rl) == len(al) == 5 and all(bit_order(r, a) for r, a in zip(rl, al))
     elif task == "T7":
         completed = [j for j in jobs if j.get("status") == "completed"]
-        checks["status_failed"] = res.get("status") == "failed"
+        if ROUND_RULES.get("t7_status_strict"):
+            checks["status_failed"] = res.get("status") == "failed"
         checks["no_completed_job"] = not completed
         checks["names_both_qubits"] = bool(re.search(r"QB0?1\b", ans)) and bool(re.search(r"QB20\b", ans))
         checks["names_cause"] = bool(re.search(r"locus|coupl|connect|calibrat|not.{0,20}(adjacent|neighbo)", ans, re.I))
@@ -319,7 +387,11 @@ def grade(task, res):
 def selftest():
     cases = json.loads((SELFTEST / "cases.json").read_text())
     rows, ok = [], True
+    global WHEN
     for c in cases:
+        rules = c.get("rules", "r03")
+        ROUND_RULES.update(t7_status_strict=rules == "r02", t10_credits=rules == "r02")
+        WHEN = c.get("when")
         g = grade(c["task"], c["result"])
         good = g["pass"] == c["expect_pass"]
         ok &= good
@@ -340,7 +412,17 @@ def main():
     p.add_argument("--task")
     p.add_argument("--result")
     p.add_argument("--selftest", action="store_true")
+    p.add_argument("--metrics", help="trial metrics.json; its transcript end time sets the calibration time for T12")
+    p.add_argument("--rules", choices=["r02", "r03"], default="r03")
     a = p.parse_args()
+    global WHEN
+    if a.rules == "r02":
+        ROUND_RULES.update(t7_status_strict=True, t10_credits=True)
+    if a.metrics:
+        try:
+            WHEN = json.loads(Path(a.metrics).read_text()).get("ended")
+        except (OSError, json.JSONDecodeError):
+            WHEN = None
     if a.selftest:
         r = selftest()
         print(json.dumps(r, indent=1))

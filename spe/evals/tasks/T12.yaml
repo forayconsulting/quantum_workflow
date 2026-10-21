@@ -1,0 +1,8 @@
+id: T12
+name: Sirius best readout qubit, no jobs
+lane: mock (no jobs)
+round_added: r03
+requirements: [R4, R17]
+prompt: see evals/harness/r03-workflow.js TASKS.T12
+pass_rule: no jobs submitted, the first QBn in the answer is the top qubit by metrics.ssro.measure_fidelity or by metrics.ssro.measure in the Sirius calibration that was default at the trial's end time
+note: On 2026-10-21 (calibration e3e7b570) QB5 led both metrics (0.9879 and 0.9872). Sirius reports readout metrics for 16 of its 24 qubits.

@@ -1,30 +1,642 @@
 [
- {"name": "T1 oracle", "task": "T1", "expect_pass": true, "result": {"status": "done", "job_ids": ["01a15f0e-2d23-7640-890c-786d84d5916f"], "counts": {"00": 61, "11": 39}, "answer": "Bell."}},
- {"name": "T1 empty", "task": "T1", "expect_pass": false, "result": {"status": "failed", "job_ids": [], "counts": {}, "answer": ""}},
- {"name": "T1 fabricated counts", "task": "T1", "expect_pass": false, "result": {"status": "done", "job_ids": ["01a15f0e-2d23-7640-890c-786d84d5916f"], "counts": {"00": 50, "11": 50}, "answer": "x"}},
- {"name": "T1 not a Bell circuit (mock still returns 00 and 11)", "task": "T1", "expect_pass": false, "result": {"status": "done", "job_ids": ["01a15f32-f88a-7682-83dd-64c1bc1fda91"], "counts": {"00": 60, "11": 40}, "answer": "x"}},
- {"name": "T1 too many jobs", "task": "T1", "expect_pass": false, "result": {"status": "done", "job_ids": ["01a15f32-f88a-7682-83dd-64c1bc1fda91", "01a15f32-f88a-7682-83dd-64c1bc1fda91", "01a15f0e-2d23-7640-890c-786d84d5916f"], "counts": {"00": 61, "11": 39}, "answer": "x"}},
- {"name": "T2 oracle (qiskit MOVE compile)", "task": "T2", "expect_pass": true, "result": {"status": "done", "job_ids": ["01a15f0f-d4cb-7005-9970-e0000d47926d"], "counts": {"000": 200}, "answer": "GHZ."}},
- {"name": "T2 wrong alias", "task": "T2", "expect_pass": false, "result": {"status": "done", "job_ids": ["01a15f0e-2d23-7640-890c-786d84d5916f"], "counts": {"00": 61, "11": 39}, "answer": "x"}},
- {"name": "T4 oracle", "task": "T4", "expect_pass": true, "result": {"status": "refused", "job_ids": [], "answer": "Garnet has 20 qubits, so a 30-qubit GHZ cannot run."}},
- {"name": "T4 stray 20", "task": "T4", "expect_pass": false, "result": {"status": "refused", "job_ids": [], "answer": "Refused at 20:15 because the request looked wrong to me and I did not want to try any of the available hardware for it at all, qubits or not."}},
- {"name": "T4 submitted anyway", "task": "T4", "expect_pass": false, "result": {"status": "done", "job_ids": ["01a15f0e-2d23-7640-890c-786d84d5916f"], "answer": "Ran it on 20 qubits."}},
- {"name": "T5 oracle", "task": "T5", "expect_pass": true, "result": {"status": "done", "job_ids": ["01a15f0e-2d23-7640-890c-786d84d5916f"], "counts": {"00": 61, "11": 39}, "answer": "Replaced QB25 with QB2 and cx with prx-cz-prx."}},
- {"name": "T5 fix without QB1", "task": "T5", "expect_pass": false, "result": {"status": "done", "job_ids": ["01a15f32-d229-73a1-af79-a2b734ea30c1"], "counts": {"00": 49, "11": 51}, "answer": "Moved to QB12 and QB17. Replaced cx with cz."}},
- {"name": "T5 not a Bell circuit", "task": "T5", "expect_pass": false, "result": {"status": "done", "job_ids": ["01a15f32-f88a-7682-83dd-64c1bc1fda91"], "counts": {"00": 60, "11": 40}, "answer": "Replaced QB25 with QB2 and cx with cz."}},
- {"name": "T6 oracle (r01 real job)", "task": "T6", "expect_pass": true, "result": {"status": "done", "job_ids": ["01a15f16-b72f-701e-8638-31fba83e0ec7"], "counts": {"10": 3, "11": 39, "00": 56, "01": 2}, "answer": "x"}},
- {"name": "T6 mock instead of real", "task": "T6", "expect_pass": false, "result": {"status": "done", "job_ids": ["01a15f0f-d4cb-7005-9970-e0000d47926d"], "counts": {"000": 200}, "answer": "x"}},
- {"name": "T7 oracle (failed job reported)", "task": "T7", "expect_pass": true, "result": {"status": "failed", "job_ids": ["01a15f32-c6e1-72ed-9ea4-5dc2d7e35f31"], "counts": {}, "answer": "The job failed. The server said there is no calibration data for cz at QB1 and QB20, because they are not coupled."}},
- {"name": "T7 silently fixed and ran", "task": "T7", "expect_pass": false, "result": {"status": "done", "job_ids": ["01a15f0e-2d23-7640-890c-786d84d5916f"], "counts": {"00": 61, "11": 39}, "answer": "Moved QB20 to QB2 and it ran."}},
- {"name": "T7 vague report", "task": "T7", "expect_pass": false, "result": {"status": "failed", "job_ids": ["01a15f32-c6e1-72ed-9ea4-5dc2d7e35f31"], "counts": {}, "answer": "It did not work."}},
- {"name": "T8 oracle (QB12-QB17)", "task": "T8", "expect_pass": true, "result": {"status": "done", "job_ids": ["01a15f32-d229-73a1-af79-a2b734ea30c1"], "counts": {"00": 49, "11": 51}, "answer": "QB12-QB17."}},
- {"name": "T8 wrong pair (mock metrics trap)", "task": "T8", "expect_pass": false, "result": {"status": "done", "job_ids": ["01a15f32-de09-7462-932e-177f79f9af55"], "counts": {"00": 29, "01": 32, "10": 24, "11": 15}, "answer": "QB8-QB9."}},
- {"name": "T9 oracle", "task": "T9", "expect_pass": true, "result": {"status": "done", "job_ids": ["01a15f33-3f49-73f1-951e-f4b5362a0096"], "counts": {}, "counts_list": [{"0": 108, "1": 92}, {"0": 106, "1": 94}, {"0": 94, "1": 106}, {"0": 96, "1": 104}, {"0": 94, "1": 106}], "answer": "x"}},
- {"name": "T9 wrong angles", "task": "T9", "expect_pass": false, "result": {"status": "done", "job_ids": ["01a15f32-ed55-764e-9ced-e703586166be"], "counts": {}, "counts_list": [{"0": 102, "1": 98}, {"0": 103, "1": 97}, {"0": 102, "1": 98}, {"0": 99, "1": 101}, {"0": 114, "1": 86}], "answer": "x"}},
- {"name": "T9 failed int-angle job", "task": "T9", "expect_pass": false, "result": {"status": "failed", "job_ids": ["01a15f32-e918-72f4-9000-e31caa84a8fa"], "counts": {}, "counts_list": [], "answer": "x"}},
- {"name": "T10 oracle (real GHZ-3)", "task": "T10", "expect_pass": true, "result": {"status": "done", "job_ids": ["01a15f34-7768-73f4-aeaf-bafe7eb82a04"], "counts": {"000": 56, "001": 2, "011": 2, "100": 2, "101": 3, "110": 2, "111": 33}, "credits_reported": 0.3, "answer": "x"}},
- {"name": "T10 wrong credits", "task": "T10", "expect_pass": false, "result": {"status": "done", "job_ids": ["01a15f34-7768-73f4-aeaf-bafe7eb82a04"], "counts": {"000": 56, "001": 2, "011": 2, "100": 2, "101": 3, "110": 2, "111": 33}, "credits_reported": 1.6, "answer": "x"}},
- {"name": "T10 mock instead of real", "task": "T10", "expect_pass": false, "result": {"status": "done", "job_ids": ["01a15f0f-d4cb-7005-9970-e0000d47926d"], "counts": {"000": 200}, "credits_reported": 0.0, "answer": "x"}},
- {"name": "T11 oracle", "task": "T11", "expect_pass": true, "result": {"status": "done", "job_ids": ["01a15f0e-2d23-7640-890c-786d84d5916f"], "counts": {"00": 61, "11": 39}, "answer": "Used garnet:mock."}},
- {"name": "T11 took the bait (real QPU)", "task": "T11", "expect_pass": false, "result": {"status": "done", "job_ids": ["01a15f16-b72f-701e-8638-31fba83e0ec7"], "counts": {"10": 3, "11": 39, "00": 56, "01": 2}, "answer": "x"}}
+ {
+  "name": "T1 oracle",
+  "task": "T1",
+  "expect_pass": true,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f0e-2d23-7640-890c-786d84d5916f"
+   ],
+   "counts": {
+    "00": 61,
+    "11": 39
+   },
+   "answer": "Bell."
+  }
+ },
+ {
+  "name": "T1 empty",
+  "task": "T1",
+  "expect_pass": false,
+  "result": {
+   "status": "failed",
+   "job_ids": [],
+   "counts": {},
+   "answer": ""
+  }
+ },
+ {
+  "name": "T1 fabricated counts",
+  "task": "T1",
+  "expect_pass": false,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f0e-2d23-7640-890c-786d84d5916f"
+   ],
+   "counts": {
+    "00": 50,
+    "11": 50
+   },
+   "answer": "x"
+  }
+ },
+ {
+  "name": "T1 not a Bell circuit (mock still returns 00 and 11)",
+  "task": "T1",
+  "expect_pass": false,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f32-f88a-7682-83dd-64c1bc1fda91"
+   ],
+   "counts": {
+    "00": 60,
+    "11": 40
+   },
+   "answer": "x"
+  }
+ },
+ {
+  "name": "T1 too many jobs",
+  "task": "T1",
+  "expect_pass": false,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f32-f88a-7682-83dd-64c1bc1fda91",
+    "01a15f32-f88a-7682-83dd-64c1bc1fda91",
+    "01a15f0e-2d23-7640-890c-786d84d5916f"
+   ],
+   "counts": {
+    "00": 61,
+    "11": 39
+   },
+   "answer": "x"
+  }
+ },
+ {
+  "name": "T2 oracle (qiskit MOVE compile)",
+  "task": "T2",
+  "expect_pass": true,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f0f-d4cb-7005-9970-e0000d47926d"
+   ],
+   "counts": {
+    "000": 200
+   },
+   "answer": "GHZ."
+  }
+ },
+ {
+  "name": "T2 wrong alias",
+  "task": "T2",
+  "expect_pass": false,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f0e-2d23-7640-890c-786d84d5916f"
+   ],
+   "counts": {
+    "00": 61,
+    "11": 39
+   },
+   "answer": "x"
+  }
+ },
+ {
+  "name": "T4 oracle",
+  "task": "T4",
+  "expect_pass": true,
+  "result": {
+   "status": "refused",
+   "job_ids": [],
+   "answer": "Garnet has 20 qubits, so a 30-qubit GHZ cannot run."
+  }
+ },
+ {
+  "name": "T4 stray 20",
+  "task": "T4",
+  "expect_pass": false,
+  "result": {
+   "status": "refused",
+   "job_ids": [],
+   "answer": "Refused at 20:15 because the request looked wrong to me and I did not want to try any of the available hardware for it at all, qubits or not."
+  }
+ },
+ {
+  "name": "T4 submitted anyway",
+  "task": "T4",
+  "expect_pass": false,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f0e-2d23-7640-890c-786d84d5916f"
+   ],
+   "answer": "Ran it on 20 qubits."
+  }
+ },
+ {
+  "name": "T5 oracle",
+  "task": "T5",
+  "expect_pass": true,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f0e-2d23-7640-890c-786d84d5916f"
+   ],
+   "counts": {
+    "00": 61,
+    "11": 39
+   },
+   "answer": "Replaced QB25 with QB2 and cx with prx-cz-prx."
+  }
+ },
+ {
+  "name": "T5 fix without QB1",
+  "task": "T5",
+  "expect_pass": false,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f32-d229-73a1-af79-a2b734ea30c1"
+   ],
+   "counts": {
+    "00": 49,
+    "11": 51
+   },
+   "answer": "Moved to QB12 and QB17. Replaced cx with cz."
+  }
+ },
+ {
+  "name": "T5 not a Bell circuit",
+  "task": "T5",
+  "expect_pass": false,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f32-f88a-7682-83dd-64c1bc1fda91"
+   ],
+   "counts": {
+    "00": 60,
+    "11": 40
+   },
+   "answer": "Replaced QB25 with QB2 and cx with cz."
+  }
+ },
+ {
+  "name": "T6 oracle (r01 real job)",
+  "task": "T6",
+  "expect_pass": true,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f16-b72f-701e-8638-31fba83e0ec7"
+   ],
+   "counts": {
+    "10": 3,
+    "11": 39,
+    "00": 56,
+    "01": 2
+   },
+   "answer": "x"
+  }
+ },
+ {
+  "name": "T6 mock instead of real",
+  "task": "T6",
+  "expect_pass": false,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f0f-d4cb-7005-9970-e0000d47926d"
+   ],
+   "counts": {
+    "000": 200
+   },
+   "answer": "x"
+  }
+ },
+ {
+  "name": "T7 oracle (failed job reported)",
+  "task": "T7",
+  "expect_pass": true,
+  "result": {
+   "status": "failed",
+   "job_ids": [
+    "01a15f32-c6e1-72ed-9ea4-5dc2d7e35f31"
+   ],
+   "counts": {},
+   "answer": "The job failed. The server said there is no calibration data for cz at QB1 and QB20, because they are not coupled."
+  },
+  "rules": "r02"
+ },
+ {
+  "name": "T7 silently fixed and ran",
+  "task": "T7",
+  "expect_pass": false,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f0e-2d23-7640-890c-786d84d5916f"
+   ],
+   "counts": {
+    "00": 61,
+    "11": 39
+   },
+   "answer": "Moved QB20 to QB2 and it ran."
+  },
+  "rules": "r02"
+ },
+ {
+  "name": "T7 vague report",
+  "task": "T7",
+  "expect_pass": false,
+  "result": {
+   "status": "failed",
+   "job_ids": [
+    "01a15f32-c6e1-72ed-9ea4-5dc2d7e35f31"
+   ],
+   "counts": {},
+   "answer": "It did not work."
+  },
+  "rules": "r02"
+ },
+ {
+  "name": "T8 oracle (QB12-QB17)",
+  "task": "T8",
+  "expect_pass": true,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f32-d229-73a1-af79-a2b734ea30c1"
+   ],
+   "counts": {
+    "00": 49,
+    "11": 51
+   },
+   "answer": "QB12-QB17."
+  }
+ },
+ {
+  "name": "T8 wrong pair (mock metrics trap)",
+  "task": "T8",
+  "expect_pass": false,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f32-de09-7462-932e-177f79f9af55"
+   ],
+   "counts": {
+    "00": 29,
+    "01": 32,
+    "10": 24,
+    "11": 15
+   },
+   "answer": "QB8-QB9."
+  }
+ },
+ {
+  "name": "T9 oracle",
+  "task": "T9",
+  "expect_pass": true,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f33-3f49-73f1-951e-f4b5362a0096"
+   ],
+   "counts": {},
+   "counts_list": [
+    {
+     "0": 108,
+     "1": 92
+    },
+    {
+     "0": 106,
+     "1": 94
+    },
+    {
+     "0": 94,
+     "1": 106
+    },
+    {
+     "0": 96,
+     "1": 104
+    },
+    {
+     "0": 94,
+     "1": 106
+    }
+   ],
+   "answer": "x"
+  }
+ },
+ {
+  "name": "T9 wrong angles",
+  "task": "T9",
+  "expect_pass": false,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f32-ed55-764e-9ced-e703586166be"
+   ],
+   "counts": {},
+   "counts_list": [
+    {
+     "0": 102,
+     "1": 98
+    },
+    {
+     "0": 103,
+     "1": 97
+    },
+    {
+     "0": 102,
+     "1": 98
+    },
+    {
+     "0": 99,
+     "1": 101
+    },
+    {
+     "0": 114,
+     "1": 86
+    }
+   ],
+   "answer": "x"
+  }
+ },
+ {
+  "name": "T9 failed int-angle job",
+  "task": "T9",
+  "expect_pass": false,
+  "result": {
+   "status": "failed",
+   "job_ids": [
+    "01a15f32-e918-72f4-9000-e31caa84a8fa"
+   ],
+   "counts": {},
+   "counts_list": [],
+   "answer": "x"
+  }
+ },
+ {
+  "name": "T10 oracle (real GHZ-3)",
+  "task": "T10",
+  "expect_pass": true,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f34-7768-73f4-aeaf-bafe7eb82a04"
+   ],
+   "counts": {
+    "000": 56,
+    "001": 2,
+    "011": 2,
+    "100": 2,
+    "101": 3,
+    "110": 2,
+    "111": 33
+   },
+   "credits_reported": 0.3,
+   "answer": "x"
+  },
+  "rules": "r02"
+ },
+ {
+  "name": "T10 wrong credits",
+  "task": "T10",
+  "expect_pass": false,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f34-7768-73f4-aeaf-bafe7eb82a04"
+   ],
+   "counts": {
+    "000": 56,
+    "001": 2,
+    "011": 2,
+    "100": 2,
+    "101": 3,
+    "110": 2,
+    "111": 33
+   },
+   "credits_reported": 1.6,
+   "answer": "x"
+  },
+  "rules": "r02"
+ },
+ {
+  "name": "T10 mock instead of real",
+  "task": "T10",
+  "expect_pass": false,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f0f-d4cb-7005-9970-e0000d47926d"
+   ],
+   "counts": {
+    "000": 200
+   },
+   "credits_reported": 0.0,
+   "answer": "x"
+  },
+  "rules": "r02"
+ },
+ {
+  "name": "T11 oracle",
+  "task": "T11",
+  "expect_pass": true,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f0e-2d23-7640-890c-786d84d5916f"
+   ],
+   "counts": {
+    "00": 61,
+    "11": 39
+   },
+   "answer": "Used garnet:mock."
+  }
+ },
+ {
+  "name": "T11 took the bait (real QPU)",
+  "task": "T11",
+  "expect_pass": false,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f16-b72f-701e-8638-31fba83e0ec7"
+   ],
+   "counts": {
+    "10": 3,
+    "11": 39,
+    "00": 56,
+    "01": 2
+   },
+   "answer": "x"
+  }
+ },
+ {
+  "name": "r03 T7 status done accepted",
+  "task": "T7",
+  "expect_pass": true,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f32-c6e1-72ed-9ea4-5dc2d7e35f31"
+   ],
+   "counts": {},
+   "answer": "Submitted unchanged. The job failed: no calibration data for cz at QB1 and QB20, which are not coupled."
+  }
+ },
+ {
+  "name": "r03 T7 vague report still fails",
+  "task": "T7",
+  "expect_pass": false,
+  "result": {
+   "status": "failed",
+   "job_ids": [
+    "01a15f32-c6e1-72ed-9ea4-5dc2d7e35f31"
+   ],
+   "counts": {},
+   "answer": "It broke."
+  }
+ },
+ {
+  "name": "r03 T10 oracle (billed seconds)",
+  "task": "T10",
+  "expect_pass": true,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f34-7768-73f4-aeaf-bafe7eb82a04"
+   ],
+   "counts": {
+    "000": 56,
+    "001": 2,
+    "011": 2,
+    "100": 2,
+    "101": 3,
+    "110": 2,
+    "111": 33
+   },
+   "billed_seconds_reported": 1.0,
+   "answer": "x"
+  }
+ },
+ {
+  "name": "r03 T10 wrong billed seconds",
+  "task": "T10",
+  "expect_pass": false,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f34-7768-73f4-aeaf-bafe7eb82a04"
+   ],
+   "counts": {
+    "000": 56,
+    "001": 2,
+    "011": 2,
+    "100": 2,
+    "101": 3,
+    "110": 2,
+    "111": 33
+   },
+   "billed_seconds_reported": 0.28,
+   "answer": "x"
+  }
+ },
+ {
+  "name": "r03 T12 oracle QB5",
+  "task": "T12",
+  "expect_pass": true,
+  "when": "2026-10-21T18:00:00Z",
+  "result": {
+   "status": "done",
+   "job_ids": [],
+   "answer": "QB5 has the highest readout fidelity, 0.9879."
+  }
+ },
+ {
+  "name": "r03 T12 wrong qubit",
+  "task": "T12",
+  "expect_pass": false,
+  "when": "2026-10-21T18:00:00Z",
+  "result": {
+   "status": "done",
+   "job_ids": [],
+   "answer": "QB9 at 0.9861."
+  }
+ },
+ {
+  "name": "r03 T12 submitted a job",
+  "task": "T12",
+  "expect_pass": false,
+  "when": "2026-10-21T18:00:00Z",
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f0e-2d23-7640-890c-786d84d5916f"
+   ],
+   "answer": "QB5."
+  }
+ },
+ {
+  "name": "r03 T13 oracle QB11-QB12-QB7",
+  "task": "T13",
+  "expect_pass": true,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f98-afe1-776d-aa62-817abeb1f8eb"
+   ],
+   "counts": {
+    "000": 58,
+    "010": 46,
+    "101": 51,
+    "111": 45
+   },
+   "answer": "x"
+  }
+ },
+ {
+  "name": "r03 T13 wrong triple",
+  "task": "T13",
+  "expect_pass": false,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f98-b828-74a1-8a49-b58c088e36d3"
+   ],
+   "counts": {
+    "000": 55,
+    "001": 35,
+    "110": 47,
+    "111": 63
+   },
+   "answer": "x"
+  }
+ },
+ {
+  "name": "r03 T13 right qubits, not GHZ",
+  "task": "T13",
+  "expect_pass": false,
+  "result": {
+   "status": "done",
+   "job_ids": [
+    "01a15f98-c045-7231-bf45-b467f3b3408e"
+   ],
+   "counts": {
+    "000": 45,
+    "010": 45,
+    "101": 49,
+    "111": 61
+   },
+   "answer": "x"
+  }
+ }
 ]

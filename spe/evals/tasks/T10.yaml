@@ -4,5 +4,5 @@ lane: real
 round_added: r02
 requirements: [R1, R2, R15]
 prompt: see evals/harness/r02-workflow.js TASKS.T10
-pass_rule: final job completed on real sirius, simulated payload is GHZ, P(000)+P(111) at least 0.60, credits_reported equals billed_seconds x 0.3 within 0.01
+pass_rule: final job completed on real sirius, simulated payload is GHZ, P(000)+P(111) at least 0.60. r02 checked credits_reported (invalid, F6). From r03 billed_seconds_reported must equal the API billed_seconds within 0.01
 known_defect: The prompt says "according to the API", but the API reports only billed_seconds and no credit amount. See failures.md F6.

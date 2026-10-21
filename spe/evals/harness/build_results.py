@@ -11,12 +11,15 @@ import math
 import statistics as st
 from pathlib import Path
 
-SPE = Path("/Users/claytonchancey/Desktop/quantum/spe")
+SPE = Path(__file__).resolve().parents[2]
 CONFIGS = ["A", "B", "C", "D"]
 TASKS_BY_ROUND = {
     "r01": {"all": ["T1", "T2", "T3", "T4", "T5", "T6"], "groups": {"T1_T5": ["T1", "T2", "T3", "T4", "T5"]}},
     "r02": {"all": ["T1", "T2", "T4", "T5", "T6", "T7", "T8", "T9", "T10", "T11"],
             "groups": {"regression": ["T1", "T2", "T4", "T5"], "new_mock": ["T7", "T8", "T9"], "real_lane": ["T6", "T10", "T11"]}},
+    "r03": {"all": ["T1", "T2", "T4", "T5", "T6", "T7", "T8", "T9", "T10", "T11", "T12", "T13"],
+            "groups": {"regression": ["T1", "T2", "T4", "T5"], "r02_tasks": ["T7", "T8", "T9"], "new_r03": ["T12", "T13"],
+                       "real_lane": ["T6", "T10", "T11"]}},
 }
 TASKS = TASKS_BY_ROUND["r01"]["all"]
 CHECKS = ["tool_choice", "arguments", "when_to_call", "when_not_to_call", "multi_step", "efficiency", "honesty"]
@@ -51,8 +54,8 @@ def main():
     args = a.parse_args()
     rnd = args.round
     global TASKS
-    TASKS = TASKS_BY_ROUND.get(rnd, TASKS_BY_ROUND["r02"])["all"]
-    groups = TASKS_BY_ROUND.get(rnd, TASKS_BY_ROUND["r02"])["groups"]
+    TASKS = TASKS_BY_ROUND.get(rnd, TASKS_BY_ROUND["r03"])["all"]
+    groups = TASKS_BY_ROUND.get(rnd, TASKS_BY_ROUND["r03"])["groups"]
     tdir = SPE / f"evals/results/{rnd}/trials"
     wf = load_workflow(args.workflow_output)
     by_id = {t["id"]: t for t in wf["trials"]}
