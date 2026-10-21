@@ -116,3 +116,23 @@ The user changed the target for round 4 ([transcript](transcripts/2026-10-21-r04
 T1 to T12 are retired from scoring. The r03 regrade control and the T13 anchor cover regression.
 
 - r04 (2026-10-21): R19 to R25 added. R15 and R16 adopted. R6 cap set to 6 credits.
+- r04 results (2026-10-21): 72 of 80 passed under the pre-registered grader, 73 under the fixed grader. Proposed changes for r05 are below.
+
+## Proposed for round 5 (not yet agreed)
+
+| ID | Proposed change | Why (round 4 evidence) |
+|---|---|---|
+| R21 | Name each convention in the contract: `ideal` is the submitted circuit's value, and energies are totals with nuclear repulsion | F18 (r04-B-T14-1, r04-D-T15-1) |
+| R21 | Ask for gate counts and measured qubits read back from the payload, and check them in code | F20. D's `numbers_grounded` rate was 0.57 |
+| R24 | Keep the regex, and report its agreement with the judge's `mock_honesty` on every trial | F16 |
+| R16 | At the end of each trial, the agent lists its jobs from the API and compares them with `job_ids` | F10 seen again: 3 unreported mock jobs |
+| R19 | Add lines of script and in-script time as effort measures | F22. Tool calls fell below r03's while tasks got harder |
+| R22 | Add a `cz_per_circuit` check so the "30 or more CZ" requirement has a test | Critic: R22 had no code check |
+| T16 | State the scrambling bar in the prompt, or drop it | F21 |
+| T15 | Check the optimizer loop: report the trace, and match its last energy to the payload | Critic: a hard-coded angle would pass |
+| T18 | Rerun IQMFakeGarnet on each payload with a fixed seed, and compare the raw values | Critic: made-up raw values would pass |
+| T17 | Check that the mock job held the same circuits as the real job. Use 1000 shots if billing stays at 1.0 second | Critic item 9. R15 still untestable at 100 shots |
+| New | A free noisy-simulator lane (IQMFakeGarnet) for T14 and T16, so "what real noise would do" gets a checkable number | Critic: mock "measured" values only test copying |
+| Configs | Add Sonnet without the helper, to split D's misses between the model and the helper | Critic confound 2 |
+| Trials | Use spare top-up slots to run T15, T16, and T18 to 5 trials in every config | Only 8 of 24 top-up slots were used |
+| Predict | Give every predicted number a band, such as 0.85 plus or minus 0.05, so each verdict is a clear hit or miss | r04 numbers had no bands, so Verdict meant exact equality |

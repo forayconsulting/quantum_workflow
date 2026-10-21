@@ -2,7 +2,7 @@
 
 When will a quantum computer answer a real business question better than a classical computer? Proving that will take a date, a cost, and a fair classical comparison. This repo builds one part that such a comparison would need. It tests whether an AI agent can submit, track, and report quantum jobs correctly.
 
-Nothing here shows quantum advantage. Quantum advantage means a quantum computer does a task faster, cheaper, or more accurately than the best known classical method. Teams have reported it on scientific benchmark tasks. We know of no verified quantum advantage on a commercially useful problem as of October 2026. Every circuit here uses 2 or 3 qubits, and a laptop can simulate each one.
+Nothing here shows quantum advantage. Quantum advantage means a quantum computer does a task faster, cheaper, or more accurately than the best known classical method. Teams have reported it on scientific benchmark tasks. We know of no verified quantum advantage on a commercially useful problem as of October 2026. Every circuit here uses 8 qubits or fewer, and a laptop can simulate each one.
 
 ## What this repo does today
 
@@ -24,6 +24,7 @@ Code decides pass or fail. The grader looks up every reported job ID in the IQM 
 | 1 | 72 of 72 | 3.60 credits |
 | 2 | 115 of 126 | 7.20 credits |
 | 3 | 144 of 144 | 7.20 credits |
+| 4 | 72 of 80 (73 after a grader fix) | 3.60 credits |
 
 The Round 1 tasks were too easy. Round 2 used harder tasks, and the grader began simulating circuits. That grader crashed on 3 circuits that used an older payload format. Of those, 2 were valid, so the fixed Round 2 count is 117. In Round 3 every trial passed, so the eval compared tool calls and minutes instead. After every round, the credit ledger matched the IQM dashboard.
 
@@ -39,6 +40,8 @@ In one Round 3 task, agents read Garnet's live calibration data, which lists the
 | D (Sonnet plus helper) | 9 | 0.94 |
 
 In Round 2, agents submitted 2 jobs that they never reported. Round 3 told agents to print each job ID right after submitting it, and unreported jobs fell to 0. The counts are small, so this is a strong hint, not proof.
+
+Round 4 changed the tasks. A user asked in plain language for experiments in the areas where quantum advantage is most likely to come first: a chain of 6 spins changing over time, the energy of a hydrogen molecule, random circuit sampling, noise on real hardware, and a noise-reduction method called zero-noise extrapolation. The grader simulated each submitted circuit and compared it with the exact answer. For the first time the setups differed on accuracy. Opus with the repo as-is (A) and Opus with the helper (C) passed every trial. Setup D (Sonnet plus the helper) passed 1 of 5 noise-reduction trials. It stretched the circuits the wrong way and then told the user the stretch was right. On real Sirius, the qubits of a 2-qubit GHZ state agreed in about 95 percent of shots on average, and those of a 5-qubit GHZ state in about 79 percent. Every circuit here is still small enough for a laptop to simulate.
 
 Garnet recalibrated in the middle of Round 2, and the best qubit pair changed. Grading now uses the calibration that was live when each job ran.
 
@@ -105,7 +108,7 @@ One question is still open. This repo grades each circuit by simulating it on a 
 
 - `spe/README.md` explains the eval and each round
 - `spe/prediction-log.md` lists every prediction next to its result
-- `spe/failures.md` lists failure types F1 to F14, including grader and task errors
+- `spe/failures.md` lists failure types F1 to F22, including grader and task errors
 - `git log --oneline --decorate` shows the loop as commits and round tags
 
 The author keeps the internal API docs and runbooks outside this repo.
