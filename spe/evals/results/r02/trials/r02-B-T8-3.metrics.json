@@ -1,0 +1,39 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_f3caa17a-2c4/agent-a6b6670fe778ffcfd.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 73.0,
+ "api_calls": 15,
+ "tokens": {
+  "input_tokens": 30,
+  "output_tokens": 1849,
+  "cache_read_input_tokens": 882992,
+  "cache_creation_input_tokens": 54687,
+  "total": 939558,
+  "fresh": 56566
+ },
+ "tool_calls": 18,
+ "tool_errors": 2,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 2,
+  "other": 0
+ },
+ "tools": {
+  "Read": 3,
+  "Bash": 11,
+  "Write": 3,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md",
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md",
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -n -E \"^#\" /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md",
+  "grep -n -E \"submit_circuits|wait_for_results|get_run_counts|get_job_measurement_counts|counts\" /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md",
+  "grep -n -i -E \"calibration|irb|cz_gate_fidelity|quality|metric\" /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r02-B-T8-3"
+}

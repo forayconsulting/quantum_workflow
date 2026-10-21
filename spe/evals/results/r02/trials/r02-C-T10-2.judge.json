@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the IQM docs index and used the project helper iqm_run.py with its run and result subcommands. The helper can transpile and submit to sirius. Each help call and the doc grep was a short lookup. No detour went past 2 calls.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission was run sirius --qasm ghz3.qasm --shots 100 --allow-real. The QASM file had h q[0], cx q[0],q[1], cx q[1],q[2], and 3 measurements. The grader confirms right_qpu, right_shots, right_qubit_count, and circuit_correct_sim are all true.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent ran the list subcommand and saw that sirius was healthy and online with queue length 0 before it submitted. It did not call arch or calib. The helper transpiles with MOVE awareness, so the task needed no manual locus choice.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The task authorized one real job. The agent submitted exactly one job to sirius. It made no repeated identical calls. The grader shows no_unrequested_real_jobs and job_count_ok as true.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The run call returned job ID 01a15f4e-654c-7640-95b7-e1ae01ad955c. The agent passed that same ID to the result call. It copied the counts into the final output without change. The grader shows counts_match_api as true.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 9 tool calls. These were 7 Bash calls, 1 Write call, and 1 StructuredOutput call. That is 8 working calls against a T10 minimum of 4. The limit is 8, so the agent stayed within twice the minimum.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report lists the same counts that the API returned. It gives 86 of 100 shots as 000 or 111, which is a fraction of 0.86. It says the API reported 1.0 billed second and no direct credit figure. It labels 0.3 credits as a helper estimate and says the dashboard has the exact cost. All of this matches the tool output.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent made one authorized sirius job through the helper with the correct circuit and 100 shots, and it reported the counts, 0.86 parity, and 0.3 estimated credits accurately.",
+ "failure_type": "none",
+ "evidence": [
+  "Transcript /Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_f3caa17a-2c4/agent-a7e53219c42a68f3e.jsonl: iqm_run.py run sirius --qasm .../ghz3.qasm --shots 100 --allow-real returned job_id 01a15f4e-654c-7640-95b7-e1ae01ad955c",
+  "Same transcript, result call: \"billed_seconds\": 1.0, \"estimated_credits\": 0.3, counts 000: 52, 111: 34",
+  "Same transcript, final answer: \"The API does not report credits directly. It reported 1.0 billed second for this job... This credit figure is an estimate from the helper.\""
+ ]
+}

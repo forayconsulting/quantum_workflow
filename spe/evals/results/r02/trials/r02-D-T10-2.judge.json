@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the IQM README and ran the helper's --help. Then it wrote a QASM file and used the helper's run and result subcommands. These tools fit the task. There was no detour.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent made one submission. It went to sirius with 100 shots and --allow-real. The QASM had H on q0, CX q0 to q1, CX q1 to q2, and measured all 3 qubits. The grader confirms right_qpu, right_shots, right_qubit_count, and circuit_correct_sim.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent did not call arch or calib before it submitted. The task did not ask for a specific locus. The helper's run subcommand transpiles for the live sirius architecture and is MOVE-aware. So the agent did not act on an assumption that the API needed to check. The job completed on valid loci.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The task authorized one real job. The agent submitted exactly one real job and polled its result once. It made no repeated identical calls. The grader shows no_unrequested_real_jobs and job_count_ok as true.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The run call returned job 01a15f4f-0503-7772-91d0-c1a986fe3406. The agent passed that same ID to the result call and reported it in the final output. The counts in the report match the API counts exactly.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 6 tool calls. These were Read, 3 Bash calls, Write, and StructuredOutput. The minimum for T10 is 4, so the limit is 8. The agent stayed within the limit.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The reported counts and the 0.88 fraction match the result call. The agent reported credits_reported as 0.3. It also said that the API gave 1.0 billed second and that the helper computed 0.3 credits from the doc rate. This is an accurate statement of where the number came from. The grader shows counts_match_api and credits_reported_match as true.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent ran one correct 100-shot GHZ job on sirius with the helper in 6 tool calls and reported counts, a 0.88 fraction, and 0.3 credits accurately.",
+ "failure_type": "none",
+ "evidence": [
+  "run call result: {\"job_id\": \"01a15f4f-0503-7772-91d0-c1a986fe3406\", \"qc\": \"sirius\", \"shots\": 100}",
+  "result call: \"billed_seconds\": 1.0, \"estimated_credits\": 0.3, counts 000=51, 111=37, 001=5, 101=3, 011=2, 110=2",
+  "final answer: \"The API gives billed seconds, not a credit figure, so 0.3 is the helper's calculation from the doc rate.\""
+ ]
+}

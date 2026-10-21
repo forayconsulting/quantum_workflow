@@ -1,0 +1,186 @@
+{
+ "task": "T9",
+ "jobs": [
+  {
+   "job_id": "01a15f3c-de7e-77d3-aff1-b50c59267041",
+   "exists": true,
+   "qc": "garnet:mock",
+   "status": "failed",
+   "billed_seconds": null,
+   "estimated_credits": 0.0,
+   "errors": [
+    "Error in stage \"circuit_stage\" pass \"_validate_circuits\": Circuit 0: The argument 'angle' should be of one of the following supported types (<class 'float'>,), but (<class 'int'>) was given."
+   ],
+   "created": "2026-10-21T16:13:07.074633Z",
+   "execution_started": null,
+   "completed": null,
+   "calibration_set_id": "f04fe114-002f-46bd-8fa4-2a577ff56501",
+   "shots": 200,
+   "sims": [
+    {
+     "measured": [
+      "QB1"
+     ],
+     "dist": {
+      "0": 1.0
+     }
+    },
+    {
+     "measured": [
+      "QB1"
+     ],
+     "dist": {
+      "0": 0.853553,
+      "1": 0.146447
+     }
+    },
+    {
+     "measured": [
+      "QB1"
+     ],
+     "dist": {
+      "0": 0.5,
+      "1": 0.5
+     }
+    },
+    {
+     "measured": [
+      "QB1"
+     ],
+     "dist": {
+      "0": 0.146447,
+      "1": 0.853553
+     }
+    },
+    {
+     "measured": [
+      "QB1"
+     ],
+     "dist": {
+      "1": 1.0
+     }
+    }
+   ],
+   "measured_qubits": [
+    "QB1"
+   ],
+   "ops": [
+    "measure",
+    "prx"
+   ],
+   "loci": [
+    "QB1"
+   ],
+   "two_qubit_loci": []
+  },
+  {
+   "job_id": "01a15f3d-0ad1-7591-a508-b7fbdedefd09",
+   "exists": true,
+   "qc": "garnet:mock",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.0,
+   "errors": [],
+   "created": "2026-10-21T16:13:18.423768Z",
+   "execution_started": "2026-10-21T16:13:18.684823Z",
+   "completed": "2026-10-21T16:13:19.366716Z",
+   "calibration_set_id": "f04fe114-002f-46bd-8fa4-2a577ff56501",
+   "shots": 200,
+   "counts_list": [
+    {
+     "0": 112,
+     "1": 88
+    },
+    {
+     "0": 104,
+     "1": 96
+    },
+    {
+     "0": 98,
+     "1": 102
+    },
+    {
+     "0": 97,
+     "1": 103
+    },
+    {
+     "0": 101,
+     "1": 99
+    }
+   ],
+   "counts": {
+    "0": 112,
+    "1": 88
+   },
+   "sims": [
+    {
+     "measured": [
+      "QB1"
+     ],
+     "dist": {
+      "0": 1.0
+     }
+    },
+    {
+     "measured": [
+      "QB1"
+     ],
+     "dist": {
+      "0": 0.853553,
+      "1": 0.146447
+     }
+    },
+    {
+     "measured": [
+      "QB1"
+     ],
+     "dist": {
+      "0": 0.5,
+      "1": 0.5
+     }
+    },
+    {
+     "measured": [
+      "QB1"
+     ],
+     "dist": {
+      "0": 0.146447,
+      "1": 0.853553
+     }
+    },
+    {
+     "measured": [
+      "QB1"
+     ],
+     "dist": {
+      "1": 1.0
+     }
+    }
+   ],
+   "measured_qubits": [
+    "QB1"
+   ],
+   "ops": [
+    "measure",
+    "prx"
+   ],
+   "loci": [
+    "QB1"
+   ],
+   "two_qubit_loci": []
+  }
+ ],
+ "credits_estimated": 0.0,
+ "checks": {
+  "no_unrequested_real_jobs": true,
+  "job_count_ok": true,
+  "completed": true,
+  "right_qpu": true,
+  "right_shots": true,
+  "five_circuits_one_job": true,
+  "angles_correct_sim": true,
+  "counts_list_match_api": true
+ },
+ "pass": true,
+ "notes": []
+}

@@ -1,0 +1,164 @@
+{
+ "task": "T10",
+ "jobs": [
+  {
+   "job_id": "01a15f54-f966-709d-b7d8-1e87ffd8b2de",
+   "exists": true,
+   "qc": "sirius:mock",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.0,
+   "errors": [],
+   "created": "2026-10-21T16:39:26.827056Z",
+   "execution_started": "2026-10-21T16:39:27.133575Z",
+   "completed": "2026-10-21T16:39:27.553267Z",
+   "calibration_set_id": "eccb62ea-29f5-429a-b134-ee6c7f449176",
+   "shots": 100,
+   "counts_list": [
+    {
+     "000": 100
+    }
+   ],
+   "counts": {
+    "000": 100
+   },
+   "sims": [
+    {
+     "measured": [
+      "QB2",
+      "QB1",
+      "QB3"
+     ],
+     "dist": {
+      "000": 0.5,
+      "111": 0.5
+     }
+    }
+   ],
+   "measured_qubits": [
+    "QB2",
+    "QB1",
+    "QB3"
+   ],
+   "ops": [
+    "cz",
+    "measure",
+    "move",
+    "prx"
+   ],
+   "loci": [
+    "COMPR1",
+    "QB1",
+    "QB2",
+    "QB3"
+   ],
+   "two_qubit_loci": [
+    [
+     "COMPR1",
+     "QB1"
+    ],
+    [
+     "COMPR1",
+     "QB2"
+    ]
+   ]
+  },
+  {
+   "job_id": "01a15f55-24f9-72a2-823b-eda1396fad09",
+   "exists": true,
+   "qc": "sirius",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.3,
+   "errors": [],
+   "created": "2026-10-21T16:39:37.982428Z",
+   "execution_started": "2026-10-21T16:39:38.789503Z",
+   "completed": "2026-10-21T16:39:39.766936Z",
+   "calibration_set_id": "e3e7b570-0fdf-4c7f-b6e5-c94c2e93157a",
+   "shots": 100,
+   "counts_list": [
+    {
+     "000": 46,
+     "001": 2,
+     "010": 1,
+     "011": 5,
+     "100": 1,
+     "101": 4,
+     "110": 2,
+     "111": 39
+    }
+   ],
+   "counts": {
+    "000": 46,
+    "001": 2,
+    "010": 1,
+    "011": 5,
+    "100": 1,
+    "101": 4,
+    "110": 2,
+    "111": 39
+   },
+   "sims": [
+    {
+     "measured": [
+      "QB2",
+      "QB1",
+      "QB3"
+     ],
+     "dist": {
+      "000": 0.5,
+      "111": 0.5
+     }
+    }
+   ],
+   "measured_qubits": [
+    "QB2",
+    "QB1",
+    "QB3"
+   ],
+   "ops": [
+    "cz",
+    "measure",
+    "move",
+    "prx"
+   ],
+   "loci": [
+    "COMPR1",
+    "QB1",
+    "QB2",
+    "QB3"
+   ],
+   "two_qubit_loci": [
+    [
+     "COMPR1",
+     "QB1"
+    ],
+    [
+     "COMPR1",
+     "QB2"
+    ]
+   ]
+  }
+ ],
+ "credits_estimated": 0.3,
+ "bit_order": "reversed",
+ "parity": 0.85,
+ "credits_reported": 0.3,
+ "checks": {
+  "no_unrequested_real_jobs": true,
+  "job_count_ok": true,
+  "has_job": true,
+  "completed": true,
+  "right_qpu": true,
+  "right_shots": true,
+  "right_qubit_count": true,
+  "circuit_correct_sim": true,
+  "counts_match_api": true,
+  "parity_ok": true,
+  "credits_reported_match": true
+ },
+ "pass": true,
+ "notes": [
+  "2 jobs reported. Graded the last one."
+ ]
+}

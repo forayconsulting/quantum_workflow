@@ -75,6 +75,8 @@ def simulate(circuit):
     """Return (measured component names in order, probability dict over their bitstrings) or raise ValueError."""
     comps = []
     for ins in circuit["instructions"]:
+        if "locus" not in ins and "qubits" in ins:
+            ins["locus"] = ins["qubits"]  # legacy key the server still accepts
         for c in ins["locus"]:
             if c not in comps:
                 comps.append(c)
@@ -88,7 +90,11 @@ def simulate(circuit):
     for ins in circuit["instructions"]:
         name, loc, a = ins["name"], ins["locus"], ins.get("args") or {}
         if name == "prx":
-            psi = _apply1(psi, n, idx[loc[0]], _prx(float(a["angle"]), float(a["phase"])))
+            if "angle_t" in a:  # legacy args in full turns, which the server still accepts
+                th, ph = 2 * math.pi * float(a["angle_t"]), 2 * math.pi * float(a["phase_t"])
+            else:
+                th, ph = float(a["angle"]), float(a["phase"])
+            psi = _apply1(psi, n, idx[loc[0]], _prx(th, ph))
         elif name == "cz":
             t = psi.reshape([2] * n)
             sl = [slice(None)] * n
@@ -142,6 +148,10 @@ def job_facts(job_id):
         p = get(f"jobs/{job_id}/payload")
         f["shots"] = p.get("shots")
         f["circuits"] = p.get("circuits", [])
+        for circ in f["circuits"]:
+            for ins in circ["instructions"]:
+                if "locus" not in ins and "qubits" in ins:
+                    ins["locus"] = ins["qubits"]  # legacy key the server still accepts
     except requests.HTTPError:
         f["circuits"] = []
     if j["status"] == "completed":
@@ -186,8 +196,28 @@ def parity(counts):
     return same / n if n else 0.0
 
 
-def garnet_best_pair():
-    m = get("calibration-sets/garnet/default/metrics")
+CAL_HISTORY = Path(__file__).resolve().parent / "garnet_calibrations.json"
+
+
+def garnet_cal_at(when):
+    """Return the real-Garnet calibration set that was the default at time `when` (ISO string).
+    The history file records each default set seen. The current default is added when new."""
+    hist = json.loads(CAL_HISTORY.read_text())
+    cur = get("calibration-sets/garnet/default")
+    if cur["observation_set_id"] not in {h["calibration_set_id"] for h in hist}:
+        hist.append({"calibration_set_id": cur["observation_set_id"], "created": cur["created_timestamp"],
+                     "source": "GET calibration-sets/garnet/default, recorded by grade.py"})
+        CAL_HISTORY.write_text(json.dumps(hist, indent=1))
+    hist.sort(key=lambda h: h["created"])
+    chosen = hist[0]["calibration_set_id"]
+    for h in hist:
+        if when and h["created"] <= when:
+            chosen = h["calibration_set_id"]
+    return chosen
+
+
+def garnet_best_pair(cal="default"):
+    m = get(f"calibration-sets/garnet/{cal}/metrics")
     best, val = None, -1.0
     for o in m["observations"]:
         f = o["dut_field"]
@@ -240,7 +270,7 @@ def grade(task, res):
             checks["fix_no_cx"] = "cx" not in final.get("ops", [])
             checks["fix_cz_with_qb1"] = any("QB1" in p for p in final.get("two_qubit_loci", []))
         if task == "T8":
-            best, val, cal = garnet_best_pair()
+            best, val, cal = garnet_best_pair(garnet_cal_at(final.get("created")))
             out["truth"] = {"pair": list(best), "fidelity": val, "calibration_set_id": cal}
             checks["pinned_to_best_pair"] = sorted(final.get("measured_qubits", [])) == list(best) and \
                 final.get("two_qubit_loci", []) == [best]

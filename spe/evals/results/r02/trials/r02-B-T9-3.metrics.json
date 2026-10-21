@@ -1,0 +1,36 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_f3caa17a-2c4/agent-a237a0ce32a949272.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 36.1,
+ "api_calls": 8,
+ "tokens": {
+  "input_tokens": 16,
+  "output_tokens": 372,
+  "cache_read_input_tokens": 388054,
+  "cache_creation_input_tokens": 40954,
+  "total": 429396,
+  "fresh": 41342
+ },
+ "tool_calls": 8,
+ "tool_errors": 0,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Read": 1,
+  "Bash": 5,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -n -i -E \"batch|prx|submit_circuits|initial_layout|Circuit\\(|Instruction\\(\" /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md",
+  "sed -n 370,600p /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r02-B-T9-3"
+}

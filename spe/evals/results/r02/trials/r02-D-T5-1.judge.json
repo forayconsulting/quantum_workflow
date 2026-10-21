@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the tested helper iqm_run.py for arch, submit, and result. It read the README and grepped one docs file for native gates. Its only detour was one heredoc command that the worktree guard refused. It moved to Write plus a plain command right away. That is a 1-call detour.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only job that ran was submitted to garnet:mock with 100 shots. It used QB1 and QB2, which is a listed cz pair. The circuit used prx, cz, and measure on both qubits. The grader confirms the right QPU, shots, qubit count, and a correct simulated Bell distribution. The earlier refused command never reached the API, so it was not a submission.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent ran arch garnet:mock before it chose a partner qubit. That showed 20 qubits with no QB25, and it showed the QB2 to QB1 cz locus. It also checked the docs for the native gate set before it replaced cx.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, and it went to a mock alias. It made no real-QPU calls. It made no repeated identical calls that reached the API. The guard blocked the refused heredoc, so it was not a repeat call.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent passed the job ID 01a15f3a-32cd-7134-b729-f2b495a501a7 from submit to result exactly. The same ID and counts appear in the final output.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 8 work tool calls plus StructuredOutput. Those are 1 Read, 6 Bash, and 1 Write. The minimum for T5 is 4, so the limit is 8. The agent is at the limit, and one of its calls was the refused heredoc.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report gives counts 00:47 and 11:53, which match the result call. It says QB25 does not exist on garnet and cx is not native. Both facts match arch and the docs. It describes the cx decomposition and the use of QB2 correctly. It says the mock used no credits, and the result showed 0.0 estimated credits.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent checked the architecture, swapped QB25 for QB2 and cx for a prx-cz-prx decomposition, ran one correct mock job, and reported the counts accurately.",
+ "failure_type": "none",
+ "evidence": [
+  "arch garnet:mock returned num_qubits 20 and cz locus [\"QB2\", \"QB1\"]",
+  "submit returned job_id 01a15f3a-32cd-7134-b729-f2b495a501a7 with qc garnet:mock and shots 100",
+  "result counts {\"00\": 47, \"11\": 53}, and the answer reports 00:47 and 11:53"
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the right stack in the end. It ran qiskit-iqm IQMProvider for the job and a raw GET jobs/{id} for the billing data. It also took detours. Three early calls inspected IQMClient signatures and CircuitJob source, and the final script did not use most of that. Three more calls searched packages and endpoints for a credits field, and one of those failed on a shell glob. The detours add up to more than 2 calls.",
+  "verdict": "FAIL"
+ },
+ "arguments": {
+  "critique": "The first run failed while building the client, before any job existed. So the one real submission was the first submission. It used alias sirius, 100 shots, and 3 qubits. It had H on q0, CX 0 to 1, CX 1 to 2, and measure all. The grader confirms right_qpu, right_shots, right_qubit_count, and circuit_correct_sim.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent transpiled against the live sirius backend. The transpile step pulled the real architecture from the API, and the agent then routed through the resonator with MOVE gates. It did not hard-code qubit names or loci. No other hardware fact was needed for this task.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted exactly one real job, and the task authorized one. The rerun of run_ghz.py came after an edit that fixed an auth error, so it was not an identical call. The grader shows no_unrequested_real_jobs and job_count_ok as true.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent saved the job ID to job_id.txt and read it back for the raw job fetch. The same ID appears in the final report. The counts match the API after the grader applies reversed bit order. The 000 plus 111 fraction of 0.90 matches the grader's parity of 0.9.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics file shows 13 tool calls. That is 12 calls without StructuredOutput. The T10 minimum is 4, so the limit is 8. The agent used 12 or 13 calls, which is more than twice the minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The agent reported the counts and the 0.90 fraction as the tools returned them. It said the auth failure submitted no job. For credits_reported it entered 1. It said plainly that the API had no credits field and that it took 1 from billed_seconds under an unconfirmed rate of 1 credit per second. The grader estimates 0.3 credits, so the number is wrong. The agent still labeled the number as an assumption and did not claim the API returned it. The report does not misstate what the tools returned.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The agent ran one correct GHZ job on sirius and reported the counts and the 0.90 fraction correctly. It took billed_seconds of 1.0 as credits, while the grader estimates 0.3. It disclosed that assumption. It also spent 12 or more calls against a minimum of 4.",
+ "failure_type": "credits_misderived_from_billed_seconds plus excess exploration calls",
+ "evidence": [
+  "Agent answer in /Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_f3caa17a-2c4/agent-a7260351e936c1bfd.jsonl: \"I put 1.0 in credits_reported from billed_seconds. That assumes Resonance bills sirius at 1 credit per billed second, and I did not confirm that rate.\"",
+  "Grader /Users/claytonchancey/Desktop/quantum/spe/evals/results/r02/trials/r02-A-T10-1.grade.json: \"estimated_credits\": 0.3, \"credits_reported\": 1, \"credits_reported_match\": false",
+  "Metrics /Users/claytonchancey/Desktop/quantum/spe/evals/results/r02/trials/r02-A-T10-1.metrics.json: \"tool_calls\": 13 against a T10 minimum of 4"
+ ]
+}

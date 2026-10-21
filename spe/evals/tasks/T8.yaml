@@ -1,0 +1,8 @@
+id: T8
+name: Bell pinned to real Garnet's best IRB CZ pair, run on garnet:mock
+lane: mock
+round_added: r02
+requirements: [R12, R1, R2]
+prompt: see evals/harness/r02-workflow.js TASKS.T8
+pass_rule: final job on garnet:mock, cz locus and measured qubits equal the best pair in the real-Garnet calibration that was default when the job was created, simulated payload is a Bell state, counts match
+note: Garnet recalibrated at 2026-10-21T16:42:21Z (edea61a8 to f81c45da). The grader uses graders/garnet_calibrations.json to pick the set by job time.

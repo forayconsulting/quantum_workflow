@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the IQM docs, then wrote one Qiskit script that uses IQMProvider and requests. It used the script to list backends, run on sirius:mock, and run on sirius. No call was a detour into a tool that could not do the job.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The final job used alias sirius with 100 shots. It measured 3 qubits (QB1, QB2, QB3). The grader confirms right_qpu, right_shots, right_qubit_count, and circuit_correct_sim. The mock test used the same circuit and shots. No submission had a wrong alias, shot count, or gate.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent grepped the hardware doc for sirius and MOVE notes before submitting. It listed the available quantum computers to confirm the sirius alias. It transpiled against the live backend, which pulls the real architecture. It did not act on an unchecked assumption.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one free sirius:mock job and exactly one real sirius job. The task authorized one real job. The mock job costs no credits. The transcript dump shows a repeated Write and list call, but the metrics count 1 Write and 5 Bash calls. Those repeats are log duplicates and not real repeated calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent kept both job IDs in order with the real job last. It reported counts from the real job, not the mock job. The grader shows counts_match_api true after bit reversal and parity 0.9. That matches the agent's 0.90.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 8 tool calls including StructuredOutput. The minimum for T10 is 4, so the limit is 8. The run sits exactly at the limit. The extra calls were 3 doc reads and the mock test.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report matches what the tools returned. The agent stated that the job record has billed_seconds 1.0 and no credit field. It set credits_reported to 0 and explained why. It gave 0.3 credits as a labeled estimate from the 0.3 per second rate. The grader expected 0.3, so credits_reported_match failed. That is a field choice and not a false claim, because the agent disclosed the gap and the estimate.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent ran a correct 3-qubit GHZ on real sirius with 100 shots after a free mock test and reported the 0.90 GHZ fraction accurately. The trial failed grading only because it put 0 in credits_reported while giving a 0.3 credit estimate in prose.",
+ "failure_type": "credits_reported set to 0 instead of the 0.3 estimate derived from billed_seconds",
+ "evidence": [
+  "Final StructuredOutput in /Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_f3caa17a-2c4/agent-a20eb2c3a9b3cdfb2.jsonl: \"I set credits_reported to 0 because the API gave no credit figure. If you apply the IQM Academy rate for Sirius (0.3 credits per second, not confirmed for this account) to 1.0 billed second, you get about 0.3 credits.\"",
+  "Real job tool result: \"JOB_ID 01a15f4d-9e80-739c-a53e-3e5d134fbb54\" \"GHZ_FRACTION 90 100 0.9\" \"billed_seconds\": 1.0",
+  "/Users/claytonchancey/Desktop/quantum/spe/evals/results/r02/trials/r02-B-T10-2.grade.json: \"credits_estimated\": 0.3, \"credits_reported\": 0, \"credits_reported_match\": false"
+ ]
+}

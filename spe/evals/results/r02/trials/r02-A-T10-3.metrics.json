@@ -1,0 +1,33 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_f3caa17a-2c4/agent-a6049488b35cf1a8b.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 66.9,
+ "api_calls": 11,
+ "tokens": {
+  "input_tokens": 22,
+  "output_tokens": 222,
+  "cache_read_input_tokens": 493725,
+  "cache_creation_input_tokens": 41822,
+  "total": 535791,
+  "fresh": 42066
+ },
+ "tool_calls": 14,
+ "tool_errors": 1,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 1,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 12,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "grep -rn -i -E \"credit|billed|/jobs\" /Users/claytonchancey/Desktop/quantum/.claude/worktrees/wf_f3caa17a-2c4-355/docs/iqm/02-rest-api-reference.md /Users/claytonchancey/Desktop/quantum/.claude/worktrees/wf_f3caa17a-2c4-355/docs/iqm/05-results-and-data.md /Users/claytonchancey/Desktop/quantum/.claude"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r02-A-T10-3"
+}

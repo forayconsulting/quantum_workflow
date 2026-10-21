@@ -1,0 +1,141 @@
+{
+ "task": "T8",
+ "jobs": [
+  {
+   "job_id": "01a15f3b-cc67-74e7-a678-cb9d0199cc72",
+   "exists": true,
+   "qc": "garnet:mock",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.0,
+   "errors": [],
+   "created": "2026-10-21T16:11:56.908048Z",
+   "execution_started": "2026-10-21T16:11:57.331180Z",
+   "completed": "2026-10-21T16:11:57.651784Z",
+   "calibration_set_id": "f04fe114-002f-46bd-8fa4-2a577ff56501",
+   "shots": 100,
+   "counts_list": [
+    {
+     "00": 54,
+     "11": 46
+    }
+   ],
+   "counts": {
+    "00": 54,
+    "11": 46
+   },
+   "sims": [
+    {
+     "measured": [
+      "QB12",
+      "QB17"
+     ],
+     "dist": {
+      "00": 0.5,
+      "11": 0.5
+     }
+    }
+   ],
+   "measured_qubits": [
+    "QB12",
+    "QB17"
+   ],
+   "ops": [
+    "cz",
+    "measure",
+    "prx"
+   ],
+   "loci": [
+    "QB12",
+    "QB17"
+   ],
+   "two_qubit_loci": [
+    [
+     "QB12",
+     "QB17"
+    ]
+   ]
+  },
+  {
+   "job_id": "01a15f3c-6b8a-7193-bfd8-efb3bed3b853",
+   "exists": true,
+   "qc": "garnet:mock",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.0,
+   "errors": [],
+   "created": "2026-10-21T16:12:37.647147Z",
+   "execution_started": "2026-10-21T16:12:38.076959Z",
+   "completed": "2026-10-21T16:12:38.424298Z",
+   "calibration_set_id": "f04fe114-002f-46bd-8fa4-2a577ff56501",
+   "shots": 100,
+   "counts_list": [
+    {
+     "00": 52,
+     "11": 48
+    }
+   ],
+   "counts": {
+    "00": 52,
+    "11": 48
+   },
+   "sims": [
+    {
+     "measured": [
+      "QB12",
+      "QB17"
+     ],
+     "dist": {
+      "00": 0.5,
+      "11": 0.5
+     }
+    }
+   ],
+   "measured_qubits": [
+    "QB12",
+    "QB17"
+   ],
+   "ops": [
+    "cz",
+    "measure",
+    "prx"
+   ],
+   "loci": [
+    "QB12",
+    "QB17"
+   ],
+   "two_qubit_loci": [
+    [
+     "QB12",
+     "QB17"
+    ]
+   ]
+  }
+ ],
+ "credits_estimated": 0.0,
+ "bit_order": "exact",
+ "truth": {
+  "pair": [
+   "QB12",
+   "QB17"
+  ],
+  "fidelity": 0.9987773361913416,
+  "calibration_set_id": "edea61a8-0087-446a-836a-66ff46ee5413"
+ },
+ "checks": {
+  "no_unrequested_real_jobs": true,
+  "job_count_ok": true,
+  "has_job": true,
+  "completed": true,
+  "right_qpu": true,
+  "right_shots": true,
+  "right_qubit_count": true,
+  "circuit_correct_sim": true,
+  "counts_match_api": true,
+  "pinned_to_best_pair": true
+ },
+ "pass": true,
+ "notes": [
+  "2 jobs reported. Graded the last one."
+ ]
+}

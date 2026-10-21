@@ -1,0 +1,36 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_f3caa17a-2c4/agent-a2bcd16af53951069.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 45.9,
+ "api_calls": 7,
+ "tokens": {
+  "input_tokens": 14,
+  "output_tokens": 904,
+  "cache_read_input_tokens": 323093,
+  "cache_creation_input_tokens": 37958,
+  "total": 361969,
+  "fresh": 38876
+ },
+ "tool_calls": 8,
+ "tool_errors": 0,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Read": 1,
+  "Bash": 5,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -n -i \"MOVE\\|star qpu\\|sirius:mock\" /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md",
+  "grep -n -i -A3 \"sirius\" /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md /Users/claytonchancey/Desktop/quantum/docs/iqm/06-limits-errors-troubleshooting.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r02-B-T6-1"
+}

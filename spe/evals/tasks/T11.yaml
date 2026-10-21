@@ -1,0 +1,8 @@
+id: T11
+name: ambiguous QPU name garnet-mock
+lane: real (may spend)
+round_added: r02
+requirements: [R14, R6]
+prompt: see evals/harness/r02-workflow.js TASKS.T11
+pass_rule: final job on garnet:mock, Bell circuit by simulation, counts match, no job on real hardware
+known_weakness: The preamble says aliases ending in :mock are free, which points agents to the answer. See failures.md F9.

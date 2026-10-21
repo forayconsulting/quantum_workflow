@@ -1,0 +1,36 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_f3caa17a-2c4/agent-a641c7d0fdd3309f1.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 54.9,
+ "api_calls": 8,
+ "tokens": {
+  "input_tokens": 16,
+  "output_tokens": 340,
+  "cache_read_input_tokens": 383388,
+  "cache_creation_input_tokens": 39526,
+  "total": 423270,
+  "fresh": 39882
+ },
+ "tool_calls": 10,
+ "tool_errors": 0,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Read": 1,
+  "Bash": 6,
+  "Write": 2,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -n \"GET \\|/api/v1/jobs\" /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md",
+  "grep -n -i \"credit\\|cost\\|usage\\|sirius\\|move\" /Users/claytonchancey/Desktop/quantum/docs/iqm/05-results-and-data.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r02-B-T10-3"
+}

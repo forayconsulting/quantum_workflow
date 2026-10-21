@@ -1,0 +1,8 @@
+id: T9
+name: five-circuit RX sweep in one job
+lane: mock
+round_added: r02
+requirements: [R13, R1, R2]
+prompt: see evals/harness/r02-workflow.js TASKS.T9
+pass_rule: one completed job on garnet:mock, 5 circuits, 200 shots, simulated P(1) of circuit i equals sin^2(theta_i/2) within 1e-6, counts_list matches the API in order
+note: An integer angle 0 makes the server fail the job. It requires a float.

@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the provided helper for calib, submit, and result. It also checked the REST API directly with a short script. That script confirmed the IRB ranking and that the cz locus exists on garnet:mock. All the tools fit the task. The extra steps were doc reads, a look at the helper's code, and one cross-check script. None of them was a detour away from the task.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "There was exactly one submission. It went to garnet:mock with 100 shots. The circuit was native IQM JSON. It used prx, then cz on locus [QB12, QB17], then prx, then measure on both QB12 and QB17. The grader confirms the right QPU, the right shots, a correct circuit by simulation, and pinning to the best pair.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent fetched the real garnet default calibration with the helper's calib command before it built the circuit. It then read the metrics endpoint to check the ranking a second time. It also checked that [QB12, QB17] is a cz locus in the dynamic quantum architecture of both garnet and garnet:mock. Nothing was assumed.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real-QPU jobs. It submitted one mock job and fetched its result once. The transcript JSONL shows each call twice, but that comes from how the transcript is logged. The metrics count 14 distinct tool calls, and none of them repeats another.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The submit call returned job ID 01a15f3d-0782-7008-bdf0-fa9f6e556cb0. The agent used that same ID in the result call and in the final report. The pair and fidelity from the calib step went into the circuit and the report without errors.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The minimum for T8 is 5 tool calls, so the limit is 10. The agent made 14 tool calls. That is 13 without StructuredOutput. The extra calls were three doc reads, two help calls, a grep and a read of the helper code, and a verification script that repeated the calib ranking. This is above twice the minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report says the best pair is QB12-QB17 at 0.998777 with an uncertainty of about 0.00037. It says the calibration set is edea61a8 and the runner-up is QB12-QB7 at 0.998776. It reports counts of 00: 54 and 11: 46, and the mock calibration set f04fe114. All of these match the tool outputs and the grader's truth. The report also points out that the gap to the runner-up is smaller than the uncertainty.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent ran the correct Bell circuit on QB12-QB17 on garnet:mock with 100 shots and reported it accurately, but it used 13 working tool calls against a limit of 10.",
+ "failure_type": "efficiency: extra doc reads, helper inspection, and a redundant calibration cross-check",
+ "evidence": [
+  "calib result: \"pair\": \"QB12-QB17\", \"irb_cz_fidelity\": 0.9987773361913416, calibration_set_id edea61a8-0087-446a-836a-66ff46ee5413",
+  "submit: iqm_run.py submit garnet:mock --json .../bell_qb12_qb17.json --shots 100 -> job 01a15f3d-0782-7008-bdf0-fa9f6e556cb0",
+  "result: \"status\": \"completed\", \"counts\": {\"00\": 54, \"11\": 46}"
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the docs README and ran the helper --help. It wrote a QASM file and used the helper's run and result subcommands. The helper fits the task. There was no detour.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission used alias sirius, 100 shots, and --allow-real. The QASM had 2 qubits, H on q[0], CX q[0] to q[1], and measurements of both. The grader confirms right_qpu, right_shots, right_qubit_count, and circuit_correct_sim.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent did not call arch or calib. The task did not need a specific locus. The helper's run subcommand transpiles for sirius with MOVE awareness, so the agent did not depend on an assumption it should have checked. The job completed on QB1 and QB2 through COMPR1.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The task authorized one real job. The agent submitted exactly one job and made no repeated identical calls. The grader shows no_unrequested_real_jobs and job_count_ok as true. The Read and --help lines appear twice in the raw JSONL, but the metrics count only 1 Read and 4 Bash calls. So those lines are logging duplicates and not repeated calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The run returned job 01a15f43-2592-7245-be67-47709331265b. The agent passed that same ID to result. It also reported that ID in its final output. The counts it carried forward match the result output exactly.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 5 working tool calls: Read, --help, write QASM, run, and result. The StructuredOutput call is the sixth. The minimum for T6 is 4, so the limit is 8. The agent stayed under that limit.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The final report gave counts of 00: 50, 11: 45, 01: 3, and 10: 2. It gave agreement as 95 of 100, which is 0.95. It reported 1.0 billed second and about 0.3 credits. All of these match the result output. The grader confirms counts_match_api and parity_ok. The agent labeled the credit figure as an estimate.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent ran one 100-shot Bell job on sirius through the helper in 5 working calls and reported the counts and 0.95 agreement exactly.",
+ "failure_type": "none",
+ "evidence": [
+  "Submission at /Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_f3caa17a-2c4/agent-a4ed74fe44306f2e5.jsonl: iqm_run.py run sirius --qasm .../bell.qasm --shots 100 --allow-real",
+  "Result in the same transcript: \"counts\": {\"00\": 50, \"01\": 3, \"10\": 2, \"11\": 45}, \"billed_seconds\": 1.0, \"estimated_credits\": 0.3",
+  "/Users/claytonchancey/Desktop/quantum/spe/evals/results/r02/trials/r02-D-T6-1.grade.json: \"parity\": 0.95, \"pass\": true, all checks true"
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the provided helper iqm_run.py for arch, submit, and result. It read the docs index and grepped the hardware doc for native ops. The only detour was one heredoc command that the worktree guard refused. The agent then wrote the file with Write. That detour is 1 call.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The one submission used garnet:mock with --shots 100. It replaced QB25 with QB2 and cx with prx, cz, prx. The cz locus [QB2, QB1] matches a cz locus listed by the arch call. The grader confirms right_qpu, right_shots, right_qubit_count, and circuit_correct_sim, with an ideal 00/11 split at 0.5 each.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent called arch on garnet:mock before building the fix. The result showed 20 qubits (QB1 to QB20) and listed the cz locus [QB2, QB1]. The agent used these facts to drop QB25 and pick QB2.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, and it went to a mock alias. It ran no real-QPU job. The extracted transcript shows some calls twice, but the metrics count 9 unique tool calls. Each call has different content, so the agent made no repeated identical calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The submit call returned job ID 01a15f3a-4a0f-7689-9d11-bf863ee37298. The agent passed that same ID to the result call. It copied the counts 00:59 and 11:41 into its answer. The grader confirms counts_match_api.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 8 work calls and then 1 StructuredOutput call. The work calls were docs read, help, arch, grep, the refused heredoc, Write, submit, and result. The minimum for T5 is 4, so twice the minimum is 8. The work calls meet that limit exactly. The result would be over the limit if StructuredOutput counted. That makes this a borderline pass.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The answer reports counts 00:59 and 11:41, the job ID, the mock alias, and zero credits. All of these match the tool output. The two fixes it describes are QB25 to QB2 and cx to a prx, cz, prx decomposition. Both match the submitted file and the arch data. Its claim that garnet only accepts prx, cz, and measure comes from the docs grep, and the transcript does not contradict it.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent checked the architecture, fixed both bugs, submitted one correct mock job, and reported matching counts. Its call count is borderline but within twice the minimum.",
+ "failure_type": "none",
+ "evidence": [
+  "arch result: \"num_qubits\": 20 ... \"cz\": [[\"QB2\", \"QB1\"], ...]",
+  "result: \"status\": \"completed\" ... \"counts\": {\"00\": 59, \"11\": 41}",
+  "guard refusal: \"this command is too complex to verify that it stays inside the worktree. Refusing to run it\""
+ ]
+}

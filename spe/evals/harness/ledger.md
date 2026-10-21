@@ -43,3 +43,23 @@ The dashboard Jobs page listed 61 jobs on 2026-10-21. These are the 5 jobs from 
 | 16:05Z | `01a15f34-7768-73f4-aeaf-bafe7eb82a04` | sirius | T10 oracle, real GHZ-3. Parity 0.89. Billed 1.0 s | 0.30 (estimate) |
 
 Balance before round 2 setup: 26.40. Expected after setup: 26.10.
+
+## Round 2 real-QPU spend (run `wf_f3caa17a-2c4`, 16:09Z to 16:51Z)
+
+| Item | Value | Source |
+|---|---|---|
+| Real jobs reported by trials | 24 on `sirius` (12 T6, 12 T10). No T11 trial used real Garnet | Grade files |
+| Workflow estimate | 7.20 credits | billed_seconds 1.0 × 0.3 per job |
+| Setup oracle (T10) | 0.30 credits | This ledger, round 2 setup |
+| Dashboard after the run | Balance 18.90. Credit history: "- 11.10 IQM Sirius, 37 jobs" for the day | Dashboard, Credits page |
+
+**Result:** 37 Sirius jobs (12 in r01, 1 oracle, 24 in r02) at 0.30 each is 11.10, which matches the dashboard exactly. Round 2 spent 7.50 including the oracle, inside the 15 cap. The credit gate never triggered.
+
+## Job reconciliation (round 2)
+
+The dashboard listed 194 jobs. The known set was 192: 61 from r01, 8 from r02 setup, 2 from the r02 dry run, and 121 reported by r02 trials. Matching the 6-character ID suffixes on all 8 dashboard pages found **2 unreported jobs**. Both are `garnet:mock` jobs with 1 circuit and 100 shots, so they cost 0 credits:
+
+| Suffix | Created (UTC) | Likely source |
+|---|---|---|
+| `a9c744` | about 16:10 | r02-B-T5-1. Its script submitted a job and then crashed on `job.result_counts()` before printing an ID. The agent resubmitted and reported only the second job |
+| `7a2293` | about 16:20 | Not attributed. Neither ID appears in any transcript or in the helper's call log, so an SDK script (config A or B) submitted it without printing the ID |

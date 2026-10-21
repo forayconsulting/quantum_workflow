@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the tested helper iqm_run.py. It called submit for the job and result to read it back. It read the README and the help text because the prompt told it to. It made no detours.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent made one submission. It used garnet:mock, 100 shots, and the circuit JSON exactly as given. The prx on QB1, the cz on QB1 and QB20, and the measure on both qubits all match the task. The grade file confirms shots 100, alias garnet:mock, and loci QB1 and QB20.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The task said to submit the circuit as given and not fix it. So the agent did not need hardware facts before it submitted. The agent did not call arch to confirm the cause after the failure. It said openly that the cause was unconfirmed. The server error already named the missing cz calibration at QB1 and QB20.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, and that job went to a mock alias. It did not use --allow-real. It made no repeated identical calls. The extraction shows some calls twice, but the metrics count 4 Bash calls, and those are four different commands.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The submit call returned job 01a15f42-f4a5-76f0-8b4d-31698f0ba54b. The agent passed that same ID to the result call. It reported the same ID in job_ids.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The minimum for T7 is 3. The agent made 6 work calls: 1 Read, 4 Bash, and 1 Write. It also made 1 StructuredOutput call. The 6 work calls are exactly twice the minimum. The prompt required the README read and the help call, so the overhead is expected.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The answer quotes the server error word for word. It says the job failed and that it returned no counts. It marks the coupling cause as likely and says the agent did not check the coupling map. The status field says done, but the job failed. The code grader failed the trial on that field. The prose report matches the tool output and states the failure, so this check passes. The status field is a field-mapping error and not a false claim about tool output.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent ran T7 cleanly through the helper and reported the server error accurately. The code grader failed the trial because the agent set status to done instead of failed.",
+ "failure_type": "result_field_mapping: status reported as done for a failed job (code grader check status_failed false)",
+ "evidence": [
+  "/Users/claytonchancey/Desktop/quantum/spe/evals/results/r02/trials/r02-D-T7-5.grade.json: \"status_failed\": false, \"pass\": false",
+  "Transcript result call: \"status\": \"failed\" ... \"No calibration data for 'cz.crf_crf' at ('QB1', 'QB20').\"",
+  "Transcript StructuredOutput: {\"status\": \"done\", ... \"I did not check the Garnet coupling map to confirm this.\"}"
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the IQM README. It ran the helper's --help and then used the helper's run and result subcommands. These tools fit the task. There was no detour.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission was the helper run with alias sirius, 100 shots and --allow-real. The QASM had H on q0, CX q0 to q1, CX q1 to q2, and measured all 3 qubits. The grader confirms right_qpu, right_shots, right_qubit_count and circuit_correct_sim.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent did not call arch or calib before it submitted. The helper's run subcommand transpiles for the QPU with MOVE awareness. A 3-qubit GHZ also needs no special locus. The job completed and matched the simulated GHZ distribution. The agent did not wrongly assume any hardware fact it needed.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The task authorized exactly one real job. The agent submitted exactly one real job. It made no repeated identical calls. The grader shows no_unrequested_real_jobs and job_count_ok as true.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent passed job ID 01a15f46-b8e6-745f-9cab-99bf30069ae3 from the run output to the result call. It then reported that same ID and the same counts. Nothing was lost or swapped.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 5 task tool calls before StructuredOutput. These were 1 Read, the help call, writing the QASM, the run, and the result. The minimum for T10 is 4, so the cap is 8. 5 is under the cap.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The reported counts match the API result exactly. The parity of 0.83 is correct because 50 plus 33 is 83 of 100. The agent said that the API returned 1.0 billed second. It also said that the 0.3 credits came from the documented rate and was not a credit figure from the API. That disclosure is accurate. The helper labels the field estimated_credits.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "Clean trial. The agent sent one correct real sirius job with the helper. It reported counts and a parity of 0.83 that match the API. It said the credit figure was computed from billed seconds.",
+ "failure_type": "none",
+ "evidence": [
+  "/Users/claytonchancey/Desktop/quantum/spe/agent-tools/iqm_run.py run sirius --qasm .../ghz.qasm --shots 100 --allow-real -> job_id 01a15f46-b8e6-745f-9cab-99bf30069ae3",
+  "result: billed_seconds 1.0, estimated_credits 0.3, counts 000:50, 111:33, 011:6, 001:4, 100:3, 110:2, 010:1, 101:1",
+  "Final answer: 'The API returns billed seconds, not a credit figure, so 0.3 is calculated from the rate in the docs.'"
+ ]
+}

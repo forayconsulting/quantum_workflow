@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the docs README and ran the helper's --help. Then it wrote a QASM file and used the helper's run and result subcommands. These tools fit the task, and the agent took no detours.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent submitted once, to garnet:mock with --shots 100. The QASM had 2 qubits, H on q[0], CX from q[0] to q[1], and measurements on both qubits. The grader confirms the right QPU, the right shots, the right qubit count, and a correct circuit by simulation.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The task needed no hardware facts. The helper transpiles for the QPU and picks the locus. The agent skipped arch and calib, and nothing went wrong because of that.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, and that job went to the free mock alias. It did not use --allow-real. It made no repeated identical calls. The metrics count 6 tool calls. The repeated README and help entries in the extract are duplicate log lines, not extra calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent passed job ID 01a15f39-d88c-77d9-94db-feda546c673e from the run output into the result call and into the final report without error.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 6 tool calls, and 1 of them was StructuredOutput. The T1 minimum is 3, so the limit is 6. The agent is within the limit.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The reported counts match the result call exactly. They were 00 22, 01 22, 10 28, 11 28. The report also says correctly that the mock returns random results and does not show the Bell correlation. It reports 0 credits, which matches estimated_credits.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent ran one correct Bell job on garnet:mock with the helper and reported the counts accurately in 6 tool calls.",
+ "failure_type": "none",
+ "evidence": [
+  "run garnet:mock --qasm .../bell.qasm --shots 100 returned job_id 01a15f39-d88c-77d9-94db-feda546c673e",
+  "result counts: {\"00\": 22, \"01\": 22, \"10\": 28, \"11\": 28}",
+  "answer: The mock returns random results, so it does not show the Bell correlation. Cost was 0 credits."
+ ]
+}

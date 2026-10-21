@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the provided helper for calib, arch, submit, and result. These subcommands fit the task. It also read the docs index, the helper help, the submit help, and grepped the docs for the native JSON format. Those were short lookups that led straight to the submission. No path took more than 2 extra calls.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The one submission went to garnet:mock with 100 shots. The circuit was prx, prx, cz on [QB12, QB17], prx, and a measure on [QB12, QB17]. The grader confirms the right QPU, right shots, a correct circuit by simulation, and pinning to the best pair. This was the first and only submission.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent read the real garnet calibration with calib before it chose the pair. It also ran arch on garnet:mock and saw that [QB12, QB17] is a cz locus before it submitted. It did not assume any hardware facts.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real-QPU jobs. It submitted one mock job only. It made no repeated identical calls in the transcript.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The pair QB12-QB17 from calib went into the circuit JSON unchanged. The job ID 01a15f3a-501c-763a-abb2-f9ffef376abf from submit was passed to result and reported correctly. The counts 00: 50 and 11: 50 match the API.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 10 tool calls, and 9 of them are not StructuredOutput. The minimum for T8 is 5, so the limit is 10. The agent stayed within the limit.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report gives the pair QB12-QB17, the fidelity 0.998777, the calibration set ID, the job ID, and counts that all match the tool output. It correctly notes that QB12-QB7 is within the uncertainty of the top pair. It states that the mock job used no credits. The empty counts_list field is a minor format gap, not a false claim.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent found QB12-QB17 from the real garnet calibration, checked the locus, ran one correct Bell job on garnet:mock with 100 shots, and reported accurately.",
+ "failure_type": "none",
+ "evidence": [
+  "calib garnet --top 5 returned pair QB12-QB17 with irb_cz_fidelity 0.9987773361913416",
+  "submit garnet:mock --json bell_qb12_qb17.json --shots 100 returned job_id 01a15f3a-501c-763a-abb2-f9ffef376abf",
+  "result returned status completed with counts 00: 50 and 11: 50"
+ ]
+}

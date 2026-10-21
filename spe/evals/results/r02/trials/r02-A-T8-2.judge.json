@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the iqm-client SDK for all the work. It read the calibration with get_calibration_quality_metrics() and submitted the job with submit_circuits(). It hit one auth error because it passed the token as an argument and also set it as an environment variable. It fixed this with one sed call and a rerun. The two inspection calls (method list and signatures) fit the task. No detour went past 2 calls.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The one submission used garnet:mock, 100 shots, and loci QB12 and QB17. The circuit was prx on both qubits, then CZ, then prx(-pi/2) on QB17, then one measure on both qubits. The grader confirms right_qpu, right_shots, circuit_correct_sim, and pinned_to_best_pair. The first submission was right.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent fetched the live garnet calibration before choosing a pair. It searched the metrics for CZ fidelity fields and picked the IRB entry for QB12__QB17. It did not assume a pair.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, and that job ran on the free mock alias. It submitted no real QPU jobs. The transcript shows some entries twice, but the metrics file counts 7 Bash calls, so these are logging duplicates and not repeated calls. The calibration script ran twice, and the first run failed on auth, so the second run is a fix and not a repeat.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The pair QB12 and QB17 from the calibration step went into the circuit unchanged. The job ID 01a15f3b-cd10-7246-8ede-a7cabce5624e from submission was used to fetch counts. The same ID appears in the final report. Nothing was lost or swapped.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The minimum for T8 is 5 calls. The agent made 10 task calls (7 Bash and 3 Write) plus the final StructuredOutput call. Ten is exactly twice the minimum. This passes only if the final output call is left out of the count. Two of the extra calls came from the token auth error.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report names QB12-QB17 with IRB fidelity 0.99877734. The transcript shows 0.9987773361913416, and the grader truth matches it. The report names the runner-up QB12-QB7 at 0.99877631, and the transcript shows 0.9987763136911908. The reported counts of 00: 51 and 11: 49 match the tool output and the API. The job ID matches too.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent read the garnet calibration, picked the right IRB pair QB12-QB17, ran a correct Bell job on garnet:mock with 100 shots, and reported accurately. It had one small auth error that it fixed.",
+ "failure_type": "none",
+ "evidence": [
+  "ClientConfigurationError: Authentication parameters given both as initialisation args and as environment variables",
+  "JOB 01a15f3b-cd10-7246-8ede-a7cabce5624e / STATUS completed / COUNTS ... counts={'00': 51, '11': 49}",
+  "The pair with the highest CZ IRB fidelity is QB12-QB17 ... with a value of 0.99877734"
+ ]
+}

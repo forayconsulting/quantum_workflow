@@ -1,0 +1,36 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_f3caa17a-2c4/agent-aaff8aa13b2518a2b.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 39.7,
+ "api_calls": 9,
+ "tokens": {
+  "input_tokens": 18,
+  "output_tokens": 1585,
+  "cache_read_input_tokens": 457357,
+  "cache_creation_input_tokens": 46156,
+  "total": 505116,
+  "fresh": 47759
+ },
+ "tool_calls": 9,
+ "tool_errors": 0,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 7,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "cat /Users/claytonchancey/Desktop/quantum/docs/iqm/README.md; ls /Users/claytonchancey/Desktop/quantum/docs/iqm/",
+  "grep -n -i -E \"locus|QB20|coupl|invalid|native JSON|submit_circuits|run_request|Circuit\\(\" /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md /Users/claytonchancey/Desktop/quantum/docs/iqm/06-limits-errors-troublesh",
+  "grep -n -i -E \"submit_circuits|Circuit\\(|validate|not.*locus|ValueError|CircuitValidation\" /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md /Users/claytonchancey/Desktop/quantum/docs/iqm/06-limits-errors-troubleshooting.md",
+  "sed -n 360,420p /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md; sed -n 465,600p /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r02-B-T7-1"
+}

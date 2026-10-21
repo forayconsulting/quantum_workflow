@@ -1,0 +1,36 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_f3caa17a-2c4/agent-a89d249c423a46d0c.jsonl",
+ "model": "claude-sonnet-5-5",
+ "wall_seconds": 57.8,
+ "api_calls": 10,
+ "tokens": {
+  "input_tokens": 20,
+  "output_tokens": 1585,
+  "cache_read_input_tokens": 490917,
+  "cache_creation_input_tokens": 38159,
+  "total": 530681,
+  "fresh": 39764
+ },
+ "tool_calls": 11,
+ "tool_errors": 1,
+ "tool_errors_by_class": {
+  "guard": 1,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Read": 1,
+  "Bash": 8,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": true,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "sed -n 378,400p /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md",
+  "sed -n 95,160p /Users/claytonchancey/Desktop/quantum/spe/agent-tools/iqm_run.py; grep -rn \"QB1\\|\\\"prx\\\"\\|measure\" /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md | head -30"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r02-D-T9-3"
+}

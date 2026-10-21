@@ -1,0 +1,35 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_f3caa17a-2c4/agent-a3fa06d3758795a6e.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 38.9,
+ "api_calls": 10,
+ "tokens": {
+  "input_tokens": 20,
+  "output_tokens": 1759,
+  "cache_read_input_tokens": 490405,
+  "cache_creation_input_tokens": 38119,
+  "total": 530303,
+  "fresh": 39898
+ },
+ "tool_calls": 13,
+ "tool_errors": 0,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 10,
+  "Read": 2,
+  "StructuredOutput": 1
+ },
+ "used_helper": true,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md",
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -n -i -A3 \"prx\\|angle_t\\|\\\"args\\\"\" /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r02-C-T9-3"
+}
