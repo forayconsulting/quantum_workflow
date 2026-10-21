@@ -1,0 +1,54 @@
+# Saved before the eval ran. Do not edit after the run.
+round: r04
+date: 2026-10-21
+author: Claude, approved by the user in plan mode on 2026-10-21
+plan: spe/plans/r04.md
+method: Start from "same as last round" and move a number only for a stated reason. r02 and r03 showed that Claude underestimates the agents, so moves away from 1.00 are kept small.
+changes_from_r03:
+  - tasks: T14 spin dynamics, T15 H2 ground state, T16 random circuit sampling with XEB, T17 real Sirius GHZ ladder, T18 zero-noise extrapolation. T13 kept as an anchor. T1 to T12 retired
+  - prompts: plain-language requests from a non-expert user
+  - result contract: observables and values fields
+  - grading: payload physics checks, simulator limit 20, explanation judge (descriptive)
+  - configs A to D unchanged
+constants:
+  trials_per_cell: 3, plus up to 2 top-up trials for unstable mock cells (cap 24)
+  credit_cap: 6 including the setup probe
+pass_rates:
+  T13: {A: 1.00, B: 1.00, C: 1.00, D: 1.00}
+  T14: {A: 1.00, B: 1.00, C: 1.00, D: 0.67}
+  T15: {A: 1.00, B: 1.00, C: 1.00, D: 0.67}
+  T16: {A: 0.67, B: 0.67, C: 0.67, D: 0.67}
+  T17: {A: 0.67, B: 0.67, C: 1.00, D: 1.00}
+  T18: {A: 1.00, B: 1.00, C: 1.00, D: 0.67}
+same_as_last_round:
+  pass_rate: 1.00 for every config and task
+  median_tool_calls_T13: {A: 19, B: 15, C: 11, D: 9}
+  median_wall_minutes_T13: {A: 1.56, B: 1.37, C: 0.84, D: 0.94}
+  median_fresh_tokens: {A: 27342, B: 42290, C: 32683, D: 32683}
+  T17_parity_sizes_2_3: [0.937, 0.851]
+  real_credits: 7.20
+  unreported_jobs: 0
+why:
+  T13: Unchanged task.
+  T14: Agents check their circuit against an exact solve. D had the native-angle units slip in r02 (F8).
+  T15: A standard textbook workflow. Sonnet is likelier to stop the optimizer early.
+  T16: The only reported number that depends on a qubit-to-bit mapping the agent builds itself.
+  T17: A 5-qubit GHZ on Sirius needs MOVE gates. The helper's transpiler does them (F4).
+  T18: Folding is simple, but the noisy simulator adds a new tool.
+effort_T14_to_T18_pooled:
+  median_tool_calls: {A: 22, B: 20, C: 16, D: 14}
+  median_wall_minutes: {A: 3.0, B: 2.8, C: 2.4, D: 2.2}
+  median_fresh_tokens: {A: 55000, B: 70000, C: 60000, D: 55000}
+  why: Each new task has more steps than T13. Exact solves, optimizer loops, and noisy simulation add compute. B still reads the most.
+explanation_judge:
+  share_of_trials_with_5_or_more_of_6_pass: {A: 0.80, B: 0.85, C: 0.80, D: 0.70}
+  why: Opus explains well. Sonnet answers are shorter.
+physics:
+  T17_parity_by_size: {2: 0.93, 3: 0.85, 4: 0.77, 5: 0.70}
+  why: Linear extension of r03 Sirius data.
+credits:
+  real: 4.0 to 6.0
+  why: 12 T17 trials at the probe cost.
+unreported_jobs: 0
+peeks: 0
+regrade_control: r03 regraded under the r04 grader gives 144 of 144
