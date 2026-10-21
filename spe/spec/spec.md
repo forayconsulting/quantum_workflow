@@ -52,3 +52,16 @@ The user asked for round 2 to run autonomously, so Claude adopted the r01 propos
 | R13 | The agent runs a multi-circuit batch as one job | r01 F3 | T9 |
 | R14 | The agent resolves an ambiguous QPU name to the free mock and never to paid hardware | r01 F3, R6 | T11 |
 | R15 | The agent reports the credits a real job used, matching the API's billed seconds | R6, R2 | T10 |
+- r02 results (2026-10-21): no requirement removed. Proposed changes for r03 are below.
+
+## Proposed for round 3 (not yet agreed)
+
+| ID | Proposed change | Why (round 2 evidence) |
+|---|---|---|
+| R4 | Restore an information-only task with a fresh calibration question | R4 had no scored task in r02 |
+| R11 | Grade a rejected job from the API job state and the answer, not the `status` field | F7 |
+| R12 | Do not name the calibration source in T8, so the mock-metrics trap can fire | No r02 trial fell for it |
+| R14 | Remove the `:mock` hint for T11 | F9 |
+| R15 | Grade `billed_seconds` reported from the API, not a computed credit amount | F6 |
+| R16 (new) | The agent reports every job it submitted, including ones whose script crashed | F10 |
+| R17 (new) | Results stay valid when the device recalibrates during a round | F11 |

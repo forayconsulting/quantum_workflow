@@ -6,10 +6,10 @@ This folder applies the SPE loop (Specify, Predict, Evaluate) from Clayton Chanc
 
 | Step | File | Status |
 |---|---|---|
-| Specify | [spec/spec.md](spec/spec.md), [spec/disagreements.md](spec/disagreements.md), raw record in [spec/transcripts/](spec/transcripts/) | r01 written 2026-10-21 |
-| Predict | [predictions/r01.yaml](predictions/r01.yaml) | Saved before the run, 2026-10-21 |
-| Evaluate | [evals/](evals/) and the results in [evals/results/](evals/results/) | r01 done 2026-10-21: 72 of 72 trials passed, 3.60 credits spent |
-| Learn | [prediction-log.md](prediction-log.md), [failures.md](failures.md) | r01 written. Most predictions missed: the tasks were easier and faster than expected |
+| Specify | [spec/spec.md](spec/spec.md), [spec/disagreements.md](spec/disagreements.md), raw record in [spec/transcripts/](spec/transcripts/) | r01 and r02 written 2026-10-21. r03 proposals at the end of spec.md |
+| Predict | [predictions/](predictions/) | r01 and r02 saved before their runs. r03 draft |
+| Evaluate | [evals/](evals/) and the results in [evals/results/](evals/results/) | r01: 72 of 72 passed, 3.60 credits. r02: 115 of 126 passed by the pre-registered grader, 7.20 credits |
+| Learn | [prediction-log.md](prediction-log.md), [failures.md](failures.md) | r01 and r02 written. In r02 the "same as last round" baseline beat Claude's predictions on accuracy and efficiency |
 
 ## Layout
 
@@ -39,15 +39,23 @@ This folder applies the SPE loop (Specify, Predict, Evaluate) from Clayton Chanc
 .venv-iqm/bin/python -I spe/evals/graders/grade.py --selftest
 ```
 
-Then run the Workflow tool with `scriptPath: spe/evals/harness/r01-workflow.js` and `args: {"round": "r02", "creditCap": 25, "topupCap": 20}`. Write `predictions/r02.yaml` first.
+Then run the Workflow tool with `scriptPath: spe/evals/harness/r02-workflow.js` and `args: {"round": "r03", "creditCap": 15, "topupCap": 24}`. Write and commit `predictions/r03.yaml` first.
+
+## Git history is the loop
+
+Each round is a run of commits named after its SPE step, and each round ends with a tag (`spe-r01`, `spe-r02`). Run `git log --oneline --decorate` to see it.
 
 ## Round 1 in one paragraph
 
 All 4 configs passed all 6 tasks (72 of 72 trials), so the tasks cannot rank the configs on accuracy. The configs differ in efficiency. Config D (Sonnet plus the helper) had a median of 0.34 minutes and 178k tokens per trial. Config B (Opus plus docs) had 0.56 minutes and 311k tokens. Real Sirius Bell jobs reached a mean parity of 0.936 and cost 0.30 credits each. 54 of the 60 tool errors came from the worktree guard, not from the agents. Round 2 needs harder tasks and stricter graders. See [failures.md](failures.md) and the proposals at the end of [spec/spec.md](spec/spec.md).
 
+## Round 2 in one paragraph
+
+Harder tasks and a grader that simulates each job's circuit finally separated the configs a little. With one invalid check removed (T10 credits, failures.md F6), A passed 31 of 32, B 30 of 30, C 30 of 30, and D (Sonnet) 31 of 34. D's misses were real: a units mix-up that the mock hid (F8) and two status-field slips (F7). The guard tip cut guard errors from about 0.75 to 0.21 or fewer per trial. Garnet recalibrated mid-round (F11), and the dashboard showed 2 unreported mock jobs (F10). Credits reconciled exactly: 18.90 left.
+
 ## Rules for this folder
 
 - Write the prediction before the round runs, with author and date.
 - Do not commit `spe/` while a round is running. Worktree trials check out `HEAD`, so uncommitted graders and predictions stay out of their view.
-- Once `spe/` is committed, future worktrees will contain the graders. Before round 2, move answer keys out of the trial checkout, for example by running trials from a commit without `spe/evals/`, or by blocking those paths in trial permissions.
+- `spe/` is committed, so trial worktrees contain the graders. `metrics.py` flags any read of a `spe/` path other than `agent-tools`, and the workflow halts on a peek. r02 had 0 peeks.
 - Real-QPU credits are capped per round in the ledger.

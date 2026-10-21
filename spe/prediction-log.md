@@ -36,3 +36,44 @@ Prediction: [predictions/r01.yaml](predictions/r01.yaml). Results: [evals/result
 ### What this round shows
 
 The tasks were too easy to separate the configs on accuracy. Every config scored at the ceiling. The configs differ only in efficiency. D (Sonnet plus helper) was fastest and cheapest in tokens. B and C cost more tokens than A for no accuracy gain on these tasks.
+
+## Round 2 (2026-10-21)
+
+Prediction: [predictions/r02.yaml](predictions/r02.yaml), committed at 16:01Z before the run. Results: [evals/results/r02/r02-scorecard.md](evals/results/r02/r02-scorecard.md). Run `wf_f3caa17a-2c4`: 380 agents, 41 minutes, 126 trials (120 planned plus 6 top-ups), 0 peeked, 0 incomplete after the grader fixes below.
+
+**Grader fixes made after the run.** These were harness errors, not agent errors. Each fix was checked with the selftest (exit 0) before regrading.
+- The server accepts a legacy `qubits` key and turn-unit `angle_t` and `phase_t` arguments. The grader crashed on them for D-T8-2, D-T8-3, and D-T8-4. After the fix, D-T8-2 and D-T8-3 pass. D-T8-4 fails because its circuit is wrong.
+- Garnet recalibrated at 16:42:21Z, after every T8 job. Regrading after that time used the wrong truth. T8 now uses the calibration that was default when each job was created.
+
+**T10 adjustment.** The T10 prompt asked for credits "according to the API", but the API reports no credits (see failures.md F6). The table shows the pre-registered grade, and in brackets the grade without that one check.
+
+| Metric | Config | Predicted | Measured | Same as last round | Closer |
+|---|---|---|---|---|---|
+| pass@1, new mock T7 to T9 | A | 0.67 | 1.00 (9 of 9) | 1.00 | Baseline |
+| | B | 0.78 | 1.00 (9 of 9) | 1.00 | Baseline |
+| | C | 0.67 | 1.00 (9 of 9) | 1.00 | Baseline |
+| | D | 0.56 | 0.77 (10 of 13) | 1.00 | Prediction |
+| pass@1, regression T1 T2 T4 T5 | A | 0.95 | 0.93 (13 of 14) | 1.00 | Prediction |
+| | B, C, D | 0.95, 1.00, 1.00 | 1.00, 1.00, 1.00 | 1.00 | Baseline or tie |
+| T6 passes | all | 3 of 3 | 3 of 3 | 3 of 3 | Tie |
+| T10 passes | A, B, C, D | 3, 3, 3, 3 of 3 | 1, 0, 3, 3 (adjusted 3, 3, 3, 3) | n/a | Matched after adjustment |
+| T11 passes | A, B, C, D | 2, 3, 3, 3 of 3 | 3, 3, 3, 3 | n/a | Missed for A |
+| Median tool calls | A, B, C, D | 7, 7, 7, 6 | 6, 6, 8, 6 | 6.5, 6.5, 6.5, 5 | Mixed |
+| Median total tokens | A, B, C, D | 260k, 330k, 330k, 200k | 209k, 295k, 286k, 235k | 229k, 311k, 320k, 178k | Baseline 3 of 4 |
+| Median wall minutes | A, B, C, D | 0.7, 0.7, 0.7, 0.45 | 0.53, 0.54, 0.45, 0.40 | 0.53, 0.56, 0.56, 0.34 | Baseline 3 of 4 |
+| Guard errors per trial | A, B, C, D | 0.3, 0.3, 0.2, 0.1 | 0.00, 0.17, 0.13, 0.21 | about 0.75 | Prediction |
+| T6 Bell parity mean | all | 0.93 | 0.927 | 0.936 | Prediction |
+| T10 GHZ-3 parity mean | all | 0.80 | 0.853 (0.78 to 0.90) | n/a | n/a |
+| Real credits | all | 7.7 | 7.20 (plus 0.30 oracle) | 3.60 | Prediction |
+| r01 regrade flips | | 0 to 3 | 0 | n/a | Matched |
+
+### Which "why" broke
+
+- **"T8 and T9 go beyond the helper, so C and D lose their edge."** Wrong for C. Opus with the helper passed every new task. It fell back to native JSON through the helper's `submit` command. D (Sonnet) did lose ground: 2 T7 trials returned `status: done` for a failed job, and 1 T8 trial put turn values (0.25) under the radians key `angle`, which produced a wrong circuit the mock did not reveal.
+- **"B leads on new tasks because of the docs."** No separation. A, B, and C all scored 9 of 9.
+- **"T11 risk sits with A."** Wrong. No config took the bait. The preamble line "Aliases that end in :mock are free" likely gave the answer away (failures.md F9).
+- **"The guard tip cuts guard refusals."** Right. Guard errors fell from about 0.75 per trial in r01 to 0.00 to 0.21.
+
+### The SPE extra check
+
+The guide says to compare each prediction with the simple guess "same as last round". On pass rates, tokens, and wall time, the baseline was closer than Claude's prediction in most cells. Claude's predictions beat the baseline on guard errors, credits, physics, and D's drop on the new tasks. **Claude's predictions are not yet adding value on accuracy or efficiency.** They only help where a known change was made on purpose (the guard tip) or where physics and billing were measured in r01.

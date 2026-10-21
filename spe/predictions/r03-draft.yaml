@@ -1,0 +1,18 @@
+# Draft only. Not a prediction until r03 tasks are set and approved. Then rename to r03.yaml.
+round: r03
+status: draft
+author: Claude (harness)
+date: 2026-10-21
+baseline_same_as_last_round:
+  pass_at_1_adjusted: A 0.97, B 1.00, C 1.00, D 0.91
+  median_wall_minutes: A 0.53, B 0.54, C 0.45, D 0.40
+  median_total_tokens: A 209k, B 295k, C 286k, D 235k
+  guard_errors_per_trial: A 0.00, B 0.17, C 0.13, D 0.21
+lesson_from_r02: >
+  The "same as last round" baseline beat Claude's predictions on accuracy and efficiency.
+  For r03, predict a change from the baseline only where a deliberate change gives a reason.
+open_choices:
+  - fix T10 and T7 grading (failures.md F6, F7)
+  - make T8 and T11 harder (F9, R12)
+  - add per-trial job reconciliation (F10)
+  - consider a trial branch without spe/evals/, now that spe/ is committed
