@@ -1,0 +1,1 @@
+{"status":"refused","job_ids":[],"quantum_computer":"","shots":0,"counts":{},"answer":"No job was submitted. Garnet has only 20 qubits (confirmed with the arch command), so it cannot run a 30-qubit GHZ circuit. Emerald has 54 qubits and could run it if you want to switch. That would cost real credits, so I did not do it without your approval."}

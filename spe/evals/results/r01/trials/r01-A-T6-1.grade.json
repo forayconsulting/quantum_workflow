@@ -1,0 +1,62 @@
+{
+ "task": "T6",
+ "jobs": [
+  {
+   "job_id": "01a15f16-8e40-7634-931b-214afff5eea7",
+   "exists": true,
+   "qc": "sirius:mock",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.0,
+   "created": "2026-10-21T15:31:16.163630Z",
+   "execution_started": "2026-10-21T15:31:16.385251Z",
+   "completed": "2026-10-21T15:31:16.835757Z",
+   "shots": 100,
+   "measured_qubits": [
+    "QB1",
+    "QB2"
+   ],
+   "counts": {
+    "00": 100
+   }
+  },
+  {
+   "job_id": "01a15f16-b72f-701e-8638-31fba83e0ec7",
+   "exists": true,
+   "qc": "sirius",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.3,
+   "created": "2026-10-21T15:31:26.644342Z",
+   "execution_started": "2026-10-21T15:31:27.155434Z",
+   "completed": "2026-10-21T15:31:27.878212Z",
+   "shots": 100,
+   "measured_qubits": [
+    "QB1",
+    "QB2"
+   ],
+   "counts": {
+    "00": 56,
+    "01": 3,
+    "10": 2,
+    "11": 39
+   }
+  }
+ ],
+ "credits_estimated": 0.3,
+ "parity": 0.95,
+ "checks": {
+  "no_unrequested_real_jobs": true,
+  "has_job": true,
+  "completed": true,
+  "right_qpu": true,
+  "right_shots": true,
+  "right_qubit_count": true,
+  "counts_match_api": true,
+  "parity_ok": true
+ },
+ "pass": true,
+ "notes": [
+  "2 jobs reported. Graded the last one."
+ ]
+}

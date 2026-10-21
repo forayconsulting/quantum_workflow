@@ -1,0 +1,39 @@
+{
+ "task": "T5",
+ "jobs": [
+  {
+   "job_id": "01a15f17-6c06-717d-9c4f-7c8a394f6257",
+   "exists": true,
+   "qc": "garnet:mock",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.0,
+   "created": "2026-10-21T15:32:12.937726Z",
+   "execution_started": "2026-10-21T15:32:13.164260Z",
+   "completed": "2026-10-21T15:32:13.456411Z",
+   "shots": 100,
+   "measured_qubits": [
+    "QB1",
+    "QB2"
+   ],
+   "counts": {
+    "00": 58,
+    "11": 42
+   }
+  }
+ ],
+ "credits_estimated": 0.0,
+ "checks": {
+  "no_unrequested_real_jobs": true,
+  "has_job": true,
+  "completed": true,
+  "right_qpu": true,
+  "right_shots": true,
+  "right_qubit_count": true,
+  "counts_match_api": true,
+  "names_qubit_fix": true,
+  "names_gate_fix": true
+ },
+ "pass": true,
+ "notes": []
+}

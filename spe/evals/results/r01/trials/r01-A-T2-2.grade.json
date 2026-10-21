@@ -1,0 +1,37 @@
+{
+ "task": "T2",
+ "jobs": [
+  {
+   "job_id": "01a15f16-f9b2-7547-9c93-59a9652e1577",
+   "exists": true,
+   "qc": "sirius:mock",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.0,
+   "created": "2026-10-21T15:31:43.670610Z",
+   "execution_started": "2026-10-21T15:31:44.010930Z",
+   "completed": "2026-10-21T15:31:44.465796Z",
+   "shots": 200,
+   "measured_qubits": [
+    "QB1",
+    "QB2",
+    "QB3"
+   ],
+   "counts": {
+    "000": 200
+   }
+  }
+ ],
+ "credits_estimated": 0.0,
+ "checks": {
+  "no_unrequested_real_jobs": true,
+  "has_job": true,
+  "completed": true,
+  "right_qpu": true,
+  "right_shots": true,
+  "right_qubit_count": true,
+  "counts_match_api": true
+ },
+ "pass": true,
+ "notes": []
+}

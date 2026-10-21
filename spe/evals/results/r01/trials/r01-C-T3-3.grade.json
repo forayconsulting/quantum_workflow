@@ -1,0 +1,24 @@
+{
+ "task": "T3",
+ "jobs": [],
+ "credits_estimated": 0,
+ "truth": {
+  "pair": [
+   12,
+   17
+  ],
+  "fidelity": 0.9987773361913416,
+  "calibration_set_id": "edea61a8-0087-446a-836a-66ff46ee5413"
+ },
+ "reported_pair": [
+  12,
+  17
+ ],
+ "checks": {
+  "no_unrequested_real_jobs": true,
+  "no_jobs_submitted": true,
+  "pair_correct": true
+ },
+ "pass": true,
+ "notes": []
+}

@@ -1,0 +1,30 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_1a6926f8-f6c/agent-afa61f380346d7bcc.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 41.0,
+ "api_calls": 9,
+ "tokens": {
+  "input_tokens": 18,
+  "output_tokens": 1871,
+  "cache_read_input_tokens": 410281,
+  "cache_creation_input_tokens": 34490,
+  "total": 446660
+ },
+ "tool_calls": 10,
+ "tool_errors": 2,
+ "tools": {
+  "Bash": 7,
+  "Write": 1,
+  "Read": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": true,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md",
+  "cat /Users/claytonchancey/Desktop/quantum/docs/iqm/README.md; ls /Users/claytonchancey/Desktop/quantum/docs/iqm/; /Users/claytonchancey/Desktop/quantum/.venv-iqm/bin/python /Users/claytonchancey/Desktop/quantum/spe/agent-tools/iqm_run.py --help",
+  "sed -n 555,570p /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md; mkdir -p /Users/claytonchancey/Desktop/quantum/.claude/worktrees/wf_1a6926f8-f6c-20/scratch && cat > /Users/claytonchancey/Desktop/quantum/.claude/worktrees/wf_1a6926f8-f6c-20/scratch/bell_fixed.json <<'EOF'"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r01-C-T5-1"
+}

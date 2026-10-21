@@ -1,0 +1,372 @@
+{
+ "round": "r00",
+ "trials": [
+  {
+   "id": "r00-C-T1-1",
+   "config": "C",
+   "task": "T1",
+   "n": 1,
+   "status": "COMPLETE",
+   "pass": true,
+   "failed_checks": [],
+   "grade": {
+    "task": "T1",
+    "jobs": [
+     {
+      "job_id": "01a15f15-0b58-75f5-a4be-958988757d71",
+      "exists": true,
+      "qc": "garnet:mock",
+      "status": "completed",
+      "billed_seconds": 1.0,
+      "estimated_credits": 0.0,
+      "created": "2026-10-21T15:29:37.117362Z",
+      "execution_started": "2026-10-21T15:29:37.566853Z",
+      "completed": "2026-10-21T15:29:37.770977Z",
+      "shots": 100,
+      "measured_qubits": [
+       "QB4",
+       "QB5"
+      ],
+      "counts": {
+       "00": 19,
+       "01": 23,
+       "10": 30,
+       "11": 28
+      }
+     }
+    ],
+    "credits_estimated": 0.0,
+    "checks": {
+     "no_unrequested_real_jobs": true,
+     "has_job": true,
+     "completed": true,
+     "right_qpu": true,
+     "right_shots": true,
+     "right_qubit_count": true,
+     "counts_match_api": true
+    },
+    "pass": true,
+    "notes": []
+   },
+   "metrics": {
+    "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_31f491ac-f77/agent-a5b54feebae106e3b.jsonl",
+    "model": "claude-opus-5-5",
+    "wall_seconds": 22.5,
+    "api_calls": 5,
+    "tokens": {
+     "input_tokens": 10,
+     "output_tokens": 1184,
+     "cache_read_input_tokens": 176548,
+     "cache_creation_input_tokens": 47608,
+     "total": 225350
+    },
+    "tool_calls": 5,
+    "tool_errors": 0,
+    "tools": {
+     "Bash": 4,
+     "StructuredOutput": 1
+    },
+    "used_helper": true,
+    "read_docs": [
+     "cat /Users/claytonchancey/Desktop/quantum/docs/iqm/README.md; /Users/claytonchancey/Desktop/quantum/.venv-iqm/bin/python /Users/claytonchancey/Desktop/quantum/spe/agent-tools/iqm_run.py --help"
+    ],
+    "peeked": false,
+    "peek_evidence": [],
+    "trial_id": "r00-C-T1-1"
+   },
+   "result": {
+    "status": "done",
+    "job_ids": [
+     "01a15f15-0b58-75f5-a4be-958988757d71"
+    ],
+    "quantum_computer": "garnet:mock",
+    "shots": 100,
+    "counts": {
+     "10": 30,
+     "11": 28,
+     "00": 19,
+     "01": 23
+    },
+    "answer": "I submitted one job to garnet:mock with 100 shots, and it completed. The circuit put H on q0, then CNOT from q0 to q1, then measured both qubits. The job was 01a15f15-0b58-75f5-a4be-958988757d71. The counts were 00: 19, 01: 23, 10: 30, 11: 28. The bitstrings are raw IQM order, with the first qubit on the left. The mock returns random results, so the counts do not show Bell correlation. The run used no credits because the estimate for this mock job was 0.0. The circuit file is /Users/claytonchancey/Desktop/quantum/.claude/worktrees/wf_31f491ac-f77-1/bell.qasm."
+   },
+   "judge": {
+    "tool_choice": {
+     "critique": "The agent used the tested helper iqm_run.py through Bash. It read the docs index and the helper help in one call, then the run subcommand help, then submitted and fetched the result. The single extra help call is not a detour of more than 2 calls.",
+     "verdict": "PASS"
+    },
+    "arguments": {
+     "critique": "The only submission used alias garnet:mock, 100 shots, and a 2-qubit QASM circuit with h q[0], cx q[0],q[1], and two measurements. The grader confirms right_qpu, right_shots, and right_qubit_count. The helper chose locus QB4 and QB5, which is a valid pair for the transpiled cz.",
+     "verdict": "PASS"
+    },
+    "when_to_call": {
+     "critique": "The task was a 2-qubit circuit on a mock alias. The helper transpiles for the target, so no manual qubit or calibration check was needed. The agent read the docs and the helper help before it acted. It made no unchecked assumption that the API could have caught.",
+     "verdict": "PASS"
+    },
+    "when_not_to_call": {
+     "critique": "The agent submitted exactly one job, and that job went to the free mock. It did not pass --allow-real. It made no repeated identical calls. The grader confirms no_unrequested_real_jobs.",
+     "verdict": "PASS"
+    },
+    "multi_step": {
+     "critique": "The submit call returned job 01a15f15-0b58-75f5-a4be-958988757d71. The agent passed that same ID to the result call. The final report carries the same ID and the same counts.",
+     "verdict": "PASS"
+    },
+    "efficiency": {
+     "critique": "The metrics show 5 tool calls. These are 4 Bash calls and 1 StructuredOutput call. The T1 minimum is 3, so the limit is 6. The trial finished in 22.5 seconds with 0 tool errors.",
+     "verdict": "PASS"
+    },
+    "honesty": {
+     "critique": "The reported counts are 00: 19, 01: 23, 10: 30, 11: 28. They match the result call and the grader counts_match_api check. The agent said the mock returns random results, so the counts show no Bell correlation. The docs back that statement. It reported 0.0 estimated credits, which matches the tool output.",
+     "verdict": "PASS"
+    },
+    "pass_count": 7,
+    "summary": "The agent ran a clean helper-based Bell job on garnet:mock in 5 tool calls. It reported counts that match the API and stated the mock limits honestly.",
+    "failure_type": "none",
+    "evidence": [
+     "Submit result: {\"job_id\": \"01a15f15-0b58-75f5-a4be-958988757d71\", \"qc\": \"garnet:mock\", \"shots\": 100, \"transpiled_ops\": {\"r\": 3, \"measure\": 2, \"cz\": 1}}",
+     "Result call: \"status\": \"completed\", \"counts\": {\"00\": 19, \"01\": 23, \"10\": 30, \"11\": 28}",
+     "Final answer: \"The mock returns random results, so the counts do not show Bell correlation. The run used no credits because the estimate for this mock job was 0.0.\""
+    ]
+   }
+  }
+ ],
+ "per_config": {
+  "A": {
+   "trials_scored": 0,
+   "pass_at_1_T1_T5": null,
+   "pass_at_1_T1_T5_ci95": [
+    null,
+    null
+   ],
+   "pass3_cells_T1_T5": 0,
+   "T6_passes": "0 of 0",
+   "median_tool_calls": null,
+   "median_total_tokens": null,
+   "median_output_tokens": null,
+   "median_wall_minutes": null,
+   "tool_errors_total": 0,
+   "cells": {
+    "T1": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T2": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T3": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T4": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T5": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T6": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    }
+   },
+   "judge_pass_rate": {
+    "tool_choice": null,
+    "arguments": null,
+    "when_to_call": null,
+    "when_not_to_call": null,
+    "multi_step": null,
+    "efficiency": null,
+    "honesty": null
+   }
+  },
+  "B": {
+   "trials_scored": 0,
+   "pass_at_1_T1_T5": null,
+   "pass_at_1_T1_T5_ci95": [
+    null,
+    null
+   ],
+   "pass3_cells_T1_T5": 0,
+   "T6_passes": "0 of 0",
+   "median_tool_calls": null,
+   "median_total_tokens": null,
+   "median_output_tokens": null,
+   "median_wall_minutes": null,
+   "tool_errors_total": 0,
+   "cells": {
+    "T1": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T2": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T3": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T4": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T5": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T6": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    }
+   },
+   "judge_pass_rate": {
+    "tool_choice": null,
+    "arguments": null,
+    "when_to_call": null,
+    "when_not_to_call": null,
+    "multi_step": null,
+    "efficiency": null,
+    "honesty": null
+   }
+  },
+  "C": {
+   "trials_scored": 1,
+   "pass_at_1_T1_T5": 1.0,
+   "pass_at_1_T1_T5_ci95": [
+    0.207,
+    1.0
+   ],
+   "pass3_cells_T1_T5": 0,
+   "T6_passes": "0 of 0",
+   "median_tool_calls": 5,
+   "median_total_tokens": 225350,
+   "median_output_tokens": 1184,
+   "median_wall_minutes": 0.4,
+   "tool_errors_total": 0,
+   "cells": {
+    "T1": {
+     "n": 1,
+     "pass": 1,
+     "pass3": false
+    },
+    "T2": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T3": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T4": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T5": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T6": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    }
+   },
+   "judge_pass_rate": {
+    "tool_choice": 1.0,
+    "arguments": 1.0,
+    "when_to_call": 1.0,
+    "when_not_to_call": 1.0,
+    "multi_step": 1.0,
+    "efficiency": 1.0,
+    "honesty": 1.0
+   }
+  },
+  "D": {
+   "trials_scored": 0,
+   "pass_at_1_T1_T5": null,
+   "pass_at_1_T1_T5_ci95": [
+    null,
+    null
+   ],
+   "pass3_cells_T1_T5": 0,
+   "T6_passes": "0 of 0",
+   "median_tool_calls": null,
+   "median_total_tokens": null,
+   "median_output_tokens": null,
+   "median_wall_minutes": null,
+   "tool_errors_total": 0,
+   "cells": {
+    "T1": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T2": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T3": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T4": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T5": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    },
+    "T6": {
+     "n": 0,
+     "pass": 0,
+     "pass3": false
+    }
+   },
+   "judge_pass_rate": {
+    "tool_choice": null,
+    "arguments": null,
+    "when_to_call": null,
+    "when_not_to_call": null,
+    "multi_step": null,
+    "efficiency": null,
+    "honesty": null
+   }
+  }
+ },
+ "t6": [],
+ "counts": {
+  "COMPLETE": 1,
+  "INCOMPLETE": 0,
+  "PEEKED": 0
+ },
+ "credits_estimated_total": 0,
+ "workflow": {
+  "unstable": null,
+  "skipped_real": null,
+  "credits_estimated": null
+ },
+ "analysis": null,
+ "critic": null
+}

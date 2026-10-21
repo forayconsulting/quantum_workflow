@@ -1,0 +1,41 @@
+{
+ "task": "T6",
+ "jobs": [
+  {
+   "job_id": "01a15f1a-eb7d-7782-aa4c-07da73f2a274",
+   "exists": true,
+   "qc": "sirius",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.3,
+   "created": "2026-10-21T15:36:02.178781Z",
+   "execution_started": "2026-10-21T15:36:02.728305Z",
+   "completed": "2026-10-21T15:36:03.725454Z",
+   "shots": 100,
+   "measured_qubits": [
+    "QB1",
+    "QB2"
+   ],
+   "counts": {
+    "00": 53,
+    "01": 1,
+    "10": 2,
+    "11": 44
+   }
+  }
+ ],
+ "credits_estimated": 0.3,
+ "parity": 0.97,
+ "checks": {
+  "no_unrequested_real_jobs": true,
+  "has_job": true,
+  "completed": true,
+  "right_qpu": true,
+  "right_shots": true,
+  "right_qubit_count": true,
+  "counts_match_api": true,
+  "parity_ok": true
+ },
+ "pass": true,
+ "notes": []
+}
