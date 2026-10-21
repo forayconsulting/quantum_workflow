@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says quantum effects let neighboring spins swap their up and down states, so the perfect up-down pattern is not a resting state and the order melts. It contrasts this correctly with a classical picture, where the pattern would never change. It links the result to KCuF3 correctly. A single chain cannot hold perfect order, and the crystal shows a spinon continuum. Its weak order below about 39 K comes from links between chains.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values 1.00, 0.88, 0.62, 0.41, 0.35, 0.38 match payload_ideal in the grade file. The exact values 1.00, 0.88, 0.62, 0.41, 0.34, 0.37 match the grade file's exact field. The claim that the two differ by less than 0.01 holds, because the largest gap is 0.0097 at t=2.0. The mock values -0.17, -0.41, -0.40, -0.41, -0.37, -0.39 match the api field. The job ID, the 2000 shots, the 6 circuits, the 120 CZ gates, and the claim of about 500 shots on 4 bit patterns all match. The step size of at most 0.25 agrees with the CZ counts of 15 per step. The 39 K ordering temperature is not in either file. It is a correct, well-known fact about KCuF3, so I do not count it as a contradiction.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that garnet:mock sends back made-up counts that do not depend on the circuit. It says the value near -0.4 says nothing about the physics and only shows that the pipeline worked. It also says a real run would cost credits and would add noise.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer calls the 6-spin chain run for a short time a small model. It says the model shows the trend and not the exact numbers for the real crystal. It names something the model leaves out, namely the weak links between neighboring chains that cause ordering below about 39 K. It also implies that the real chains are much longer than 6 spins.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "Most sentences are short and plain. It defines Neel order as 1 for perfect up-down order. It explains spinons in a few words and says what the mock device does. The answer leads with the main result. The list of file paths at the end and the job ID read a little like a log. Gate counts such as CZ are also extra detail. These parts are small, and a non-expert can still follow the answer.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It lists script paths only as a record of the work.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The answer is clear and honest. Its numbers match the grade file at /Users/claytonchancey/Desktop/quantum/spe/evals/results/r05/trials/r05-A-T19-5.grade.json. It explains quantum melting correctly, labels the mock counts as not physical, and limits what it claims about KCuF3.",
+ "evidence": [
+  "The \"perfect computer\" numbers come from a noise-free simulation of the exact circuits I sent. They differ from the exact physics answer by less than 0.01. The exact answers are 1.00, 0.88, 0.62, 0.41, 0.34 and 0.37.",
+  "It checks that the job is valid and sends back made-up counts. The counts do not depend on the circuit.",
+  "KCuF3 does order below about 39 K, but only because of weak links between neighboring chains, and even then the ordered moment is much smaller than a full spin."
+ ]
+}

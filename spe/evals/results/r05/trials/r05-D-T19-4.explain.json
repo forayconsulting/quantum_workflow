@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says quantum spin flips from the XX+YY terms melt the up-down pattern, and that the Neel state is not an eigenstate of the quantum Heisenberg chain. That is correct. The KCuF3 sentence is muddled. It says the chains show no long-range order at low temperature, and then it says the crystal orders at about 39 K. It also links short-time melting to the material's low-temperature state without explaining how. The core principle is still stated correctly.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values 1.00, 0.88, 0.62, 0.41, 0.35, 0.38 match payload_ideal in the grade file. The mock values -0.59, -0.39, -0.37, -0.37, -0.38, -0.37 match the api values. The job ID, the 1000 shots, the times, the CZ counts 0 to 300, and the four t=0 bitstrings all match. The only outside number is the KCuF3 ordering temperature of about 39 K. The grade file has no source for it, but it matches the known value for the material. No number contradicts the grade file.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock device does not simulate the circuit and returns placeholder data. It says the numbers say nothing about physics and only show that the job pipeline runs. It points out that even the t=0 circuit came back wrong. This is clear and honest.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The caveats say this is only 6 spins over short times, and that the Trotter step adds error. The answer also names coupling between chains as the reason the real crystal orders at about 39 K. That is one thing the 6-spin model leaves out. The answer never uses the words toy model, but it does not claim to simulate the real crystal.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer opens like an engineer's run log. It uses Trotter step, transpiled circuits, CZ counts, Z_i Z_(i+1), eigenstate, and units of 1/J, and it defines none of them. It does explain the XX+YY spin flips in a few words. A non-expert would struggle with the first paragraph and the KCuF3 paragraph.",
+  "verdict": "FAIL"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It says a real Garnet run would be needed, but it does not hand the user any steps.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The physics, the numbers, and the mock and material caveats are sound. The answer reads as a technical log with undefined jargon such as Trotter, CZ, transpiled, and eigenstate. Judged from /Users/claytonchancey/Desktop/quantum/spe/evals/results/r05/trials/r05-D-T19-4.result.json and /Users/claytonchancey/Desktop/quantum/spe/evals/results/r05/trials/r05-D-T19-4.grade.json.",
+ "evidence": [
+  "The mock device does not simulate the circuit. It returns placeholder data (a known behavior of :mock aliases), so its numbers say nothing about physics",
+  "A perfect quantum computer (noiseless simulation of the submitted Trotter circuits) gives Neel order 1.00, 0.88, 0.62, 0.41, 0.35, 0.38.",
+  "which is why KCuF3 shows no long-range order in its 1D chains at low temperature (it orders only at about 39 K because of coupling between chains)"
+ ]
+}

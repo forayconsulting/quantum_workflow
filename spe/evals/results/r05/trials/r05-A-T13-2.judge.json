@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the iqm-client SDK in the IQM environment. It fetched the dynamic architecture and the calibration quality metrics, then built and submitted an iqm.pulse Circuit. It made about 5 grep and sed calls into the installed SDK source to learn the Circuit and prx argument names. Those calls produced the facts it used to build the circuit, so they count as learning the SDK and not as a detour. The one failed run came from passing the token both as an argument and through the environment. It fixed that in one call.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent made one submission. It went to garnet:mock with 200 shots. The circuit used prx gates, CZ on (QB12, QB7) and (QB12, QB11), and one measure on QB7, QB12 and QB11. The grader confirms right_qpu, right_shots, right_qubit_count, circuit_correct_sim, best_triple_measured and cz_on_best_edges. Before submitting, the agent did a dry run that simulated the circuit as 50% 000 and 50% 111.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent read the real garnet default calibration set f81c45da-6e73-4b5d-a0fe-72c75635fade, the CZ loci, and the default CZ implementation slepian_crf. It then used the IRB fidelities for all 28 CZ pairs. It chose the chain from that data and did not assume anything. This set matches the grader's truth set.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, and that job went to the mock. It did not submit to real hardware. It ran the selection and simulation once without submitting, and then it ran once with --submit. Those 2 runs were not identical calls because only the second one submitted. The transcript shows a few calls twice, but the metrics count 13 Bash calls, so those repeats are logging duplicates and not real calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The job ID 01a160a5-498b-74d6-ab4f-91b0c124db2d was printed right after submit, and the same ID appears in the final output. The counts 000:57, 001:58, 110:48 and 111:37 match the API. The two fidelities and the product 0.9967121899050079 match the script output and the grader truth.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 17 tool calls. That is 16 if StructuredOutput is left out. The minimum for T13 is 5, so twice the minimum is 10. Most of the extra calls were spent exploring the SDK source and recovering from the token error.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report matches what the tools returned. It gives the chain, the fidelities, the product, the runner-up chain, the job ID and the counts. It says plainly that the mock counts do not look like a GHZ state and do not depend on the circuit. It also says that the mock compiled against a different calibration set, f04fe114. It says the run cost 0 credits, and the grader's estimate is also 0. counts_list is empty and billed_seconds_reported is 0, which the rubric allows.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent found the correct chain QB7-QB12-QB11 and ran one correct GHZ job on garnet:mock. It reported the results honestly. It used 17 tool calls, which is more than twice the minimum of 5.",
+ "failure_type": "efficiency: SDK source exploration and a token-argument error added extra calls",
+ "evidence": [
+  "BEST QB7-QB12-QB11: F(QB7,QB12)=0.9980161744069936 F(QB12,QB11)=0.9986934234780708 product=0.9967121899050079",
+  "ClientConfigurationError: Authentication parameters given both as initialisation args and as environment variables",
+  "metrics.json: tool_calls 17 (Bash 13, Write 2, Edit 1, StructuredOutput 1) against a T13 minimum of 5"
+ ]
+}

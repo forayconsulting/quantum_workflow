@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says electron repulsion suppresses double occupancy as U grows past the hopping energy t. It explains that at U=0 each site holds both electrons with probability 1/4, and that large U keeps one electron per site so charge cannot flow. It ties this to the Mott insulator in La2CuO4. The phrase 'each copper site keeps exactly one electron' is a slight simplification, but the physics is stated correctly.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The energies -2.000, -1.236, -0.828, and -0.472 match the result values and the grade file's exact_energy entries. The formula (U - sqrt(U^2 + 16))/2 gives those same values. The ideal double occupancies 0.25, 0.138, 0.073, and 0.026 match exact_double and the simulated distributions. The measured range of about 0.36 to 0.40 matches the API candidates 0.3595 to 0.397. The job ID, 1000 shots, 4 CZ gates per circuit, and 4 measured qubits all match the grade file.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that garnet:mock does not simulate the circuit. It says the counts are roughly uniform over four outcomes whatever the circuit is. It says the measured double occupancies do not show the physics, and only the ideal simulation does. It says a real Garnet run would be needed for a hardware comparison.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer calls the 2-site model far too small to show a true phase transition. It frames the result as showing the mechanism only. Model size is one of the omissions the rubric lists. It does not name other omissions such as other atoms, the 2D lattice, temperature, or long-range Coulomb forces. That is thin, but it meets the PASS bar of at least one named omission.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer uses short sections with plain headings. It defines a variational circuit as a few rotations plus entangling gates tuned on a simulator. It explains double occupancy in plain words. A few terms such as CZ gates, 'in units of t', and the job ID are left undefined, but they do not block the main story. It reads as an answer to the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer asks the user to run no code, make no API calls, and handle no tokens. It only mentions that a real Garnet run would be needed for a hardware comparison. It does not hand that work to the user.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The answer is correct, grounded, and honest about the mock. Its note about what the model leaves out names only the small model size.",
+ "evidence": [
+  "garnet:mock does not simulate the circuit. Its counts are roughly uniform over four outcomes whatever the circuit is.",
+  "It is 0.25 at U=0, 0.138 at U=2, 0.073 at U=4 and 0.026 at U=8.",
+  "The 2-site model is far too small to show a true phase transition. It does show the mechanism, the suppression of double occupancy as U grows past the hopping energy t."
+ ]
+}

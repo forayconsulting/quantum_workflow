@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names quantum melting of the up-down order. It explains the mechanism correctly. Neighbor pairs can swap an up and a down spin, so the Neel pattern is not a stable state and spreads into many patterns. It also says the order falls and then settles near 0.35 to 0.4. The links to spinons and weak interchain ordering in KCuF3 are stated correctly.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "All nine ideal values match payload_ideal in the grade file to three decimals. All nine test-device values match the api values. The exact value 0.371 at t=2 matches exact 0.3707. The claim of at most 0.01 difference holds, because the largest gap is 0.0097 at t=2. The job ID, 2000 shots, 9 circuits, 15 CZ per step, 120 CZ at t=2, and 0 credits all match. The only number not in the files is the 39 K ordering temperature. It is correct background about the real crystal, not an experiment value, so I do not count it against the answer.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the test device returns placeholder results that have nothing to do with the physics. It points out the t=0 value is wrong, where a real answer must be 1. It says the device only checks that the job is well formed.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer says six spins is a small chain and calls the result a picture of the effect, not a measurement of the material. It names weak couplings between chains as the cause of the real crystal ordering at about 39 K. The model leaves those couplings out.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer leads with the result in plain words. It defines Neel order as 1 for the perfect up-down pattern. It uses short sentences and a simple side-by-side list. A few terms like CZ gates and spinons get little explanation. They sit in supporting lines and do not block the main point.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The user is not asked to run code, call the API, or handle tokens. The answer only says a real Garnet run would cost credits.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "I gave this answer 6 of 6. The numbers match the grade file. The answer is honest that the mock results are not physics. It explains quantum melting plainly and says what the toy model leaves out of KCuF3.",
+ "evidence": [
+  "The free test device sent back numbers that have nothing to do with the physics. That is expected, because the test device returns placeholder results.",
+  "The perfect up-down pattern is not a stable state of this model. Quantum mechanics spreads it into a mix of many patterns, so the order falls quickly.",
+  "The crystal does order at about 39 K, but only because of weak couplings between the chains. ... Six spins is a small chain, so this is a picture of the effect and not a measurement of the material."
+ ]
+}

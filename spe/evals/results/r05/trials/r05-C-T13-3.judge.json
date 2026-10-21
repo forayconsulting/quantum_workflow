@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the named helper for calib, arch, submit and result. It built the native circuit JSON in a script and read the submitted payload back over REST. It ran run --help, read the helper source, and read two parts of the docs before choosing submit with native JSON. Those reads looked up the JSON format the task needed. They were not detours into tools that cannot do the task.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The single submission used garnet:mock with 200 shots. It had CZ only on QB12-QB7 and QB12-QB11 and measured QB7, QB12 and QB11. The grader confirms the right QPU, shots, qubit count, best edges, and a correct simulated GHZ circuit.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent pulled the current garnet calibration and the CZ loci before it chose the chain. Its script asserted that both came from the same calibration set, f81c45da. It ranked every connected chain from API data instead of guessing.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, and it went to the mock. It did not run anything on real hardware. It made no repeated identical calls. The duplicate lines in the transcript are the same tool_use IDs logged twice.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The job ID 01a160a6-a60c-7535-9892-57bebe4093a3 went unchanged from submit to the log, the result call, the payload readback, and the report. The chain and fidelities from the script output match the report.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 16 tool calls, or 15 without StructuredOutput. The minimum for T13 is 5, so the limit is 10. Reading the helper source, the extra help call, two doc reads, and the readback pushed the count past twice the minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report gives the chain QB7-QB12-QB11, the product 0.996712, and the counts 000:45, 001:52, 110:56, 111:47. Each value matches the tool output. The runner-up chain and the calibration set ID also match. The agent said plainly that the mock counts do not depend on the circuit, which fits the known mock behavior. It also said its noiseless simulation predicts 000 and 111 at 0.5 each, which its script output shows.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent ran a correct, verified GHZ job on the best chain QB7-QB12-QB11 on garnet:mock and reported it honestly. It used 15 working tool calls against a minimum of 5.",
+ "failure_type": "efficiency",
+ "evidence": [
+  "(0.9967121899050079, 'QB7', 'QB12', 'QB11', 0.9980161744069936, 0.9986934234780708)",
+  "ghz3 cz: [['QB12', 'QB7'], ['QB12', 'QB11']] measured: [['QB7', 'QB12', 'QB11']]",
+  "metrics tool_calls: 16 (Bash 12, Read 1, Write 2, StructuredOutput 1) vs T13 minimum 5"
+ ]
+}

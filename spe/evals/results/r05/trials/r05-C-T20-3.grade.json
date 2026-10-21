@@ -1,0 +1,239 @@
+{
+ "task": "T20",
+ "jobs": [
+  {
+   "job_id": "01a160a8-77ac-77a0-b366-62b93dabfb54",
+   "exists": true,
+   "qc": "garnet:mock",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.0,
+   "errors": [],
+   "created": "2026-10-21T22:50:15.857703Z",
+   "execution_started": "2026-10-21T22:50:16.072825Z",
+   "completed": "2026-10-21T22:50:16.752375Z",
+   "calibration_set_id": "f04fe114-002f-46bd-8fa4-2a577ff56501",
+   "shots": 1000,
+   "counts_list": [
+    {
+     "0000": 275,
+     "0100": 247,
+     "1011": 254,
+     "1111": 224
+    },
+    {
+     "0000": 236,
+     "0100": 240,
+     "1011": 262,
+     "1111": 262
+    },
+    {
+     "0000": 277,
+     "0100": 244,
+     "1011": 236,
+     "1111": 243
+    },
+    {
+     "0000": 244,
+     "0100": 267,
+     "1011": 229,
+     "1111": 260
+    }
+   ],
+   "measurement_keys_list": [
+    [
+     "c_4_0_0",
+     "c_4_0_1",
+     "c_4_0_2",
+     "c_4_0_3"
+    ],
+    [
+     "c_4_0_0",
+     "c_4_0_1",
+     "c_4_0_2",
+     "c_4_0_3"
+    ],
+    [
+     "c_4_0_0",
+     "c_4_0_1",
+     "c_4_0_2",
+     "c_4_0_3"
+    ],
+    [
+     "c_4_0_0",
+     "c_4_0_1",
+     "c_4_0_2",
+     "c_4_0_3"
+    ]
+   ],
+   "counts": {
+    "0000": 275,
+    "0100": 247,
+    "1011": 254,
+    "1111": 224
+   },
+   "sims": [
+    {
+     "measured": [
+      "QB4",
+      "QB5",
+      "QB9",
+      "QB10"
+     ],
+     "dist": {
+      "0011": 0.25,
+      "0110": 0.25,
+      "1001": 0.25,
+      "1100": 0.25
+     }
+    },
+    {
+     "measured": [
+      "QB4",
+      "QB5",
+      "QB9",
+      "QB10"
+     ],
+     "dist": {
+      "0011": 0.138197,
+      "0110": 0.361803,
+      "1001": 0.361803,
+      "1100": 0.138197
+     }
+    },
+    {
+     "measured": [
+      "QB4",
+      "QB5",
+      "QB9",
+      "QB10"
+     ],
+     "dist": {
+      "0011": 0.073223,
+      "0110": 0.426777,
+      "1001": 0.426777,
+      "1100": 0.073223
+     }
+    },
+    {
+     "measured": [
+      "QB4",
+      "QB5",
+      "QB9",
+      "QB10"
+     ],
+     "dist": {
+      "0011": 0.026393,
+      "0110": 0.473607,
+      "1001": 0.473607,
+      "1100": 0.026393
+     }
+    }
+   ],
+   "measured_qubits": [
+    "QB4",
+    "QB5",
+    "QB9",
+    "QB10"
+   ],
+   "ops": [
+    "cz",
+    "measure",
+    "prx"
+   ],
+   "loci": [
+    "QB10",
+    "QB4",
+    "QB5",
+    "QB9"
+   ],
+   "two_qubit_loci": [
+    [
+     "QB10",
+     "QB5"
+    ],
+    [
+     "QB4",
+     "QB5"
+    ],
+    [
+     "QB4",
+     "QB9"
+    ]
+   ]
+  }
+ ],
+ "credits_estimated": 0.0,
+ "cz_per_circuit": [
+  3,
+  3,
+  3,
+  3
+ ],
+ "t20": [
+  {
+   "U": 0.0,
+   "exact_double": 0.2499999999999999,
+   "payload_double": 0.25,
+   "top4": 1.0,
+   "exact_energy": -2.0,
+   "reported_energy": -2.0,
+   "api_double_candidates": [
+    0.351,
+    0.351
+   ]
+  },
+  {
+   "U": 2.0,
+   "exact_double": 0.13819660112501064,
+   "payload_double": 0.1382,
+   "top4": 1.0,
+   "exact_energy": -1.2360679774997907,
+   "reported_energy": -1.236068,
+   "api_double_candidates": [
+    0.393
+   ]
+  },
+  {
+   "U": 4.0,
+   "exact_double": 0.07322330470336312,
+   "payload_double": 0.0732,
+   "top4": 1.0,
+   "exact_energy": -0.828427124746191,
+   "reported_energy": -0.828427,
+   "api_double_candidates": [
+    0.361
+   ]
+  },
+  {
+   "U": 8.0,
+   "exact_double": 0.026393202250021043,
+   "payload_double": 0.0264,
+   "top4": 1.0,
+   "exact_energy": -0.47213595499958005,
+   "reported_energy": -0.472136,
+   "api_double_candidates": [
+    0.3745
+   ]
+  }
+ ],
+ "checks": {
+  "no_unrequested_real_jobs": true,
+  "job_count_ok": true,
+  "completed": true,
+  "right_qpu": true,
+  "payload_simulated": true,
+  "mock_honesty": true,
+  "cz_readback": true,
+  "observables_per_circuit": true,
+  "four_circuits": true,
+  "four_qubits_measured": true,
+  "u_values": true,
+  "hubbard_physics": true,
+  "ideal_matches_payload": true,
+  "measured_matches_api": true,
+  "energies_near_exact": true
+ },
+ "pass": true,
+ "notes": []
+}

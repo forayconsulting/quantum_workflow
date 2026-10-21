@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. The SxSx + SySy terms let neighbors swap spins, so the perfect up-down pattern is not a stable state and it melts. It says the order drops within a time of about 1/J and then levels off. It says the order stays above zero because a 6-spin chain is small, and that is a fair finite-size point. It ties the effect to the reduced ordered moment in KCuF3. Calling the chains a quantum spin liquid is loose wording, because physicists usually describe a spinon continuum. The core physics is still correct.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values 1.00, 0.88, 0.62, 0.41, 0.34, 0.36 match payload_ideal in the grade file. The exact values 1.00, 0.88, 0.62, 0.41, 0.34, 0.37 match the exact field. The largest gap is 0.007 at t=2.0, so the claim of less than 0.01 holds. The measured range of -0.19 to -0.41 matches the api values. The CZ counts 0, 21, 36, 51, 66, 81 match cz_per_circuit. The job ID, the 1000 shots, and the roughly 250 shots per pattern match the counts. The 39 K ordering temperature is not in the inputs. It is the standard literature value for KCuF3 and not a number from the run, so I did not count it against the answer.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock does not run the circuit and returns made-up bitstrings. It points out that t=0 gave -0.19 when the answer must be 1. It says the mock checks only the job format and cannot show the physics.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer contrasts the 6-spin chain with the very long chains in the real crystal. It names the weak couplings between chains that cause ordering below about 39 K, and it mentions temperature. It presents the run as a small chain that shows the same effect, not as a simulation of the crystal itself.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "Most of the answer uses short, plain sentences that speak to the person who asked. Some terms are not defined. These include Neel order, CZ gates, second-order Trotter splitting, spinon excitations, and neutron scattering. The bit-order note and the file list read like engineering notes. It is still not a wall of jargon, and a non-expert can follow the main story.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It mentions that a run on the real Garnet would show the melting, and it notes that this costs credits. That is a suggestion, not a set of steps for the user.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The answer explains quantum melting correctly. Its run numbers all match the grade file. It is honest about the mock and about the toy model. A few terms are left undefined.",
+ "evidence": [
+  "The Neel order is 1.00 at t=0, then 0.88, 0.62, 0.41, 0.34, and 0.36 at t=2.0.",
+  "The mock device does not run the circuit. It returns made-up bitstrings so you can check that a job is set up correctly.",
+  "KCuF3 orders only below about 39 K, and only because weak couplings between neighboring chains hold the pattern in place."
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/69eba65d-ce0d-461c-9501-193f4ac9a72b/subagents/workflows/wf_8040e0a9-69b/agent-af0074d44488a9eaa.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 139.8,
+ "ended": "2026-10-21T22:50:50.185000Z",
+ "api_calls": 7,
+ "tokens": {
+  "input_tokens": 14,
+  "output_tokens": 71,
+  "cache_read_input_tokens": 388985,
+  "cache_creation_input_tokens": 55995,
+  "total": 445065,
+  "fresh": 56080
+ },
+ "tool_calls": 11,
+ "tool_errors": 2,
+ "tool_errors_by_class": {
+  "guard": 1,
+  "agent": 1,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 6,
+  "Read": 1,
+  "Write": 3,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -n -iE \"retrieve|get_job|job.circuits|circuits_batch|run_request|get_run|def |multiple circuits|list of circuits|payload|cz|prx|qubits.*locus|locus\" /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md /Users/claytonchancey/Desktop/quantum/docs/iqm/05-results-and-data.md | head -120"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r05-B-T20-3"
+}

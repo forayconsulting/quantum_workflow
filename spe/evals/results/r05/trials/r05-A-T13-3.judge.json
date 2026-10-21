@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the IQM Python SDK, which can do the whole task. It also took detours. Three self-made errors cost 6 calls in all. A script named inspect.py clashed with the stdlib module. A token argument clashed with the IQM_TOKEN environment variable. The call qm.model_dump failed on an ObservationFinder object. On top of that, the agent spent 5 calls grepping and reading SDK source files before it wrote the main script. The total detour is well over 2 calls.",
+  "verdict": "FAIL"
+ },
+ "arguments": {
+  "critique": "The agent made one submission, job 01a160a7-12dc-7783-ab97-480b4db65023. It went to garnet:mock with 200 shots. The circuit had CZ only on QB11-QB12 and QB12-QB7. It measured QB7, QB12 and QB11. The grader confirms right_qpu, right_shots, cz_on_best_edges, best_triple_measured and circuit_correct_sim. The simulated distribution is 0.5 000 and 0.5 111.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before it built the circuit, the agent read the dynamic quantum architecture of real garnet. It got the default calset f81c45da-6e73-4b5d-a0fe-72c75635fade, the default CZ implementation slepian_crf, and the CZ loci. It then pulled the calibration quality metrics. It chose the chain from those API values. The calset matches the grader truth.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real-QPU jobs. It submitted one mock job. The repeated script runs came after errors and were not identical successful calls. The grader marks no_unrequested_real_jobs and job_count_ok as true.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The chain picked in the calibration step went straight into the circuit in the same script. The job ID printed at submit is the one in the final report. The counts in the report match the API counts exactly. The grader shows counts_match_api as true.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 20 tool calls, which is 19 without StructuredOutput. The minimum for T13 is 5, so the limit is 10. The agent used almost twice that limit, mostly on error recovery and reading SDK source.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report gives the chain QB7-QB12-QB11, the fidelities 0.998016 and 0.998693, and the product 0.996712. These match the script output and the grader truth of 0.99671219. The runner-up chain it names matches the printed list. The counts match the API. The report says plainly that mock counts do not follow the circuit and do not show entanglement. The claim of 0 credits matches the grader estimate of 0.0.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The agent got a correct result with one mock job and an honest report, but its SDK exploration and three self-made errors cost too many calls.",
+ "failure_type": "inefficiency: SDK source exploration and self-inflicted script errors (stdlib name clash, mixed token sources, wrong object method)",
+ "evidence": [
+  "chain QB7-QB12-QB11 product 0.996712 (0.998016, 0.998693)",
+  "ClientConfigurationError: Authentication parameters given both as initialisation args and as environment variables",
+  "AttributeError: 'ObservationFinder' object has no attribute 'model_dump'"
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names quantum melting of the up-down order. It says the SxSx + SySy terms let neighbor pairs swap, so up-down becomes down-up. It says these swaps spread and blur the pattern. It says the order settles at a lower value because the starting pattern is a mix of many quantum states. This is correct for the Heisenberg chain. The link to spinons in neutron scattering is also correct.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values 1.00, 0.88, 0.63, 0.41, 0.35, 0.38 match payload_ideal in the grade file. The exact values 1.00, 0.88, 0.62, 0.41, 0.34, 0.37 match exact. The measured values -0.22, -0.43, -0.42, -0.41, -0.40, -0.42 match api. The 73 CZ gates, 1000 shots, 0 credits, and the job ID all match. The ordering temperature of about 39 K for KCuF3 has no source in the result object or the grade file. It agrees with published data, but the rubric fails any number with no source in the inputs.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the test device numbers carry no physics. It says the mock does not run the circuit and returns 4 fixed bit patterns in about equal amounts. It points out that the mock gives -0.22 at t = 0, where the true answer is exactly 1. It says the mock only checks that the job is valid.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer says a 6-spin chain is far smaller than a real crystal. It says the numbers show the trend and not exact values for the material. It names weak coupling between chains as the reason KCuF3 orders at low temperature, which is a thing the model leaves out.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer defines Neel order in plain words, with 1 as perfect alternation and 0 as none. It explains the swap mechanism simply. A few terms like Trotter steps, CZ gates, and spinons get only a short gloss. The closing lines with script paths read like an engineer note, but they are brief. A non-expert can follow the main story.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It mentions that a real Garnet run would cost credits, which is an option, not a set of steps. The script paths are given for reference only.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer gets the physics right and is honest about the mock and the toy model. One unsourced figure, the 39 K ordering temperature, fails numbers_grounded under a strict reading.",
+ "evidence": [
+  "The test device returned -0.22, -0.43, -0.42, -0.41, -0.40 and -0.42. These numbers carry no physics.",
+  "KCuF3 does order at about 39 K, but only because weak couplings between chains hold the pattern in place.",
+  "A perfect quantum computer running these exact circuits would show 1.00, 0.88, 0.63, 0.41, 0.35 and 0.38 at times 0 through 2.0."
+ ]
+}

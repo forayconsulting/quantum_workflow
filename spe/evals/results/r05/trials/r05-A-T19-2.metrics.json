@@ -1,0 +1,35 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/69eba65d-ce0d-461c-9501-193f4ac9a72b/subagents/workflows/wf_8040e0a9-69b/agent-a17e681d9c496b268.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 142.1,
+ "ended": "2026-10-21T22:48:28.442000Z",
+ "api_calls": 13,
+ "tokens": {
+  "input_tokens": 26,
+  "output_tokens": 882,
+  "cache_read_input_tokens": 679891,
+  "cache_creation_input_tokens": 42868,
+  "total": 723667,
+  "fresh": 43776
+ },
+ "tool_calls": 15,
+ "tool_errors": 2,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 2,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 12,
+  "Write": 2,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "grep -n -i -E \"get_run|get_job|circuits|job_id|IQMProvider|run\\(\" /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md",
+  "sed -n 495,530p /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md; sed -n 850,900p /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r05-A-T19-2"
+}

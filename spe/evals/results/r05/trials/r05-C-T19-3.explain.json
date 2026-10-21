@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names quantum melting of the up-down order. It says the perfect alternating pattern is not a stable state of the Heisenberg model. It explains that the Sx Sx + Sy Sy part lets a neighboring up and down spin swap places, and that these swaps spread and entangle the chain. This is the correct mechanism. It also explains the small rise at t=2 as a finite-size effect of a 6-spin chain, which is right.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The noiseless values 1.00, 0.88, 0.62, 0.41, 0.35, 0.38 match payload_ideal in the grade file. The exact values 1.00, 0.88, 0.62, 0.41, 0.34, 0.37 match the exact column. The mock values -0.18, -0.40, -0.44, -0.41, -0.41, -0.43 match the api column. The CZ counts 0, 28, 58, 88, 118, 148 match cz_per_circuit. The job ID, 1000 shots, 0 credits, and 1.0 billed second match the grade file. The 39 K ordering temperature for KCuF3 is not in either file. It is a correct literature value about the material, not an experiment result. The Trotter step size of 0.2 or less is not stated in the files, but it fits the CZ counts.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock values do not follow the circuit. It says the mock returns a few fixed patterns in about equal shares, even at t=0 where the answer must be exactly 1. It says the mock only checks that the job is valid and does not simulate the physics. It does not present the mock counts as physics.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer says six spins is a small model that only shows a short time window. It names coupling between chains as the cause of the real 39 K order, which the 1D model leaves out. It also notes that real neutron data show spinons. It does not claim the circuit simulates the crystal itself.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer is organized under plain headings that match what the user asked. It defines Trotter steps and spinons in a few words. Some terms stay undefined, such as CZ gates, entangle, and neutron scattering. The closing list of files reads a little like an engineer log. A non-expert can still follow the main story.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The user is not asked to run code, call the API, or handle tokens. The answer says a real Garnet run would be needed to see decay on hardware, but it does not hand that step to the user. The file list is for reference only.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The answer explains quantum melting of the up-down order correctly. Its numbers match the grade file, it is honest about the mock and the toy model, and it reads plainly, with a few undefined terms.",
+ "evidence": [
+  "The Sx Sx + Sy Sy part of the interaction lets a neighboring up and down spin swap places. These swaps spread through the chain and entangle the spins.",
+  "The mock only checks that the job is valid and runs. It does not simulate the physics.",
+  "That order comes from weak coupling between the chains, and the ordered moment is much smaller than the full spin. Six spins is a small model and only shows a short time window."
+ ]
+}

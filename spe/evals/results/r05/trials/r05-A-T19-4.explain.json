@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names quantum melting of the up-down order. It says the Sx Sx + Sy Sy terms let neighboring opposite spins swap, and that these swaps add up in superposition. This is correct. It also says correctly that the true ground state of a Heisenberg chain is not the perfect Neel pattern and that a single chain does not lock into long-range order even at zero temperature.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Almost every number matches the grade file at /Users/claytonchancey/Desktop/quantum/spe/evals/results/r05/trials/r05-A-T19-4.grade.json. The ideal values 1.00, 0.88, 0.62, 0.41, 0.35 and 0.38 match payload_ideal. The claim of agreement with the exact answer to about 0.01 holds, because the largest gap is 0.0097 at t = 2.0. The mock range of -0.599 to -0.605 matches the api values. The CZ counts 0, 30, 60, 75, 105 and 120, the 2000 shots, the qubits QB1, QB2, QB5, QB4, QB3 and QB8, the job ID, and the 0 credits all match. One number has no source in the inputs. That is the ordering temperature of about 39 K for KCuF3. It is a correct value from the literature, but the rubric says any unsourced number fails.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock device does not run the circuit. It says the mock returns the same 8 fixed bit patterns for any circuit. It says the numbers only prove that the job went through and tell nothing about the physics. It also says a real Garnet run would be needed to see real melting with noise.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer calls the run a 6-spin simulation that shows the process on a small scale. It names one thing the model leaves out. That is the weak links between neighboring chains, which hold the order in place below the ordering temperature in the real crystal. It does not claim that the circuit simulates the real material itself.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer opens with the direct result. It defines Neel order in one sentence and defines spinons in a few words. The paragraph on what was run uses some engineer terms, such as CZ gates, shots, and qubit names, but it stays short. The rest reads as a reply to the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It mentions that a real Garnet run would cost credits. That is information for the user, not a task handed to them.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer teaches the physics well and is honest about the mock run. It cites a 39 K ordering temperature that is correct but has no source in the result or grade files, so numbers_grounded fails.",
+ "evidence": [
+  "\"The mock device does not run the circuit. It returns the same 8 fixed bit patterns in roughly equal numbers for any circuit.\"",
+  "\"In the real crystal, the order only appears below about 39 K, because weak links between neighboring chains hold it in place.\"",
+  "\"The terms Sx Sx + Sy Sy let two neighboring opposite spins swap places. Quantum mechanics lets all of these swaps happen together as a superposition.\""
+ ]
+}

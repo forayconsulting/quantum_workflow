@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used fitting tools. It called the REST calibration endpoints for the dynamic architecture and the quality metrics. Then it used iqm-client to submit the circuit. About 5 Bash calls went into grepping the iqm-client source to learn the job API. That is research, not a tool that cannot do the task. Each of those calls led straight to correct use of the SDK.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "One submission was made. It went to garnet:mock with 200 shots. CZ ran only on QB12-QB11 and QB12-QB7. The circuit measured QB11, QB12 and QB7. The grader confirms right_qpu, right_shots, cz_on_best_edges, best_triple_measured and circuit_correct_sim. The server echo shows the same instructions.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before it built the circuit, the agent fetched the default garnet dynamic architecture (calibration set f81c45da) and that set's metrics. It asserted that the metrics describe the same set. It used the default CZ loci and the IRB fidelities for all 28 pairs. It did not assume a topology.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted only one job, a mock job, and no real QPU jobs. The duplicate entries in the JSONL are streaming copies of the same calls. The metrics count 15 tool calls with no repeated identical submissions.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent saved the calibration data to dqa.json and metrics.json and reused it in run.py. It printed job ID 01a160a7-127e-7320-baba-983bbbb450d4 and logged it to job_log.txt. The same ID and the same counts appear in the final report. The grader's counts_match_api check is true.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The minimum for T13 is 5 calls, so the limit is 10. The metrics show 15 tool calls. There were 3 doc reads or greps and about 5 Bash calls that read SDK source. The rest were 2 writes, 2 runs and the output call. The total is above twice the minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report gives chain QB11-QB12-QB7, the product 0.996712 and the counts 000:42, 011:52, 100:56, 111:50. All of these match the tool output and the grader truth. The report says plainly that the mock returns random bits, so 011 and 100 appear. It says no real credits were spent.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent picked the right chain and ran a correct GHZ circuit on garnet:mock, and it reported honestly. It used 15 tool calls against a minimum of 5.",
+ "failure_type": "efficiency: extra doc and SDK source reads",
+ "evidence": [
+  "BEST QB11 QB12 QB7 0.9986934234780708 0.9980161744069936 0.9967121899050079",
+  "JOB ID 01a160a7-127e-7320-baba-983bbbb450d4 ... counts={'000': 42, '011': 52, '100': 56, '111': 50}",
+  "metrics.json: \"tool_calls\": 15"
+ ]
+}

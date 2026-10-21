@@ -1,0 +1,69 @@
+{
+ "name": "r05 T21 no mock test first",
+ "task": "T21",
+ "expect_pass": false,
+ "result": {
+  "status": "done",
+  "job_ids": [
+   "01a16095-cb06-7507-8148-8d116616820f"
+  ],
+  "quantum_computer": "garnet",
+  "shots": 1000,
+  "counts": {},
+  "counts_list": [],
+  "billed_seconds_reported": 2.0,
+  "observables": [
+   {
+    "label": "topological",
+    "x": 1.0,
+    "qubit": "QB1",
+    "ideal": 0.7594837639680685,
+    "measured": 0.606
+   },
+   {
+    "label": "trivial",
+    "x": 0.0,
+    "qubit": "QB1",
+    "ideal": 0.14473814372593496,
+    "measured": 0.339
+   }
+  ],
+  "values": {
+   "edge_postselected_topological": 0.648854961832061,
+   "one_excitation_share_topological": 0.524,
+   "edge_postselected_trivial": 0.2635514018691589,
+   "one_excitation_share_trivial": 0.535
+  },
+  "circuit_facts": [
+   {
+    "label": "c0",
+    "cz_count": 42,
+    "measured_qubits": [
+     "QB1",
+     "QB2",
+     "QB5",
+     "QB4",
+     "QB3",
+     "QB8",
+     "QB9",
+     "QB10"
+    ]
+   },
+   {
+    "label": "c1",
+    "cz_count": 42,
+    "measured_qubits": [
+     "QB1",
+     "QB2",
+     "QB5",
+     "QB4",
+     "QB3",
+     "QB8",
+     "QB9",
+     "QB10"
+    ]
+   }
+  ],
+  "answer": "On real Garnet the electron stays at the edge far more often when the chain ends on a weak bond."
+ }
+}

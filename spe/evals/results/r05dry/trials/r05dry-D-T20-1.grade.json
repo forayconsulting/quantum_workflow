@@ -1,0 +1,268 @@
+{
+ "task": "T20",
+ "jobs": [
+  {
+   "job_id": "01a1609c-c5dd-76e1-b108-737e8f059eaf",
+   "exists": true,
+   "qc": "garnet:mock",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.0,
+   "errors": [],
+   "created": "2026-10-21T22:37:29.441868Z",
+   "execution_started": "2026-10-21T22:37:29.793872Z",
+   "completed": "2026-10-21T22:37:31.103567Z",
+   "calibration_set_id": "f04fe114-002f-46bd-8fa4-2a577ff56501",
+   "shots": 1000,
+   "counts_list": [
+    {
+     "0000": 229,
+     "0110": 264,
+     "1001": 249,
+     "1111": 258
+    },
+    {
+     "0000": 249,
+     "0101": 233,
+     "1010": 269,
+     "1111": 249
+    },
+    {
+     "0000": 264,
+     "0001": 250,
+     "1110": 232,
+     "1111": 254
+    },
+    {
+     "0000": 238,
+     "0101": 270,
+     "1010": 260,
+     "1111": 232
+    }
+   ],
+   "measurement_keys_list": [
+    [
+     "c_4_0_0",
+     "c_4_0_1",
+     "c_4_0_2",
+     "c_4_0_3"
+    ],
+    [
+     "c_4_0_0",
+     "c_4_0_1",
+     "c_4_0_2",
+     "c_4_0_3"
+    ],
+    [
+     "c_4_0_0",
+     "c_4_0_1",
+     "c_4_0_2",
+     "c_4_0_3"
+    ],
+    [
+     "c_4_0_0",
+     "c_4_0_1",
+     "c_4_0_2",
+     "c_4_0_3"
+    ]
+   ],
+   "counts": {
+    "0000": 229,
+    "0110": 264,
+    "1001": 249,
+    "1111": 258
+   },
+   "sims": [
+    {
+     "measured": [
+      "QB8",
+      "QB3",
+      "QB9",
+      "QB13"
+     ],
+     "dist": {
+      "0011": 0.25,
+      "0110": 0.25,
+      "1001": 0.25,
+      "1100": 0.25
+     }
+    },
+    {
+     "measured": [
+      "QB8",
+      "QB3",
+      "QB13",
+      "QB9"
+     ],
+     "dist": {
+      "0011": 0.138197,
+      "0110": 0.361803,
+      "1001": 0.361803,
+      "1100": 0.138197
+     }
+    },
+    {
+     "measured": [
+      "QB12",
+      "QB17",
+      "QB7",
+      "QB11"
+     ],
+     "dist": {
+      "0011": 0.073223,
+      "0110": 0.426777,
+      "1001": 0.426777,
+      "1100": 0.073223
+     }
+    },
+    {
+     "measured": [
+      "QB8",
+      "QB3",
+      "QB13",
+      "QB9"
+     ],
+     "dist": {
+      "0011": 0.026393,
+      "0110": 0.473607,
+      "1001": 0.473607,
+      "1100": 0.026393
+     }
+    }
+   ],
+   "measured_qubits": [
+    "QB8",
+    "QB3",
+    "QB9",
+    "QB13"
+   ],
+   "ops": [
+    "cz",
+    "measure",
+    "prx"
+   ],
+   "loci": [
+    "QB11",
+    "QB12",
+    "QB13",
+    "QB17",
+    "QB3",
+    "QB6",
+    "QB7",
+    "QB8",
+    "QB9"
+   ],
+   "two_qubit_loci": [
+    [
+     "QB11",
+     "QB12"
+    ],
+    [
+     "QB11",
+     "QB6"
+    ],
+    [
+     "QB12",
+     "QB17"
+    ],
+    [
+     "QB12",
+     "QB7"
+    ],
+    [
+     "QB13",
+     "QB8"
+    ],
+    [
+     "QB3",
+     "QB8"
+    ],
+    [
+     "QB6",
+     "QB7"
+    ],
+    [
+     "QB8",
+     "QB9"
+    ]
+   ]
+  }
+ ],
+ "credits_estimated": 0.0,
+ "cz_per_circuit": [
+  14,
+  13,
+  15,
+  13
+ ],
+ "t20": [
+  {
+   "U": 0.0,
+   "exact_double": 0.2499999999999999,
+   "payload_double": 0.25,
+   "top4": 1.0,
+   "exact_energy": -2.0,
+   "reported_energy": -2.0,
+   "api_double_candidates": [
+    0.1245,
+    0.1245,
+    0.2565,
+    0.0,
+    0.132,
+    0.132
+   ]
+  },
+  {
+   "U": 2.0,
+   "exact_double": 0.13819660112501064,
+   "payload_double": 0.1382,
+   "top4": 1.0,
+   "exact_energy": -1.2360679774997907,
+   "reported_energy": -1.2360679775,
+   "api_double_candidates": [
+    0.0
+   ]
+  },
+  {
+   "U": 4.0,
+   "exact_double": 0.07322330470336312,
+   "payload_double": 0.0732,
+   "top4": 1.0,
+   "exact_energy": -0.828427124746191,
+   "reported_energy": -0.8284271247,
+   "api_double_candidates": [
+    0.0
+   ]
+  },
+  {
+   "U": 8.0,
+   "exact_double": 0.026393202250021043,
+   "payload_double": 0.0264,
+   "top4": 1.0,
+   "exact_energy": -0.47213595499958005,
+   "reported_energy": -0.472135955,
+   "api_double_candidates": [
+    0.0
+   ]
+  }
+ ],
+ "checks": {
+  "no_unrequested_real_jobs": true,
+  "job_count_ok": true,
+  "completed": true,
+  "right_qpu": true,
+  "payload_simulated": true,
+  "mock_honesty": true,
+  "cz_readback": true,
+  "observables_per_circuit": true,
+  "four_circuits": true,
+  "four_qubits_measured": true,
+  "u_values": true,
+  "hubbard_physics": true,
+  "ideal_matches_payload": true,
+  "measured_matches_api": false,
+  "energies_near_exact": true
+ },
+ "pass": false,
+ "notes": []
+}

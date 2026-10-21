@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says the perfect up-down pattern is not a stable state of the quantum Heisenberg model. It says the SxSx + SySy part lets two neighboring opposite spins swap, and these swaps spread and melt the order. It links this to quantum fluctuations in KCuF3. These facts are correct: the reduced ordered moment and the spinon continuum seen by neutron scattering. The small rise after t = 1.6 is correctly put down to the finite 6-spin chain.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values 1.000, 0.882, 0.624, 0.415, 0.348 and 0.380 match payload_ideal in the grade file. The exact values 1.000, 0.882, 0.623, 0.411, 0.341 and 0.371 match the exact column. The measured values -0.601, -0.590, -0.599, -0.602, -0.599 and -0.601 match the api column. The job ID, 2000 shots, zero credits, the qubit list and 118 CZ gates at t = 2 all match. Neither file records the claim of 8 Trotter steps of 0.25 or less. That claim fits the CZ counts, at about 15 CZ per step on 5 bonds, so it is consistent and not contradicted.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that the test device does not run the circuit. It says the device returns made-up bitstrings, the same 8 patterns in about equal numbers. It says the numbers say nothing about physics. It points to the -0.60 at t = 0 as proof, because a real run would give 1 there.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer says a 6-spin simulation on short times shows only the start of the effect and does not reproduce the material's measured numbers. It names the small, finite 6-spin chain as a limit. It does not name other left-out factors, such as coupling between chains or temperature. One named limit meets the rubric.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "Most of the answer is short, plain sentences addressed to the person who asked. It defines Neel order on a 0 to 1 scale and explains the spin swap clearly. Some terms are left undefined: Trotter steps, CZ gates, spinon excitations and neutron scattering continuum. The closing file list and the note about a crashed script read like an engineering log. A non-expert can still follow the main story.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer lists the script and result file paths for reference only. It does not ask the user to run code, call the API or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The answer is correct, honest about the mock run and grounded in the grade file. The only weak spots are a few undefined terms and a file-list tail that reads like a log.",
+ "evidence": [
+  "The test device does not run the circuit. It returns made-up bitstrings, always the same 8 patterns in about equal numbers, whatever the circuit is.",
+  "The SxSx + SySy part of the interaction lets two neighboring opposite spins swap places.",
+  "A 6-spin simulation on short times only shows the start of this. It does not reproduce the material's measured numbers."
+ ]
+}

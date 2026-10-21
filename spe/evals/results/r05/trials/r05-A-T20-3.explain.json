@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says strong repulsion U stops two electrons from sharing a site, and that this makes the half-filled crystal an insulator. It ties the U=0 case to band theory and the U=8 case to La2CuO4. It also says the leftover hopping makes neighboring spins point opposite ways, which explains the antiferromagnetism. It says hole doping brings superconductivity. All of this is correct at the level of the toy model. It does not mention that the real material is a charge-transfer insulator, but the task framed it as a Mott insulator, so that is not a fault.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The energies -2.000, -1.236, -0.828 and -0.472 match values and the grade file exact energies. The ideal double occupancies 0.250, 0.138, 0.073 and 0.026 match payload_double in the grade file. The device values 0.353, 0.358, 0.401 and 0.373 match api_double_candidates (0.3725 rounds to 0.373). The job ID, 1000 shots, 0 credits, and 48 to 62 two-qubit gates all match the grade file. The formula E = U/2 - sqrt(U^2/4 + 4) gives the exact energies. No number lacks a source.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer opens by saying the device numbers cannot show the effect because garnet:mock returns random counts. It says the device values do not follow U and only show that the job ran. It separates the noiseless simulation of the submitted circuits from the mock counts. It does not present mock counts as physics.",
+  "verdict": "PASS"
+ },
+ "material_honesty": {
+  "critique": "The answer says two sites are only a toy version of the crystal. It says the model cannot show a true phase transition, which points to the missing crystal size. It also describes doping as something outside the run. It does not list other left-out parts such as oxygen atoms or temperature, but the rubric needs only one. It does not claim the circuit simulates the real material.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "Most of the answer is plain and addressed to the person who asked. It defines double occupancy, doping, and what U=0 means in simple words. The 'What I ran' section uses some engineer terms such as Givens rotations, complex phases, and 8 parameters without defining them. It ends with file paths. These parts are short, and a non-expert can skip them and still follow the main story.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It mentions that a real Garnet run would cost credits, as an option. It lists file locations for reference only.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The answer explains the Mott effect correctly, matches every number to the grade file, labels the mock counts as random, and calls the 2-site model a toy, with a little jargon in the method section.",
+ "evidence": [
+  "The device numbers cannot show it, because garnet:mock returns random counts.",
+  "That gives 0.250 at U=0, 0.138 at U=2, 0.073 at U=4 and 0.026 at U=8.",
+  "Two sites are only a toy version of this. The model shows the cause of the Mott state, but it cannot show a true phase transition."
+ ]
+}

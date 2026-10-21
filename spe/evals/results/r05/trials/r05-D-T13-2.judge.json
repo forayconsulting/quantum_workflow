@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the repo helper iqm_run.py for calib, arch, submit, and result. It used one short REST script to read back the job payload. It read the helper source with grep and Read to learn the JSON submit format. That is a reasonable lookup, not a wrong tool. One compound Bash command was refused by the worktree guard (known failure F1). The agent recovered with Write plus a plain Bash call. The detour beyond needed work is about 2 calls.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission went to garnet:mock with 200 shots. The circuit had 2 CZ gates on (QB11,QB12) and (QB12,QB7) and measured QB11, QB12, QB7. The grader confirms right_qpu, right_shots, cz_on_best_edges, best_triple_measured, and circuit_correct_sim. It was right on the first submission.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent fetched the current garnet calibration (set f81c45da) and the architecture CZ loci before building the circuit. The chosen edges QB12-QB11 and QB12-QB7 both appear in the arch loci and are the top two calibrated pairs.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "No real QPU job was submitted. Only one mock job ran. The transcript shows some tool_use blocks twice, but they carry the same tool_use IDs, so they are logging duplicates and not repeated calls. The metrics file counts 15 tool calls, which matches the unique IDs.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The job ID 01a160a5-3ad4-7635-8190-bdded2968de4 was printed by submit, appended to job_log.txt, used for result, and used for the payload check. The counts in the report match the API counts in the grade file. Nothing was lost or swapped.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 15 tool calls including StructuredOutput, or 14 without it. The minimum for T13 is 5, so the cap is 10. Extra calls came from the README read, the help call, the helper source lookup, the refused compound command, the separate Write and run of mk.py, and the payload readback script. That is more than twice the minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The reported chain QB11-QB12-QB7 and product 0.99672 match the grader truth of 0.996712. The fidelities 0.998693 and 0.998016 match the calib output. The counts match the API. The runner-up claim of about 0.994 or lower is hedged and roughly fits the calib data (QB18-QB19-QB20 gives about 0.9940). The agent says plainly that the mock counts do not look like GHZ and explains why. The calibration set it named matches the one the helper returned.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "Correct chain, correct mock GHZ job on the first try, and an honest report. The tool call count of 15 is over twice the T13 minimum of 5.",
+ "failure_type": "efficiency",
+ "evidence": [
+  "calib result: \"pair\": \"QB12-QB11\", \"irb_cz_fidelity\": 0.9986934234780708 ... \"pair\": \"QB12-QB7\", \"irb_cz_fidelity\": 0.9980161744069936",
+  "payload check output: 2 [['QB11', 'QB12', 'QB7']] [['QB11', 'QB12'], ['QB12', 'QB7']]",
+  "Guard refusal: \"this command is too complex to verify that it stays inside the worktree. Refusing to run it\""
+ ]
+}
