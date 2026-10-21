@@ -1,0 +1,36 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_3612af23-e49/agent-a17cc810fbebc6552.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 37.2,
+ "ended": "2026-10-21T18:26:15.737000Z",
+ "api_calls": 6,
+ "tokens": {
+  "input_tokens": 12,
+  "output_tokens": 351,
+  "cache_read_input_tokens": 282181,
+  "cache_creation_input_tokens": 44331,
+  "total": 326875,
+  "fresh": 44694
+ },
+ "tool_calls": 6,
+ "tool_errors": 0,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 4,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "cat /Users/claytonchancey/Desktop/quantum/docs/iqm/README.md; ls /Users/claytonchancey/Desktop/quantum/docs/iqm/",
+  "grep -n -i -E \"billed|billing|cost|usage|sirius|move\" /Users/claytonchancey/Desktop/quantum/docs/iqm/05-results-and-data.md /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md | head -80",
+  "sed -n 40,140p /Users/claytonchancey/Desktop/quantum/docs/iqm/05-results-and-data.md; sed -n 715,790p /Users/claytonchancey/Desktop/quantum/docs/iqm/05-results-and-data.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r03-B-T10-2"
+}

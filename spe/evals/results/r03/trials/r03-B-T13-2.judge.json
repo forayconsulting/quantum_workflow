@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used REST for the calibration and metrics endpoints and iqm-client for the native circuit job. Both fit the task. The guard refused one compound heredoc command, and the agent rewrote it as a Write plus a run. The first job script crashed after the job completed because CircuitJob has no result_counts method. The agent fixed this with a fetch script, which took 2 calls. Not counting the guard refusal, which the harness caused, the detour stays within 2 calls.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent submitted one job. It went to garnet:mock with 200 shots. The circuit used prx and cz only. It put CZ on (QB12,QB7) and (QB12,QB11), the best edges, and it measured QB7, QB12, and QB11. The grader confirms right_qpu, right_shots, cz_on_best_edges, best_triple_measured, and circuit_correct_sim are all true.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent fetched the default garnet DQA and the metrics for that calibration set before it picked the chain. It also checked that the mock DQA had CZ loci for both pairs before it submitted. These are the hardware facts the task needed.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted only one job, and it went to the mock. When the result read failed, it fetched counts by job ID and did not resubmit. No real QPU job ran. The transcript repeats some entries, but these are logging copies and not repeated tool calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent saved the best chain to best.json and loaded it in the job script. It printed job ID 01a15fa2-4fa0-72cf-81f1-bb698a0da016 and used that same ID in the fetch script. The counts it reported match the API result.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics file lists 15 tool calls. That is 14 without StructuredOutput. The minimum for T13 is 5, so the limit is 10. Five calls went to reading docs, one was the guard refusal, and two went to the fetch fix. The total is more than twice the minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The chain QB7-QB12-QB11 and the product 0.996712 match the grader's truth of 0.9967121899. The reported counts match the fetch output and the grader's API counts. The calibration set IDs match what the tools returned. The report says the mock returns random results and that no real QPU credits were used. Both statements are consistent with the job record. The agent did not mention the crash in its first script, but it recovered from it and reported no result that the tools did not return.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent got the chain, the product, and the mock GHZ job right on the first submission, but it used 14 tool calls against a minimum of 5.",
+ "failure_type": "efficiency",
+ "evidence": [
+  "counts {'000': 49, '001': 46, '110': 51, '111': 54} total 200",
+  "AttributeError: 'CircuitJob' object has no attribute 'result_counts'",
+  "Their product is 0.996712. The next best chain is QB12-QB11-QB16"
+ ]
+}

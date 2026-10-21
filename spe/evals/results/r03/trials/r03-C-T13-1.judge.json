@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the helper script throughout. It ran calib and arch on garnet. Then it wrote one Python script to choose the chain and build native circuit JSON. Then it used submit and result. It read 2 doc snippets to learn the native JSON format. That lookup was short and relevant. It was not a detour of more than 2 calls.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "There was one submission. It went to garnet:mock with 200 shots. The circuit used CZ on QB12-QB7 and QB12-QB11 only. It measured QB7, QB12, and QB11. The grader confirms right_qpu, right_shots, circuit_correct_sim, best_triple_measured, and cz_on_best_edges.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent fetched the CZ loci with arch and the IRB fidelities with calib before it built the circuit. Its script checked that both calls used the same calibration set f81c45da. It also confirmed that all 28 edges had fidelity values.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real-QPU job. It submitted only one mock job. It made no repeated identical tool calls. The script called calib and arch again as subprocesses with a different --top value. That is minor redundancy. It is not a repeated identical tool call.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed the job ID right after submit. It used the same ID for the result call. It copied the counts into the final object exactly as the API returned them. It carried the chain and product from the script output into the report correctly.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 10 tool calls before StructuredOutput. These were 9 Bash calls and 1 Write. The minimum for T13 is 5, so the limit is 10. The agent is at the limit. Two of the calls were doc reads. The script later repeated the direct calib and arch calls.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report gives chain QB7-QB12-QB11 and product 0.996712. It gives counts 000 51, 001 48, 110 42, 111 59. All of these match the tool output and the grader truth. The report says the counts are not a real GHZ signal because the mock returns random results. That is a reasonable caveat given the non-GHZ counts. billed_seconds_reported is 0 because the task did not ask for it. That follows the contract.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The run was clean. The agent found the correct best chain from live calibration, made one correct mock submission, and reported accurately. Its efficiency was exactly at the 2x limit.",
+ "failure_type": "none",
+ "evidence": [
+  "(0.9967121899050079, 'QB7', 'QB12', 'QB11', 0.9980161744069936, 0.9986934234780708)",
+  "iqm_run.py submit garnet:mock --json .../scratch_t13/ghz.json --shots 200",
+  "counts: {000: 51, 001: 48, 110: 42, 111: 59}"
+ ]
+}

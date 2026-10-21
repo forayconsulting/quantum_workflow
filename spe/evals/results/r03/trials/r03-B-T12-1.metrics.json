@@ -1,0 +1,36 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_3612af23-e49/agent-a503e0699da7f36e8.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 27.8,
+ "ended": "2026-10-21T18:01:10.414000Z",
+ "api_calls": 7,
+ "tokens": {
+  "input_tokens": 14,
+  "output_tokens": 798,
+  "cache_read_input_tokens": 343738,
+  "cache_creation_input_tokens": 44170,
+  "total": 388720,
+  "fresh": 44982
+ },
+ "tool_calls": 7,
+ "tool_errors": 0,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 5,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "cat /Users/claytonchancey/Desktop/quantum/docs/iqm/README.md; ls /Users/claytonchancey/Desktop/quantum/docs/iqm/",
+  "grep -n -i -E \"readout|calibration|quality|metric\" /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md | head -80",
+  "sed -n 282,355p /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r03-B-T12-1"
+}

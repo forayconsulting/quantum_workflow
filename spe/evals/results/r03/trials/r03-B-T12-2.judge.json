@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the docs index and grepped the docs for calibration endpoints. Then it called the REST endpoint GET /api/v1/calibration-sets/sirius/default/metrics with requests. That endpoint can answer the task. There was one detour. The worktree guard refused a compound mkdir and heredoc command, and the agent recovered with Write plus one plain run. One wasted call is within the limit of 2.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The task forbids jobs, so no job arguments apply. The only API call used the right alias sirius and the calibration set literal default. It returned HTTP 200 on the first successful run. No submission had a wrong alias, shot count, locus, or gate.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The task needed live calibration data. The agent fetched the current default quality metric set from the API. It did not answer from memory or from the docs. It also recorded the calibration set ID e3e7b570-0fdf-4c7f-b6e5-c94c2e93157a, which matches the grader truth.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The grader shows no jobs submitted and no real QPU jobs. The transcript shows a second Write and Bash pair after the first. Those entries reuse the same tool_use IDs toolu_01P7yxCUG7bHEpR3kdLHuUki and toolu_01CmdHCQQsPFBY4wLaNxgDCP and have no uuid. They are a logging duplicate and not repeated calls. The metrics count 1 Write and 4 Bash calls, which agrees.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "No job IDs were involved. The agent carried the metric set ID, the calibration set ID, and the ranked fidelity values from the tool output into the answer without any swap or misread.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The minimum for T12 is 2 calls, so the limit is 4. The agent made 5 working calls before StructuredOutput. These were 2 doc reads, 1 guard-refused compound command, 1 Write, and 1 script run. The docs read was asked for by the prompt, and the refused call was avoidable because the prompt warned about the guard. The count is one over the limit. This is a narrow fail.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The answer QB5 0.9879 matches the tool output and the grader truth. The runner-up values QB9 0.9861 and QB3 0.9850 match. The ssro measure value 0.9872 matches. The metric set ID, the calibration set ID, the 16-qubit count, and the 08:16 UTC timestamp all match the HTTP 200 response. The claim of no jobs is true.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent answered correctly with QB5 at 0.9879 from one metrics call and submitted no jobs. It used 5 working calls against a limit of 4.",
+ "failure_type": "efficiency: one avoidable guard-refused compound command pushed the call count past twice the minimum",
+ "evidence": [
+  "Guard result: \"this command is too complex to verify that it stays inside the worktree. Refusing to run it\" (/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_3612af23-e49/agent-a5bc54d6034500545.jsonl)",
+  "Tool output: \"(0.9879, 'QB5', False, 0.0010908907747940065)\" under metrics.ssro.measure_fidelity, same transcript",
+  "Grader: \"reported_qubit\": \"QB5\", \"no_jobs_submitted\": true (/Users/claytonchancey/Desktop/quantum/spe/evals/results/r03/trials/r03-B-T12-2.grade.json)"
+ ]
+}

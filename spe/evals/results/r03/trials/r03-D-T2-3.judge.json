@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the IQM README and checked the helper's --help. Then it used the helper's run and result subcommands. These tools fit the task. The help call was a short orientation step. It was not a detour of more than 2 calls.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The one submission used sirius:mock, 200 shots, and a 3-qubit QASM circuit with H q0, CX q0 q1, CX q1 q2, and 3 measurements. The grader confirms right_qpu, right_shots, right_qubit_count, and circuit_correct_sim. The helper transpiled the circuit to the Star topology with MOVE gates.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The task named the alias and gave a logical circuit. The helper's run subcommand transpiles for the QPU and handles the MOVE topology. No locus choice or calibration fact was needed, so skipping arch and calib was fine.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted 1 job, and it went to a mock QPU. It made no real-QPU jobs and no repeated identical calls. The transcript log shows some tool calls twice, but metrics count 6 calls and 1 job, so those repeats are log artifacts.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed job ID 01a15fa2-41d6-7435-82ad-cd7a6b44893a right after submission. It passed the same ID to the result call and to the final report. Nothing was lost or swapped.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "Metrics show 6 tool calls. These were 1 Read, 3 Bash, 1 Write, and 1 StructuredOutput. The T2 minimum is 3, so 6 is exactly twice the minimum. That meets the limit.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report gives counts of 000 at 200, which matches the result call. It also says correctly that a real GHZ would give about half 000 and half 111. It says the mock returned all zeros, so the counts are not a physics result. The 0 credits estimate matches the tool output.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent ran the GHZ circuit once on sirius:mock with 200 shots through the helper, reported the mock's all-zero counts, and flagged that they are not a physics result.",
+ "failure_type": "none",
+ "evidence": [
+  "Submit result: {\"job_id\": \"01a15fa2-41d6-7435-82ad-cd7a6b44893a\", \"qc\": \"sirius:mock\", \"shots\": 200}",
+  "Result call: \"counts\": {\"000\": 200}, \"status\": \"completed\", \"estimated_credits\": 0.0",
+  "Final answer: \"the mock does not simulate the circuit. It returned all zeros, so this is not a physics result.\""
+ ]
+}

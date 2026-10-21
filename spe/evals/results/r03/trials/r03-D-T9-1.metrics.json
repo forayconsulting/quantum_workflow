@@ -1,0 +1,37 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_3612af23-e49/agent-a1c0bd4b5994f430c.jsonl",
+ "model": "claude-sonnet-5-5",
+ "wall_seconds": 39.6,
+ "ended": "2026-10-21T18:01:11.425000Z",
+ "api_calls": 10,
+ "tokens": {
+  "input_tokens": 20,
+  "output_tokens": 490,
+  "cache_read_input_tokens": 499300,
+  "cache_creation_input_tokens": 39510,
+  "total": 539320,
+  "fresh": 40020
+ },
+ "tool_calls": 12,
+ "tool_errors": 2,
+ "tool_errors_by_class": {
+  "guard": 1,
+  "agent": 1,
+  "other": 0
+ },
+ "tools": {
+  "Read": 1,
+  "Bash": 9,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": true,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -rn -i \"angle\" /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md | head -20",
+  "sed -n 700,745p /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r03-D-T9-1"
+}

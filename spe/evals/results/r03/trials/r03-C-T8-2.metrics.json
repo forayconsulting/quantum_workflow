@@ -1,0 +1,35 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_3612af23-e49/agent-ad24afda21ed356ab.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 44.8,
+ "ended": "2026-10-21T18:03:05.675000Z",
+ "api_calls": 11,
+ "tokens": {
+  "input_tokens": 22,
+  "output_tokens": 1806,
+  "cache_read_input_tokens": 557125,
+  "cache_creation_input_tokens": 40892,
+  "total": 599845,
+  "fresh": 42720
+ },
+ "tool_calls": 13,
+ "tool_errors": 2,
+ "tool_errors_by_class": {
+  "guard": 1,
+  "agent": 1,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 11,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": true,
+ "read_docs": [
+  "cat /Users/claytonchancey/Desktop/quantum/docs/iqm/README.md; ls /Users/claytonchancey/Desktop/quantum/docs/iqm/",
+  "sed -n 465,490p /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md; grep -n -i \"json\\|instructions\" /Users/claytonchancey/Desktop/quantum/spe/agent-tools/iqm_run.py | head -40"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r03-C-T8-2"
+}

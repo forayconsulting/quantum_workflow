@@ -73,3 +73,24 @@ The dashboard listed 194 jobs. The known set was 192: 61 from r01, 8 from r02 se
 | `01a15f98-c045-7231-bf45-b467f3b3408e` | garnet:mock | T13 negative, right qubits but not a GHZ circuit | 0 |
 
 Balance before round 3: 18.90.
+
+## Round 3 real-QPU spend (run `wf_3612af23-e49`, 18:00Z to 18:43Z)
+
+| Item | Value | Source |
+|---|---|---|
+| Real jobs reported | 24 on `sirius` (12 T6, 12 T10). No T11 trial used real Garnet | Grade files |
+| Workflow estimate | 7.20 credits | billed_seconds 1.0 × 0.3 per job |
+| Dashboard after the run | Balance 11.70. Credit history: "- 18.30 IQM Sirius, 61 jobs" for the day | Dashboard, Credits page |
+
+**Result:** 61 Sirius jobs at 0.30 each is 18.30, which matches the dashboard. Round 3 spent 7.20, inside the 10 cap.
+
+## Job reconciliation (round 3)
+
+The dashboard listed 315 jobs. The known set is 313 reported or setup jobs plus the 2 unreported jobs from round 2. **Round 3 left 0 unreported jobs.** Scrape and attribution output: `evals/results/r03/unreported_jobs.json` (empty).
+
+## Calibration check (round 3)
+
+| QPU | Default before the run | Default after the run (18:45Z) |
+|---|---|---|
+| garnet | f81c45da (16:42:21Z) | f81c45da |
+| sirius | e3e7b570 (08:16:02Z) | e3e7b570 |

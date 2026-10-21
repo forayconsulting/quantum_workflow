@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used fitting tools. It read the docs, called the REST calibration endpoints, and submitted through iqm-client. It did run into detours. The guard refused one compound command. After submission the run script crashed on a wrong wait_for_completion argument. The fetch script then failed on job.result_counts. The agent spent an introspection call and a sed edit before counts came back. The cleanup after submission took about 4 extra calls, which is more than 2.",
+  "verdict": "FAIL"
+ },
+ "arguments": {
+  "critique": "The agent submitted one job to garnet:mock with 200 shots. It used QB7, QB12, and QB11. CZ ran only on QB7-QB12 and QB12-QB11. The prx and cz circuit gives an ideal GHZ distribution, and the grader sim shows 000 and 111 at 0.5 each. The first submission was right.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent fetched the default garnet DQA and the IRB metrics for calibration set f81c45da before it picked the chain. It also checked that the mock DQA had both CZ pairs before it submitted.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted only one job, and it went to the mock. When the script crashed, the agent did not resubmit. It said it would fetch the existing job. The repeated fetch runs each came after a code change, so they were not identical calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The run script printed job ID 01a15fa0-a3c6-7377-b013-4b6fff367c67 right after submission. The fetch script used that same ID, and the final report used it too. The chain and fidelities carried through to the circuit without mix-ups.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 19 tool calls, and 18 of them were not StructuredOutput. The T13 minimum is 5, so the limit is 10. The agent went well past that because of the guard refusal, several doc reads, introspection calls, and the fetch fixes.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The agent reported chain QB7-QB12-QB11 with product 0.996712. That matches the tool output and the grader truth of 0.99671. The counts 000:56, 001:50, 110:40, 111:54 match the API. The agent said the script crashed after submission. It also said the mock counts do not show a GHZ state.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The agent got the right chain, the right circuit, and an honest report, but it spent 18 working calls against a minimum of 5 because of SDK API mismatches after it submitted.",
+ "failure_type": "efficiency: SDK API mismatch detours after submission",
+ "evidence": [
+  "TypeError: IQMServerClientJob.wait_for_completion() got an unexpected keyword argument 'polling_interval'",
+  "AttributeError: 'CircuitJob' object has no attribute 'result_counts'",
+  "best QB7 QB12 QB11 0.9967121899050079 0.9980161744069936 0.9986934234780708"
+ ]
+}

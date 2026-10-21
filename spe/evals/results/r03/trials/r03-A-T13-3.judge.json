@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used fitting tools: REST for calibration and metrics, and iqm-client for the job. It did not use the helper. Its first run script imported Circuit and Instruction from iqm.iqm_client, which does not exist in 35.0.3. That cost 6 extra calls of grep and sed into site-packages to learn the API. A second crash on a bad wait_for_completion keyword cost a resume script and its run. Both detours exceed 2 calls.",
+  "verdict": "FAIL"
+ },
+ "arguments": {
+  "critique": "Only one job was submitted. The first script failed at import, before any submit. Job 01a15fa4 used garnet:mock and 200 shots. It used qubits QB11, QB12, QB7 and CZ only on (QB12, QB11) and (QB12, QB7). It measured all 3 qubits. The grader confirms right_qpu, right_shots, cz_on_best_edges, and circuit_correct_sim.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent fetched the default garnet calibration set, its DQA, and its metrics before choosing qubits. It took the CZ loci from the DQA and the IRB fidelities from the metrics. It also read the mock DQA to get the CZ locus orientation before building the circuit.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "No real QPU job was submitted. Only one mock job ran. After the post-submit crash, the agent fetched the existing job instead of resubmitting. The repeated lines in the JSONL are logging duplicates, not repeated calls. The metrics count 26 unique tool calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed job ID 01a15fa4-7f28-70ec-8b0b-7c973ce48fa3 before the crash. It then used that same ID in resume.py to get the status and counts. The calibration data went to files and was read back correctly. The chain result QB11-QB12-QB7 and the product 0.99671 match the grader truth.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 26 tool calls. The T13 minimum is 5, so the limit is 10. The API discovery after the import error and the extra resume step pushed the count well past that limit.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The reported chain, the fidelities, the product 0.996712, and the counts 000:52, 011:51, 100:52, 111:45 all match the tool output. The report says the first script crashed and the job was collected without a resubmit. The claim that garnet:mock returns counts that do not depend on the circuit was not shown by a tool in this trial. It is an inference, but it fits the non-GHZ counts. counts_list is empty by contract, so that is not a false claim.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The agent got the correct chain, product, and counts with one mock job, but two API mistakes caused detours and 26 calls against a minimum of 5.",
+ "failure_type": "sdk_api_mismatch_detour",
+ "evidence": [
+  "ImportError: cannot import name 'Instruction' from 'iqm.iqm_client'",
+  "TypeError: IQMServerClientJob.wait_for_completion() got an unexpected keyword argument 'polling_interval'",
+  "(0.9967121899050079, 'QB11', 'QB12', 'QB7', 0.9986934234780708, 0.9980161744069936)"
+ ]
+}

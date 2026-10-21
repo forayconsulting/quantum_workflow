@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent checked the helper's --help output. The helper's calib command only covers CZ fidelity. So the agent wrote a short iqm-client script that reads the DQA and the calibration quality metrics for sirius. This is a fitting SDK route. Reading two docs to find the metrics API is research. It is not a detour away from the task.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The task forbids jobs, so there was no submission to check. The one API call that matters used the correct alias, sirius. It read the default calibration set e3e7b570-0fdf-4c7f-b6e5-c94c2e93157a, which matches the grader's truth set.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent read the live default calibration set and its ssro metrics. It did not answer from the docs example, which happens to name QB5. It also read the measure gate's default implementation, which is constant, before it picked the metric.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no jobs. The grader confirms no_jobs_submitted is true. No identical call was repeated. The doubled Read and Bash entries in the transcript are echoes of one parallel block. The metrics file also counts Bash at 3, so the help call ran once.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The calibration set ID from the DQA went straight into get_calibration_quality_metrics. The reported value 0.9879 for QB5 matches the script output for ssro.measure_fidelity.constant. No value was swapped or misread.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The minimum for T12 is 2 calls, so the limit is 4. The agent made 6 work calls before StructuredOutput. These were Read README, Bash help, Bash grep, Read doc section, Write script, and Bash run. That is 3 times the minimum. A skilled operator could write the script and run it in 2 calls.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The answer starts with QB5 0.9879, and the script printed that value. The answer also gives the measure gate value of 0.9872 and says that only 16 of 24 qubits have readout metrics. Both statements match the tool output. The answer states that no jobs were submitted, and that is true.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent answered QB5 0.9879 correctly from live calibration with no jobs, but it used 6 work calls against a minimum of 2.",
+ "failure_type": "efficiency: doc reading and a helper help call before writing the SDK script",
+ "evidence": [
+  "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_3612af23-e49/agent-a00b831152cc2e26e.jsonl: \"ssro.measure_fidelity.constant: n=16 / QB5 0.9879 unc 0.0010908907747940065 invalid False\"",
+  "/Users/claytonchancey/Desktop/quantum/spe/evals/results/r03/trials/r03-C-T12-2.grade.json: \"checks\": {\"no_unrequested_real_jobs\": true, \"no_jobs_submitted\": true, \"qubit_correct\": true}",
+  "/Users/claytonchancey/Desktop/quantum/spe/evals/results/r03/trials/r03-C-T12-2.metrics.json: \"tools\": {\"Read\": 2, \"Bash\": 3, \"Write\": 1, \"StructuredOutput\": 1}"
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the provided helper for calib, submit, and result. It wrote native circuit JSON to keep CZ gates only on the two chosen pairs. One compound shell command was refused by the worktree guard. The next run failed because the file had not been written. That detour is 2 calls, so it is not more than 2. Two doc reads to learn the JSON format were reasonable for the submit path.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission went to garnet:mock with 200 shots. It measured QB11, QB12, and QB7. It used CZ only on QB11-QB12 and QB12-QB7. The grader confirms the right QPU, shots, and qubits, the CZ edges, and a correct circuit by simulation.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent ran calib garnet --top 200 before it chose the chain. That call returned the default calibration set f81c45da, which matches the grader truth. The CZ loci came from the same calibration list.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real QPU job. It submitted one mock job, which the task required. It made no repeated identical calls. The README and help entries appear twice in the log, but metrics count only 1 Read, so these are logging duplicates.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed job ID 01a15fa4-331c-7044-aa23-5014bab04512 at submit. It used that ID for the result call and in the report. The chain chosen from calib was the chain used in the circuit.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The minimum for T13 is 5 calls, so the limit is 10. The agent made 13 tool calls, or 12 without StructuredOutput. The extra calls were the README read, two help calls, two doc greps, the refused compound command, and the failed script run.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The chain, the fidelities, and the product 0.996712 match the calib output and the grader truth. The counts match the result call exactly. The runner-up chain products check out against the calib output. The agent said the counts do not look like clean GHZ, and it said it did not simulate the circuit. The phrase H on each qubit is a loose summary of the gate order, but it is not a false claim.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The trial passed. The agent picked the correct chain QB11-QB12-QB7 and reported it honestly, but it used 12 to 13 tool calls against a minimum of 5.",
+ "failure_type": "efficiency",
+ "evidence": [
+  "Guard refusal: \"this command is too complex to verify that it stays inside the worktree. Refusing to run it\"",
+  "Submit result: {\"job_id\": \"01a15fa4-331c-7044-aa23-5014bab04512\", \"qc\": \"garnet:mock\", \"shots\": 200}",
+  "Report: \"QB12-QB11 = 0.998693 and QB12-QB7 = 0.998016, so the product is about 0.996712\""
+ ]
+}

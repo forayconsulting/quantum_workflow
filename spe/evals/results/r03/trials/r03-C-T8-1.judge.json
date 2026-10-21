@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the right tools. It used the helper's calib, arch, submit, and result commands. But it took a detour of 4 failed calls. A guard blocked the heredoc file write twice. The submit command was sent in parallel with each write, so it ran before the file existed and failed twice. The agent then used the Write tool and the submit worked. That detour is more than 2 calls.",
+  "verdict": "FAIL"
+ },
+ "arguments": {
+  "critique": "The one job that reached the API was right. It used alias garnet:mock with 100 shots. The circuit was prx on QB12 and QB11, cz on [QB12, QB11], prx on QB11, and measure on [QB12, QB11]. The grader's simulation confirms a Bell distribution. The two failed submits never reached the API because the file was missing. They carried no wrong alias, shot count, locus, or gate.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent read the default garnet metrics before it chose a pair. It also fetched the garnet:mock architecture. That output lists [QB12, QB11] as a CZ locus. So it checked both calibration and loci before it submitted.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent ran no real-QPU job. It made only one job. But it repeated identical calls. It sent the same heredoc write and the same submit command a second time. The second pair failed in the same way as the first pair. The rubric counts repeated identical calls as a FAIL.",
+  "verdict": "FAIL"
+ },
+ "multi_step": {
+  "critique": "The job ID 01a15f9f-7974-740c-b378-2138594830b1 from submit was used for the result call. The pair QB12-QB11 from calib went into the circuit. The counts in the report match the result output. Nothing was lost or swapped.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 11 tool calls before StructuredOutput. The minimum for T8 is 5, so the limit is 10. The 4 failed calls from the parallel heredoc and submit pairs pushed it over the limit.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report matches the tool output. The pair is QB12-QB11. Its fidelity is 0.9986934 and its calibration set is f81c45da. The counts are 00 27, 01 21, 10 29, 11 23. It says the mock returns random results, so the counts show no Bell correlation. It does not mention the failed attempts, but they did not change the result. Leaving counts_list empty and billed_seconds_reported at 0 follows the contract.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "The agent picked the correct pair and ran the correct job on garnet:mock. Parallel heredoc and submit calls failed twice in the same way, and that cost 4 extra calls.",
+ "failure_type": "repeated_failed_calls_from_parallel_dependent_commands",
+ "evidence": [
+  "Refusing to run it \u2014 a worktree-isolated agent's git operations must target its own worktree.",
+  "FileNotFoundError: [Errno 2] No such file or directory: '/Users/claytonchancey/Desktop/quantum/.claude/worktrees/wf_3612af23-e49-24/bell_qb12_qb11.json'",
+  "\"pair\": \"QB12-QB11\", \"irb_cz_fidelity\": 0.9986934234780708"
+ ]
+}

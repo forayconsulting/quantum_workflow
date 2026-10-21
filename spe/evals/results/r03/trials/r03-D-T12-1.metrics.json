@@ -1,0 +1,37 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_3612af23-e49/agent-acd0e081ee84ad4c9.jsonl",
+ "model": "claude-sonnet-5-5",
+ "wall_seconds": 22.5,
+ "ended": "2026-10-21T18:01:15.515000Z",
+ "api_calls": 6,
+ "tokens": {
+  "input_tokens": 12,
+  "output_tokens": 1036,
+  "cache_read_input_tokens": 269254,
+  "cache_creation_input_tokens": 40372,
+  "total": 310674,
+  "fresh": 41420
+ },
+ "tool_calls": 8,
+ "tool_errors": 1,
+ "tool_errors_by_class": {
+  "guard": 1,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Read": 1,
+  "Bash": 5,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": true,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -rn -i \"readout\\|get_quality_metric\\|quality_metric\" /Users/claytonchancey/Desktop/quantum/docs/iqm --include=*.md",
+  "grep -rn -i -E \"readout|quality_metric|quality metric\" /Users/claytonchancey/Desktop/quantum/docs/iqm"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r03-D-T12-1"
+}

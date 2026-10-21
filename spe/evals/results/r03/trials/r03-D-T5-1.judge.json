@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the README and the helper's --help. It used the helper's arch and submit and result subcommands. These tools fit the task. One heredoc command was refused by the worktree guard. The agent recovered with one Write call. That detour was 1 to 2 calls, which is within the limit.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission used garnet:mock and 100 shots. It used QB1 and QB2, which is a listed cz locus [QB2, QB1]. It used native prx and cz gates and measured both qubits. The grader's sim check confirms a Bell distribution of 00 and 11 at 0.5 each.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent ran arch garnet:mock before it built the fix. That call showed 20 qubits and the cz loci. The agent picked QB2 from the [QB2, QB1] locus. It did not assume connectivity.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, and it was on the mock. It made no real QPU job. The refused command and the later submit were not identical calls. No call was repeated without reason.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The submit returned job 01a15f9f-2d47-72de-9aaf-a27c336423fa. The agent passed that same ID to result. It copied the counts 00 = 56 and 11 = 44 into the final object without error.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "Metrics show 8 tool calls, and one of them is StructuredOutput. That leaves 7 working calls. The T5 minimum is 4, so the cap is 8. The agent stayed under the cap.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report's job ID, alias, shots, and counts match the result output. The report says garnet has QB1 to QB20 and that cz is native. The arch output supports both claims. The report explains both fixes. It says the mock is noise free. The tools did not state that, but the counts show only 00 and 11, so the claim is consistent with the data. The report does not claim anything the tools contradict.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent checked the topology and replaced QB25 with QB2 and cx with prx plus cz plus prx. It submitted one correct mock job and reported the counts 00 = 56 and 11 = 44 accurately.",
+ "failure_type": "none",
+ "evidence": [
+  "arch garnet:mock returned num_qubits 20 and the cz locus [\"QB2\", \"QB1\"]",
+  "submit returned job_id 01a15f9f-2d47-72de-9aaf-a27c336423fa with qc garnet:mock and shots 100",
+  "result returned counts {\"00\": 56, \"11\": 44}, and the final answer reports the same counts"
+ ]
+}

@@ -1,0 +1,27 @@
+{
+ "task": "T12",
+ "jobs": [],
+ "credits_estimated": 0,
+ "truth": {
+  "tops": {
+   "metrics.ssro.measure_fidelity": [
+    0.9879,
+    "QB5"
+   ],
+   "metrics.ssro.measure": [
+    0.9872,
+    "QB5"
+   ]
+  },
+  "calibration_set_id": "e3e7b570-0fdf-4c7f-b6e5-c94c2e93157a",
+  "when": "2026-10-21T18:04:59.144000Z"
+ },
+ "reported_qubit": "QB5",
+ "checks": {
+  "no_unrequested_real_jobs": true,
+  "no_jobs_submitted": true,
+  "qubit_correct": true
+ },
+ "pass": true,
+ "notes": []
+}

@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the tested helper iqm_run.py. It ran --help, read the README, listed aliases, wrote a QASM file, ran the job, and fetched the result. Every call served the task. There were no detours.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission used alias garnet:mock, 100 shots, and 2 qubits. The circuit was H on q0, CX q0 to q1, and a measurement on both qubits. The grader confirms right_qpu, right_shots, right_qubit_count, and circuit_correct_sim. The transpiled job ran on locus QB4 and QB5.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The task gave the alias as garnet-mock. The agent ran the list command and confirmed that garnet:mock exists and is healthy before it submitted. The helper transpiles for the QPU, so a 2-qubit Bell circuit on a mock needed no calibration lookup.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, and it ran on a mock. It submitted no real-QPU jobs. It did not repeat any call. The doubled entries in the JSONL are transcript records, and the metrics show one run call.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed job ID 01a15fb9-f37a-72ba-a08f-f6053c622df1 right after submission. It used the same ID for the result call and in the final report. The counts in the report match the result output.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The minimum for T11 is 3. The agent made 6 work calls: help, README read, list, write, run, and result. The seventh call was StructuredOutput, which only returns the answer. Six is exactly twice the minimum. That meets the limit.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report gives the counts 00: 27, 01: 20, 10: 29, 11: 24. These match the tool output. It states that the alias was mapped from garnet-mock to garnet:mock. It explains that the mock returns random results, which matches the near-uniform counts. counts_list and billed_seconds_reported are empty or 0, which is the contract for this task.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent ran one correct Bell job on garnet:mock with 100 shots and reported the counts accurately in 6 work calls.",
+ "failure_type": "none",
+ "evidence": [
+  "run result: {\"job_id\": \"01a15fb9-f37a-72ba-a08f-f6053c622df1\", \"qc\": \"garnet:mock\", \"shots\": 100}",
+  "result counts: {\"00\": 27, \"01\": 20, \"10\": 29, \"11\": 24}",
+  "answer: \"The task asked for \\\"garnet-mock\\\", but no alias has that exact name. The server's mock Garnet alias is \\\"garnet:mock\\\", so I ran the job there.\""
+ ]
+}

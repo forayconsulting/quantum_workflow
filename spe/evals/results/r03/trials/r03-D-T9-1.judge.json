@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the named helper iqm_run.py. It ran --help, read the submit code, and checked the docs for the prx and measure format. Then it built native JSON and called submit and result. Two calls failed. The first used a heredoc that the worktree guard refused. The second ran submit before c.json existed. The agent switched to the Write tool and absolute paths. That detour was 2 failed calls plus a Write, which stays near the limit. The tools fit the task.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "Only one submit reached the API. It used garnet:mock, 200 shots, and 5 circuits. Each circuit had prx on locus QB1 with angle i*pi/4 and phase 0, followed by measure on QB1. The grader's simulation confirms the angles are 0, pi/4, pi/2, 3pi/4, and pi in order. The earlier submit attempt failed locally with FileNotFoundError and sent nothing.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The task named physical qubit QB1 and a mock backend. It needed no loci or calibration check. The agent did check the docs for the native gate format before it built the circuits. That was the fact it needed.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, to garnet:mock only. It used no real QPU. It made no repeated identical calls. The two refused calls had different commands from the later successful ones.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed job ID 01a15f9f-abf2-71dd-8bbd-0750ba7ba553 right after submit. It passed the same ID to result. It copied the five counts into counts_list in the same order that the API returned them.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 12 tool calls, or 11 without StructuredOutput. The minimum for T9 is 4, so the limit is 8. The agent made 2 failed calls, 3 extra doc and source lookups, and a separate Write plus run step. Those calls pushed it over the limit.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The counts_list matches the result output exactly. The report gives 1.0 billed seconds, which matches the API. The report says the counts are near 50/50 because the mock returns random results. The data supports that statement. The empty counts field follows the optional field contract.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent ran one correct 5-circuit garnet:mock job and reported it accurately. It used 11 calls against a minimum of 4 because of 2 guard-refused calls and extra lookups.",
+ "failure_type": "efficiency",
+ "evidence": [
+  "This agent is isolated in the worktree ... this command is too complex to verify that it stays inside the worktree. Refusing to run it",
+  "FileNotFoundError: [Errno 2] No such file or directory: 'c.json'",
+  "submit garnet:mock --json /Users/claytonchancey/Desktop/quantum/.claude/worktrees/wf_3612af23-e49-29/c.json --shots 200 returned job_id 01a15f9f-abf2-71dd-8bbd-0750ba7ba553"
+ ]
+}

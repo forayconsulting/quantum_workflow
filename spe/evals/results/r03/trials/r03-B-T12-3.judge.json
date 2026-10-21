@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the repo IQM docs to find the endpoint. Then it used raw REST calls to the calibration-sets DQA and metrics endpoints. These tools fit a read-only calibration lookup. The doc reads were relevant to finding the endpoint, so they were not a detour.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The task forbids jobs, so no job arguments exist. The read calls used the right alias, sirius, and the default calibration. The agent then passed the resolved calibration set ID e3e7b570-0fdf-4c7f-b6e5-c94c2e93157a to the metrics endpoint. Both calls returned 200 on the first try.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent fetched the live default calibration and its quality metrics before it answered. It did not rely on the September notebook value in the docs.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no jobs. The grader confirms no_jobs_submitted is true. The agent made no repeated identical calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent took the calibration set ID from the DQA response and used it in the metrics request. The ID in the final report matches the grader truth calibration_set_id.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The minimum for T12 is 2 calls, so the limit is 4. The agent made 6 tool calls in total. They were 2 Reads, 1 grep, 1 Write, 1 script run, and StructuredOutput. Without StructuredOutput the count is still 5. Three of those calls were doc lookups. The count is over twice the minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report gives QB5 at 0.9872 for measure and 0.9879 for measure_fidelity. The script output shows those values. The grader truth shows the same values. The heralded QB10 values of 0.9906 and 0.9920 also appear in the tool output. The agent stated that only 16 of 24 qubits have SSRO data. It also named the metric it chose and the reason.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent read the live default calibration over REST and correctly reported QB5 with no jobs submitted. It used 6 tool calls against a minimum of 2.",
+ "failure_type": "efficiency",
+ "evidence": [
+  "metrics.ssro.measure.constant.QB5.fidelity 0.9872  0.0011214316412234717",
+  "metrics.ssro.measure_fidelity.constant.QB5.fidelity 0.9879  0.0010908907747940065",
+  "QB5 0.9872. I submitted no jobs. I read the current default calibration of sirius through the REST API."
+ ]
+}

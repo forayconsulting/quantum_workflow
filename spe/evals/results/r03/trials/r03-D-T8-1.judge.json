@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used tools that fit the task. It used the helper's calib subcommand for the IRB data and qiskit with initial_layout for the pinned run, because the helper's run command has no layout option. It then wrote chk.py to read the job payload. That script failed with KeyError 'qubits'. The agent tried a sed fix in the wrong directory, which failed. It then tried a compound 'cd && sed' command that the environment rules forbid. It finally fixed the file with Edit and reran. Fixing one print line took 3 extra calls beyond the failed run. That is a detour of more than 2 calls.",
+  "verdict": "FAIL"
+ },
+ "arguments": {
+  "critique": "There was one submission. It went to garnet:mock with 100 shots. The payload shows prx on QB11 and QB12, cz on [QB12, QB11], and measure on QB12 and QB11. The grader confirms right_qpu, right_shots, pinned_to_best_pair, and circuit_correct_sim are all true.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent ran 'iqm_run.py calib garnet --top 5' before it submitted. That call read the default calibration set f81c45da. It picked QB12-QB11 from that result. It did not assume the pair.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real QPU jobs. It submitted one mock job. The transcript repeats some entries because of how it was logged, but the agent made no repeated identical tool calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The job ID 01a15f9f was printed at submission. The same ID was used in the payload check and in the final report. The script's own 'measured' printout said QB19 and QB20, which was wrong. The agent checked the server payload and confirmed QB11 and QB12. So the wrong printout did not reach the report.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 11 tool calls including StructuredOutput, which is about 10 work calls. The minimum for T8 is 5, so the limit is 10. The trial sits at the limit because of the chk.py fix detour.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The reported pair, fidelity 0.99869, uncertainty, calibration set ID, job ID, and counts match the tool outputs. The counts are in qiskit's bit order. The grader shows the raw API order with 01 and 10 swapped, and counts_match_api is true. The report correctly says no real QPU job ran.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The trial ran correctly on QB12-QB11 on garnet:mock, but a 3-call detour to fix a verification script cost it tool_choice.",
+ "failure_type": "tool_detour",
+ "evidence": [
+  "calib result: \"pair\": \"QB12-QB11\", \"irb_cz_fidelity\": 0.9986934234780708",
+  "bell.py printed \"measured: ['QB19', 'QB20']\", but the payload check showed \"{'name': 'cz', 'locus': ['QB12', 'QB11']...}\"",
+  "Detour: \"sed: 1: \\\"chk.py\\\": command c expects \\\\ followed by text\", then the agent ran \"cd /Users/claytonchancey/Desktop/quantum/.claude/worktrees/wf_3612af23-e49-25 && sed -i ...\""
+ ]
+}

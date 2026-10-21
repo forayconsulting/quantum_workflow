@@ -1,0 +1,36 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_3612af23-e49/agent-a7d98ddccdd24bfa0.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 24.8,
+ "ended": "2026-10-21T18:01:40.504000Z",
+ "api_calls": 4,
+ "tokens": {
+  "input_tokens": 8,
+  "output_tokens": 107,
+  "cache_read_input_tokens": 154314,
+  "cache_creation_input_tokens": 32254,
+  "total": 186683,
+  "fresh": 32369
+ },
+ "tool_calls": 5,
+ "tool_errors": 0,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Read": 1,
+  "Bash": 2,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -n -i \"sirius:mock\\|move gate\\|transpile_to_IQM\\|optimize_single\" /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md | head -40"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r03-B-T2-2"
+}

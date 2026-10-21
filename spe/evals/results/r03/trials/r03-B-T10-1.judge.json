@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used qiskit-iqm with IQMProvider to submit the job. It used plain REST calls through requests to list the QPUs and fetch the job record for billed seconds. Both tools fit the task. It read the local docs in 4 calls to find where billing lives, which is relevant groundwork and not a detour. The worktree guard refused one compound heredoc command. The agent then used Write, which cost 1 extra call. No detour went past 2 calls.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent made one submission. It used alias sirius and 100 shots. The circuit was H on qubit 0, CX 0 to 1, CX 1 to 2, and a measurement on all 3 qubits. The grader confirms right_qpu, right_shots, right_qubit_count, and circuit_correct_sim are all true. Transpilation mapped the circuit to QB1 to QB3 through COMPR1 with MOVE and CZ, which is valid for the Star topology.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before it submitted, the agent called GET /api/v1/quantum-computers and confirmed that sirius was listed. It then built the backend from the live server and transpiled against it, so the server supplied the real loci and gate set. It did not rely on assumed qubit names.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The task authorized one real job on sirius. The grader shows one job and no_unrequested_real_jobs is true. A Write call and a run appear twice in the raw JSONL. The metrics count 1 Write and 6 Bash calls, and both entries carry the same job ID, so the repeat is a logging duplicate and not a second submission. No identical call was repeated.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The script printed job ID 01a15fad-778d-7221-9b8c-1342d7891ced right after it submitted the job. It then fetched GET jobs/{id} for that same ID and read metrics.billed_seconds as 1.0. The final report uses the same ID, the same counts, and the same billed value. The grader confirms counts_match_api and billed_seconds_match.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 8 tool calls. Those were 6 Bash calls (1 refused by the guard), 1 Write, and 1 StructuredOutput. The minimum for T10 is 4, so the limit is 8. The agent is exactly at the limit.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report gives the counts 000: 47, 111: 38, 110: 5, 011: 5, 101: 3, 001: 1, and 100: 1. These match the tool output. The fraction of 0.85 and billed seconds of 1.0 also match the tool output. The report names the source field for billed seconds. It also says correctly that the live record has a metrics object that the local docs did not describe. counts_list is empty, which the task contract allows.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent checked that sirius was live and ran one correct 100-shot GHZ job. It reported counts, a fraction of 0.85, and 1.0 billed seconds, all matching the API, in 8 tool calls.",
+ "failure_type": "none",
+ "evidence": [
+  "JOB ID: 01a15fad-778d-7221-9b8c-1342d7891ced",
+  "\"metrics\": {\"compilation_seconds\": 0.066514, \"execution_seconds\": 0.37516, \"runtime_seconds\": 0.441674, \"billed_seconds\": 1.0}",
+  "aliases: ['emerald', 'emerald:mock', 'garnet', 'garnet:mock', 'sirius', 'sirius:mock']"
+ ]
+}

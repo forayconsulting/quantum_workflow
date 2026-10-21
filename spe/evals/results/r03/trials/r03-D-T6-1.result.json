@@ -1,0 +1,1 @@
+{"status":"done","job_ids":["01a15fab-6897-7515-b8fd-fe171401b302"],"quantum_computer":"sirius","shots":100,"counts":{"10":1,"11":43,"00":52,"01":4},"answer":"The Bell circuit ran on sirius with 100 shots and completed. Counts: 00=52, 11=43, 01=4, 10=1. Both bits agreed in 95 of 100 shots, which is 0.95. Billed 1.0 second, about 0.3 credits.","billed_seconds_reported":1}

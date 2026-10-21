@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the IQM README once. It ran the helper's help once. Then it used the helper run and result subcommands. The helper fits the task. No detour went past 2 calls.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The one submission used alias sirius, 100 shots, and --allow-real. The QASM file has H on q0, CX q0 to q1, CX q1 to q2, and measures all 3. The grader confirms right_qpu, right_shots, right_qubit_count, and circuit_correct_sim are all true.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The task fixed the circuit and QPU. The helper transpiles for sirius with MOVE awareness, so the agent did not need to choose loci or check calibration. The agent made no hardware assumption that the API had to confirm.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The task authorized one real job. The agent submitted exactly one job. The grader shows job_count_ok and no_unrequested_real_jobs as true. The agent repeated no calls. Metrics count 6 tool calls. The duplicate lines in the log are logging artifacts.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed job ID 01a15fbf-5c59-7432-a8ba-7162ff297d7b right after submission. It passed the same ID to the result call. The counts and billed seconds in the final output match the result call.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "Metrics show 6 tool calls. One of them is StructuredOutput. The minimum for T10 is 4, so the limit is 8. The agent stayed within it.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The reported counts match the API result exactly. The 0.87 fraction is correct because 44 plus 43 is 87 out of 100. The report gives billed seconds as 1, which matches the API value of 1.0. The 0.3 credit estimate matches the helper output. The grader shows counts_match_api, parity_ok, and billed_seconds_match as true.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent ran one sirius GHZ job with 100 shots through the helper in 6 tool calls and reported correct counts, parity 0.87, and 1 billed second.",
+ "failure_type": "none",
+ "evidence": [
+  "run call: iqm_run.py run sirius --qasm .../ghz3.qasm --shots 100 --allow-real returned job_id 01a15fbf-5c59-7432-a8ba-7162ff297d7b",
+  "result call: \"billed_seconds\": 1.0, counts {\"000\": 44, \"111\": 43, ...}",
+  "final answer: \"The fraction of shots that are 000 or 111 is 87/100 = 0.87. The API reports 1.0 billed second\""
+ ]
+}

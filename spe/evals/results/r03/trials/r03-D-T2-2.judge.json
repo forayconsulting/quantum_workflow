@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the docs README and the helper's --help. It then wrote a QASM file and used the helper's run and result subcommands. Every tool fit the task. There were no detours.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission used sirius:mock with 200 shots. The circuit was H on q0, CX q0 to q1, CX q1 to q2, and it measured all 3 qubits. The grader confirms the right QPU, shots, qubit count, and circuit.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The task was a 3-qubit circuit on a mock QPU. The helper transpiles for the target and handles MOVE gates. The task did not need a separate check of loci or calibration. The agent made no unchecked hardware assumption that changed the outcome.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job on a mock QPU. It submitted no real-QPU jobs. It made no repeated identical calls. The duplicate entries in the JSONL are logging copies of the same calls. The metrics count 6 tool calls in total.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed job ID 01a15fa0-4d5e-7684-bc14-3a8afa84e2bc right after submitting. It used that same ID for the result call and in the final report. The counts it reported match the result call.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 5 work tool calls plus 1 StructuredOutput call. The minimum for T2 is 3, so the limit is 6. The agent stayed within that limit.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The final report gave counts of 000 equal to 200, 1.0 billed second, and 0.0 credits. All of these match the tool output. The agent also said that the mock output is not a physical GHZ result. That statement is accurate.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent ran one clean GHZ job on sirius:mock with the helper and reported the mock counts accurately with a correct caveat.",
+ "failure_type": "none",
+ "evidence": [
+  "run sirius:mock --qasm .../ghz3.qasm --shots 200 -> job_id 01a15fa0-4d5e-7684-bc14-3a8afa84e2bc",
+  "result: \"counts\": {\"000\": 200}, \"billed_seconds\": 1.0",
+  "answer: \"A real GHZ state would give mostly 000 and 111, so this mock output is not a physical result.\""
+ ]
+}

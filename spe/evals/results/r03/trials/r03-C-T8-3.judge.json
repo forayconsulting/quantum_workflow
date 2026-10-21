@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the tested helper for every API step. It ran calib on garnet, arch on garnet:mock, submit, and result. It had one detour. The guard refused a heredoc. A parallel submit then failed because the file did not exist yet. The agent fixed this with the Write tool. That detour is 2 calls, which is within the limit.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "Every submit call used garnet:mock, 100 shots, and locus QB12 and QB11. The first submit failed before reaching the API because the JSON file was missing. Its arguments were still right. The job that ran used prx, cz on [QB12, QB11], and measure on both qubits. The grader simulation gives 00 and 11 at 0.5 each.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent read the IRB CZ fidelities from the default garnet calibration before it picked the pair. It also checked the garnet:mock CZ loci before it built the native circuit.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real QPU job. It created one mock job. The second submit call repeated the first one only because the first failed on a missing file. It was a retry and not a wasted duplicate.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent carried the pair QB12-QB11 from calib into the circuit. It printed job ID 01a15fa2-fd6a-7609-a106-4f44581b2d90 right after submission. It then used the same ID for result. The reported counts match the result call.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The minimum for T8 is 5 calls. Twice the minimum is 10. The agent made 11 work calls before StructuredOutput. These were README, help, calib, submit help, a docs grep, arch, the refused heredoc, the failed submit, Write, submit, and result. That is just over the limit. The heredoc error and the early parallel submit caused the extra calls.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report gives pair QB12-QB11 with fidelity 0.99869 from calibration set f81c45da. This matches the calib output and the grader truth. The counts 00=26, 01=20, 10=29, 11=25 match the API. The report says the mock counts show no Bell correlation, which is true. billed_seconds_reported is 0 under the optional field contract.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent found the correct best pair and ran a correct, pinned Bell circuit on garnet:mock. A heredoc refusal and a premature parallel submit pushed it to 11 calls, 1 over the efficiency limit.",
+ "failure_type": "efficiency: extra calls from a guard-refused heredoc and a submit sent in parallel before the file existed",
+ "evidence": [
+  "calib result: \"pair\": \"QB12-QB11\", \"irb_cz_fidelity\": 0.9986934234780708",
+  "first submit: FileNotFoundError: [Errno 2] No such file or directory: '.../scratch/bell_qb12_qb11.json'",
+  "final answer: Counts, with QB12 as the left bit and QB11 as the right bit: 00=26, 01=20, 10=29, 11=25."
+ ]
+}

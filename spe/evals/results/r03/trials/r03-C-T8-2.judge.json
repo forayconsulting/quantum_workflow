@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the iqm_run.py helper for calib, arch, submit, and result. These tools fit the task. It spent three calls reading help, docs, and the helper source to learn the native JSON format. That is setup, not a detour. The only detour was one guard-refused heredoc and one parallel submit that failed because the file did not exist yet. That is 2 calls, which is within the limit.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The job that the server accepted used garnet:mock, 100 shots, and the locus QB12 and QB11. The circuit was prx, cz, prx, then a measure on both qubits. The simulator check in the grader confirms a Bell distribution. The earlier failed submit never reached the server because the JSON file was missing. So no submission went out with a wrong alias, shot count, locus, or gate.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent ran calib on garnet before it chose a pair. It got the default calibration set f81c45da and the top IRB CZ pairs. It then ran arch on garnet:mock and confirmed that the QB12-QB11 locus exists before it submitted.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real-QPU jobs. It created exactly one job, and that job ran on garnet:mock. The submit command appears twice in the JSONL, but the second copy is a replay entry with the same tool_use ID and no uuid. It is not a second call. The agent retried the submit once, after it wrote the missing file. That was a fix, not a repeated identical call.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed job ID 01a15fa1-6635-70b5-b971-850c0d535a7e right after it submitted. It used that same ID for the result call. The pair from calib carried correctly into the circuit locus. The counts in the result match the counts in the report.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The transcript has 13 tool calls. Even without StructuredOutput there are 12. The minimum for T8 is 5, so the ceiling is 10. The extra calls came from three calls of reading docs and helper source, and from a failed heredoc and submit pair caused by the worktree guard.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report gives pair QB12-QB11 with fidelity 0.99869 and calibration set f81c45da. These match the calib output and the grader truth. The counts 00:23, 01:28, 10:21, 11:28 match the result output. The agent said the mock returns random results, so the counts are not Bell-correlated. That is accurate. The bit order it stated, QB12 then QB11, matches the measured qubits in the grade.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The trial chose the correct best pair QB12-QB11, ran one correct mock Bell job, and reported it accurately. It used 12 to 13 tool calls against a ceiling of 10.",
+ "failure_type": "efficiency",
+ "evidence": [
+  "calib result: \"pair\": \"QB12-QB11\", \"irb_cz_fidelity\": 0.9986934234780708, calibration_set_id f81c45da-6e73-4b5d-a0fe-72c75635fade",
+  "Guard refusal: \"this command is too complex to verify that it stays inside the worktree. Refusing to run it\" followed by FileNotFoundError on the parallel submit",
+  "Final answer: \"Job 01a15fa1-6635-70b5-b971-850c0d535a7e completed. The counts are 00: 23, 01: 28, 10: 21, and 11: 28.\""
+ ]
+}

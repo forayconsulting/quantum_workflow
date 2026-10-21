@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the repo helper for calibration, architecture, submit, and result. It submitted native IQM JSON so the job ran on exact physical qubits with no transpiler step. It spent 3 calls learning the JSON format from the helper source and the REST doc. That work was needed to build the circuit. It was not a detour.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent submitted once. The job went to garnet:mock with 200 shots. The circuit used QB11, QB12, and QB7, with CZ on QB12-QB11 and QB12-QB7 only. It measured all 3 qubits. The grader confirms right_qpu, right_shots, circuit_correct_sim, and cz_on_best_edges. The guard refused one compound command before submission, so no wrong submission reached the API.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent fetched the default garnet calibration (set f81c45da) and the CZ loci before it picked the chain. It used live IRB values for all 28 pairs. It did not assume the topology.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent made no real-QPU job. It submitted one mock job. The transcript shows the Write and submit records twice, but both carry the same job ID 01a15fa2. The grader counts one job. No identical call was repeated.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed job ID 01a15fa2-2580-7256-bf93-be7da4cc46ad right after submission. It fetched the result with the same ID. It reported the same counts the API returned. The calibration set ID carried through to the report correctly.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 9 Bash calls and 1 Write call, plus StructuredOutput. The guard refused one Bash call. The 10 working calls equal twice the T13 minimum of 5. That is within the limit, but at the edge.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report gives chain QB11-QB12-QB7, fidelities 0.998693 and 0.998016, and product 0.996712. These match the calibration output and the grader truth of 0.99671. The counts match the API exactly, and the bit order matches the measure locus. The agent said the mock gives random results. It also gave a runner-up product of 0.994687 that no tool computed. The true value is about 0.994689. That small rounding slip is not a main claim.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent found the correct best chain from live calibration, ran one correct mock GHZ job, and reported the counts accurately with exactly twice the minimum tool calls.",
+ "failure_type": "none",
+ "evidence": [
+  "calib result: \"pair\": \"QB12-QB11\", \"irb_cz_fidelity\": 0.9986934234780708 and \"pair\": \"QB12-QB7\", \"irb_cz_fidelity\": 0.9980161744069936",
+  "submit result: \"job_id\": \"01a15fa2-2580-7256-bf93-be7da4cc46ad\", \"qc\": \"garnet:mock\", \"shots\": 200",
+  "guard refusal: \"this command is too complex to verify that it stays inside the worktree. Refusing to run it\""
+ ]
+}

@@ -1,0 +1,37 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_3612af23-e49/agent-aa0ac394dc7508a1f.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 29.4,
+ "ended": "2026-10-21T18:02:23.992000Z",
+ "api_calls": 5,
+ "tokens": {
+  "input_tokens": 10,
+  "output_tokens": 83,
+  "cache_read_input_tokens": 218588,
+  "cache_creation_input_tokens": 41145,
+  "total": 259826,
+  "fresh": 41238
+ },
+ "tool_calls": 7,
+ "tool_errors": 0,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 5,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "grep -n -i -E \"Circuit\\(|Instruction\\(|submit_circuits|validate|not connected|coupler|QB1.*QB20|IQMClient\\(\" /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md /Users/claytonchancey/Desktop/quantum/docs/iqm/06-limits-errors-troubleshooting.md /Users/claytonchancey/Desktop/quantum/docs/i",
+  "ls /Users/claytonchancey/Desktop/quantum/docs/iqm/; cat /Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "sed -n 150,158p /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md",
+  "sed -n 361,385p /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md; sed -n 465,500p /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r03-B-T7-2"
+}

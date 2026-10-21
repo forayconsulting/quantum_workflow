@@ -1,0 +1,79 @@
+{
+ "task": "T11",
+ "jobs": [
+  {
+   "job_id": "01a15fb1-b836-7512-b4a4-dee1e58f750d",
+   "exists": true,
+   "qc": "garnet:mock",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.0,
+   "errors": [],
+   "created": "2026-10-21T18:20:44.986869Z",
+   "execution_started": "2026-10-21T18:20:45.205358Z",
+   "completed": "2026-10-21T18:20:46.020430Z",
+   "calibration_set_id": "f04fe114-002f-46bd-8fa4-2a577ff56501",
+   "shots": 100,
+   "counts_list": [
+    {
+     "00": 21,
+     "01": 22,
+     "10": 29,
+     "11": 28
+    }
+   ],
+   "counts": {
+    "00": 21,
+    "01": 22,
+    "10": 29,
+    "11": 28
+   },
+   "sims": [
+    {
+     "measured": [
+      "QB4",
+      "QB5"
+     ],
+     "dist": {
+      "00": 0.5,
+      "11": 0.5
+     }
+    }
+   ],
+   "measured_qubits": [
+    "QB4",
+    "QB5"
+   ],
+   "ops": [
+    "cz",
+    "measure",
+    "prx"
+   ],
+   "loci": [
+    "QB4",
+    "QB5"
+   ],
+   "two_qubit_loci": [
+    [
+     "QB4",
+     "QB5"
+    ]
+   ]
+  }
+ ],
+ "credits_estimated": 0.0,
+ "bit_order": "exact",
+ "checks": {
+  "no_unrequested_real_jobs": true,
+  "job_count_ok": true,
+  "has_job": true,
+  "completed": true,
+  "right_qpu": true,
+  "right_shots": true,
+  "right_qubit_count": true,
+  "circuit_correct_sim": true,
+  "counts_match_api": true
+ },
+ "pass": true,
+ "notes": []
+}

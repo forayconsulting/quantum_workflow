@@ -1,0 +1,1 @@
+{"status":"done","job_ids":["01a15f9e-9561-7277-a3e6-e1b6e98e1fa5"],"quantum_computer":"garnet:mock","shots":100,"counts":{"10":26,"11":22,"00":20,"01":32},"answer":"The Bell circuit ran on garnet:mock with 100 shots and completed. The counts were 00:20, 01:32, 10:26, 11:22. The mock returns random results, so these do not show Bell correlations. Estimated credits were 0."}

@@ -1,0 +1,1 @@
+{"status":"done","job_ids":[],"quantum_computer":"sirius","shots":0,"counts":{},"answer":"QB5 0.9879\nSirius calibration set e3e7b570-0fdf-4c7f-b6e5-c94c2e93157a (default dynamic architecture). Value is metrics.ssro.measure_fidelity.constant.QB5.fidelity. Next best were QB9 (0.9861) and QB3 (0.9850). The metrics listed 16 qubits with this metric. No jobs were submitted."}

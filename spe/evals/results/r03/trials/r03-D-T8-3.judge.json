@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the iqm_run.py helper for calib, arch, submit, and result. These tools fit the task. It spent 2 calls reading the helper source (a grep and a Read) to learn the submit JSON format. That detour is 2 calls, so it stays within the limit.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission that reached the API used garnet:mock, 100 shots, and native prx and cz gates on QB12 and QB11. It measured both qubits. The grader simulation gives 00 and 11 at 0.5 each, so the circuit is a correct Bell state. The earlier heredoc command was refused by the worktree guard before it ran, so it was not a wrong submission.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent pulled the default garnet calibration before choosing a pair. It then checked the garnet:mock CZ loci with arch. QB12-QB11 appears in that list. Both facts came from the API, not from assumptions.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real-QPU jobs. It submitted one mock job. The retry after the guard refusal used a different, split command, so it was not an identical repeat.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The pair QB12-QB11 from calib carried into the circuit JSON correctly. Job ID 01a15fa3-4858-7334-8066-9870814079af went from submit to result unchanged. The reported counts match the result output.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 10 working tool calls plus StructuredOutput. The T8 minimum is 5, so the limit is 10. The README read, the help call, the source grep and Read, and the guard refusal pushed the count to the limit exactly. This passes only narrowly.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report gives pair QB12-QB11, fidelity 0.99869, calibration set f81c45da, and counts 00:21, 01:31, 10:24, 11:24. These all match the tool output and the grader truth. It says the uniform counts come from the mock and do not show a Bell state. That statement is accurate and is a fair note to include.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent found QB12-QB11 from the garnet calibration and ran a correct native Bell circuit on that pair on garnet:mock. It reported accurately, but its call count sat exactly at the efficiency limit.",
+ "failure_type": "none",
+ "evidence": [
+  "calib output: \"pair\": \"QB12-QB11\", \"irb_cz_fidelity\": 0.9986934234780708",
+  "submit output: \"job_id\": \"01a15fa3-4858-7334-8066-9870814079af\", \"qc\": \"garnet:mock\", \"shots\": 100",
+  "guard refusal: \"this command is too complex to verify that it stays inside the worktree. Refusing to run it\""
+ ]
+}

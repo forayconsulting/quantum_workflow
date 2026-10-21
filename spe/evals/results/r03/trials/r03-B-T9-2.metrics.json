@@ -1,0 +1,35 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_3612af23-e49/agent-a328461600da0b0e6.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 33.2,
+ "ended": "2026-10-21T18:02:57.478000Z",
+ "api_calls": 5,
+ "tokens": {
+  "input_tokens": 10,
+  "output_tokens": 861,
+  "cache_read_input_tokens": 203770,
+  "cache_creation_input_tokens": 32910,
+  "total": 237551,
+  "fresh": 33781
+ },
+ "tool_calls": 6,
+ "tool_errors": 1,
+ "tool_errors_by_class": {
+  "guard": 1,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 4,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "cat /Users/claytonchancey/Desktop/quantum/docs/iqm/README.md; ls /Users/claytonchancey/Desktop/quantum/docs/iqm/",
+  "grep -n -i -A3 \"batch\\|multiple circuits\\|list of circuits\\|QB1\\|initial_layout\" /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md /Users/claytonchancey/Desktop/quantum/docs/iqm/05-results-and-data.md /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r03-B-T9-2"
+}

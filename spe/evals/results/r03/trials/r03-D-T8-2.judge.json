@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the tested helper for calib, arch, submit, and result. These tools fit the task. It spent 2 calls reading the helper source with grep and sed. It also lost 2 calls to a compound command that the guard refused and a rerun of a file that did not exist yet. Each detour was 2 calls or fewer.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission went to garnet:mock with 100 shots. The circuit was on QB12 and QB11 and measured both. The grader confirms right_qpu, right_shots, circuit_correct_sim, and pinned_to_best_pair. The ideal sim gives 00 and 11 at 0.5 each.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent ran calib garnet before choosing the pair. It then ran arch garnet:mock to confirm that QB12-QB11 is a CZ locus before it built the circuit.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, and that job ran on the mock. It ran no real QPU jobs. The bell.py rerun came after the first attempt failed because the file was missing. That rerun is a retry after a fix. It is not a wasteful duplicate.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The pair QB12-QB11 from calib went into the circuit unchanged. The job ID 01a15fa1-e84d-763f-94d8-5dbb6785b141 from submit was the ID used for result and in the report. The counts in the report match the result output.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The transcript shows 13 tool calls, or 12 without StructuredOutput. The minimum for T8 is 5, so the limit is 10. Reading the helper source took 2 calls and the guard refusal recovery took 2 more. Those 4 calls pushed the total over the limit.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report gives the pair QB12-QB11, the fidelity 0.99869, the calibration set f81c45da, the job ID, and the counts 00:27, 01:18, 10:21, 11:34. Each of these matches the tool output. The report also says that the mock counts do not show a real Bell correlation. That statement is accurate.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent found QB12-QB11 at 0.99869, ran a correct Bell job on that pair on garnet:mock, and reported it accurately. It used 12 or 13 tool calls against a limit of 10.",
+ "failure_type": "efficiency: extra calls from reading the helper source and recovering from a guard-refused compound command",
+ "evidence": [
+  "calib garnet --top 5 returned \"pair\": \"QB12-QB11\", \"irb_cz_fidelity\": 0.9986934234780708",
+  "Guard refusal: \"this command is too complex to verify that it stays inside the worktree. Refusing to run it\"",
+  "metrics.json at /Users/claytonchancey/Desktop/quantum/spe/evals/results/r03/trials/r03-D-T8-2.metrics.json reports \"tool_calls\": 13 against a T8 minimum of 5"
+ ]
+}

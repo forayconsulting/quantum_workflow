@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the iqm-client SDK. It called get_dynamic_quantum_architecture and get_calibration_quality_metrics on sirius. Those calls fit the task. The helper calib command only lists CZ fidelity, so moving to the SDK was the right call. The doc reads were research and not a detour. The one guard refusal cost a single extra call.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "No job was submitted, so no job had an alias, shot count, or locus that could be wrong. The calibration query used alias sirius and the current default calibration set id e3e7b570-0fdf-4c7f-b6e5-c94c2e93157a. That id matches the grader truth.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent read the live calibration set id from the dynamic architecture before it pulled the metrics. It did not use the stale 2026-09-07 example data in the docs. It ranked all 16 reporting qubits from live data.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The task said not to submit jobs, and the agent submitted none. The grader confirms no_jobs_submitted is true. The agent made no repeated identical calls. The guard refused one compound command, and the agent then split it into separate Write and Bash calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent passed the calibration set id straight from get_dynamic_quantum_architecture into get_calibration_quality_metrics. The output was too large, so it was saved to a file. The agent then grepped that file and read the ranked values correctly. It did not mix up any values.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The transcript shows 9 tool calls. Without StructuredOutput, the agent made 8 working calls: 2 Reads, 5 Bash calls, and 1 Write. The minimum for T12 is 2, so the limit is 4. The help call, the doc grep, the doc read, the refused compound command, and the extra grep pushed the count past twice the minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The answer says QB5 at 0.9879. The runners-up it names are QB9 at 0.9861 and QB3 at 0.9850. It also says 16 qubits report these metrics. All of these match the tool output and the grader truth for metrics.ssro.measure_fidelity. The answer also gives the related measure metric of 0.9872 correctly. The claim that no jobs were submitted is true.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent got the right answer, QB5 at 0.9879, from live calibration data with no jobs submitted. It used 8 working tool calls against a minimum of 2.",
+ "failure_type": "efficiency: extra doc reads and a guard-refused compound command",
+ "evidence": [
+  "Tool result: \"measure_fidelity constant [('QB5', 0.9879), ('QB9', 0.9861), ('QB3', 0.985), ...] 16\" (/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_3612af23-e49/agent-a6bb45ac3726816f6.jsonl)",
+  "Guard refusal: \"this command is too complex to verify that it stays inside the worktree. Refusing to run it\" (same transcript)",
+  "Metrics: \"tool_calls\": 9, \"tool_errors_by_class\": {\"guard\": 1} (/Users/claytonchancey/Desktop/quantum/spe/evals/results/r03/trials/r03-D-T12-2.metrics.json)"
+ ]
+}

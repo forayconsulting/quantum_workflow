@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the docs index. It listed the quantum computers over REST and then ran the job with qiskit-iqm. Both tools fit the task. The detour was a heredoc that the worktree guard refused, followed by a run of a file that did not exist. That is 2 wasted calls, which is within the limit of 2.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent made one submission. It went to garnet:mock with 100 shots on 2 qubits. The circuit had H on qubit 0, a CNOT from 0 to 1, and measurement of both qubits. The grader confirms right_qpu, right_shots, right_qubit_count, and circuit_correct_sim. The transpiler chose the coupled pair QB4 and QB5.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The task named the alias garnet-mock. The agent queried /quantum-computers before it submitted. It found that the real alias is garnet:mock. Transpiling against the backend handled qubit placement, so the agent made no unchecked assumption about loci.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The task allowed a job, and the agent submitted only one, on a mock. It submitted no real-QPU jobs. The transcript shows the heredoc call and the run call twice, but they carry the same tool_use IDs. They are duplicate log entries, not repeated calls. The metrics count 5 Bash calls, which agrees.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The script printed job ID 01a15fb0-6d6e-743c-9b86-a929a682db12 right after it submitted the job. The same ID and the same counts appear in the final result object. Nothing was lost or swapped.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 8 tool calls: 5 Bash, 2 Write, and 1 StructuredOutput. The minimum for T11 is 3, so the limit is 6. Even without StructuredOutput there are 7 calls, which is still over the limit. The guard refusal and the failed run that followed it caused most of the overage.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The reported counts were 00 25, 01 23, 10 29, and 11 23. These match the tool output in Qiskit bit order, and the agent named that order. The grader shows counts_match_api as true. The agent said that it changed the alias from garnet-mock to garnet:mock. It also said that the mock gives random results, not a real Bell distribution. It left counts_list and billed_seconds_reported empty or 0, which the contract allows.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent ran a correct Bell job on garnet:mock with 100 shots and reported the counts honestly. It used 8 tool calls against a limit of 6 because the worktree guard refused a heredoc.",
+ "failure_type": "efficiency: extra calls after the worktree guard refused a heredoc",
+ "evidence": [
+  "This agent is isolated in the worktree ... this command is too complex to verify that it stays inside the worktree. Refusing to run it",
+  "JOB_ID: 01a15fb0-6d6e-743c-9b86-a929a682db12 success: True counts: {'11': 23, '00': 25, '10': 29, '01': 23}",
+  "The alias \"garnet-mock\" does not exist. The server lists \"garnet:mock\", which is the Garnet mock, so I will use that."
+ ]
+}

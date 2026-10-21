@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the docs README, ran the helper's --help, used the helper's arch command, and submitted with the helper's submit command. Those tools fit the task. There was one detour. The worktree guard refused a compound heredoc-plus-submit command, so the agent wrote the file with Write and then submitted. That detour cost 1 extra call, which is within the limit of 2.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent submitted only once. That submission used garnet:mock, 100 shots, and a cz on QB1 and QB2. Arch lists that pair as a cz locus in the order QB2, QB1. CZ is symmetric and the job completed. The circuit was prx on QB1, then a CNOT built from prx, cz, and prx on QB2, then a measure of both qubits. The grader's sim check gives 00 and 11 at 0.5 each, and all fix checks are true.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before it picked a partner qubit, the agent ran arch on garnet:mock. Arch confirmed 20 qubits and showed that QB1 to QB2 is a cz locus. The agent also grepped the hardware doc to confirm that the native gates are prx, cz, and measure. It checked these hardware facts before it submitted.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, and that job ran on the mock. It sent no real-QPU jobs. It made no repeated identical calls. The guard blocked the first submit attempt, so that attempt never reached the API.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed job ID 01a15fa2-a06d-77f6-ad44-9f95a85f0539 right after it submitted. It used the same ID for the result call and in the final report. The counts it carried forward match the result exactly.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 8 work calls before StructuredOutput: README, help, arch, grep, the refused bash, Write, submit, and result. The T5 minimum is 4, so the limit is 8. The trial meets the limit exactly. The refused compound command was the only wasted call.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report gives counts 00 at 55 and 11 at 45, job status completed, garnet:mock, and 100 shots. All of these match the result tool output. The two stated changes match the submitted file: QB25 became QB2, and cx became prx, cz, prx. One phrase calls QB1 and QB2 a calibrated cz pair. Arch showed only that the pair is a locus and did not show calibration data. This is a small overstatement. It does not misreport any result. counts_list is empty and billed_seconds_reported is 0, which the contract allows.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent checked arch, replaced QB25 with QB2 and cx with prx-cz-prx, made one correct mock submission, and reported counts 00:55 and 11:45 accurately.",
+ "failure_type": "none",
+ "evidence": [
+  "arch garnet:mock returned num_qubits 20 and a cz locus [\"QB2\", \"QB1\"]",
+  "submit returned job_id 01a15fa2-a06d-77f6-ad44-9f95a85f0539, qc garnet:mock, shots 100. The result returned counts {\"00\": 55, \"11\": 45}",
+  "Guard refusal: 'this command is too complex to verify that it stays inside the worktree. Refusing to run it'"
+ ]
+}

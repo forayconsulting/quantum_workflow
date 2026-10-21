@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the iqm-client SDK to call get_calibration_set and get_quality_metric_set on sirius. That route can answer the task. It checked the helper's help text first. The helper has no readout command, so the SDK was the right fallback. It had two wasted calls. One grep failed because zsh expanded the --include glob. One compound shell command was refused by the worktree guard. Two detour calls is within the limit of 2.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The task forbade jobs, so no job had an alias, shot count, or circuit to check. The read-only calls used the right alias, sirius. The script filtered metrics.ssro.measure_fidelity.constant.<qubit>.fidelity. That field is a readout fidelity field the grader also uses as truth.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent fetched the current default calibration set from the API and read its quality metrics. It did not answer from the docs or from an older calibration set. The calibration set ID it reported, e3e7b570-0fdf-4c7f-b6e5-c94c2e93157a, matches the grader truth.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no jobs. The grader shows an empty jobs list and no_jobs_submitted true. No call was repeated identically. The second grep changed its arguments after the first grep failed. The Write and run calls replaced the refused compound command and were not repeats of it.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent passed the observation_set_id from get_calibration_set into get_quality_metric_set. It copied the top value and qubit, QB5 at 0.9879, correctly into the answer. It also reported the runner-up values correctly.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The minimum for T12 is 2 calls, so the limit is 4. Not counting StructuredOutput, the agent made 7 tool calls. These were one Read of the README, one helper help call, two grep calls, one refused compound Bash, one Write, and one script run. That is more than twice the minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The answer starts with 'QB5 0.9879'. The script output shows that value for QB5 under calibration set e3e7b570-0fdf-4c7f-b6e5-c94c2e93157a. The claim that sixteen qubits report the metric matches the printed count of 16. The claim that no jobs were submitted matches the grader. Shots 0 and empty counts are allowed by the contract.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent read live sirius calibration metrics through the SDK and correctly reported QB5 at 0.9879 without submitting any jobs. It used 7 tool calls when the limit was 4.",
+ "failure_type": "efficiency: extra doc lookups, a zsh glob error in grep, and a compound command refused by the worktree guard",
+ "evidence": [
+  "Script output in /Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_3612af23-e49/agent-acd0e081ee84ad4c9.jsonl: \"calset e3e7b570-0fdf-4c7f-b6e5-c94c2e93157a\" and \"0.9879 metrics.ssro.measure_fidelity.constant.QB5.fidelity\"",
+  "Failed grep in the same transcript: \"(eval):1: no matches found: --include=*.md\"",
+  "/Users/claytonchancey/Desktop/quantum/spe/evals/results/r03/trials/r03-D-T12-1.metrics.json: \"tool_calls\": 8, \"tool_errors_by_class\": {\"guard\": 1}"
+ ]
+}

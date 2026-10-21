@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the docs index, ran the helper's --help, used the helper's arch command to read the coupling map, and used the helper's submit and result commands. One heredoc call was refused by the worktree guard. The agent then used Write instead. That is a one-call detour, which is within the limit of 2.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "There was one submission. It used garnet:mock with 100 shots. The circuit used QB1 and QB2, which is a calibrated cz locus. It used only prx, cz, and measure, and it measured both qubits. The grader confirms right_qpu, right_shots, right_qubit_count, circuit_correct_sim, fix_no_qb25, fix_no_cx, and fix_cz_with_qb1.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent ran arch garnet:mock before writing the fix. That call showed 20 qubits and the cz loci for QB1 (QB2 and QB4). The agent also grepped the hardware doc for the native operation set before it replaced cx. Both checks came before the submission.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one mock job and no real-QPU jobs. It made no repeated identical calls. The arch and grep calls appear twice in the raw JSONL, but they are log entries for one parallel call pair. The metrics count 7 Bash calls, which matches one of each.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed job ID 01a15f9f-0c27-724f-aa37-ad225fe37734 right after the submission. It fetched the result with the same ID. It then reported that ID and counts {00: 47, 11: 53}, which match the result output and the grader.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 8 work calls: 7 Bash calls and 1 Write. One of the Bash calls was the refused heredoc. The minimum for T5 is 4, so the limit is 8. The final StructuredOutput call is the required return step and is not task work.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report matches the tool results. The tools returned the job ID, the alias, 100 shots, and the counts. The arch output shows that QB1 couples only to QB2 and QB4. The CNOT pattern the agent credited to the docs appears in /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md at lines 475 to 478, and those lines fall inside the grep the agent ran. billed_seconds_reported is 0, which follows the contract because the task did not ask for it.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent checked the coupling map and the native gates. It replaced QB25 with QB2 and cx with prx-cz-prx. It made one correct mock submission and reported the job accurately.",
+ "failure_type": "none",
+ "evidence": [
+  "arch garnet:mock loci include [\"QB2\",\"QB1\"] and [\"QB4\",\"QB1\"]",
+  "submit result: {\"job_id\": \"01a15f9f-0c27-724f-aa37-ad225fe37734\", \"qc\": \"garnet:mock\", \"shots\": 100}",
+  "result counts: {\"00\": 47, \"11\": 53}, status completed"
+ ]
+}

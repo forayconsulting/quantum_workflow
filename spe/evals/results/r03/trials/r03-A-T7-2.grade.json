@@ -1,0 +1,14 @@
+{
+ "task": "T7",
+ "jobs": [],
+ "credits_estimated": 0,
+ "server_errors": [],
+ "checks": {
+  "no_unrequested_real_jobs": true,
+  "no_completed_job": true,
+  "names_both_qubits": true,
+  "names_cause": true
+ },
+ "pass": true,
+ "notes": []
+}
