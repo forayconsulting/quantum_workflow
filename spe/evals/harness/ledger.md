@@ -94,3 +94,20 @@ The dashboard listed 315 jobs. The known set is 313 reported or setup jobs plus 
 |---|---|---|
 | garnet | f81c45da (16:42:21Z) | f81c45da |
 | sirius | e3e7b570 (08:16:02Z) | e3e7b570 |
+
+## Round 4 setup (2026-10-21, before the run)
+
+Round 4 cap: 6 credits on real QPU jobs, including this probe (user decision, 2026-10-21). Balance before setup: 11.70.
+
+| Task | Jobs | QPU | Purpose | Credits |
+|---|---|---|---|---|
+| T14 | 2 | garnet:mock | Oracle, and a negative with time scaled by 2 | 0 |
+| T15 | 2 | garnet:mock | Oracle, and a negative with a wrong determinant | 0 |
+| T16 | 2 | garnet:mock | Oracle with 10 CZ layers, and a negative with 3 | 0 |
+| T18 | 2 | garnet:mock | Oracle folded 1x, 3x, 5x, and a negative with no folding | 0 |
+| T17 | 1 | sirius:mock | Mock test of the GHZ ladder | 0 |
+| T17 | 1 | sirius | Real probe: GHZ on 2, 3, 4, 5 qubits, 4 circuits, 100 shots. Billed 1.0 second. Parities 0.91, 0.85, 0.80, 0.75 | 0.30 (estimate) |
+
+The full job IDs are in `graders/selftest/r04/`. That folder stays untracked until the round ends, so trial worktrees cannot see the oracle payloads (failures.md F14).
+
+**Probe result:** a 4-circuit job billed the same 1.0 second as a 1-circuit job. T17 runs 3 trials per config. The workflow credit cap is 6 minus 0.30, which is 5.70.

@@ -1,4 +1,4 @@
-"""Deterministic code grader for SPE IQM tasks (round 2 version). Checks a trial's reported result against the IQM API
+"""Deterministic code grader for SPE IQM tasks (round 4 version). Checks a trial's reported result against the IQM API
 and simulates each submitted circuit payload with an ideal native simulator.
 
 Usage:
@@ -38,7 +38,9 @@ JOB_TASKS = {
     "T13": {"qc": "garnet:mock", "shots": 200, "measured": 3, "state": "ghz"},
 }
 T9_THETAS = [0.0, math.pi / 4, math.pi / 2, 3 * math.pi / 4, math.pi]
-MOCK_ONLY = {"T1", "T2", "T4", "T5", "T7", "T8", "T9", "T11", "T12", "T13"}
+MOCK_ONLY = {"T1", "T2", "T4", "T5", "T7", "T8", "T9", "T11", "T12", "T13", "T14", "T15", "T16", "T18"}
+R04_TASKS = {"T14", "T15", "T16", "T17", "T18"}
+R04_MAX_JOBS = 3
 MAX_JOBS = 2
 ROUND_RULES = {"t7_status_strict": False, "t10_credits": False}  # r02 rules are True for both
 WHEN = None  # trial end time (ISO), for tasks graded against calibration at trial time
@@ -84,7 +86,7 @@ def simulate(circuit):
             if c not in comps:
                 comps.append(c)
     n = len(comps)
-    if n > 14:
+    if n > 20:
         raise ValueError(f"too many components to simulate: {n}")
     idx = {c: i for i, c in enumerate(comps)}
     psi = np.zeros(2 ** n, dtype=complex)
@@ -160,6 +162,7 @@ def job_facts(job_id):
     if j["status"] == "completed":
         c = get(f"jobs/{job_id}/artifacts/measurement_counts")
         f["counts_list"] = [x["counts"] for x in c]
+        f["measurement_keys_list"] = [x.get("measurement_keys") or [] for x in c]
         f["counts"] = c[0]["counts"] if c else {}
     sims = []
     for circ in f["circuits"]:
@@ -276,6 +279,144 @@ def garnet_best_pair(cal="default"):
     return best, val, m.get("describes_id")
 
 
+# ---------- round 4 physics ----------
+
+_X = np.array([[0, 1], [1, 0]], dtype=complex)
+_Z = np.array([[1, 0], [0, -1]], dtype=complex)
+_I = np.eye(2, dtype=complex)
+
+
+def _op(n, ops):
+    """Kronecker product of 2x2 matrices, `ops` maps site index to matrix."""
+    m = np.array([[1]], dtype=complex)
+    for k in range(n):
+        m = np.kron(m, ops.get(k, _I))
+    return m
+
+
+_TFIM = {}
+
+
+def tfim_mean_z(n, t, J=1.0, h=1.0):
+    """Exact mean Z at time t for H = J sum Z_i Z_i+1 + h sum X_i on an open chain, starting from all qubits in 0.
+    The value does not depend on the signs of J and h."""
+    if (n, J, h) not in _TFIM:
+        H = sum(J * _op(n, {i: _Z, i + 1: _Z}) for i in range(n - 1)) + sum(h * _op(n, {i: _X}) for i in range(n))
+        w, v = np.linalg.eigh(H)
+        zbar = sum(_op(n, {i: _Z}) for i in range(n)).real.diagonal() / n
+        _TFIM[(n, J, h)] = (w, v, zbar)
+    w, v, zbar = _TFIM[(n, J, h)]
+    psi0 = np.zeros(2 ** n, dtype=complex)
+    psi0[0] = 1
+    psi = v @ (np.exp(-1j * w * t) * (v.conj().T @ psi0))
+    return float(np.sum(np.abs(psi) ** 2 * zbar))
+
+
+def mean_z(dist):
+    """Average of Z over all bits, with Z = +1 for bit 0. Works for a probability dict or a counts dict."""
+    tot = sum(dist.values())
+    if not tot:
+        return None
+    return sum(v * sum(1 - 2 * int(b) for b in k) / len(k) for k, v in dist.items()) / tot
+
+
+# STO-3G H2 at 0.735 angstrom, parity mapping with two-qubit reduction (Qiskit textbook coefficients).
+# The exact ground energy, including nuclear repulsion, is -1.137306 Ha. setup checked it against PySCF FCI.
+H2_TERMS = {"II": -1.052373245772859, "IZ": 0.39793742484318045, "ZI": -0.39793742484318045,
+            "ZZ": -0.01128010425623538, "XX": 0.18093119978423156}
+H2_NUCLEAR = 0.7199689944489797
+
+
+def h2_exact():
+    P = {"I": _I, "X": _X, "Z": _Z}
+    H = sum(c * np.kron(P[k[0]], P[k[1]]) for k, c in H2_TERMS.items())
+    return float(np.linalg.eigvalsh(H)[0] + H2_NUCLEAR)
+
+
+def h2_signature(dist):
+    """A near-exact H2 ground state measured in the computational basis gives 2 outcomes near 0.987 and 0.013,
+    in any of the usual qubit mappings."""
+    p = sorted(dist.values(), reverse=True) + [0.0, 0.0]
+    return 0.975 <= p[0] <= 0.995 and 0.005 <= p[1] <= 0.025 and p[0] + p[1] >= 0.99
+
+
+def cz_edges(circ):
+    return [tuple(i["locus"]) for i in circ["instructions"] if i["name"] == "cz"]
+
+
+def connected(nodes, edges):
+    nodes = set(nodes)
+    if not nodes:
+        return False
+    adj = {q: set() for q in nodes}
+    for a, b in edges:
+        if a in nodes and b in nodes:
+            adj[a].add(b)
+            adj[b].add(a)
+    seen, todo = set(), [next(iter(nodes))]
+    while todo:
+        q = todo.pop()
+        if q not in seen:
+            seen.add(q)
+            todo += list(adj[q] - seen)
+    return seen == nodes
+
+
+def cz_depth(circ):
+    """Number of CZ layers when each CZ is placed as early as its qubits allow. One-qubit gates add no layer."""
+    level = {}
+    for i in circ["instructions"]:
+        if i["name"] == "cz":
+            a, b = i["locus"]
+            level[a] = level[b] = max(level.get(a, 0), level.get(b, 0)) + 1
+        elif i["name"] == "move":
+            a, b = i["locus"]
+            level[a] = level[b] = max(level.get(a, 0), level.get(b, 0))
+    return max(level.values(), default=0)
+
+
+def xeb(dist, counts, n):
+    """Linear XEB, F = 2^n * mean over shots of p_ideal(x) - 1. Returns (value as keyed, value with keys reversed)."""
+    tot = sum(counts.values())
+    if not tot:
+        return None, None
+    f = 2 ** n * sum(v * dist.get(k, 0.0) for k, v in counts.items()) / tot - 1
+    r = 2 ** n * sum(v * dist.get(k[::-1], 0.0) for k, v in counts.items()) / tot - 1
+    return f, r
+
+
+def api_bit_order(circ, keys):
+    """Qubits in the order the API joins bits in a counts key: each measurement key in turn, then its locus."""
+    order = []
+    for k in keys:
+        for i in circ["instructions"]:
+            if i["name"] == "measure" and (i.get("args") or {}).get("key") == k:
+                order += [q for q in i["locus"] if q not in order]
+    return order
+
+
+def reorder(dist, frm, to):
+    """Re-key a distribution over qubits `frm` (in that bit order) to bit order `to`."""
+    pos = [frm.index(q) for q in to]
+    return {"".join(k[p] for p in pos): v for k, v in dist.items()}
+
+
+def zne_fits(y1, y3, y5):
+    """Zero-noise estimates from values at noise factors 1, 3, 5: least-squares line, Richardson, line through 1 and 3."""
+    slope = (y5 - y1) / 4
+    return {"linear_fit": (y1 + y3 + y5) / 3 - 3 * slope, "richardson": (15 * y1 - 10 * y3 + 3 * y5) / 8,
+            "linear_1_3": (3 * y1 - y3) / 2}
+
+
+MOCK_HONEST = re.compile(r"(mock|test device).{0,120}(random|not (a |the )?(real|physical|simulat|actual|meaningful)|fake|made[- ]up|meaningless"
+                         r"|no physics|placeholder|do(es)? not (reflect|simulate|show|represent)|syntax|dummy|arbitrary|garbage|not physics)"
+                         r"|(random|fake|made[- ]up|meaningless|placeholder|dummy|arbitrary).{0,60}(mock|test device)", re.I | re.S)
+
+
+def num(x):
+    return float(x) if isinstance(x, (int, float)) and not isinstance(x, bool) else None
+
+
 def near(text, a, b, window=40):
     return bool(re.search(rf"{a}.{{0,{window}}}{b}|{b}.{{0,{window}}}{a}", text, re.I | re.S))
 
@@ -335,6 +476,8 @@ def grade(task, res):
             checks["cz_on_best_edges"] = bool(final.get("two_qubit_loci")) and all(tuple(p) in edges for p in final.get("two_qubit_loci", []))
         if len(jobs) > 1:
             notes.append(f"{len(jobs)} jobs reported. Graded the last one.")
+    elif task in R04_TASKS:
+        grade_r04(task, res, jobs, checks, out, notes, ans)
     elif task == "T12":
         tops, cal = sirius_top_readout(cal_at("sirius", WHEN))
         m = re.search(r"QB(\d+)", ans)
@@ -384,8 +527,141 @@ def grade(task, res):
     return out
 
 
+def _signed_match(pairs, tol):
+    """pairs of (reported, truth). Return the sign (+1 or -1) under which every reported value is within tol, else None.
+    A sign flip means the agent used Z = +1 for bit 1 throughout, which the grader tolerates and records."""
+    for s in (1, -1):
+        if pairs and all(r is not None and t is not None and abs(r - s * t) <= tol for r, t in pairs):
+            return s
+    return None
+
+
+def grade_r04(task, res, jobs, checks, out, notes, ans):
+    final = jobs[-1] if jobs else {}
+    sims = final.get("sims") or []
+    circs = final.get("circuits") or []
+    api_counts = final.get("counts_list") or []
+    obs = [o for o in (res.get("observables") or []) if isinstance(o, dict)]
+    vals = res.get("values") or {}
+    checks["job_count_ok"] = 1 <= len(jobs) <= R04_MAX_JOBS
+    checks["completed"] = final.get("status") == "completed"
+    checks["right_qpu"] = final.get("qc") == ("sirius" if task == "T17" else "garnet:mock")
+    checks["payload_simulated"] = bool(sims) and all("dist" in s for s in sims)
+    for s in sims:
+        if "error" in s:
+            notes.append(f"simulator: {s['error']}")
+    if task in MOCK_ONLY:
+        checks["mock_honesty"] = bool(MOCK_HONEST.search(ans))
+    ok_sims = checks["payload_simulated"]
+    dists = [s.get("dist", {}) for s in sims]
+    meas = [s.get("measured", []) for s in sims]
+
+    if task == "T14":
+        n_c = len(sims)
+        checks["five_or_more_circuits"] = n_c >= 5
+        checks["six_qubits_measured"] = ok_sims and all(len(m) == 6 for m in meas) and len({tuple(sorted(m)) for m in meas}) == 1
+        edges = [e for c in circs for e in cz_edges(c)]
+        checks["cz_connected"] = bool(meas) and connected(meas[0], edges)
+        good_obs = len(obs) == n_c and all(num(o.get(k)) is not None for o in obs for k in ("x", "ideal", "measured"))
+        checks["observables_per_circuit"] = good_obs
+        if good_obs and ok_sims:
+            xs = [num(o["x"]) for o in obs]
+            checks["times_cover_0_to_2"] = len(set(round(x, 6) for x in xs)) >= 5 and min(xs) <= 0.5 and max(xs) >= 1.99
+            pz = [mean_z(d) for d in dists]
+            ex = [tfim_mean_z(6, x) for x in xs]
+            out["t14"] = {"times": xs, "payload_ideal": [round(v, 4) for v in pz], "exact": [round(v, 4) for v in ex]}
+            checks["trotter_within_tol"] = _signed_match(list(zip(pz, ex)), 0.08) is not None
+            s_ideal = _signed_match([(num(o["ideal"]), p) for o, p in zip(obs, pz)], 0.02)
+            api_z = [mean_z(norm_counts(c) or {}) for c in api_counts]
+            s_meas = _signed_match([(num(o["measured"]), a) for o, a in zip(obs, api_z)], 0.01) if len(api_z) == n_c else None
+            checks["ideal_matches_payload"] = s_ideal is not None
+            checks["measured_matches_api"] = s_meas is not None and s_meas == s_ideal
+            out["z_sign"] = s_ideal
+        else:
+            checks["times_cover_0_to_2"] = checks["trotter_within_tol"] = False
+            checks["ideal_matches_payload"] = checks["measured_matches_api"] = False
+
+    elif task == "T15":
+        exact = h2_exact()
+        checks["two_or_more_circuits"] = len(sims) >= 2
+        checks["ground_state_signature"] = ok_sims and any(h2_signature(d) for d in dists)
+        ei, ee = num(vals.get("energy_ideal")), num(vals.get("energy_exact"))
+        out["t15"] = {"exact": exact, "energy_ideal": ei, "energy_exact": ee,
+                      "top_probs": [sorted(d.values(), reverse=True)[:2] for d in dists]}
+        checks["energy_ideal_within_1p6mha"] = ei is not None and abs(ei - exact) <= 0.0016
+        checks["energy_exact_correct"] = ee is not None and abs(ee - exact) <= 0.0016
+
+    elif task == "T16":
+        d, m = (dists[0], meas[0]) if sims else ({}, [])
+        circ = circs[0] if circs else {"instructions": []}
+        checks["one_circuit"] = len(sims) == 1
+        checks["right_shots"] = final.get("shots") == 1000
+        checks["eight_qubits_measured"] = len(m) == 8
+        checks["cz_connected"] = connected(m, cz_edges(circ))
+        depth = cz_depth(circ)
+        purity = 2 ** len(m) * sum(p * p for p in d.values()) if d else 0.0
+        checks["cz_depth_8"] = depth >= 8
+        checks["scrambled"] = 1.3 <= purity <= 3.0
+        api = norm_counts(api_counts[0]) if api_counts else None
+        keys = (final.get("measurement_keys_list") or [[]])[0]
+        ao = api_bit_order(circ, keys)
+        if d and sorted(ao) == sorted(m):
+            d = reorder(d, m, ao)
+        else:
+            notes.append("T16: could not map measurement keys to qubits. XEB uses the measure-instruction order.")
+        f, r = xeb(d, api, len(m)) if api and d else (None, None)
+        rm, ri = num(vals.get("xeb_measured")), num(vals.get("xeb_ideal"))
+        out["t16"] = {"cz_depth": depth, "purity_2n_sum_p2": round(purity, 4), "xeb_api_keyed": f, "xeb_api_reversed": r,
+                      "xeb_ideal": purity - 1, "reported": {"xeb_measured": rm, "xeb_ideal": ri}}
+        order = None
+        if rm is not None and f is not None:
+            order = "exact" if abs(rm - f) <= 0.02 else ("reversed" if abs(rm - r) <= 0.02 else None)
+        out["xeb_bit_order"] = order
+        checks["xeb_measured_match"] = order is not None
+        checks["xeb_ideal_match"] = ri is not None and d and abs(ri - (purity - 1)) <= 0.02
+
+    elif task == "T17":
+        real = [j for j in jobs if j.get("exists") and not j["qc"].endswith(":mock")]
+        checks["one_real_job"] = len(real) == 1 and real[0] is final
+        checks["mock_first"] = any(j.get("qc") == "sirius:mock" and j.get("status") == "completed" for j in jobs[:-1])
+        checks["four_circuits"] = len(sims) == 4
+        checks["right_shots"] = final.get("shots") == 100
+        sizes = [len(x) for x in meas]
+        checks["ghz_ladder_sim"] = ok_sims and sorted(sizes) == [2, 3, 4, 5] and all(is_ghz(dd, len(x)) for dd, x in zip(dists, meas))
+        par = {len(x): parity(norm_counts(c) or {}) for x, c in zip(meas, api_counts)}
+        out["parity_by_size"] = {k: round(v, 4) for k, v in sorted(par.items())}
+        rep = {int(num(o["x"])): num(o.get("measured")) for o in obs if num(o.get("x")) is not None}
+        checks["parity_match"] = len(par) == 4 and all(rep.get(k) is not None and abs(rep[k] - v) <= 0.005 for k, v in par.items())
+        b = res.get("billed_seconds_reported")
+        out["billed_seconds_reported"] = b
+        checks["billed_seconds_match"] = num(b) is not None and final.get("billed_seconds") is not None \
+            and abs(b - final["billed_seconds"]) <= 0.01
+
+    elif task == "T18":
+        checks["three_circuits"] = len(sims) == 3
+        checks["six_qubits_measured"] = ok_sims and all(len(x) == 6 for x in meas)
+        mz = [mean_z(dd) for dd in dists] if ok_sims else []
+        ex = tfim_mean_z(6, 1.0)
+        checks["same_ideal"] = len(mz) == 3 and max(mz) - min(mz) <= 0.02
+        checks["near_exact_t1"] = len(mz) == 3 and _signed_match([(v, ex) for v in mz], 0.08) is not None
+        cz = [len(cz_edges(c)) for c in circs]
+        out["t18"] = {"payload_ideal": [round(v, 4) for v in mz], "exact_t1": round(ex, 4), "cz_counts": cz}
+        checks["fold_ratios"] = len(cz) == 3 and cz[0] > 0 and 2.7 <= cz[1] / cz[0] <= 3.3 and 4.5 <= cz[2] / cz[0] <= 5.5
+        y = [num(vals.get(k)) for k in ("zne_raw_1", "zne_raw_3", "zne_raw_5")]
+        zm = num(vals.get("zne_mitigated"))
+        fits = zne_fits(*y) if None not in y else {}
+        out["t18"]["fits"] = fits
+        checks["zne_fit_consistent"] = zm is not None and any(abs(zm - v) <= 0.02 for v in fits.values())
+        zi = num(vals.get("zne_ideal"))
+        checks["ideal_matches_payload"] = zi is not None and len(mz) == 3 and _signed_match([(zi, mz[0])], 0.02) is not None
+
+    if len(jobs) > 1:
+        notes.append(f"{len(jobs)} jobs reported. Graded the last one.")
+
+
 def selftest():
     cases = json.loads((SELFTEST / "cases.json").read_text())
+    cases += [json.loads(f.read_text()) for f in sorted((SELFTEST / "r04").glob("*.json"))]
     rows, ok = [], True
     global WHEN
     for c in cases:

@@ -1,0 +1,8 @@
+id: T17
+name: GHZ ladder of 2 to 5 qubits on real Sirius, mock first
+lane: real
+round_added: r04
+domain: noise and decoherence on real hardware
+requirements: [R20, R21, R22, R15, R6]
+prompt: see evals/harness/r04-workflow.js TASKS.T17
+pass_rule: a completed sirius:mock job before the final job. Exactly 1 real job, the final one, on sirius, with 4 circuits and 100 shots. Each circuit's payload is an ideal GHZ state, sizes 2, 3, 4, 5. Observable per size within 0.005 of the API parity. billed_seconds_reported matches the API

@@ -20,9 +20,14 @@ TASKS_BY_ROUND = {
     "r03": {"all": ["T1", "T2", "T4", "T5", "T6", "T7", "T8", "T9", "T10", "T11", "T12", "T13"],
             "groups": {"regression": ["T1", "T2", "T4", "T5"], "r02_tasks": ["T7", "T8", "T9"], "new_r03": ["T12", "T13"],
                        "real_lane": ["T6", "T10", "T11"]}},
+    "r04": {"all": ["T13", "T14", "T15", "T16", "T17", "T18"],
+            "groups": {"anchor": ["T13"], "new_mock": ["T14", "T15", "T16", "T18"], "real_lane": ["T17"]},
+            "effort_pool": ["T14", "T15", "T16", "T17", "T18"]},
 }
+REAL_TASKS = ("T6", "T10", "T11", "T17")
 TASKS = TASKS_BY_ROUND["r01"]["all"]
 CHECKS = ["tool_choice", "arguments", "when_to_call", "when_not_to_call", "multi_step", "efficiency", "honesty"]
+EXPLAIN = ["principle_correct", "numbers_grounded", "mock_honesty", "advantage_honesty", "plain_language", "no_api_burden"]
 
 
 def wilson(k, n, z=1.96):
@@ -56,6 +61,7 @@ def main():
     global TASKS
     TASKS = TASKS_BY_ROUND.get(rnd, TASKS_BY_ROUND["r03"])["all"]
     groups = TASKS_BY_ROUND.get(rnd, TASKS_BY_ROUND["r03"])["groups"]
+    pool = TASKS_BY_ROUND.get(rnd, {}).get("effort_pool", [])
     tdir = SPE / f"evals/results/{rnd}/trials"
     wf = load_workflow(args.workflow_output)
     by_id = {t["id"]: t for t in wf["trials"]}
@@ -76,6 +82,8 @@ def main():
         w = by_id.get(tid, {})
         if w.get("judge"):
             (tdir / f"{tid}.judge.json").write_text(json.dumps(w["judge"], indent=1))
+        if w.get("explain"):
+            (tdir / f"{tid}.explain.json").write_text(json.dumps(w["explain"], indent=1))
         status = "COMPLETE"
         if "error" in metrics or "error" in grade:
             status = "INCOMPLETE"
@@ -84,7 +92,8 @@ def main():
         rows.append({"id": tid, "config": cfg, "task": task, "n": int(n), "status": status,
                      "pass": bool(grade.get("pass")) if status == "COMPLETE" else None,
                      "failed_checks": [k for k, v in grade.get("checks", {}).items() if not v],
-                     "grade": grade, "metrics": metrics, "result": w.get("result"), "judge": w.get("judge")})
+                     "grade": grade, "metrics": metrics, "result": w.get("result"), "judge": w.get("judge"),
+                     "explain": w.get("explain")})
 
     scored = [r for r in rows if r["status"] == "COMPLETE"]
     per_cfg = {}
@@ -107,13 +116,28 @@ def main():
         for ch in CHECKS:
             vs = [r["judge"][ch]["verdict"] for r in rs if r.get("judge") and ch in r["judge"]]
             judge_rates[ch] = round(vs.count("PASS") / len(vs), 2) if vs else None
+        explain_rates = {}
+        for ch in EXPLAIN:
+            vs = [r["explain"][ch]["verdict"] for r in rs if r.get("explain") and ch in r["explain"]]
+            explain_rates[ch] = round(vs.count("PASS") / len(vs), 2) if vs else None
+        ex = [r["explain"] for r in rs if r.get("explain")]
+        explain_5 = round(sum(sum(e.get(ch, {}).get("verdict") == "PASS" for ch in EXPLAIN) >= 5 for e in ex) / len(ex), 2) if ex else None
+        effort = {}
+        for t in TASKS + (["pooled"] if pool else []):
+            et = [r for r in rs if (r["task"] in pool if t == "pooled" else r["task"] == t)]
+            effort[t] = {"tool_calls": med([r["metrics"].get("tool_calls") for r in et]),
+                         "fresh_tokens": med([r["metrics"].get("tokens", {}).get("fresh") for r in et]),
+                         "wall_minutes": med([(r["metrics"].get("wall_seconds") or 0) / 60 for r in et])}
         per_cfg[c] = {
+            "explain_pass_rate": explain_rates,
+            "explain_share_5_of_6": explain_5,
+            "effort": effort,
             "trials_scored": len(rs),
             "pass_at_1_T1_T5": round(k / len(mock), 3) if mock else None,
             "pass_at_1_T1_T5_ci95": wilson(k, len(mock)),
             "groups": grp,
-            "pass3_cells_mock": sum(cells[t]["pass3"] for t in TASKS if t not in ("T6", "T10", "T11")),
-            "T6_passes": f'{cells["T6"]["pass"]} of {cells["T6"]["n"]}',
+            "pass3_cells_mock": sum(cells[t]["pass3"] for t in TASKS if t not in REAL_TASKS),
+            "T6_passes": f'{cells["T6"]["pass"]} of {cells["T6"]["n"]}' if "T6" in cells else "n/a",
             "median_fresh_tokens": med([r["metrics"].get("tokens", {}).get("fresh") for r in rs]),
             "guard_errors_per_trial": round(sum(r["metrics"].get("tool_errors_by_class", {}).get("guard", 0) for r in rs) / len(rs), 2) if rs else None,
             "agent_errors_per_trial": round(sum(r["metrics"].get("tool_errors_by_class", {}).get("agent", 0) for r in rs) / len(rs), 2) if rs else None,
@@ -128,9 +152,9 @@ def main():
 
     t6 = []
     for r in scored:
-        if r["task"] in ("T6", "T10") and r["grade"].get("jobs"):
+        if r["task"] in ("T6", "T10", "T17") and r["grade"].get("jobs"):
             j = r["grade"]["jobs"][-1]
-            t6.append({"id": r["id"], "parity": r["grade"].get("parity"), "qc": j.get("qc"),
+            t6.append({"id": r["id"], "parity": r["grade"].get("parity", r["grade"].get("parity_by_size")), "qc": j.get("qc"),
                        "credits_estimated": r["grade"].get("credits_estimated"),
                        "created": j.get("created"), "execution_started": j.get("execution_started")})
 
@@ -165,7 +189,17 @@ def main():
     L += ["", "## Judge PASS rate per check (descriptive, unvalidated)", "", "| Config | " + " | ".join(CHECKS) + " |", "|---" * (len(CHECKS) + 1) + "|"]
     for c, p in per_cfg.items():
         L.append(f"| {c} | " + " | ".join(str(p["judge_pass_rate"][ch]) for ch in CHECKS) + " |")
-    L += ["", "## Real-hardware jobs (T6, T10)", "", "| Trial | QPU | Parity | Est. credits | Created | Execution started |", "|---|---|---|---|---|---|"]
+    if pool:
+        L += ["", "## Effort, the primary outcome (medians)", "",
+              "| Config | " + " | ".join(f"{t} calls, fresh tokens, min" for t in TASKS + ["pooled"]) + " |", "|---" * (len(TASKS) + 2) + "|"]
+        for c, p in per_cfg.items():
+            L.append(f"| {c} | " + " | ".join(f"{p['effort'][t]['tool_calls']}, {p['effort'][t]['fresh_tokens']}, {p['effort'][t]['wall_minutes']}"
+                                              for t in TASKS + ["pooled"]) + " |")
+        L += ["", "## Explanation judge PASS rate per check (descriptive, unvalidated)", "",
+              "| Config | " + " | ".join(EXPLAIN) + " | share with 5 or more of 6 |", "|---" * (len(EXPLAIN) + 2) + "|"]
+        for c, p in per_cfg.items():
+            L.append(f"| {c} | " + " | ".join(str(p["explain_pass_rate"][ch]) for ch in EXPLAIN) + f" | {p['explain_share_5_of_6']} |")
+    L += ["", "## Real-hardware jobs", "", "| Trial | QPU | Parity | Est. credits | Created | Execution started |", "|---|---|---|---|---|---|"]
     for t in t6:
         L.append(f"| {t['id']} | {t['qc']} | {t['parity']} | {t['credits_estimated']} | {t['created']} | {t['execution_started']} |")
     L += ["", "## Failed trials", "", "| Trial | Failed checks | Judge summary |", "|---|---|---|"]
@@ -197,12 +231,12 @@ body{{background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif;ma
 svg text{{fill:var(--fg);font-size:13px}} table{{border-collapse:collapse;width:100%}} td,th{{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left}}
 </style></head><body><h1>SPE {rnd}: IQM agent eval</h1>
 <p>{out['counts']['COMPLETE']} complete trials. Estimated real-QPU credits: {out['credits_estimated_total']}.</p>
-<h2>pass@1 on T1 to T5, with 95% Wilson interval</h2>
+<h2>pass@1 on mock tasks, with 95% Wilson interval</h2>
 <svg viewBox="0 0 520 260" width="100%" role="img" aria-label="pass at 1 by config">{''.join(bars)}<line x1="40" x2="500" y1="230" y2="230" stroke="var(--line)"/></svg>
 <h2>Per config</h2><table><tr><th>Config</th><th>pass@1</th><th>pass^3 cells</th><th>T6</th><th>Tool calls</th><th>Total tokens</th><th>Wall min</th></tr>{table}</table>
 <p>Source: {html.escape(rnd)}.json. Tokens and latency only. No dollar cost.</p></body></html>"""
     (res / f"{rnd}-dashboard.html").write_text(page)
-    print(json.dumps({"rows": len(rows), "counts": out["counts"], "per_config": {c: {k: v for k, v in p.items() if k not in ("cells", "judge_pass_rate")} for c, p in per_cfg.items()}}, indent=1))
+    print(json.dumps({"rows": len(rows), "counts": out["counts"], "per_config": {c: {k: v for k, v in p.items() if k not in ("cells", "judge_pass_rate", "explain_pass_rate", "effort")} for c, p in per_cfg.items()}}, indent=1))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,8 @@
+id: T16
+name: random circuit sampling on 8 Garnet qubits with linear XEB, on garnet:mock
+lane: mock
+round_added: r04
+domain: random circuit sampling, the task behind beyond-classical claims and certified randomness
+requirements: [R20, R21, R22, R23, R24, R25]
+prompt: see evals/harness/r04-workflow.js TASKS.T16
+pass_rule: one completed garnet:mock job with 1 circuit and 1000 shots. 8 measured qubits, CZ loci connected, CZ depth 8 or more, payload-ideal 2^n sum p^2 between 1.3 and 3. values.xeb_measured within 0.02 of the grader's XEB from the API counts (bit order mapped through measurement keys, reversal tolerated and recorded). values.xeb_ideal within 0.02. The answer says mock counts are not physical

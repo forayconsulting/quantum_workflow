@@ -1,0 +1,8 @@
+id: T15
+name: H2 ground-state energy by a variational method, final circuits on garnet:mock
+lane: mock
+round_added: r04
+domain: chemistry ground states
+requirements: [R20, R21, R22, R23, R24, R25]
+prompt: see evals/harness/r04-workflow.js TASKS.T15
+pass_rule: one completed garnet:mock job with 2 or more circuits. One circuit's payload-ideal distribution has 2 outcomes near 0.987 and 0.013 (ground-state signature in any usual mapping). values.energy_ideal and values.energy_exact within 0.0016 Ha of the exact energy. The answer says mock counts are not physical
