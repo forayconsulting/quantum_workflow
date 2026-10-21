@@ -5,4 +5,4 @@ round_added: r04
 domain: quantum simulation of spin dynamics, the leading candidate for first quantum advantage
 requirements: [R20, R21, R22, R23, R24, R25]
 prompt: see evals/harness/r04-workflow.js TASKS.T14
-pass_rule: one completed garnet:mock job with 5 or more circuits, the same 6 measured qubits in each, CZ loci connected over them. One observable per circuit. Times cover 0 to 2. Each circuit's payload-ideal mean Z within 0.08 of the exact mean Z at its time (grader diagonalizes H). Reported ideal within 0.02 of payload-ideal, reported measured within 0.01 of the API counts, one consistent sign. The answer says mock counts are not physical
+pass_rule: one completed garnet:mock job with 5 or more circuits, 6 measured qubits in each circuit, and CZ loci connected over them in each circuit that has CZ gates. One observable per circuit. Times cover 0 to 2. Each circuit's payload-ideal mean Z within 0.08 of the exact mean Z at its time (grader diagonalizes H). Reported ideal within 0.02 of payload-ideal, reported measured within 0.01 of the API counts, one consistent sign. The answer says mock counts are not physical

@@ -559,9 +559,10 @@ def grade_r04(task, res, jobs, checks, out, notes, ans):
     if task == "T14":
         n_c = len(sims)
         checks["five_or_more_circuits"] = n_c >= 5
-        checks["six_qubits_measured"] = ok_sims and all(len(m) == 6 for m in meas) and len({tuple(sorted(m)) for m in meas}) == 1
-        edges = [e for c in circs for e in cz_edges(c)]
-        checks["cz_connected"] = bool(meas) and connected(meas[0], edges)
+        # Each circuit is checked on its own. The transpiler may place different time points on different qubits,
+        # and mean Z does not depend on which physical qubits hold the chain (dry-run finding, r04dry-A-T14-1).
+        checks["six_qubits_measured"] = ok_sims and all(len(m) == 6 for m in meas)
+        checks["cz_connected"] = bool(meas) and all(connected(m, cz_edges(c)) for m, c in zip(meas, circs) if cz_edges(c))
         good_obs = len(obs) == n_c and all(num(o.get(k)) is not None for o in obs for k in ("x", "ideal", "measured"))
         checks["observables_per_circuit"] = good_obs
         if good_obs and ok_sims:

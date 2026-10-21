@@ -111,3 +111,5 @@ Round 4 cap: 6 credits on real QPU jobs, including this probe (user decision, 20
 The full job IDs are in `graders/selftest/r04/`. That folder stays untracked until the round ends, so trial worktrees cannot see the oracle payloads (failures.md F14).
 
 **Probe result:** a 4-circuit job billed the same 1.0 second as a 1-circuit job. T17 runs 3 trials per config. The workflow credit cap is 6 minus 0.30, which is 5.70.
+
+Dashboard before the round 4 run (about 20:49Z): balance 11.40. Credit history: "- 18.60 IQM Sirius, 62 jobs" for the day. 62 jobs at 0.30 is 18.60, so the probe cost exactly 0.30.

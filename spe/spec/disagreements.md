@@ -32,3 +32,5 @@ The user made 3 decisions in plan mode. Claude chose the other items as defaults
 | T15 energy tolerance | 0.0016 Ha (chemical accuracy) | Claude default | The standard bar in quantum chemistry |
 | T16 XEB tolerance | 0.02 | Claude default | Rounding room only. The value is recomputed from the same counts |
 | Trials | 3 per cell, top-up cap 24 | Claude default | Same as r03 |
+| T16 scrambling window | 256 times sum of p squared between 1.3 and 3 | Claude default, kept after the dry run | Full scrambling gives about 2, which is ideal XEB about 1. The dry run's D-T16 circuit had sparse CZ layers and scored 3.78, so it failed. The window is in the approved plan, so it stays. Overrule to widen it |
+| T14 qubit placement | Each circuit is checked on its own qubits | Claude, dry-run fix | The first grader required one qubit set for all circuits. The task never asked for that, and mean Z does not depend on placement. r04dry-A-T14-1 had correct physics and failed only on this |
