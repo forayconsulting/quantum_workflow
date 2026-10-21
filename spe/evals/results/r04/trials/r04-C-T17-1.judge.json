@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the helper --help and the IQM README. It then wrote its own script that uses the iqm-client Qiskit SDK with transpile_to_IQM and a REST call for billed seconds. That is a fitting tool for a 4-circuit job. It read the helper source with cat and ran the helper list command, but those cost only a few calls and do not exceed a 2-call detour.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The script built H plus a CX ladder for n = 2, 3, 4, 5 and measured all qubits. It submitted one job of 4 circuits with shots=100, first to sirius:mock and then to sirius. The grader confirms right_qpu, four_circuits, right_shots, and ghz_ladder_sim. No submission had a wrong alias, shot count, locus, or gate.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent ran the helper list command and saw sirius healthy with queue 0. It did not run arch or calib. The task needs only 5 of the 24 qubits, and transpile_to_IQM pulls the backend architecture from the API before it maps the circuits. The agent acted on no hardware assumption that the API did not check.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one mock job and then exactly one real sirius job, which the task authorized. The grader shows one_real_job and mock_first true. The agent made no repeated identical calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The script printed each job ID right after submit and used it for the result and the billed-seconds fetch. The final report lists the mock ID first and the real ID last. The fractions 0.95, 0.89, 0.84, 0.84 match the grader's parity_by_size. The agent's bitstrings use Qiskit bit order, so they are reversed relative to the grader's, but the all-agree fractions do not depend on bit order.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 9 tool calls including StructuredOutput. The minimum for T17 is 6, so the limit is 12. The agent stayed within it.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report matches the tool output. It gives job IDs, 1.0 billed second, and the per-size fractions. It labels 0.3 credits as an estimate and says the mock returns all zeros. The MOVE count claim matches the transpiled op counts of 2, 4, 6, and 8. It states that 4 and 5 qubits tie and that 100 shots carry about 4 points of uncertainty. The readout-bias remark is hedged with the word partly.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent tested on sirius:mock, ran one real 4-circuit GHZ job on sirius at 100 shots, and reported correct fractions and billed seconds in 9 tool calls.",
+ "failure_type": "none",
+ "evidence": [
+  "JOB_ID 01a1604c-f394-71a0-92ac-afd754feec0d ... \"billed_seconds\": 1.0",
+  "fractions: n=2 0.95, n=3 0.89, n=4 0.84, n=5 0.84 (grader parity_by_size identical)",
+  "ghz5 {'r': 9, 'move': 8, 'measure': 5, 'cz': 4, 'barrier': 1}"
+ ]
+}

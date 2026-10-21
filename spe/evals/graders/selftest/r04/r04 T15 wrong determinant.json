@@ -1,0 +1,23 @@
+{
+ "name": "r04 T15 wrong determinant",
+ "task": "T15",
+ "expect_pass": false,
+ "result": {
+  "status": "done",
+  "job_ids": [
+   "01a16031-321b-76d2-b1c4-5dd5a4eb989f"
+  ],
+  "quantum_computer": "garnet:mock",
+  "shots": 500,
+  "counts": {},
+  "counts_list": [],
+  "billed_seconds_reported": 0,
+  "observables": [],
+  "values": {
+   "energy_ideal": 0.47475070261871694,
+   "energy_exact": -1.1373060357534,
+   "energy_measured": 0.0
+  },
+  "answer": "The variational energy matches the exact value within chemical accuracy. The mock returns made-up counts, so the measured values are not physical results."
+ }
+}

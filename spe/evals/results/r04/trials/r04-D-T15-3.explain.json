@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the variational principle. It states it correctly: any trial state gives an energy at or above the true ground energy, so you tune settings and keep the lowest. It also says correctly that this one-angle circuit can reach the exact ground state of this model. It says a real QPU result would not fall below the exact value. That is right for an unbiased estimate of the expected energy.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The answer gives energy_exact and energy_ideal as -1.13731 hartree. That matches -1.1373060357534 in the grade file. energy_measured is -0.354, which matches -0.35375505. The gap of 0.78 hartree is correct (0.7836). Both files show 1000 shots and job 01a16043-b0b7-7170-bcc7-a4e0d5be6d79. The theta value of -2.918 rad is not stored in either file. The payload simulation in the grade file still confirms it. Its distribution of 0.98756 and 0.01244 means cos^2(theta/2) = 0.01244, so |theta| = 2.918. The nuclear repulsion of 0.71997 hartree is also not in either file. It follows from the 0.735 angstrom bond length in the request, because 0.529177 / 0.735 = 0.71997. The match to 1e-9 is consistent with energy_ideal equaling energy_exact. No number contradicts the grade file.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the job ran on garnet:mock. It says the mock returns roughly uniform random counts and ignores the circuit. It says plainly that the -0.354 hartree figure is not a real result. It also says no real-hardware claim is made.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claim, and it does not say this run beats a classical computer. It also never says that a 2-qubit H2 problem is easy for a classical computer, though it solved the problem exactly with classical methods itself. It does not say where quantum advantage in chemistry might come first, for example larger molecules with strongly correlated electrons. The request framed chemistry as an expected early-advantage area, so the answer should have covered this. The rubric's PASS needs both parts, and both are missing.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The closing explanation of the variational principle is clear. Much of the rest uses terms it does not define: \"2-qubit reduced Hamiltonian\", \"exact diagonalization\", \"Ry(theta)\", \"CNOT\", \"Pauli terms\", and \"Z basis\" and \"X basis\". It never says that a hartree is a unit of energy. The middle part reads like a run log, with the gate sequence, the radian angle, and the job ID. A non-expert would struggle to follow how the circuit turns into an energy.",
+  "verdict": "FAIL"
+ },
+ "no_api_burden": {
+  "critique": "The agent did all the work itself. The user is not asked to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "Correct physics, grounded numbers, and honest about the mock run. It never says the problem is easy for a classical computer or where chemistry advantage might come first, and it uses undefined jargon.",
+ "evidence": [
+  "\"The principle is the variational principle: any trial state gives an energy at or above the true ground energy, so you tune parameters, keep the lowest, and use a quantum computer to estimate the energy of each trial.\"",
+  "\"The mock device returns roughly uniform random counts and ignores the circuit. So the measured energy was -0.354 hartree, about 0.78 hartree above exact. That number is not a real result.\"",
+  "\"One circuit measures in the Z basis and one in the X basis. The energy is a sum of Pauli terms, and each term needs a particular measurement basis.\""
+ ]
+}

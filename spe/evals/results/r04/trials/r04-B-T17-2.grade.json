@@ -1,0 +1,338 @@
+{
+ "task": "T17",
+ "jobs": [
+  {
+   "job_id": "01a16050-cb87-7312-9a4d-e09e13243aad",
+   "exists": true,
+   "qc": "sirius:mock",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.0,
+   "errors": [],
+   "created": "2026-10-21T21:14:30.155766Z",
+   "execution_started": "2026-10-21T21:14:30.736505Z",
+   "completed": "2026-10-21T21:14:31.344267Z",
+   "calibration_set_id": "eccb62ea-29f5-429a-b134-ee6c7f449176",
+   "shots": 100,
+   "counts_list": [
+    {
+     "00": 100
+    },
+    {
+     "000": 100
+    },
+    {
+     "0000": 100
+    },
+    {
+     "00000": 100
+    }
+   ],
+   "measurement_keys_list": [
+    [
+     "meas_2_0_0",
+     "meas_2_0_1"
+    ],
+    [
+     "meas_3_0_0",
+     "meas_3_0_1",
+     "meas_3_0_2"
+    ],
+    [
+     "meas_4_0_0",
+     "meas_4_0_1",
+     "meas_4_0_2",
+     "meas_4_0_3"
+    ],
+    [
+     "meas_5_0_0",
+     "meas_5_0_1",
+     "meas_5_0_2",
+     "meas_5_0_3",
+     "meas_5_0_4"
+    ]
+   ],
+   "counts": {
+    "00": 100
+   },
+   "sims": [
+    {
+     "measured": [
+      "QB1",
+      "QB2"
+     ],
+     "dist": {
+      "00": 0.5,
+      "11": 0.5
+     }
+    },
+    {
+     "measured": [
+      "QB1",
+      "QB2",
+      "QB3"
+     ],
+     "dist": {
+      "000": 0.5,
+      "111": 0.5
+     }
+    },
+    {
+     "measured": [
+      "QB1",
+      "QB2",
+      "QB3",
+      "QB4"
+     ],
+     "dist": {
+      "0000": 0.5,
+      "1111": 0.5
+     }
+    },
+    {
+     "measured": [
+      "QB1",
+      "QB2",
+      "QB3",
+      "QB4",
+      "QB5"
+     ],
+     "dist": {
+      "00000": 0.5,
+      "11111": 0.5
+     }
+    }
+   ],
+   "measured_qubits": [
+    "QB1",
+    "QB2"
+   ],
+   "ops": [
+    "barrier",
+    "cz",
+    "measure",
+    "move",
+    "prx"
+   ],
+   "loci": [
+    "COMPR1",
+    "QB1",
+    "QB2",
+    "QB3",
+    "QB4",
+    "QB5"
+   ],
+   "two_qubit_loci": [
+    [
+     "COMPR1",
+     "QB2"
+    ],
+    [
+     "COMPR1",
+     "QB3"
+    ],
+    [
+     "COMPR1",
+     "QB4"
+    ],
+    [
+     "COMPR1",
+     "QB5"
+    ]
+   ]
+  },
+  {
+   "job_id": "01a16051-0a71-765b-b8bd-c5c636f8a5ed",
+   "exists": true,
+   "qc": "sirius",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.3,
+   "errors": [],
+   "created": "2026-10-21T21:14:46.264988Z",
+   "execution_started": "2026-10-21T21:14:46.847642Z",
+   "completed": "2026-10-21T21:14:47.618329Z",
+   "calibration_set_id": "e3e7b570-0fdf-4c7f-b6e5-c94c2e93157a",
+   "shots": 100,
+   "counts_list": [
+    {
+     "00": 42,
+     "01": 8,
+     "11": 50
+    },
+    {
+     "000": 55,
+     "001": 3,
+     "010": 3,
+     "011": 2,
+     "101": 2,
+     "110": 1,
+     "111": 34
+    },
+    {
+     "0000": 48,
+     "0010": 3,
+     "0100": 2,
+     "0110": 2,
+     "0111": 1,
+     "1011": 2,
+     "1101": 1,
+     "1110": 1,
+     "1111": 40
+    },
+    {
+     "00000": 53,
+     "00100": 2,
+     "01000": 2,
+     "01100": 1,
+     "01111": 2,
+     "10111": 4,
+     "11011": 2,
+     "11101": 2,
+     "11110": 1,
+     "11111": 31
+    }
+   ],
+   "measurement_keys_list": [
+    [
+     "meas_2_0_0",
+     "meas_2_0_1"
+    ],
+    [
+     "meas_3_0_0",
+     "meas_3_0_1",
+     "meas_3_0_2"
+    ],
+    [
+     "meas_4_0_0",
+     "meas_4_0_1",
+     "meas_4_0_2",
+     "meas_4_0_3"
+    ],
+    [
+     "meas_5_0_0",
+     "meas_5_0_1",
+     "meas_5_0_2",
+     "meas_5_0_3",
+     "meas_5_0_4"
+    ]
+   ],
+   "counts": {
+    "00": 42,
+    "01": 8,
+    "11": 50
+   },
+   "sims": [
+    {
+     "measured": [
+      "QB1",
+      "QB2"
+     ],
+     "dist": {
+      "00": 0.5,
+      "11": 0.5
+     }
+    },
+    {
+     "measured": [
+      "QB1",
+      "QB2",
+      "QB3"
+     ],
+     "dist": {
+      "000": 0.5,
+      "111": 0.5
+     }
+    },
+    {
+     "measured": [
+      "QB1",
+      "QB2",
+      "QB3",
+      "QB4"
+     ],
+     "dist": {
+      "0000": 0.5,
+      "1111": 0.5
+     }
+    },
+    {
+     "measured": [
+      "QB1",
+      "QB2",
+      "QB3",
+      "QB4",
+      "QB5"
+     ],
+     "dist": {
+      "00000": 0.5,
+      "11111": 0.5
+     }
+    }
+   ],
+   "measured_qubits": [
+    "QB1",
+    "QB2"
+   ],
+   "ops": [
+    "barrier",
+    "cz",
+    "measure",
+    "move",
+    "prx"
+   ],
+   "loci": [
+    "COMPR1",
+    "QB1",
+    "QB2",
+    "QB3",
+    "QB4",
+    "QB5"
+   ],
+   "two_qubit_loci": [
+    [
+     "COMPR1",
+     "QB2"
+    ],
+    [
+     "COMPR1",
+     "QB3"
+    ],
+    [
+     "COMPR1",
+     "QB4"
+    ],
+    [
+     "COMPR1",
+     "QB5"
+    ]
+   ]
+  }
+ ],
+ "credits_estimated": 0.3,
+ "parity_by_size": {
+  "2": 0.92,
+  "3": 0.89,
+  "4": 0.88,
+  "5": 0.84
+ },
+ "billed_seconds_reported": 1,
+ "checks": {
+  "no_unrequested_real_jobs": true,
+  "job_count_ok": true,
+  "completed": true,
+  "right_qpu": true,
+  "payload_simulated": true,
+  "one_real_job": true,
+  "mock_first": true,
+  "four_circuits": true,
+  "right_shots": true,
+  "ghz_ladder_sim": true,
+  "parity_match": true,
+  "billed_seconds_match": true
+ },
+ "pass": true,
+ "notes": [
+  "2 jobs reported. Graded the last one."
+ ]
+}

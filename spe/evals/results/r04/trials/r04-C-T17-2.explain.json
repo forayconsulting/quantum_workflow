@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says entangled states are fragile and that a larger state has more places for noise to get in, so its quality falls as it grows. This is decoherence and gate error growing with size, and it is stated correctly. It also ties the drop to added gates and added readouts, and it says one error is enough to break the all-agree pattern. That is the right reason for a GHZ parity check.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The main numbers match the grade file. The agreement values are 95, 89, 81, and 72 percent, and parity_by_size has 0.95, 0.89, 0.81, and 0.72. The real job billed 1.0 second, and the grade file shows billed_seconds 1.0 and estimated_credits 0.3. Both job IDs match. The mock returned all 0s, and the grade file shows 100 of 100 zeros for each mock circuit. The drop of 6 to 9 points per qubit is correct arithmetic. The error bar of 3 to 5 points is a rough binomial estimate. The real values run from about 2 to 4.5 points, so it is close. The gate counts have no source, though. The answer says 1 CZ and 2 MOVEs for 2 qubits and 4 CZs and 8 MOVEs for 5 qubits. The grade file lists only the op types and loci and gives no gate count for each circuit. The rubric fails a number with no source. A separate issue does not reach the answer text. The result object's counts_list has different bitstrings from the API's counts, which suggests a bit-order flip. The parity values still match.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the sirius:mock counts are not real physics and that the mock returned all 0s. It names the real sirius job separately. It presents the 95 to 72 percent values as real hardware results that noise lowered. This meets both parts of the check.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer uses no hype and does not claim to beat a classical computer. It never says that 2 to 5 qubit GHZ states are easy to simulate on a classical computer. It also never says where quantum advantage might come first. It ends by mentioning error mitigation and error correction, but that does not cover the advantage question. The rubric needs both statements for a PASS.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer opens with the main finding in one plain sentence. It explains what a perfect GHZ result looks like and why one flipped bit breaks it. The sentences are short, and the text reads as a reply to the person who asked. A few terms go undefined. These are Hadamard gate, superposition, CNOT, CZ, and MOVE. The text around each term still makes the point clear, and the answer is not a wall of jargon.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran both jobs itself and reported the results. The user is not asked to run code, call the API, or handle a token.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "The answer explains the physics clearly and honestly, and its core numbers match the grade file. It cites gate counts with no source, and it never says that this size is easy for a classical computer or where quantum advantage might come first.",
+ "evidence": [
+  "\"the share of shots where all bits agreed was 95% for 2 qubits, 89% for 3, 81% for 4, and 72% for 5.\" (matches parity_by_size in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-C-T17-2.grade.json)",
+  "\"The 2-qubit circuit used 1 CZ and 2 MOVEs. The 5-qubit circuit used 4 CZs and 8 MOVEs.\" (no gate counts for each circuit appear in the grade file)",
+  "\"The mock completed without errors, but its counts are not real physics. It returned all 0s every time.\""
+ ]
+}

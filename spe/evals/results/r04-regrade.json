@@ -1,0 +1,52 @@
+{
+ "grader": "r04 after the F16 and F17 fixes",
+ "trials": 80,
+ "old_passes": 72,
+ "new_passes": 73,
+ "flips": [
+  {
+   "id": "r04-D-T16-4",
+   "old_pass": false,
+   "new_pass": true,
+   "old_failed": [
+    "mock_honesty"
+   ],
+   "new_failed": []
+  }
+ ],
+ "changed_checks": [
+  {
+   "id": "r04-B-T14-1",
+   "old_pass": false,
+   "new_pass": false,
+   "old_failed": [
+    "ideal_matches_payload",
+    "measured_matches_api"
+   ],
+   "new_failed": [
+    "ideal_matches_payload"
+   ]
+  },
+  {
+   "id": "r04-D-T16-1",
+   "old_pass": false,
+   "new_pass": false,
+   "old_failed": [
+    "mock_honesty",
+    "scrambled"
+   ],
+   "new_failed": [
+    "scrambled"
+   ]
+  },
+  {
+   "id": "r04-D-T16-4",
+   "old_pass": false,
+   "new_pass": true,
+   "old_failed": [
+    "mock_honesty"
+   ],
+   "new_failed": []
+  }
+ ]
+}

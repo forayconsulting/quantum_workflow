@@ -1,0 +1,25 @@
+{
+ "name": "r04 T18 oracle",
+ "task": "T18",
+ "expect_pass": true,
+ "result": {
+  "status": "done",
+  "job_ids": [
+   "01a16031-7676-76c0-8442-30bc5cf18acc"
+  ],
+  "quantum_computer": "garnet:mock",
+  "shots": 200,
+  "counts": {},
+  "counts_list": [],
+  "billed_seconds_reported": 0,
+  "observables": [],
+  "values": {
+   "zne_raw_1": 0.12466666666666668,
+   "zne_raw_3": 0.0895,
+   "zne_raw_5": 0.04741666666666666,
+   "zne_mitigated": 0.13965625,
+   "zne_ideal": 0.18686105757026578
+  },
+  "answer": "Zero-noise extrapolation moves the noisy value toward the ideal one. The mock returns made-up counts, so the measured values are not physical results."
+ }
+}

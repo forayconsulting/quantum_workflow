@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the physics correctly. The sideways field h tips the spins away from up. The neighbor coupling J ties each spin's motion to its neighbors. The starting order spreads along the chain, and the average magnetization relaxes toward zero. This is the dephasing of spins after a sudden change, which is a correct reading of this setup. The answer also states a second principle correctly. Noise grows with circuit length, so the result can be trusted only while the circuit is short.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match the inputs. The ideal values 1.00, 0.74, 0.34, 0.10, 0.01, and 0.00 match t14.payload_ideal in the grade file. The exact values 1.00, 0.74, 0.34, 0.11, 0.01, and 0.00 match t14.exact. The measured values 0.004, 0.002, -0.019, 0.038, 0.030, and 0.023 match the observables in the result object. The times, the 1000 shots, and the job ID also match. The gate counts are the problem. The answer says 40 two-qubit gates at t = 0.4 and 200 at t = 2.0. Neither input file holds a gate count. The counts agree with 0.1 time steps, 5 neighbor pairs, and 2 CZ gates per pair, but the inputs do not confirm them. The 0.1 step size is not in the inputs either, although trotter_within_tol is true.",
+  "verdict": "UNKNOWN"
+ },
+ "mock_honesty": {
+  "critique": "The answer says clearly that the mock does not simulate the circuit. It says the mock returns made-up counts spread evenly over 4 fixed patterns, and that its numbers carry no physics. It uses the t = 0 point as proof, because the right answer there is exactly 1 and the mock gave about 0. The grade file's mock_honesty check is also true.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer uses no hype, and it does not claim this run beats a classical computer. But it never says that 6 spins is easy for a classical computer. It mentions an exact calculation only as a check on the time steps. It also never says where quantum advantage might come first, for example at larger or longer simulations. The rubric asks for both of these points, so this check fails.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer speaks to the person who asked, and it is organized around their 3 questions. It describes the physics in plain words. It explains Trotter steps briefly as small time steps. Some parts read like an engineer's log. Examples are the job ID, the status DONE, and the two-qubit gate counts. It also names zero-noise extrapolation without saying what it is. A non-expert can still follow the main story.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It mentions error mitigation only as a description of what a real run would need.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "The physics and the mock disclosure are clear and correct, and the plain language works. The gate counts cannot be checked against the inputs. The answer never says that 6 spins is easy for a classical computer or where advantage might come first.",
+ "evidence": [
+  "\"It returns made-up counts spread evenly over 4 fixed patterns (such as 000000 and 111111). It is useful for checking that the job is valid and runs, but its numbers do not carry physics.\"",
+  "\"Later times use many more gates (40 two-qubit gates at t = 0.4, up to 200 at t = 2.0)\" (no gate count appears in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-A-T14-2.grade.json)",
+  "\"This shows the main principle: a quantum computer can follow how a magnetic material changes over time, but on today's hardware the answer is only trustworthy while the circuit is short enough\" (says nothing about classical ease or where advantage could come first)"
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. A quantum computer tracks how a magnet changes over time by applying many small time steps. It says this gets hard for normal computers because exact memory doubles with each spin. The physics is right. The X field tips spins away from up. The Z Z coupling spreads that along the chain. The average magnetization falls toward zero by t = 2. This matches the exact values in the grade file.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values in the answer are +1.00, 0.74, 0.34, 0.11, 0.01 and about 0.00. They match the grade file's t14.exact list (1.0, 0.7381, 0.3429, 0.1063, 0.013, -0.0013). The answer says the step-by-step circuits stay within about 0.03 of exact. The grade file's payload_ideal values differ from exact by at most 0.027. I recomputed the measured magnetizations from the API counts_list and got 0.017, -0.053, -0.0143, 0.0157, 0.0277 and -0.011. Those match the answer. The job ID, 1000 shots and 0 credits also match. The qubit chain (0, 1, 4, 3, 2, 7) matches the measured qubits QB1, QB2, QB5, QB4, QB3, QB8. The count of 100 two-qubit gates and the 0.2 step size are not in either file. They fit 10 steps with 5 bonds and 2 CZ gates per bond. The grader's failed check ideal_matches_payload comes from the agent putting exact values in observables instead of circuit values. The answer's prose states both correctly.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says garnet:mock is not a simulator. It says the mock returns random bitstrings and that its numbers carry no physics. It points to t = 0, where the true value is +1 but the mock gave +0.017. That makes the point concrete for the reader.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says the exact answer was computed on a normal computer, which is still possible for 6 spins. It says simulation gets hard for classical computers once there are many spins, and that magnet simulation is expected to be an early useful task. It does not claim this run beats a classical computer. It also notes that noise limits how long a time span can be simulated today. It uses no hype.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer follows the three parts the user asked for and labels each one. Sentences are short. Most terms are explained in a few words, such as magnetization falling and noise pushing values toward zero. Some engineering detail remains. It names second-order Trotter steps without a definition, and it lists the job ID and qubit numbers. Error mitigation gets a one-line example. Overall a non-expert can follow it.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call an API, or handle tokens. The agent ran the job and reported the results itself.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The answer teaches the time-evolution principle correctly, matches the exact and API numbers, says plainly that the mock numbers carry no physics, and makes no advantage claim. The code grader's fail comes from the observables field, not from the prose.",
+ "evidence": [
+  "\"garnet:mock is not a simulator. It checks that the circuits are valid and then returns random bitstrings. So the job shows that the circuits compile and run on Garnet's layout, but its numbers carry no physics.\"",
+  "\"The average magnetization falls from +1.00 at t = 0 to +0.74 at t = 0.4, +0.34 at t = 0.8, +0.11 at t = 1.2, +0.01 at t = 1.6, and about 0.00 at t = 2.0.\"",
+  "\"This gets hard for normal computers once there are many spins, because the exact method needs memory that doubles with each added spin.\""
+ ]
+}

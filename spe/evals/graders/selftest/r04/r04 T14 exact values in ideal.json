@@ -1,0 +1,126 @@
+{
+ "name": "r04 T14 exact values in ideal (r04-B-T14-1, F17 and F18)",
+ "task": "T14",
+ "expect_pass": false,
+ "result": {
+  "status": "done",
+  "job_ids": [
+   "01a1603f-29d1-740e-8585-49a6be8877c8"
+  ],
+  "quantum_computer": "garnet:mock",
+  "shots": 1000,
+  "counts": {
+   "100000": 129,
+   "100111": 133,
+   "111000": 113,
+   "111111": 111,
+   "011111": 142,
+   "011000": 126,
+   "000111": 135,
+   "000000": 111
+  },
+  "counts_list": [
+   {
+    "100000": 123,
+    "100111": 116,
+    "111000": 136,
+    "111111": 118,
+    "011000": 134,
+    "000000": 129,
+    "011111": 123,
+    "000111": 121
+   },
+   {
+    "100000": 104,
+    "100111": 142,
+    "111000": 123,
+    "111111": 151,
+    "000111": 109,
+    "011000": 130,
+    "011111": 125,
+    "000000": 116
+   },
+   {
+    "100000": 101,
+    "100111": 107,
+    "111000": 137,
+    "111111": 133,
+    "011000": 119,
+    "000000": 136,
+    "000111": 134,
+    "011111": 133
+   },
+   {
+    "100000": 148,
+    "100111": 120,
+    "111000": 124,
+    "111111": 124,
+    "011111": 114,
+    "000000": 115,
+    "000111": 129,
+    "011000": 126
+   },
+   {
+    "100000": 141,
+    "100111": 130,
+    "111000": 107,
+    "111111": 129,
+    "011111": 104,
+    "000000": 125,
+    "000111": 113,
+    "011000": 151
+   },
+   {
+    "100000": 129,
+    "100111": 133,
+    "111000": 113,
+    "111111": 111,
+    "011111": 142,
+    "011000": 126,
+    "000111": 135,
+    "000000": 111
+   }
+  ],
+  "billed_seconds_reported": 0,
+  "observables": [
+   {
+    "label": "t=0.0",
+    "x": 0,
+    "ideal": 1,
+    "measured": 0.017
+   },
+   {
+    "label": "t=0.4",
+    "x": 0.4,
+    "ideal": 0.7381,
+    "measured": -0.053
+   },
+   {
+    "label": "t=0.8",
+    "x": 0.8,
+    "ideal": 0.3429,
+    "measured": -0.0143
+   },
+   {
+    "label": "t=1.2",
+    "x": 1.2,
+    "ideal": 0.1063,
+    "measured": 0.0157
+   },
+   {
+    "label": "t=1.6",
+    "x": 1.6,
+    "ideal": 0.013,
+    "measured": 0.0277
+   },
+   {
+    "label": "t=2.0",
+    "x": 2,
+    "ideal": -0.0013,
+    "measured": -0.011
+   }
+  ],
+  "values": {},
+  "answer": "I simulated a line of 6 magnetic spins on a quantum computer. In physics terms the model is H = J (sum of Z Z on neighbors) + h (sum of X), with J = 1 and h = 1. All 6 spins started pointing up. Each qubit stood for one spin. I put the 6 qubits on a connected chain of Garnet qubits (0, 1, 4, 3, 2, 7), so each pair of neighbor spins sat on two qubits with a direct link between them.\n\nI built one circuit for each of 6 moments in time: t = 0, 0.4, 0.8, 1.2, 1.6, and 2.0. Each circuit advances time in small steps of 0.2 (second-order Trotter steps). The circuit for t = 2.0 has 100 two-qubit gates. All 6 circuits ran as one job on garnet:mock with 1000 shots each. The job ID is 01a1603f-29d1-740e-8585-49a6be8877c8. The mock is free. It used no credits.\n\nWhat a perfect quantum computer would show. I computed the exact answer on a normal computer, which is still possible for 6 spins. The average magnetization falls from +1.00 at t = 0 to +0.74 at t = 0.4, +0.34 at t = 0.8, +0.11 at t = 1.2, +0.01 at t = 1.6, and about 0.00 at t = 2.0. The X field tips the spins away from up. The Z Z coupling spreads that tipping along the chain. By t = 2 the average magnetization is close to zero. The step-by-step circuits themselves would give values within about 0.03 of these exact numbers, so the time steps add only a small error.\n\nWhat the test device gave back. The magnetizations were +0.017, -0.053, -0.014, +0.016, +0.028, and -0.011. All of them are near zero, including at t = 0, where the true answer is exactly +1. The reason is that garnet:mock is not a simulator. It checks that the circuits are valid and then returns random bitstrings. So the job shows that the circuits compile and run on Garnet's layout, but its numbers carry no physics.\n\nWhat noise on a real machine would do. Every gate on real hardware has a small error, and the errors add up. The early moments use short circuits, so a real Garnet run should follow the ideal curve at first, but somewhat lower than the ideal values. The later moments use up to 100 two-qubit gates. Noise there would push the magnetization toward zero whatever the physics says. Here the true value at late times is also near zero, so you could not tell real decay from noise without extra checks. One such check is error mitigation, such as running the same circuits at higher noise on purpose and extrapolating back to zero noise.\n\nThe principle is this. A quantum computer can track how a magnetic material changes over time by applying many small time steps. This gets hard for normal computers once there are many spins, because the exact method needs memory that doubles with each added spin. That is why people expect magnet simulation to be an early useful task. Today's noise limits how long a time span can be simulated reliably."
+ }
+}

@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the variational principle and states it correctly. It says no trial state can score below the true ground state energy, so the lowest energy found is an upper bound. It also explains the loop: the quantum computer prepares a trial state, you measure it in a few bases, and a classical optimizer adjusts the angle. It says the one-angle circuit reaches the exact answer for H2, and the grade file confirms this.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The reported values match the grade file. energy_ideal is -1.1373060356907585 and energy_exact is -1.1373060357534, so the gap is about 1e-10. energy_measured of -0.306 matches the result object. The job ID, the 2000 shots, and the two circuits all match. The 98.8% and 1.2% split matches the simulated distribution of 0.9876 and 0.0124. The 0.71997 hartree nuclear repulsion, the 0.0016 hartree chemical accuracy, and the -0.33 hartree all-zero estimate are correct standard values. Two numbers have no source in the inputs: the 73 trial angles and theta = -2.918. These describe the method, not a result, and nothing contradicts them.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says garnet:mock is a free test device. It says the counts are random and do not depend on the circuit. It explains why the measured energy of -0.306 hartree is far off, and it says the run does not test the chemistry. It also notes that a real device would add noise.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claim. But it never says that a 2-qubit H2 problem is easy for a classical computer. It solved the 4 by 4 matrix exactly but did not point out what that means. It also does not say where quantum advantage in chemistry might come first, such as larger molecules with strongly correlated electrons. The rubric needs both statements.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "This is a borderline case. The 'What I ran' steps use several terms without defining them: Hamiltonian, parity mapping, two-qubit reduction, Z basis, RY, CNOT, and Hadamard. Those steps read close to an engineering log. Still, the answer speaks to the user directly, defines chemical accuracy, explains why the mock result is off, and ends with a plain explanation of the principle. The user asked to be shown how it works, so some method detail is fair. A non-expert can follow the main story.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the job itself and reported the results. The user is not asked to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer explains VQE correctly, uses grounded numbers, and is honest about the mock run. It never says this tiny problem is easy for a classical computer or where advantage might come first.",
+ "evidence": [
+  "\"The variational principle says no trial state can score below the true ground state energy. So the lowest energy you find is an upper bound on the true answer\"",
+  "\"It accepts the job and returns counts, but the counts are random and do not depend on the circuit.\"",
+  "\"I solved the 4 by 4 matrix exactly to get the reference answer.\" (The answer never points out that this means the problem is easy for a classical computer.)"
+ ]
+}

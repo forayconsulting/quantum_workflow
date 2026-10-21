@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle the experiment shows. That principle is the hardness of sampling from random circuits. It says the classical cost grows because the state needs 2^n complex numbers, and each added qubit doubles that count. It explains linear XEB correctly. A score near 0 means random guessing. A score near 1 means the samples follow the ideal pattern. Real hardware scores roughly as the chance that no gate error happened. It also explains the negative score correctly. The mock samples landed on outcomes that are less likely than average. One detail of the circuit is wrong. The answer calls the single-qubit gates half-turn rotations. The circuit file uses angle pi/2, which is a quarter turn. This slip is in the circuit description and not in the principle.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The trial numbers all match the inputs. xeb_measured -0.426 matches the grade file's xeb_api_keyed of -0.4259. xeb_ideal 1.058 matches 1.0578. The 12 CZ layers match cz_depth 12. The 1000 shots, the job ID, the 8 qubits QB1 to QB10, and the 8 distinct patterns all match the grade file. The counts of 30 CZ gates and 104 single-qubit gates are not in the grade file. They do match the trial's own circuit file at /Users/claytonchancey/Desktop/quantum/.claude/worktrees/wf_664c303a-347-16/rcs/circuit.json. 256, about 10^15, and petabytes follow from 2^8 and 2^50. The Google 2019 figure of about 0.002 on 53 qubits comes from outside the inputs. It is a correct public figure and gives context, so I did not count it as an ungrounded trial number. The answer says single-qubit gates come before each layer, which would give 96. The total of 104 means there is also a final layer. This is a small mismatch in wording only.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that the mock device does not simulate the circuit and returns made-up bitstrings. It says the low score is expected for a test device. It adds that a positive score would need the real garnet QPU, which costs credits. It does not present the counts as physics.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says a laptop simulates 8 qubits in well under a second. It says 50 or more qubits needs petabytes of memory or clever shortcuts. It names random circuit sampling as the place where quantum computers have beaten supercomputers. It does not claim that this run beats a classical computer. The phrase 'have been shown to beat' does not mention that classical methods later caught up with the 2019 result. The user's own question took that premise, though, and the answer adds no hype.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer uses short sentences and is organized by the user's questions. It defines xeb_ideal and xeb_measured in plain words. It explains what scores near 0 and near 1 mean. It explains the doubling with each added qubit. A few terms are used without a definition, such as 'CZ', 'complex numbers', and 'native gates'. The job ID and the list of qubit names read a little like a log. Overall a non-expert can follow it.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It gives the path to the scripts for reference only. It says a real QPU run would cost credits but does not hand the user steps to do it.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The answer explains XEB, the mock's made-up samples, and the classical scaling clearly, and every trial number checks out. The one slip is that it calls the pi/2 single-qubit gates half turns when they are quarter turns.",
+ "evidence": [
+  "\"the mock device does not simulate the circuit. It returns made-up bitstrings. Here it returned only 8 different patterns, and those happen to be less likely than average under the ideal distribution.\"",
+  "\"xeb_ideal is 1.058 ... xeb_measured is -0.426\" matches the grade file values 1.0578 and -0.4259.",
+  "\"every qubit gets a random half-turn rotation\" conflicts with angle 1.5707963267948966 (pi/2) in /Users/claytonchancey/Desktop/quantum/.claude/worktrees/wf_664c303a-347-16/rcs/circuit.json"
+ ]
+}

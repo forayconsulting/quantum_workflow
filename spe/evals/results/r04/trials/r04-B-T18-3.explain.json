@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names zero-noise extrapolation and states it correctly. It says you cannot remove noise, but you can turn it up on purpose, measure how the answer changes, and estimate the zero-noise value. It explains that folding adds a circuit and its reverse, so the ideal result stays the same while noise grows about 3 and 5 times. It also notes the cost is more runs and more random error, not more qubits. It separates the Trotter error (0.2218 vs exact 0.2044) from noise error. All of this is correct.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The core numbers match the files. The raw values 0.1657, 0.1137, 0.0865, the mitigated 0.2010, and the ideal 0.2218 match the result values and the grade file's payload_ideal. The CZ counts 60, 180, 300, the exact value 0.2044, and the linear fit 0.181 match the grade file's t18 block. The Richardson coefficients (15, -10, 3)/8 are the correct Lagrange weights for x = 1, 3, 5, and they reproduce 0.20099. The errors 0.056 and 0.021 and the 63 percent drop follow from these values. The exponential fit 0.192 is not in the grade file, but a log-linear fit of the 3 raw values gives 0.1917. The 100,000 shots and 6 Trotter steps have no direct source, but 6 steps fits 60 CZ gates on 5 bonds. The shot-noise factor of 3.5 is the sum of the absolute coefficients. That is an upper bound. The standard-deviation factor for equal shots is about 2.3, so this figure is loose but not invented. No number contradicts the grade file.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the garnet:mock run only checks that IQM's server accepts and compiles the circuits. It says the mock returns random bits, so its counts carry no physics. It says the physics values come from the IQMFakeGarnet simulator instead. This is the honest framing.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claim and does not say this run beats a classical computer. But it never says that 6 spins are easy for a classical computer, even though it quotes a classically computed exact answer. It mentions that IBM used the idea on a much larger spin model, but it does not say where quantum advantage might first appear or that it is not shown here. The rubric needs both statements, so this check fails.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer reads as a reply to the person who asked. It uses short sentences. It defines magnetization, explains folding, and explains why more noise pulls the value toward 0. A few terms are not defined: symmetric Trotter steps, CZ gates, Richardson extrapolation (it gives the formula but not the idea), and shot noise. The closing file paths read a bit like an engineer's log. Overall a non-expert can follow the main story.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the mock job and the simulator itself. It lists file locations for reference, but it does not ask the user to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer explains zero-noise extrapolation and mock honesty clearly, and its numbers match the grade file. It fails advantage_honesty because it never says 6 spins are easy to compute classically or where advantage might first appear.",
+ "evidence": [
+  "\"The principle is that you cannot remove noise, but you can turn it up on purpose. If you measure how the answer changes as noise grows, you can estimate the answer at zero noise.\"",
+  "\"The mock returns random bits, so its counts carry no physics. It cost no credits.\"",
+  "\"The mitigated value has more random error than the raw value, because the fit multiplies shot noise by about 3.5.\" (3.5 is the sum of absolute coefficients, an upper bound. The standard-deviation factor is about 2.3.)"
+ ]
+}

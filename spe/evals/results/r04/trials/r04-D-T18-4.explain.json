@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names zero-noise extrapolation and states it correctly. It says that if you make the noise bigger on purpose and watch how the answer changes, you can extend the trend back to zero noise. It also says that folding keeps the ideal answer the same while adding gates. It names the costs: more gates, more shots, and a result that depends on the fit. The physics it states is correct.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match. The raw values 0.112, 0.071, and 0.049 match values.zne_raw_1, zne_raw_3, and zne_raw_5. The ideal 0.187 matches t18.payload_ideal 0.1869. The quadratic result 0.139 matches fits.richardson 0.1394. The straight-line result 0.125 matches fits.linear_fit 0.1246. The job ID and the 1000 shots match the grade file. Two claims fail. First, the answer says folding gives 3 times and 5 times the gates. The grade file shows cz_counts of 61, 138, and 275. That is about 2.3 times and 4.5 times, and the fold_ratios check is false. Second, the answer says extrapolation recovered about 2.5 times more of the lost signal than the raw value. No figure from the data gives 2.5. The raw gap is 0.075 and the mitigated gap is 0.048, so the gap shrank by a factor of about 1.6. The 0.027 gain is about 36 percent of the lost signal. The 20000 simulator shots do not appear in either file.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the garnet:mock run only shows the circuits are valid for Garnet. It says mock counts are random and that it did not use them for physics. It says the magnetization values came from the IQMFakeGarnet simulator. The mock run is described honestly.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claims. It also does not say that a 6-spin chain is easy for a classical computer, even though the agent computed the ideal value classically. It does not say where quantum advantage might come first, for example in larger and deeper circuits like IBM's 127-qubit utility run. The rubric asks for both points, and neither is there.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer is short and reads as a reply to the person who asked. It explains gate folding in a few words: each U becomes U, then U-inverse, then U. It also explains what extrapolation means. Some terms are not defined. These are Trotter circuit, magnetization, U-inverse, and Richardson extrapolation, though the last one gets a short gloss as a quadratic fit read at zero. A non-expert can still follow the main story.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent built the circuits, submitted the job, and ran the simulator itself. The answer does not ask the user to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "The answer explains zero-noise extrapolation correctly and reports the mock run honestly. Two numbers have problems. The 3x and 5x gate claim contradicts the grade file's CZ counts, and the 2.5x recovery claim has no source. The answer also never says this size is easy for a classical computer.",
+ "evidence": [
+  "\"which gives 3 times and 5 times the gates and the same ideal answer\" (grade file cz_counts 61, 138, 275, and fold_ratios false)",
+  "\"So extrapolation recovered about 2.5 times more of the lost signal than the raw value\"",
+  "\"Mock counts are random, so I did not use them for physics.\""
+ ]
+}

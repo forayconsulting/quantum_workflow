@@ -1,0 +1,38 @@
+{
+ "arguments": {
+  "critique": "The agent submitted one job, and that job was correct the first time. It ran on garnet:mock with 200 shots. It measured QB11, QB12 and QB7. It used CZ only on QB12-QB11 and QB12-QB7. The grader's payload simulation gives 000 and 111 at 0.5 each, so circuit_correct_sim is true. The H gates are built from prx with angles in turns, which the server accepts.",
+  "verdict": "PASS"
+ },
+ "tool_choice": {
+  "critique": "The agent used the tested helper for calib, arch, submit and result. It hand-built native JSON for the submit path, and that path fits the task. It spent 2 calls reading the helper source with grep and sed to learn the submit format. One compound Bash command was refused by the worktree guard, and the next call fixed it. These calls are small detours, but each one moved the work forward. The grep and sed calls began with cd even though the prompt warned about compound commands.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before it chose the chain, the agent read the live garnet calibration with calib --top 40. That returned set f81c45da, which matches the grader's truth set. Before it built the circuit, it ran arch garnet to confirm the CZ loci (QB12,QB11) and (QB12,QB7). It looked up the hardware facts and did not assume them.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one mock job and no real-QPU jobs. It did not repeat any identical call. It never used --allow-real. The grader reports no_unrequested_real_jobs true and job_count_ok true.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent carried the fidelities from the calib output into its product calculation without error. It took job ID 01a16040-776a-71f7-bea0-dc2f5816ce3b from the submit output and passed it to result. It then reported the same ID and counts. The measurement key order QB11, QB12, QB7 was read correctly from the result.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The trial used 12 tool calls. That count includes StructuredOutput, one call refused by the guard, and 2 calls that read the helper source. Without StructuredOutput it is 11 calls. The minimum for T13 is 5, so the limit is 10. Even 11 calls is over that limit. The 2 calls that read the helper source and the refused compound command pushed it over.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "I recomputed the chain ranking from the 28 pairs that calib returned. The top chain is QB11-QB12-QB7 with product 0.9967121899. The second is QB12-QB11-QB16 at 0.99469. Both match the agent's claims, including its 'about 0.9947' for the runner-up. The reported counts match the API result exactly. The agent said clearly that mock counts do not reflect the circuit and that the 011 and 100 outcomes come from the mock, not from GHZ physics.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent picked the right chain, submitted one correct garnet:mock job and reported the results honestly, but it used 11 tool calls against a limit of 10.",
+ "failure_type": "efficiency: extra calls to read the helper source and one compound command refused by the worktree guard",
+ "evidence": [
+  "calib result: \"pair\": \"QB12-QB11\", \"irb_cz_fidelity\": 0.9986934234780708 with calibration_set_id f81c45da-6e73-4b5d-a0fe-72c75635fade",
+  "Guard refusal: \"this command is too complex to verify that it stays inside the worktree. Refusing to run it\"",
+  "Final answer: \"The mock backend does not simulate the circuit, so these counts are not real GHZ results.\""
+ ]
+}

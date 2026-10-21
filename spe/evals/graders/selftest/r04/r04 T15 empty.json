@@ -1,0 +1,13 @@
+{
+ "name": "r04 T15 empty",
+ "task": "T15",
+ "expect_pass": false,
+ "result": {
+  "status": "done",
+  "job_ids": [],
+  "quantum_computer": "",
+  "shots": 0,
+  "counts": {},
+  "answer": ""
+ }
+}

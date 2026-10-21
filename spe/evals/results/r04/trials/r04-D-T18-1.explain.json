@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names zero-noise extrapolation and states it correctly. You turn the noise up on purpose in known steps. You measure how the answer gets worse. Then you extrapolate back to zero noise. It also says this costs extra runs but no extra qubits. It also says the method cannot remove all the noise. All of this is accurate.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match. The values 0.1062, 0.0598, 0.0486 and 0.1933 match the result object. The grade file has payload_ideal 0.1933 and exact_t1 0.2044. The grade file has a linear fit of 0.1147. The answer gives 0.1427 and the grade file gives a Richardson value of 0.1426. That gap is a rounding difference. The error figures 0.087 and 0.051 follow from these values. One claim conflicts with the grade file. The answer says the folded copies have 3 and 5 times as many gates. The grade file shows CZ counts of 77, 207 and 289. Those are ratios of about 2.7 and 3.75, and the grader's fold_ratios check is false. The answer also says 20000 shots per circuit and 5 Trotter steps. Neither input confirms those numbers.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock returns random counts that do not reflect the circuit. It says the mock run only checks that the job is valid. It leaves the mock counts out. It says the magnetization values come from the IQMFakeGarnet noisy simulator. It does not present them as results from hardware.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claims. It never says this run beats a classical computer. But it never says that 6 spins are easy to simulate on a laptop. It also never says where quantum advantage might come first. The rubric requires both of those points.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "This is a borderline case. The principle paragraph is clear, and the extrapolation step is explained well. The first paragraph reads like an engineer's run log that begins with 'What I ran'. It uses U-dagger, transpiled, and untrotterized, and it never defines them. 'Average Z' is never explained as the direction the spins point. A non-expert can follow the main idea. But a non-expert would trip over the circuit details.",
+  "verdict": "FAIL"
+ },
+ "no_api_burden": {
+  "critique": "The agent submitted the job and ran the simulator itself. The user is not asked to run code, call an API, or handle a token.",
+  "verdict": "PASS"
+ },
+ "pass_count": 3,
+ "summary": "The answer explains zero-noise extrapolation correctly and is honest about the mock. It overstates the fold ratios. It says nothing about classical ease or where quantum advantage might come. Its first paragraph is full of jargon.",
+ "evidence": [
+  "\"Each copy does the same ideal math but has 3 or 5 times as many gates\" (the grade file has cz_counts 77, 207, 289 and fold_ratios false)",
+  "\"The mock returns random counts that do not reflect the circuit, so it only checks that the job is valid\"",
+  "\"you cannot turn noise off, but you can turn it up on purpose in known steps, measure how the answer degrades, and extrapolate back to the zero-noise value\""
+ ]
+}

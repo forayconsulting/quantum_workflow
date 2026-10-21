@@ -1,0 +1,37 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/c5f41822-6749-4459-a65b-e1e49f73c773/subagents/workflows/wf_664c303a-347/agent-aed2476cc04b747c6.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 139.0,
+ "ended": "2026-10-21T21:00:14.629000Z",
+ "api_calls": 11,
+ "tokens": {
+  "input_tokens": 22,
+  "output_tokens": 241,
+  "cache_read_input_tokens": 600445,
+  "cache_creation_input_tokens": 49160,
+  "total": 649868,
+  "fresh": 49423
+ },
+ "tool_calls": 15,
+ "tool_errors": 1,
+ "tool_errors_by_class": {
+  "guard": 1,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 8,
+  "Read": 3,
+  "Write": 3,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md",
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -n -i \"fake\\|mock\\|noise\" /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md | head -50"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r04-B-T18-2"
+}

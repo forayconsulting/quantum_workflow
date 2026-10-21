@@ -1,0 +1,13 @@
+{
+ "name": "r04 T16 empty",
+ "task": "T16",
+ "expect_pass": false,
+ "result": {
+  "status": "done",
+  "job_ids": [],
+  "quantum_computer": "",
+  "shots": 0,
+  "counts": {},
+  "answer": ""
+ }
+}

@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the variational principle and states it correctly. It says a quantum computer prepares a trial state and measures its energy, and a classical computer adjusts the circuit. It says no trial state can go below the true ground energy, so the lowest value found is the best estimate. That is the correct statement of a variational ground-state search.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The key numbers match the inputs. energy_ideal -1.137306, energy_exact -1.137306, and energy_measured -0.163 match the result object and the grade file. 4000 shots, two circuits, the job ID, and the near half 00 and half 11 counts match the grade file counts_list. The gap of about 0.97 hartree is -0.163 minus -1.137. The 1e-15 agreement matches the difference between the two energies. The 98.8% ideal probability matches the grade file simulation (0.98756). The answer calls it 01 and the grade file calls it 10, but the agent's saved h2_result.json also lists 01 at 0.98756, so this is a bit-order convention and not a contradiction. theta = -2.918 rad matches theta_best in the agent's h2_result.json. The 73 trial angles and the 0.71997 hartree nuclear repulsion appear in no input file. 0.71997 is the standard value for H2 at 0.735 angstrom, and 0.0016 hartree is the standard chemical accuracy threshold. No number contradicts the grade file.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says clearly that garnet:mock returns made-up counts that do not depend on the circuit. It says the measured energy of -0.163 hartree says nothing about chemistry and only shows that the job pipeline works. It also explains what an ideal device would give instead. This is honest about the mock run.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claim and does not say this run beats a classical computer. But it never says that a 2-qubit H2 problem is easy for a classical computer. It mentions solving the formula directly but does not draw that point out. It also says nothing about where quantum advantage in chemistry might come first, such as larger molecules with strongly correlated electrons. The rubric needs both points, and both are missing.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer leads with the main result in two plain sentences. It closes with a short, clear paragraph on the principle. The middle paragraphs read partly like a run log. They use terms such as II, IZ, ZI, ZZ, XX, RY, CNOT, Hadamard, Z basis, and hartree without defining them. A non-expert can still follow the main thread: what was tried, how close it got, and why the mock number means nothing. It reads as an answer to the person who asked, so it passes, but only just.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It lists the script and result file paths for reference only. It says a real QPU run would cost credits and that it chose not to run one. It does not hand that step to the user.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer states the variational principle correctly, matches the grade file on every checkable number, and is honest about the mock run. It never says this size is classically easy or where chemistry advantage might first appear.",
+ "evidence": [
+  "\"The mock device returns random counts that do not depend on the circuit. So the measured energy of -0.163 hartree is about 0.97 hartree off and says nothing about chemistry.\"",
+  "\"The variational principle says no trial state can go below the true ground energy. So the lowest value found is the best estimate.\"",
+  "\"The exact answer from solving the formula directly is also -1.137306 hartree.\" (/Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-A-T15-3.result.json, with no statement on classical ease or where advantage could come first)"
+ ]
+}

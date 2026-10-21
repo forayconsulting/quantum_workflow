@@ -1,0 +1,36 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/c5f41822-6749-4459-a65b-e1e49f73c773/subagents/workflows/wf_664c303a-347/agent-a768bcd736d378522.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 140.3,
+ "ended": "2026-10-21T21:02:39.369000Z",
+ "api_calls": 10,
+ "tokens": {
+  "input_tokens": 20,
+  "output_tokens": 518,
+  "cache_read_input_tokens": 542333,
+  "cache_creation_input_tokens": 45563,
+  "total": 588434,
+  "fresh": 46101
+ },
+ "tool_calls": 13,
+ "tool_errors": 0,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 10,
+  "Read": 1,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": true,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -n -i \"fake\\|IQMFake\" /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md | head -30; /Users/claytonchancey/Desktop/quantum/.venv-iqm/bin/python -c \"import iqm.qiskit_iqm as m; print([x for x in dir(m) if 'Fake' in x])\""
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r04-C-T18-3"
+}

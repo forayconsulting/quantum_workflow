@@ -1,0 +1,37 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/c5f41822-6749-4459-a65b-e1e49f73c773/subagents/workflows/wf_664c303a-347/agent-a541008bac5c5c9fe.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 71.1,
+ "ended": "2026-10-21T20:59:24.845000Z",
+ "api_calls": 8,
+ "tokens": {
+  "input_tokens": 16,
+  "output_tokens": 559,
+  "cache_read_input_tokens": 401539,
+  "cache_creation_input_tokens": 46268,
+  "total": 448382,
+  "fresh": 46843
+ },
+ "tool_calls": 10,
+ "tool_errors": 1,
+ "tool_errors_by_class": {
+  "guard": 1,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 7,
+  "Write": 2,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "grep -n -i \":mock\" /Users/claytonchancey/Desktop/quantum/docs/iqm/README.md /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md | head",
+  "grep -n -i \"calibration\\|irb\\|fidelity\\|quality\" /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md | head -60",
+  "ls /Users/claytonchancey/Desktop/quantum/docs/iqm/; grep -n -i \"calibration\\|irb\\|quality\" /Users/claytonchancey/Desktop/quantum/docs/iqm/README.md | head -40",
+  "sed -n 168,260p /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md; sed -n 690,760p /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r04-B-T13-3"
+}

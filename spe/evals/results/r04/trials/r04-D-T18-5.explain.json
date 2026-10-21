@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names zero-noise extrapolation and states it correctly. It says you measure the answer at higher noise levels on purpose and extrapolate back to the no-noise point. It also names the cost, which is deeper circuits and larger statistical error. It correctly separates the leftover gap into Trotter error, which ZNE cannot fix.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The main values match the result object. These are 0.1194, 0.0652, 0.0473, 0.1517, and 0.2044. The linear fit of 0.1314 matches the grade file's linear_fit of 0.131375. The value 0.1869 matches payload_ideal, and 0.2044 matches exact_t1. The derived gaps 0.085 and 0.053 and the 38 percent drop are correct arithmetic. But two numbers have no source in either input. The claim of 20000 shots per simulator run is not in the result or grade file, and the result object lists 1000 shots. The claim of 4 Trotter steps is also unsourced. The grade file's cz_counts of 70, 156, and 278 give noise ratios of about 2.2 and 4.0, not 3 and 5, and the fold_ratios check is false. So the answer's claim of 3x and 5x stretched copies conflicts with the grade file.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock only checks that the job compiles and returns random bits. It says those counts are not used. It says the noisy numbers come from the local simulator IQMFakeGarnet. This is honest about the mock.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no claim that this beats a classical computer, and it uses no hype. But it never says that a 6-spin chain is easy for a classical computer. It does not say where quantum advantage might come first. The rubric needs both points.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The gate folding step is explained in a few words, and the closing principle is clear. But many terms are left undefined. These include Trotter steps, Trotter error, U-dagger, magnetization, and exponential decay fit. The answer ends by pointing to zne.py and out.json in the worktree. Overall it reads more like an engineer's run log than an answer to a non-expert.",
+  "verdict": "FAIL"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It mentions where the scripts are, but it hands over no steps.",
+  "verdict": "PASS"
+ },
+ "pass_count": 3,
+ "summary": "The answer states the ZNE principle correctly and is honest about the mock run. It does not mention classical ease or where advantage might come first. It leaves jargon undefined. It also includes unsourced numbers (20000 shots and 4 Trotter steps) and 3x and 5x fold claims that conflict with the grade file's CZ counts.",
+ "evidence": [
+  "\"The mock only checks the job compiles and returns random bits, so its counts are not used.\"",
+  "\"I got the real noisy numbers from IQMFakeGarnet, the local noisy simulator (20000 shots each).\" The grade file has no 20000 figure. Its cz_counts are [70, 156, 278] and fold_ratios is false.",
+  "\"Principle: you cannot remove noise, but you can measure how the answer changes as you deliberately add more noise and extrapolate back to the no-noise point.\""
+ ]
+}

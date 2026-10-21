@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used qiskit with iqm-client. It used IQMFakeGarnet for the noisy runs and the IQM provider for one garnet:mock job. These tools fit the task. The extra steps were a Trotter step scan (explore.py), a 4000-shot dry run, and a 2-call show.py printout. The scan and the dry run were real design and test work, not detours. Only the show.py printout was a detour, and it was 2 calls.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "There was one submission to garnet:mock. It held all 3 circuits (40, 120, and 200 CZ), with 20000 shots each and 6 measured qubits. It used valid Garnet couplers QB4-QB9, QB4-QB5, QB5-QB10, QB10-QB11, and QB11-QB6, and only prx, cz, barrier, and measure. The job completed on the first try. The task named no shot count, so 20000 is acceptable.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent transpiled against IQMFakeGarnet to get the layout and the native gates before running. The mock path rebuilt the circuits for the live backend and printed 'mock cz [40, 120, 200]'. The grader found the loci valid. The agent also computed the exact and Trotter ideals before choosing 4 steps.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real QPU jobs. It submitted exactly 1 mock job, as the task asked. The two 20000-shot fake runs differ, because the second one added the mock submission. The duplicate lines in the transcript are log echoes and not repeated calls. The metrics show 15 calls in total.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed the job ID right after it submitted the job: 'MOCK JOB ID: 01a16043-4c11-732e-9df5-f4a2470e0db0'. It reported that same ID. The reported values 0.148483, 0.108817, 0.0932, 0.177335, and 0.186861 match the final run's JSON. They do not match the earlier runs. The mock counts carried over correctly, in reversed bit order compared with the grader's keys.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The trial used 15 tool calls. The cap is 14, which is twice the T18 minimum of 7. Three things pushed it over. A compound shell command was refused by the worktree guard, which is the known issue F1. The agent also made 4 doc-read calls and a 2-call show.py printout. This is a borderline overrun by 1 call.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report's numbers match the tool output. The 0.038 to 0.010 error reduction is consistent with the values. The report says the mock counts carry no physics and that the mock cost no credits. It labels the readout-error cause as 'probably'. Its run-to-run variation claim is supported by the earlier runs (0.174 and 0.149). billed_seconds_reported is 0, which is the optional field contract.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent ran a correct single-job ZNE workflow that matches the tool output. It went over the efficiency cap by 1 call (15 against 14).",
+ "failure_type": "efficiency",
+ "evidence": [
+  "MOCK JOB ID: 01a16043-4c11-732e-9df5-f4a2470e0db0 / mock status JobStatus.DONE success True (transcript tool result, /Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/c5f41822-6749-4459-a65b-e1e49f73c773/subagents/workflows/wf_664c303a-347/agent-aed2476cc04b747c6.jsonl)",
+  "\"raw\": [0.14848333333333336, 0.10881666666666664, 0.0932], \"zne_richardson\": 0.17733541666666663 (final run output)",
+  "this command is too complex to verify that it stays inside the worktree. Refusing to run it (guard error on the first explore.py attempt)"
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the IQM helper iqm_run.py for calib, arch, submit, and result, and a short Python script to score the chains. It spent 3 calls (a grep of the helper, a Read of the helper, and a grep of the docs) to learn the native JSON format for prx. That work was needed before it could submit, so it is not a detour. Every tool it used fit the task.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent submitted one job, to garnet:mock with --shots 200. The circuit used CZ only on QB12-QB7 and QB12-QB11. It measured QB7, QB12, and QB11 under key m. The grader confirmed the right QPU, the right shots, the right qubit count, a correct circuit in simulation, and CZ on the best edges. The first submission was correct.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent fetched the garnet calibration and the garnet architecture before it chose the chain. The script built chains only from real CZ loci and from the default calibration set f81c45da. That set matches the grader's truth set.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted only a mock job and no real QPU job. It made no repeated identical calls. The calib call inside prep.py repeated an earlier calib call with --top 100 instead of --top 40, which is a small change and not an identical call.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed job ID 01a16042-d6d9-7674-9b97-9bbe33e215e8 right after it submitted the job. It used the same ID for the result call. The counts and the fidelities in the report match the tool outputs exactly.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 13 tool calls, including StructuredOutput. Without StructuredOutput the agent made 12 work calls. The minimum for T13 is 5, so the limit is 10. The calls above the limit were 2 help calls, the README read, and 3 calls to learn the prx JSON format.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report gives chain QB7-QB12-QB11, product 0.99671, and counts 000:37, 001:69, 110:48, 111:46. These match the prep.py output and the result call. The report says the mock counts do not depend on the circuit and do not look like GHZ. That matches the known mock behavior. Leaving counts_list empty and billed_seconds_reported at 0 follows the optional field contract.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent passed every check except efficiency. It found the best chain, submitted one correct mock job, and reported honestly, but it used 12 work calls against a limit of 10.",
+ "failure_type": "efficiency: extra calls to discover the helper's native JSON gate format",
+ "evidence": [
+  "(0.9967121899050079, 'QB7', 'QB12', 'QB11', 0.9980161744069936, 0.9986934234780708)",
+  "submit garnet:mock --json .../scratch_ghz/ghz.json --shots 200 -> job_id 01a16042-d6d9-7674-9b97-9bbe33e215e8",
+  "These counts do not look like a GHZ state. The reason is that the mock returns random results that do not depend on the circuit."
+ ]
+}

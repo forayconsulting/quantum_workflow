@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer says the spins start lined up, the X term tilts them, and the ZZ coupling spreads the disturbance along the chain. It says the average magnetization relaxes toward zero. That is a correct account of quench dynamics and dephasing in the transverse-field Ising chain. The closing line names the general principle of quantum simulation, and that line is also correct. It is generic, but the dynamics paragraph already names the specific effect.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values 1.00, 0.74, 0.34, 0.11, 0.01, and about 0.00 match the grade file's exact list (1.0, 0.7381, 0.3429, 0.1063, 0.013, -0.0013). The measured values -0.035, 0.015, -0.007, 0.019, 0.005, and -0.025 match the observables. The job ID, the 1000 shots, the six times, and the 0 credits all match the grade file. The gate counts of 100 two-qubit and 120 single-spin follow from 20 steps on 5 pairs and 6 spins. The listed bitstrings 011011 and 100100 are the API's 110110 and 001001 in reversed bit order, so they agree. There is one small slip. The answer says those four bitstrings appear in every circuit. The t=0 circuit returned 001100 and 110011 instead. No numeric value contradicts the sources.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock is a free test device that checks that the job is accepted and that the data has the right shape. It says the mock does not simulate the physics and that the numbers say nothing about the spins. It points out that t=0 came back near 0 when the true value is +1. It also warns that the late-time match with the ideal values is a coincidence.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says this kind of dynamics gets hard for classical computers as the chain gets long. That names where advantage might come first, and it does not claim advantage here. But it never says that 6 spins is easy for a classical computer. It labels the ideal curve as an exact calculation, but it does not say that a laptop did that calculation in moments. The rubric requires an explicit statement about how easy this size is for a classical computer.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer is organized under the user's three questions, and it reads as a reply to that person. Most sentences are short and clear. Some terms have no definition, such as ZZ rotation, readout error, zero-noise extrapolation, gate fidelity, and circuit depth. The bitstring details lean technical. Even so, a non-expert can follow the main story of the ideal curve, the meaningless mock output, and noise pulling values toward 0.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent submitted the job and reported the results itself. The user is not asked to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer is clear, uses grounded numbers, and is honest about the mock, but it never says that a 6-spin chain is easy for a classical computer.",
+ "evidence": [
+  "The mock is a free test device that checks the job is accepted and returns the right data shape. It does not simulate the physics. So these numbers say nothing about the spins.",
+  "This is the kind of dynamics that gets hard for classical computers as the chain gets long.",
+  "The counts are four bitstrings (000000, 111111, 011011, 100100) each at roughly 25 percent in every circuit."
+ ]
+}

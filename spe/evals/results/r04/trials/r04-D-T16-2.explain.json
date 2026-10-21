@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the hardness of sampling as the principle. It says an n-qubit state needs 2^n complex numbers, and each added qubit doubles the memory and the work. It says checking a large device with XEB also needs that same classical simulation. It explains XEB correctly. The score is 2^n times the average ideal probability of the measured bitstrings, minus 1. A score near 1 means ideal sampling and near 0 means uniform noise. It says the score falls roughly exponentially with gate count on real hardware. It cites Google's 53-qubit result correctly. One small weakness is that 'the hardware really ran the circuit' is a little loose. The physics is still right.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match. xeb_measured 0.255 and xeb_ideal 0.975 match the reported values and the grader's xeb_api_keyed 0.2553 and xeb_ideal 0.9749. The job ID, 1000 shots, and garnet:mock match. The 8 qubits QB1, QB2, QB4, QB5, QB3, QB9, QB8, QB10 match measured_qubits. 10 layers matches cz_depth 10. The claim of 8 distinct bitstrings out of 256 matches the 8 keys in counts. The scaling numbers are correct arithmetic: 2^30 is about a billion, 2^50 is about 10^15, and 2^53 is about 9 quadrillion. The count of 35 CZ gates has no source in the result object or the grade file. The grade file lists cz_depth and the coupler set but not a gate count. The inputs do not show enough to confirm or reject it.",
+  "verdict": "UNKNOWN"
+ },
+ "mock_honesty": {
+  "critique": "The answer has a clear caveat. It says this was the mock device and not real hardware. It says the mock returned only 8 of 256 bitstrings, so the output is not a faithful picture of an ideal run. It says 0.255 is not a measurement of real Garnet quality. It also says no QPU credits were spent. Two earlier phrases cut against this. 'Its distance from 0.975 is the noise' reads as a physical claim. Calling the mock a 'noisy emulator' is also not accurate, because the project notes say mock counts do not reflect the circuit. The caveat paragraph corrects both, so the reader is not misled about the mock.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says 8 qubits needs 256 numbers and that the laptop simulated it instantly. It says advantage claims sit at about 50 to 53 qubits, where the memory reaches petabytes. It says random circuit sampling is the task where the quantum computer 'is claimed to win'. It does not say this run beats a classical computer. It also says the task has no known practical use. There is no hype.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer speaks to the person who asked. It is split into results, meaning, caveat, and scaling. It explains xeb_ideal and xeb_measured in plain words. It gives the XEB formula in words and explains what the score means at 1, at 0, and in between. A few terms are not defined: CZ gate, coupler, and linear XEB as a name. The opening paragraph on qubit choice and gate layout reads a little like an engineer's log. Overall a non-expert can follow it.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It reports that the agent did the run and the simulation itself. It says a real Garnet run would cost credits and was not done because the user did not ask for one. That gives the user a choice and gives them no task.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer teaches XEB and the exponential cost of classical simulation correctly, and it is honest about the mock run and about advantage. The one gap is the count of 35 CZ gates, which the grade file cannot confirm.",
+ "evidence": [
+  "The 0.255 therefore shows how to compute the benchmark. It is not a measurement of real Garnet quality.",
+  "an n-qubit state needs 2^n complex numbers. For 8 qubits that is 256 numbers, which is tiny.",
+  "That is 35 CZ gates in total, and 10 layers satisfies the at-least-8 requirement."
+ ]
+}

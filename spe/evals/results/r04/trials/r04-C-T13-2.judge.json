@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the repo helper spe/agent-tools/iqm_run.py for calib, arch, submit, and result. It wrote one local Python script to rank chains and simulate the circuit. Three calls (submit --help, a grep of the helper, a grep of the REST doc) went to finding the circuit JSON format. That counts as format lookup, not a detour to a tool that cannot do the task.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission went to garnet:mock with 200 shots. It used locus QB11, QB12, QB7 and CZ only on QB12-QB11 and QB12-QB7. It measured all 3 qubits. The grader's simulation gives 0.5 for 000 and 0.5 for 111, and all checks are true.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent read the live default calibration (set f81c45da) and the garnet architecture before it picked the chain. It ranked every pair of CZ edges that share a qubit. The result matches the grader truth triple and product 0.9967121899050079.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one mock job and no real QPU job. It made no repeated identical API calls. The duplicate Write and run lines in the JSONL are logging duplicates, because the metrics count 1 Write.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed job ID 01a16040-d44a-75e3-b837-54ba483b6bc8 right after submit. It fetched results with that same ID. The fidelities from calib went into the script unchanged, and the counts went into the report unchanged.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The minimum for T13 is 5 calls, so the limit is 10. The agent made 11 work calls (9 Bash, 1 Read, 1 Write), plus StructuredOutput for 12 in all. The extra calls went to the docs README read and three lookups of the circuit format. The count is just over twice the minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The reported chain, product, per-pair fidelities, calibration set ID, job ID, and counts all match the tool output. The report says correctly that mock counts do not reflect the circuit and that the mock cost 0 credits. The second-best chain product 0.99469 matches the script output.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent found the right chain QB11-QB12-QB7 from live calibration, ran a correct GHZ circuit on garnet:mock, and reported honestly. It used 11 work calls against a limit of 10.",
+ "failure_type": "efficiency: extra calls to look up the circuit JSON format",
+ "evidence": [
+  "calib result: \"calibration_set_id\": \"f81c45da-6e73-4b5d-a0fe-72c75635fade\", \"pair\": \"QB12-QB11\", \"irb_cz_fidelity\": 0.9986934234780708",
+  "script output: chain QB11 QB12 QB7 product 0.9967121899050079 ... {'000': 0.5, '111': 0.5}",
+  "metrics: \"tool_calls\": 12, \"tools\": {\"Bash\": 9, \"Read\": 1, \"Write\": 1, \"StructuredOutput\": 1}"
+ ]
+}

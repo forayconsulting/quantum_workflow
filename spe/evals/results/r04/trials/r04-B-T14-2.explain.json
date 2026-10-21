@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer says a quantum computer tracks a magnetic material over time by applying its interactions in many small steps. It names this Trotterization. It also explains the physics correctly. The sideways field h tips the spins away from up. The coupling J spreads that motion along the chain. So the magnetization falls from 1 toward 0. It adds that gate count grows with simulated time and noise grows with gate count. All of this is correct.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values 1.0, 0.738, 0.343, 0.106, 0.013, and -0.001 match the grade file's t14.exact list. The measured values -0.015, 0.017, 0.020, -0.007, 0.021, and -0.006 match the rounded observables. The grader also confirmed measured_matches_api. The claim that the step circuits match the exact answer within about 0.007 is true. The largest gap between payload_ideal and exact is 0.0067 at t = 0.8. The job ID, 6 circuits, 1000 shots, garnet:mock, and 0 credits all match. The figure of 200 CZ gates at t = 2.0 is not stated in the grade file. It does follow from 20 steps times 5 neighbor pairs times 2 CZ gates per ZZ term, so nothing contradicts it.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that the mock device does not simulate the circuit and returns made-up bitstrings. It says the numbers carry no physics. It points to t = 0 as proof, because the mock gave about 0 where the true answer is 1.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says the exact answer was computed on a laptop and that 6 spins are still easy. It says large spin systems are very hard for classical computers, and that is why people expect this to be an early useful job. It does not claim this run beats a classical computer. It also names the noise catch. There is no hype.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer follows the user's three questions in order: perfect machine, test device, and real noise. It explains Trotterization in plain steps. Two terms go undefined. These are 'CZ gates' and 'noise-scaling extrapolation'. They are brief side mentions and do not block the main point. A non-expert can follow the answer.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the job and computed the reference values itself. The answer asks the user to run no code, make no API calls, and handle no tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "r04 B T14 2 is a clear and honest answer, and every number in it matches the grade file. It explains the physics correctly, says the mock output is not physics, and makes no claim of quantum advantage at 6 spins.",
+ "evidence": [
+  "\"The mock device does not simulate the circuit. It returns made-up bitstrings. ... So these numbers carry no physics.\"",
+  "\"I computed the exact answer on a laptop, which is still easy for 6 spins. The average magnetization is 1.0 at t = 0, 0.738 at t = 0.4, 0.343 at t = 0.8 ...\"",
+  "\"For large spin systems this is very hard for classical computers. That is why people expect it to be an early useful job for quantum computers.\""
+ ]
+}

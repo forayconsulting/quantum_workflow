@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the hardness of classical sampling as the principle. It says that exact simulation stores 2^n complex numbers and that the count doubles with each qubit. It explains linear XEB correctly. Uniform noise scores about 0. An ideal device scores 2^n times the sum of p squared, minus 1, which the grade file gives as 0.8667. One small slip is the line that the raw score is roughly the fraction of runs with no error. That is only true after you divide by xeb_ideal. The core physics is still right.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The main numbers match the grade file. These are xeb_measured -0.478 (API-keyed -0.4779), xeb_ideal 0.867 (0.8667), 1000 shots, the job ID, the eight qubits QB1 to QB10, the 10 couplers (10 two-qubit loci), 10 cycles (cz_depth 10), 256 outcomes, and 8 distinct bitstrings. The 2^50 figure of about 10^15 and the 53-qubit reference are standard background facts. The claim of 35 CZ gates in all has no source in the result object or the grade file. The grade file records the loci and the depth but not the gate count. The inputs cannot confirm or refute that number.",
+  "verdict": "UNKNOWN"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that garnet:mock is not a simulator. It says the mock returns made-up results that ignore the circuit. It says the run does not measure any quantum signal and only proves the pipeline works. The low score is treated as expected and is not presented as physics.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says the laptop simulated 8 qubits in a fraction of a second. It places the hard regime at 50 to 53 or more qubits with enough gate layers. It notes that supercomputers can use clever approximations. It calls the task useless in itself. It never claims advantage for this run.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer is organized under plain headings that match the user's questions. It defines XEB step by step and explains the 2^n memory growth in simple terms. A few engineer details appear, such as the job ID, the qubit labels, and the CZ gate name without a definition. They do not block a non-expert from following the main points.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The user is not asked to run code, call the API, or handle tokens. The answer mentions that a real garnet run would cost credits and says it was not run. That is a next-step note, not a handoff of API work.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer is a clear and honest XEB explanation with correct mock caveats and advantage framing. The only number the inputs cannot confirm is the count of 35 CZ gates.",
+ "evidence": [
+  "\"garnet:mock is not a simulator. It checks that the circuit is valid and then returns made-up results that ignore the circuit.\"",
+  "\"the mock scored xeb_measured = -0.478 ... A perfect quantum computer running this circuit would score xeb_ideal = 0.867.\" (grade file: xeb_api_keyed -0.4779, xeb_ideal 0.8667)",
+  "\"That came to 35 CZ gates in all.\" (no gate count in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-B-T16-2.grade.json)"
+ ]
+}

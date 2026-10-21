@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the hardness of sampling as the principle. It defines linear XEB correctly as 2^n times the mean ideal probability of the measured bitstrings, minus 1. It says a perfect device scores near 1 and uniform noise scores 0. It ties xeb_ideal of 1.229 to the textbook value of about 1. It explains that the exact output doubles in size with each qubit, and that tensor-network tricks help but still grow fast. It also says correctly that XEB needs the ideal probabilities, so checking a 50+ qubit device is itself the hard part. I found no physics errors.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The answer gives xeb_measured as -0.446 and xeb_ideal as 1.229. These match the grade file (xeb_api_keyed -0.44642, xeb_ideal 1.22896). The 1000 shots, the job ID, and the 8 qubits QB3, QB4, QB5, QB6, QB8, QB9, QB10, QB11 match the result and grade files. The answer says 10 layers, and the grade file shows cz_depth 10. The answer also says 3 CZ gates per layer, or 30 in total. The grade file does not count total gates, but these figures are consistent with a depth of 10. The figures 256, 2^50, about 10^15, and 16 petabytes at 16 bytes per number are correct arithmetic (2^50 times 16 bytes is 16 PiB). The answer says the canned bitstrings land on unlikely outcomes. The simulation agrees: 7 of the 8 mock bitstrings have ideal probability below the uniform value of 0.0039. The only number with no source is the timing claim of 'well under a second', and it is minor.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that garnet:mock does not simulate the circuit. It says the mock returned 8 canned bitstrings that have no link to the circuit. It says the -0.446 is not a measure of Garnet's quality, and that a real Garnet run would be needed for a genuine XEB.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says the 8-qubit output is 256 probabilities and was computed on a laptop in well under a second. It places the classical difficulty at 50 or more qubits and explains why. It treats the supercomputer claim as the reason for the experiment and does not say this run beat anything. It also notes that classical tricks exist. It does not hype.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer uses short, labeled paragraphs that respond to the user's questions in order. It explains XEB in plain words, using the ideas of likely and unlikely bitstrings, before it gives the formula. It explains why the score is negative and what that means. A few terms are not defined, such as 'state-vector simulation', 'tensor networks', and 'CZ'. These do not block a non-expert from following the main points.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer asks the user to do nothing. It does not hand over code, API calls, or token steps. It mentions that a real run would cost credits, and that is information for the user.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "Trial r04-D-T16-5 passes all 6 checks. The answer explains XEB and sampling hardness correctly, and its reported values match the grade file. It says clearly that the mock counts are canned and have no link to the circuit. Its 30 CZ gate count is consistent with cz_depth 10, but the grade file does not confirm it directly. Inputs were /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-D-T16-5.result.json and /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-D-T16-5.grade.json.",
+ "evidence": [
+  "garnet:mock is a free test device and does not simulate the circuit. It returned 8 canned bitstrings ... The -0.446 therefore shows the mock output is unrelated to the circuit. It is not a measure of Garnet's quality.",
+  "linear XEB is 2^n times the average ideal probability of the bitstrings you actually measured, minus 1.",
+  "At 50 qubits it is 2^50, about 10^15 numbers, which needs roughly 16 petabytes of memory at 16 bytes per number"
+ ]
+}

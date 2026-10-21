@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle: entanglement is fragile, and noise grows with the size of the entangled state. It explains why correctly. Each added qubit adds gates and a readout, and one error on any qubit breaks the all-agree pattern. It also notes that agreement alone does not prove a true superposition, which is correct and careful. One small simplification is that on Sirius each added qubit uses move and CZ operations through the resonator, not just one two-qubit gate. That does not change the physics of the trend.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The agreement fractions 0.96, 0.85, 0.85, and 0.79 match parity_by_size in the grade file. The 5-qubit counts of 41 all-zeros and 38 all-ones match the real job counts. The 1.0 billed second matches billed_seconds for the real job. Both job IDs match the grade file. The uncertainty of about 4 percentage points is a derived estimate. It is consistent with sqrt(0.85 x 0.15 / 100), which is about 3.6 points.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the test device returns fixed placeholder counts and that its numbers only show the job is valid. The grade file confirms the mock returned all zeros for every circuit. The answer then labels the reported fractions as coming from the real machine, and it explains the drop below 100% as hardware error.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claim and does not say the run beats a classical computer. But it never says that GHZ states of 2 to 5 qubits are easy for a classical computer to simulate. It also does not say where quantum advantage might come first. The rubric requires both of these to pass. The line about error correction for large computations does not cover them.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer is written to the person who asked, in short sentences. It explains the GHZ state as one qubit in a 50/50 superposition with the others tied to it. It explains that a perfect machine gives only all zeros or all ones. It explains the trend step by step. It mentions job IDs, but it does not read like an engineering log.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. The agent ran both jobs and reported the results.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer is accurate, well grounded, and clear. It fails only advantage_honesty because it never says this size is easy for a classical computer or where quantum advantage might come first.",
+ "evidence": [
+  "On the real machine, the share of shots where all bits agree was 96% for 2 qubits, 85% for 3, 85% for 4, and 79% for 5.",
+  "The test device returns fixed placeholder counts, so its numbers only show that the job is valid.",
+  "The principle is that entanglement is fragile. Noise grows with the size of the entangled state, and that is the main reason large quantum computations need error correction."
+ ]
+}

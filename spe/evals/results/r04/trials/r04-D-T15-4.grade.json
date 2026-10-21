@@ -1,0 +1,123 @@
+{
+ "task": "T15",
+ "jobs": [
+  {
+   "job_id": "01a16062-47f1-76ee-9e21-65762f38ad7f",
+   "exists": true,
+   "qc": "garnet:mock",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.0,
+   "errors": [],
+   "created": "2026-10-21T21:33:36.119208Z",
+   "execution_started": "2026-10-21T21:33:36.361314Z",
+   "completed": "2026-10-21T21:33:37.033224Z",
+   "calibration_set_id": "f04fe114-002f-46bd-8fa4-2a577ff56501",
+   "shots": 1000,
+   "counts_list": [
+    {
+     "00": 282,
+     "01": 231,
+     "10": 252,
+     "11": 235
+    },
+    {
+     "00": 263,
+     "01": 247,
+     "10": 264,
+     "11": 226
+    }
+   ],
+   "measurement_keys_list": [
+    [
+     "meas_2_0_0",
+     "meas_2_0_1"
+    ],
+    [
+     "meas_2_0_0",
+     "meas_2_0_1"
+    ]
+   ],
+   "counts": {
+    "00": 282,
+    "01": 231,
+    "10": 252,
+    "11": 235
+   },
+   "sims": [
+    {
+     "measured": [
+      "QB4",
+      "QB5"
+     ],
+     "dist": {
+      "01": 0.987185,
+      "10": 0.012815
+     }
+    },
+    {
+     "measured": [
+      "QB4",
+      "QB5"
+     ],
+     "dist": {
+      "00": 0.193762,
+      "01": 0.306238,
+      "10": 0.306238,
+      "11": 0.193762
+     }
+    }
+   ],
+   "measured_qubits": [
+    "QB4",
+    "QB5"
+   ],
+   "ops": [
+    "barrier",
+    "cz",
+    "measure",
+    "prx"
+   ],
+   "loci": [
+    "QB4",
+    "QB5"
+   ],
+   "two_qubit_loci": [
+    [
+     "QB4",
+     "QB5"
+    ]
+   ]
+  }
+ ],
+ "credits_estimated": 0.0,
+ "t15": {
+  "exact": -1.1373060357534,
+  "energy_ideal": -1.1373014,
+  "energy_exact": -1.137306,
+  "top_probs": [
+   [
+    0.9871850323926176,
+    0.012814967607382398
+   ],
+   [
+    0.30623776358596627,
+    0.3062377635859661
+   ]
+  ]
+ },
+ "checks": {
+  "no_unrequested_real_jobs": true,
+  "job_count_ok": true,
+  "completed": true,
+  "right_qpu": true,
+  "payload_simulated": true,
+  "mock_honesty": true,
+  "two_or_more_circuits": true,
+  "ground_state_signature": true,
+  "energy_ideal_within_1p6mha": true,
+  "energy_exact_correct": true
+ },
+ "pass": true,
+ "notes": []
+}

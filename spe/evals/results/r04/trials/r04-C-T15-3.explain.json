@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the variational principle and states it correctly. It says the quantum computer prepares a trial state and measures its energy one term at a time, and a classical computer adjusts the settings. It says the lowest energy the circuit reaches is an upper bound on the true ground-state energy. It also correctly explains why random mock counts make each Pauli term average to zero, so the energy falls to the constant term near -0.33 hartree.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The three reported values match the result object and the grade file. energy_ideal is -1.13730604, energy_exact is -1.137306, and energy_measured is -0.355. The gap between the ideal and exact values is 5.8e-10, which supports the claim of 'within 6e-10'. The job ID, the 1000 shots, and the two circuits match. The counts match the result object's counts_list exactly. The grade file lists the same counts with 01 and 10 swapped. That is the bit-order difference the answer itself explains ('qubit 0 as the rightmost bit'), so it is not a contradiction. I recomputed the energy from the counts with the standard STO-3G coefficients and got -0.3554, which matches. The angle of -2.918 rad agrees with the grade file simulation: cos^2(1.459) is about 0.0124, and the simulation gives 0.012436. The grid sizes of 73 and 2001 angles describe the agent's own process and appear in neither file. The nuclear repulsion of 0.71997 hartree and the 0.0016 hartree chemical accuracy target are standard constants. None of these numbers contradicts the files.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that garnet:mock does not simulate the circuit and returns random bitstrings. It calls the -0.355 hartree result a check that the measurement pipeline works, and it says 'It is not a chemistry result.' It also says what real hardware would show instead.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer contains no hype and does not claim the run beats a classical computer. It mentions that the exact answer comes from solving the small matrix directly. But it never says that this 2-qubit problem is easy for a classical computer. It also never says where quantum advantage in chemistry might come first, such as larger molecules or strongly correlated systems. The rubric requires both statements.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The 'How to read this' and 'Principle' sections are clear and speak to the person who asked. The setup and final-job sections read like an engineering log. They use undefined terms such as 'parity mapping and two-qubit reduction', 'Ry rotation', 'CNOT', 'Pauli term', 'Z basis', 'Hadamard gates', and 'Qiskit order'. Hartree is also never defined. The raw count listings with bit-order notes are written for engineers. A non-expert would lose the thread in the middle half.",
+  "verdict": "FAIL"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the job and reported the results. The user is not asked to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "The answer gets the physics, numbers, and mock disclosure right, but it never says this size is classically easy or where advantage might come, and its middle sections use undefined jargon.",
+ "evidence": [
+  "\"The -0.355 hartree result shows that the measurement pipeline works from start to finish. It is not a chemistry result.\"",
+  "\"built with the standard parity mapping and two-qubit reduction\"",
+  "\"The lowest energy the circuit can reach is an upper bound on the true ground-state energy. Here it reaches the exact value.\""
+ ]
+}

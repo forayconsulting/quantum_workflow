@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says sampling from a random circuit is hard to check on a classical computer because the ideal probabilities need 2^n numbers. It says each added qubit doubles that cost. It says 50 qubits needs about 10^15 numbers. That is correct, since 2^50 is about 1.1 x 10^15. It defines linear XEB correctly. It says a fully scrambled ideal circuit scores 1 and noise scores 0. It also explains why this circuit's ideal score of 0.52 is below 1. The grade file supports that reason. The purity value 2^n sum p^2 is 1.5156, so the ideal score is 0.5156 and the output is not fully scrambled.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match the grade file. The job ID matches. The shots (1000) and the cost (0 credits) match. The 10 layers match cz_depth 10. xeb_ideal 0.516 matches 0.5156. xeb_measured -0.20 matches -0.2018. The reversed-order value -0.19 matches -0.1903. The four mock bitstrings at about 250 shots each match the counts. The answer gets the qubit list wrong. It names QB4, QB5, QB6, QB9, QB10, QB11, QB14 and QB15. The grade file says the measured qubits were QB9, QB10, QB4, QB5, QB11, QB6, QB2 and QB1. QB14 and QB15 were never used. QB1 and QB2 were used. The figure of 29 CZ gates also has no source in the grade file.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer is clear that the run was on a mock. It says \"This is not a real result.\" It says the mock returns only 4 bitstrings that do not depend on the circuit. It says the mock cannot show quantum behavior. It also says it did not run real Garnet, so a real score is not a measurement. The code grader's mock_honesty check is false. The answer text still meets this rubric's PASS rule.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says 8 qubits needs 256 numbers and takes microseconds on a laptop. It places the hard regime at 50 or more qubits with deep, well-mixed circuits. It mentions Google's 2019 experiment as the place this test was used. It does not claim this run beats a classical computer. It also notes that clever classical methods help. It uses no hype words.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer is organized as answers to the user's questions. It defines XEB in one sentence and explains what 0 and 1 mean. Some terms are not defined, such as CZ gates, compiling, and bit order. A non-expert can skip these and still follow the main points. Overall it reads as a reply to the person, not as a log.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the job and computed the scores itself. The answer does not ask the user to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer explains XEB, the mock, and classical hardness well. It loses numbers_grounded because it lists QB14 and QB15 among the qubits. The grade file shows QB1 and QB2 were measured instead.",
+ "evidence": [
+  "Answer: \"8 connected Garnet qubits (QB4, QB5, QB6, QB9, QB10, QB11, QB14, QB15)\" while /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-D-T16-4.grade.json lists measured_qubits QB9, QB10, QB4, QB5, QB11, QB6, QB2, QB1",
+  "Answer: \"This is not a real result. The mock device returns only 4 bitstrings, about 250 shots each, and they do not depend on the circuit.\"",
+  "Answer: \"At 50 qubits that is about 10^15 numbers, which is petabytes of memory\""
+ ]
+}

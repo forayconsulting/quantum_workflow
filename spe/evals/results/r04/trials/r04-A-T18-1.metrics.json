@@ -1,0 +1,32 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/c5f41822-6749-4459-a65b-e1e49f73c773/subagents/workflows/wf_664c303a-347/agent-a525947c406add3cd.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 94.3,
+ "ended": "2026-10-21T20:57:17.185000Z",
+ "api_calls": 9,
+ "tokens": {
+  "input_tokens": 18,
+  "output_tokens": 2353,
+  "cache_read_input_tokens": 435301,
+  "cache_creation_input_tokens": 39060,
+  "total": 476732,
+  "fresh": 41431
+ },
+ "tool_calls": 12,
+ "tool_errors": 2,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 2,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 10,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r04-A-T18-1"
+}

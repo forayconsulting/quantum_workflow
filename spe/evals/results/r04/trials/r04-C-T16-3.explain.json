@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the hardness of sampling as the principle. It says interference makes a spiky Porter-Thomas output pattern. It says a positive XEB score means the likely outputs show up more often than chance. It says the classical cost grows exponentially with qubit count, because each added qubit doubles the list of amplitudes. All of this is correct. One small physics slip sits outside the principle. The answer calls sqrt(X), sqrt(Y) and sqrt(W) 'half-turn' gates. They are quarter-turn (pi/2) rotations. The line that XEB is 'roughly the fraction of runs in which no error happened' is a fair simple reading of fidelity.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The key numbers match the grade file. xeb_measured 0.138 matches xeb_api_keyed 0.13795. xeb_ideal 0.917 matches 0.91659. The job ID, 1000 shots, garnet:mock, 0 credits, the 8 qubits QB3, QB4, QB5, QB8, QB9, QB10, QB13 and QB14, and 10 CZ layers (cz_depth 10) all match. The 8 distinct bitstrings at about 125 counts each match the counts, which run from 111 to 137. 88 single-qubit gates fits 11 random layers on 8 qubits. The grade file does not list the total of 33 CZ gates, but nothing contradicts it. The background figures 256 outputs, about 10^15 outputs at 50 qubits, and about 16 petabytes follow from simple arithmetic at 16 bytes per amplitude. The 53-qubit figure and 'days to thousands of years' are general public facts, not trial values. No number contradicts the grade file.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly 'Do not read 0.138 as a real result. The mock does not run the circuit.' It explains why. Only 8 bitstrings came back in a fixed pattern, and a real device would spread samples over many of the 256 outputs. It says 0.138 is a chance match and not a fidelity. It also says a real test would need the paid QPU, which it did not run.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says 8 qubits takes a laptop a fraction of a second. It places possible advantage at 53 or more qubits with deep circuits, and it calls those 'claimed' advantage experiments. It adds that classical algorithms keep improving, that some claims were later matched by supercomputers, and that researchers still debate where the line is. It never says this run beats a classical computer.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer speaks to the person who asked and uses short sentences. It defines linear XEB in one line and gives the 0 and ideal reference points. It explains the doubling of outputs with each qubit. Some terms stay undefined, such as CZ, sqrt(W), and 'native gate format'. Porter-Thomas is named with only a short gloss. These are small, and a non-expert can still follow the main story.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer asks the user to run no code, make no API calls, and handle no tokens. It reports what the agent did and mentions the paid QPU only as an option that costs credits.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The r04-C-T16-3 answer passes all 6 checks. It explains sampling hardness correctly, reports XEB values that match the grade file, clearly says the mock score is not physical, and hedges the advantage claim. It has one minor slip: it calls the sqrt(X) gates half-turns, but they are quarter-turns.",
+ "evidence": [
+  "\"Do not read 0.138 as a real result. The mock does not run the circuit.\" (/Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-C-T16-3.result.json)",
+  "\"A perfect quantum computer scores xeb_ideal, which is 0.917 for this circuit.\" The grade file has xeb_ideal 0.91659 and xeb_api_keyed 0.13795 (/Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-C-T16-3.grade.json)",
+  "\"classical algorithms keep improving, and some earlier advantage claims have since been matched by supercomputers. Researchers still debate exactly where the line sits.\""
+ ]
+}

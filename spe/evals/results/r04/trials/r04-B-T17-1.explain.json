@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says errors add up with each extra gate, move, and readout, so a bigger entangled state is more fragile. That is decoherence and error growing with size, and it is stated correctly. It also explains the bias toward all-zeros as a qubit in 1 losing energy and falling to 0. That is a correct account of energy relaxation. It handles the 4-qubit bump as likely shot noise, which is fair at 100 shots. One small slip: it calls 00011 a single-bit flip, but 00011 is two bits away from 00000. This does not change the main principle.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The main numbers match the grade file. The agreement fractions 0.94, 0.85, 0.89, and 0.73 match parity_by_size. The billed time of 1.0 second and about 0.3 credits match the real job. Both job IDs match. The 43 to 30 split at 5 qubits matches the API counts. The 3 to 5 point error range is roughly right for 100 shots, since the binomial standard error runs from about 2.4 to 4.4 points. But the gate counts (4 two-qubit gates and 8 moves at 5 qubits, 1 gate and 2 moves at 2 qubits) have no source in the result object or the grade file, which lists op types but not counts. The answer also uses 00011 as an example of a single-bit flip. It is a two-bit error, and the result object's bit-order-reversed counts list it at 4, while the API lists it at 2. Under the rubric, a number with no source fails this check.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the test device always returns all zeros. It says the mock run only checks that the job is accepted, not the physics. The grade file confirms that the mock counts were all zeros. The answer gives the real sirius job separately and ties the drop in agreement to hardware errors. So it is clear that the reported numbers come from noisy real hardware.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer never says that a 2 to 5 qubit GHZ state is easy for a classical computer to simulate. It also does not say where quantum advantage might come first. It makes no hype claims, but the rubric requires both statements.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer defines a GHZ state in one sentence. It says what a perfect machine would show and lists the results with that 1.00 baseline. It explains the resonator moves in plain steps. The sentences are short and the answer speaks to the person who asked. Terms like 'two-qubit gate' and 'readout' get only light context, but a non-expert can still follow the answer.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran both jobs itself and reported the results. The user is not asked to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "The answer explains the trend correctly and is honest about the mock. It fails numbers_grounded because the gate and move counts have no source and 00011 is wrongly called a single-bit flip. It fails advantage_honesty because it never says this size is easy for a classical computer.",
+ "evidence": [
+  "\"These errors add up, so a bigger entangled state is more fragile. That is the main principle.\"",
+  "\"The 5-qubit circuit used 4 two-qubit gates and 8 moves. The 2-qubit circuit used 1 gate and 2 moves.\"",
+  "\"the wrong outcomes are mostly a single bit flipped, such as 11011 or 00011.\""
+ ]
+}

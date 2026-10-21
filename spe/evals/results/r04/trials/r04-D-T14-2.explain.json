@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the physics. The X term tips the spins and the ZZ term spreads that tipping along the line. The magnetization starts at 1, falls, and settles near zero (\"the order melts away\"). That is a correct description of a transverse-field Ising quench. It does not use a term like dephasing or thermalization, but the rubric does not require that term. The mechanism it gives is right.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The exact values 1.00, 0.74, 0.34, 0.11, 0.01, and -0.001 match the grade file's exact list (1.0, 0.7381, 0.3429, 0.1063, 0.013, -0.0013). The Trotter value 0.742 at t=0.4 matches payload_ideal 0.7425. The measured range of -0.03 to +0.01 covers the result values. Those run from -0.031 to 0.009. The other numbers also check out: 1000 shots, 6 circuits, the job ID, and 0 credits (estimated_credits 0.0). Each circuit's counts are about 25 percent on each of four bitstrings, and 000000 and 111111 are among them. 20 slices at t=2 follows from the 0.1 slice width. The result object lists some bitstrings in reversed order compared with the API counts (100100 versus 001001), but the answer does not quote those strings.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that the mock does not simulate the circuit and returns random-looking counts. It points out that t=0 should give 1.0 but the mock gave about 0. It says the mock only confirms that the job format and submission work, and that only the ideal numbers are physics. This is clear and correct.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claim. It does not say this run beats a classical computer. But it never says that 6 spins are easy for a classical computer, even though the agent computed the exact values classically. It also never says where quantum advantage might come first, for example in larger 2D lattices or at longer times. The rubric requires both points, and the answer covers neither.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer is split into four sections that follow the user's request. It explains Trotter in a few words (\"steps the spins forward in small slices\"). It explains noise in simple cause and effect: gate errors push the spins toward random, so the value drifts to 0 sooner. A few terms are left undefined, such as shots, bitstrings, and mitigation methods. A non-expert can still follow the main story.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the job and reported the results itself. The user is not asked to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer has correct physics, grounded numbers, and honest mock reporting in plain language. It fails advantage_honesty because it never says 6 spins are easy for a classical computer, and it never says where advantage might first appear.",
+ "evidence": [
+  "Exact values are 1.00 at t=0, 0.74 at 0.4, 0.34 at 0.8, 0.11 at 1.2, 0.01 at 1.6 and -0.001 at 2.0.",
+  "the mock device does not simulate the circuit. It returned random-looking counts.",
+  "Longer simulations lose accuracy faster, which is why mitigation methods and better hardware matter for this use."
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says entanglement gets more fragile as it spreads over more qubits, because the chances of error add up. It explains the cause correctly. More qubits mean more gates, more MOVE operations, and more readouts, and one error anywhere breaks the all-match pattern. It supports this with the observation that most bad shots have one flipped bit. It also handles the flat step from 4 to 5 qubits correctly. With 100 shots, that small change is hidden in statistical noise.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The fractions 0.95, 0.89, 0.84, and 0.84 match parity_by_size in the grade file. The 1.0 billed seconds and the 0.3 credits match the real job's billed_seconds and estimated_credits. Both job IDs match the grade file. The 46 to 38 split at 5 qubits matches the API counts for 00000 and 11111. The example bad shots 01111 and 00001 appear in the API counts. The claim that most bad shots have one flipped bit holds. 13 of the 16 bad 5-qubit shots are one flip from 00000 or 11111. The 4 percentage point uncertainty follows from the data, since sqrt(0.84 x 0.16 / 100) is about 0.037. One mismatch exists only in the result object. The agent's counts_list has reversed bit order compared with the API. But no number in the answer text depends on that order.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the test device always returns all zeros. It says that run only proved the job was set up correctly. This matches the grade file, where the mock counts are 100 percent zeros. It presents the fractions as results from the real sirius machine and ties them to noise.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no claim that this experiment beats a classical computer, and it uses no hype. But it never says that a 2 to 5 qubit GHZ state is easy for a classical computer to simulate. It also never says where quantum advantage might come first. The rubric requires both for a PASS.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer is mostly easy to follow. It defines a GHZ state in a few words and explains what a perfect machine would show. It lists the results as counts out of 100. Some terms go undefined, such as two-qubit gate, central resonator, MOVE operation, and readout bias. The last paragraph about the script path reads like a note for engineers. These points are small. A non-expert can still follow the main story and the trend.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It gives the script path and the saved result files only as a reference.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "Trial r04-C-T17-1 passes 5 of 6 checks. Its physics, numbers, mock honesty, plain language, and handling of the user are sound. It fails advantage_honesty because it never says this size is easy for a classical computer or where advantage might come first. Files read: /Users/claytonchancey/Desktop/quantum/spe/evals/graders/explain.md, /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-C-T17-1.result.json, /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-C-T17-1.grade.json.",
+ "evidence": [
+  "The general rule is that entanglement gets more fragile as it spreads over more qubits, because the chances of error add up.",
+  "It completed, but the test device always returns all zeros. That run only proved the job was set up correctly.",
+  "With 100 shots, each fraction is uncertain by about 4 percentage points, so the small step from 4 to 5 qubits is hidden in that noise."
+ ]
+}

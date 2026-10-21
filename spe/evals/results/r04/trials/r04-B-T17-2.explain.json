@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says errors grow with size because each extra qubit adds one more two-qubit gate and one more readout, and any single error breaks the all-agree pattern. That is decoherence and error accumulation growing with size, stated correctly. It also explains the bias toward all-0 as energy decay from 1 to 0, which is correct physics. The claim of one CZ per added qubit through the resonator fits the grade file's two_qubit_loci (COMPR1 with QB2 to QB5).",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The fractions 0.92, 0.89, 0.88, and 0.84 match parity_by_size in the grade file. The 1.0 billed second matches billed_seconds for the real job. The 0.3 credits match estimated_credits. The 5-qubit split of 53 all-0 and 31 all-1 matches the grade file counts. Both job IDs match. The claim that most wrong shots differ by one bit holds in the grade counts. In the 5-qubit run, only 01100 (1 shot) is two bits off. The 'few percent' uncertainty is a fair binomial estimate, about 3 to 4 percent at 100 shots. It is labeled as an estimate.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock returns placeholder results and that its counts tell us nothing about the physics. It states that the table comes from the one real job on IQM sirius. It ties the drop in the scores to real gate and readout errors.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer has no hype and does not claim to beat a classical computer. It never says that GHZ states of 2 to 5 qubits are easy for a classical computer to simulate. It also never says where quantum advantage might come first. The rubric requires both points, so this check fails.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer defines a GHZ state in plain words. It explains what a perfect score would be and why one error breaks the pattern. It speaks to the user directly. 'CZ' and 'resonator' are only lightly explained, but the reasoning does not depend on them. A non-expert can follow the trend explanation.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer lists the paths to the script and the saved results for reference. It does not ask the user to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer gets the physics right, matches every number in the grade file, and is honest about the mock. It never says that this size is easy for a classical computer or where quantum advantage might come first.",
+ "evidence": [
+  "\"It returns placeholder results, so its counts do not tell us anything about the physics.\"",
+  "\"Each extra qubit adds one more two-qubit gate (a CZ through the resonator) and one more qubit to read out. Every gate and every readout has a small chance of error.\"",
+  "\"For example, the 5-qubit run gave 53 all-0 and 31 all-1. A qubit in state 1 can lose its energy and decay to 0 before or during readout\""
+ ]
+}

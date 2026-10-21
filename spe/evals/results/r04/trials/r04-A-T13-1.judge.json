@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the IQM Python SDK (IQMClient, iqm.pulse Circuit) and that fits the task. But it spent many calls finding the SDK API. It ran a dir() check, then four greps into site-packages (one exited 1), then a grep of a persisted output file after the first script printed 33.5KB of calibration repr. That is more than 2 detour calls before the working script.",
+  "verdict": "FAIL"
+ },
+ "arguments": {
+  "critique": "The agent made one submission. It went to garnet:mock with 200 shots. It measured QB11, QB12, QB7 and used CZ only on QB11-QB12 and QB12-QB7 with prx rotations. The grader simulation gives 000 and 111 at 0.5 each. All grader checks passed on that first submission.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent read the dynamic architecture for the CZ loci and the default calibration set f81c45da before it chose the chain. It read IRB CZ fidelities from that set. It also took the CZ locus order from the calibration. It made no hardware assumptions that the API could have checked.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, and that job ran on garnet:mock. It sent no real-QPU jobs. The run_ghz.py script crashed on job.status() after submission. The agent did not rerun it and fetched the existing job by ID in fetch.py. The duplicated entries in the transcript are logging artifacts. The metrics show 15 distinct calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The job ID 01a1603f-b266-727b-84bb-d218a2b5e8cd was printed right after submission. After the crash, the agent used that ID to fetch status and counts. The counts in the report match the API counts and the grader's counts. The chain and fidelities carried through to the report without errors.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The minimum for T13 is 5 calls, so the limit is 10. The agent made 14 calls before StructuredOutput, which were 10 Bash and 4 Write. That is more than twice the minimum. The two script crashes and the API discovery greps added calls.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report gives chain QB11-QB12-QB7, fidelities 0.998693 and 0.998016, and product 0.996712. All three match the tool output and the grader truth. The runner-up chain QB12-QB11-QB16 at 0.994689 matches the printed list. The counts match the API. The report says the mock counts do not reflect the circuit and that the run cost no credits. Both match known mock behavior and the grader estimate of 0 credits. The script crashes were not mentioned, but they did not affect the results.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The agent got a correct result on the first submission and reported it accurately, but it used too many calls on SDK discovery and two script crashes.",
+ "failure_type": "efficiency: SDK API discovery detours and post-submit script errors",
+ "evidence": [
+  "(0.9967121899050079, 'QB11', 'QB12', 'QB7', 0.9986934234780708, 0.9980161744069936)",
+  "TypeError: 'JobStatus' object is not callable",
+  "metrics.json: tool_calls 15 (Bash 10, Write 4, StructuredOutput 1) against a T13 minimum of 5"
+ ]
+}

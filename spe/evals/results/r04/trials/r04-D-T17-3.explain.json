@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says noise builds up as the circuit grows, so a bigger entangled state loses more of its all-agree shots. It gives the right cause. Each extra qubit adds two-qubit gates and moves through the central resonator, and each step can fail. The grade file confirms that the circuits use cz and move gates through COMPR1. The answer also says correctly that the all-agree fraction does not test phase coherence. That is an accurate limit on what this test shows.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The four fractions are 0.94, 0.86, 0.80, and 0.79. They match parity_by_size in the grade file. The answer says the job billed 1.0 second and cost about 0.3 credits. The grade file shows billed_seconds 1.0 and estimated_credits 0.3. Both job IDs match the grade file. The claim that the mock returned all zeros matches the mock counts_list. The figure of about 4 percentage points is the binomial standard error, sqrt(0.8 x 0.2 / 100) = 0.04, so it comes from the data. One side issue does not touch the answer text. The counts_list in the result object reverses the bit order compared with the API. For example, it reports 10:4 and 01:2, and the API reports 01:4 and 10:2. The agreement fractions do not change. The example strings 10 and 1011 appear in the API counts.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock returned all zeros. It says the mock only proves the job is accepted and tells nothing about the physics. It then says plainly that the fractions come from the real sirius machine, and it ties the drop in agreement to hardware errors.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no false claim of quantum advantage and uses no hype. But it never says that a classical computer can easily simulate a GHZ state of 2 to 5 qubits. It also never says where quantum advantage might come first. The rubric requires both points.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer is mostly short, plain sentences written to the person who asked. It defines a GHZ state in one sentence. It explains that a perfect machine would give 1.00. It shows the trend with concrete numbers. Two terms in the last sentences are left undefined. These are 'phase coherence' and 'lower-bound style check'. They are small, and the main explanation still works for a non-expert.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran both jobs itself and reported the results. The answer never asks the user to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer explains the trend correctly, its numbers match the grade file, and it is honest about the mock run. It never says this size is easy for a classical computer or where quantum advantage might come first.",
+ "evidence": [
+  "\"The mock returned all zeros, so it only proves the job is accepted and says nothing about the physics.\"",
+  "\"0.94 for 2 qubits, 0.86 for 3, 0.80 for 4 and 0.79 for 5\" matches parity_by_size in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-D-T17-3.grade.json",
+  "\"This shows that noise accumulates with circuit size, which is why entanglement is hard to keep on real hardware.\" The answer says nothing about classical simulation or where quantum advantage might come first."
+ ]
+}

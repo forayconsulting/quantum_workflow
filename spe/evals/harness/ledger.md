@@ -113,3 +113,28 @@ The full job IDs are in `graders/selftest/r04/`. That folder stays untracked unt
 **Probe result:** a 4-circuit job billed the same 1.0 second as a 1-circuit job. T17 runs 3 trials per config. The workflow credit cap is 6 minus 0.30, which is 5.70.
 
 Dashboard before the round 4 run (about 20:49Z): balance 11.40. Credit history: "- 18.60 IQM Sirius, 62 jobs" for the day. 62 jobs at 0.30 is 18.60, so the probe cost exactly 0.30.
+
+## Round 4 real-QPU spend (run `wf_664c303a-347`, 20:55Z to 21:41Z)
+
+| Item | Value | Source |
+|---|---|---|
+| Real jobs reported | 12 on `sirius`, all T17. Each had 4 circuits and 100 shots | Grade files |
+| Billed seconds | 1.0 for every real job | IQM API `metrics.billed_seconds` |
+| Workflow estimate | 3.60 credits | 12 jobs at 0.30 |
+| Dashboard after the run | Balance 7.80. Credit history: "- 22.20 IQM Sirius, 74 jobs" for the day | Dashboard, Credits page |
+
+**Result:** 74 Sirius jobs at 0.30 each is 22.20, which matches the dashboard. Round 4 spent 3.90 including the probe, inside the 6 cap. The credit gate skipped no trial.
+
+## Job reconciliation (round 4)
+
+The dashboard listed 425 jobs. The known set was 422: 315 from earlier rounds, 10 from r04 setup, 3 from the r04 dry run, and 94 reported by r04 trials. Matching suffixes on the first 6 dashboard pages found **3 unreported jobs**. All are `garnet:mock`, so they cost 0 credits:
+
+| Suffix | Created (UTC) | Shape | Likely source |
+|---|---|---|---|
+| `17706a` | about 21:33 | 3 circuits, 1000 shots, failed | r04-D-T18-5. Its first submission failed with "Circuit contains no measurements". The script crashed before it printed the ID, and the agent did not report the job (failures.md F10) |
+| `7364f9` | about 20:58 | 1 circuit, 200 shots | Not attributed. About 20 trials overlap that minute, and no transcript contains the suffix |
+| `6f89a9` | about 20:58 | 3 circuits, 1000 shots | Not attributed. The shape fits T18 or a T16 retry |
+
+Output: `evals/results/r04/unreported_jobs.json`.
+
+The print-the-ID line in the preamble did not prevent these. A script that crashes inside the submit call never reaches the print.
