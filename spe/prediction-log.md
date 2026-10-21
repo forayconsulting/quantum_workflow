@@ -77,3 +77,40 @@ Prediction: [predictions/r02.yaml](predictions/r02.yaml), committed at 16:01Z be
 ### The SPE extra check
 
 The guide says to compare each prediction with the simple guess "same as last round". On pass rates, tokens, and wall time, the baseline was closer than Claude's prediction in most cells. Claude's predictions beat the baseline on guard errors, credits, physics, and D's drop on the new tasks. **Claude's predictions are not yet adding value on accuracy or efficiency.** They only help where a known change was made on purpose (the guard tip) or where physics and billing were measured in r01.
+
+## Round 3 (2026-10-21)
+
+Prediction: [predictions/r03.yaml](predictions/r03.yaml), committed at 17:52Z before any probe or trial. Results: [evals/results/r03/r03-scorecard.md](evals/results/r03/r03-scorecard.md). Run `wf_3612af23-e49`: 434 agents, 43 minutes, 144 trials, 0 incomplete, 0 peeked. The judge failed on 2 trials (r03-A-T1-1, r03-B-T5-1) because of malformed structured output. Their code grades are on disk and both pass.
+
+| Metric | Config | Predicted | Measured | Same as last round (r02) | Closer |
+|---|---|---|---|---|---|
+| Regression T1 T2 T4 T5 | A | 0.95 | 1.00 (12 of 12) | 0.93 | Prediction |
+| | B, C, D | 1.00 | 1.00 | 1.00 | Tie |
+| T7 status-agnostic | all | 1.00 | 1.00 | A B C 1.00, D 0.60 | Prediction for D |
+| T8 | D | 0.80 | 1.00 (3 of 3) | 0.80 | Neither |
+| T10 billed seconds | all | 3 of 3 | 3 of 3 | adjusted 3 of 3 | Tie |
+| T11 no hint | A | 2 of 3 | 3 of 3 | 3 of 3 | Baseline |
+| T12 Sirius readout, no jobs | A, B, C, D | 1.00, 1.00, 1.00, 0.67 | 1.00 all | n/a (new) | Missed for D |
+| T13 best chain GHZ-3 | A, B, C, D | 0.67, 0.67, 0.78, 0.56 | 1.00 all | n/a (new) | Missed for all |
+| Median tool calls | A, B, C, D | 6, 6, 8, 6 | 7, 6, 8, 7 | same | Tie |
+| Median total tokens | A, B, C, D | 209k, 295k, 286k, 235k | 234k, 316k, 290k, 236k | same | Tie (predicted no change) |
+| Median wall minutes | A, B, C, D | 0.53, 0.54, 0.45, 0.40 | 0.57, 0.46, 0.44, 0.43 | same | Tie |
+| T13 median tool calls and wall time | A, B, C, D | not predicted | 19 and 1.56 min, 15 and 1.37, 11 and 0.84, 9 and 0.94 | n/a | n/a |
+| T6 Bell parity | all | 0.93 | 0.937 | 0.927 | Prediction |
+| T10 GHZ-3 parity | all | 0.85 | 0.851 | 0.853 | Tie |
+| Credits | all | 7.2 | 7.20 (dashboard) | 7.20 | Tie |
+| Unreported jobs | all | 1 to 3 | 0 | 2 | Neither |
+| Regrade r02 flips fail to pass | | at least 3 | 2 (D-T7-1, D-T7-5). T10 could not flip, because r02 asked for a different field | n/a | Missed |
+
+### Which "why" broke
+
+- **"T13 is a new multi-metric step, so 0.56 to 0.78."** Wrong. Every config found QB11-QB12-QB7 and built a correct GHZ circuit. The difficulty showed up in effort instead. A needed a median of 19 tool calls and 1.56 minutes on T13. D needed 9 calls and 0.94 minutes.
+- **"Sonnet picks the wrong readout metric on T12."** Not tested. QB5 led both readout metrics, so any choice passed (failures.md F13).
+- **"Without the hint, A takes the T11 bait."** Wrong. No config used real Garnet.
+- **"Printing job IDs will not remove unreported jobs."** Wrong. Round 3 had 0, down from 2 in r02.
+
+### What three rounds show
+
+- Opus and Sonnet agents with the repo context complete every task in this suite once the graders and prompts are fair. Accuracy cannot rank the configs at this difficulty.
+- The configs differ on effort, and the differences hold across rounds. The helper (C, D) cuts tool calls and wall time on the hardest task by about 40 to 50%. Sonnet with the helper (D) is the fastest and the lightest on tokens. Config B (docs pointer) costs the most fresh tokens in every round (about 40k median, against 25k to 33k for the others).
+- Claude's predictions matched where they kept the baseline and missed on every "this will be hard" call. Round 3 confirms the r02 lesson.

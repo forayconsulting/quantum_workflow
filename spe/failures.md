@@ -75,3 +75,24 @@ The docs say `:mock` returns random results. In r01, native-JSON Bell circuits o
 
 - **What:** Garnet recalibrated at 16:42:21Z during the run. Grading after that point used a different "best pair" (QB11-QB12 instead of QB12-QB17).
 - **Fix:** grade.py looks up the calibration by job creation time, from `graders/garnet_calibrations.json`.
+
+## F12. Judge failure dropped a trial from the workflow return (harness, r03)
+
+- **What:** Two judge agents hit the StructuredOutput retry cap. `pipeline()` dropped the whole item, so the workflow returned 142 trials while 144 had code grades on disk.
+- **Seen in:** r03-A-T1-1, r03-B-T5-1.
+- **Fix for r04:** Catch judge errors and return the trial with `judge: null`. Count trials from the grade files. `build_results.py` already does this.
+
+## F13. Truth that both metric readings agree on cannot test metric choice (task design, r03)
+
+- **What:** T12 accepted either readout metric, and QB5 led both. T10 billed seconds were 1.0 for every real job, so a constant guess would also pass.
+- **Fix for r04:** Pick questions where the readings differ, and vary the shots or depth so billed seconds differ.
+
+## F14. Answer notes committed into the trial checkout (harness, r03)
+
+- **What:** `evals/tasks/T12.yaml` and `T13.yaml` recorded the day's answers (QB5 and QB11-QB12-QB7) and were committed before the run. Every trial worktree therefore contained them.
+- **Seen in:** r03 design. The metrics peek check and the critic's scan of all 144 transcripts found 0 reads, so the results stand.
+- **Fix for r04:** Keep answer notes out of the committed tree until the round ends, or remove `spe/` from trial worktrees.
+
+## Observation: effort, not accuracy, separates the configs
+
+Across r01 to r03, every config completes the tasks. On the hardest task (T13), A used a median of 19 tool calls and 1.56 minutes, while D used 9 and 0.94. Future rounds should treat tool calls, fresh tokens, and wall time as the primary outcomes, with pass rate as a gate.

@@ -1,0 +1,16 @@
+# Draft only. Not a prediction until r04 tasks are set and approved. Then rename to r04.yaml.
+round: r04
+status: draft
+author: Claude (harness)
+date: 2026-10-21
+baseline_same_as_last_round:
+  pass_rate: 1.00 for every config and task
+  median_tool_calls: {A: 7, B: 6, C: 8, D: 7}
+  median_total_tokens: {A: 234k, B: 316k, C: 290k, D: 236k}
+  median_wall_minutes: {A: 0.57, B: 0.46, C: 0.44, D: 0.43}
+  T13_tool_calls: {A: 19, B: 15, C: 11, D: 9}
+lesson: Predictions matched only where they kept the baseline. Every "this will be hard" call missed in r02 and r03.
+open_choices:
+  - make effort the primary outcome (spec R19)
+  - tasks where metric choice changes the answer (F13)
+  - keep answer notes out of trial checkouts (F14)

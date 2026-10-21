@@ -83,3 +83,14 @@ Round 2 requirements carry over except where changed here ([transcript](transcri
 Preamble changes for every config: each status value is defined, the `:mock` cost hint is gone, and agents are asked to print each job ID right after submitting.
 
 - r03 (2026-10-21): R4 restored. R11, R14, R15 changed. R16 to R18 added.
+- r03 results (2026-10-21): every config passed every task. Proposed changes for r04 are below.
+
+## Proposed for round 4 (not yet agreed)
+
+| ID | Proposed change | Why (round 3 evidence) |
+|---|---|---|
+| R19 (new) | Make effort the primary outcome: median tool calls, fresh tokens, and wall time per task, with pass rate as a gate | Pass rates hit the ceiling in r01 and r03 |
+| R12, R4 | Use questions where reasonable metric choices give different answers | failures.md F13 |
+| R15 | Vary shots or circuit depth so billed seconds differ between trials | F13 |
+| R16 | Keep the dashboard reconciliation as a required close-out step | r03 had 0 unreported jobs after the print-the-ID line |
+| Harness | Keep answer notes out of trial checkouts, and return trials when the judge fails | F12, F14 |
