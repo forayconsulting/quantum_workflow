@@ -1,0 +1,44 @@
+# Prediction for round 3. Saved and committed before the eval ran. Do not edit after the run.
+round: r03
+date: 2026-10-21
+author: Claude (harness). Approved by Clayton Chancey in plan mode on 2026-10-21.
+plan: ~/.claude/plans/whimsical-foraging-sketch.md (round 3 version)
+method: Start from "same as last round" and move a number only when a deliberate change gives a reason. This follows the r02 lesson that the baseline beat Claude's predictions.
+changes_from_r02:
+  - tasks: T12 Sirius best readout qubit with no jobs (R4), T13 GHZ-3 on Garnet's best connected triple on garnet:mock (R18)
+  - grading: T7 status-agnostic, T10 billed_seconds, calibration history per QPU, empty grade counts as INCOMPLETE
+  - preamble for all configs: status values defined, :mock hint removed, print each job ID right after submitting
+  - configs A to D unchanged
+constants:
+  trials_per_cell: 3, plus up to 2 top-up trials for unstable mock cells (cap 24)
+  credit_cap: 10
+pass_rates:
+  regression_T1_T2_T4_T5: {A: 0.95, B: 1.00, C: 1.00, D: 1.00}
+  T7: {A: 1.00, B: 1.00, C: 1.00, D: 1.00}
+  T8: {A: 1.00, B: 1.00, C: 1.00, D: 0.80}
+  T9: {A: 1.00, B: 1.00, C: 1.00, D: 1.00}
+  T12: {A: 1.00, B: 1.00, C: 1.00, D: 0.67}
+  T13: {A: 0.67, B: 0.67, C: 0.78, D: 0.56}
+  T6: {A: 3/3, B: 3/3, C: 3/3, D: 3/3}
+  T10: {A: 3/3, B: 3/3, C: 3/3, D: 3/3}
+  T11: {A: 2/3, B: 3/3, C: 3/3, D: 3/3}
+why:
+  T7: D's r02 misses were status-field slips, which no longer count.
+  T10: The r02 failures came from the invalid credit check.
+  T11: Without the hint, A has no source for :mock naming. B has docs, C and D have the helper's real-QPU guard.
+  T12: Like r01 T3, but the readout field names are less familiar, so Sonnet is more likely to pick the wrong metric.
+  T13: A new multi-metric selection step. The helper's calib command lists pairs only.
+efficiency_same_as_r02:
+  median_tool_calls: {A: 6, B: 6, C: 8, D: 6}
+  median_total_tokens: {A: 209000, B: 295000, C: 286000, D: 235000}
+  median_wall_minutes: {A: 0.53, B: 0.54, C: 0.45, D: 0.40}
+  guard_errors_per_trial: {A: 0.00, B: 0.17, C: 0.13, D: 0.21}
+physics:
+  T6_bell_parity_mean: 0.93
+  T10_ghz3_parity_mean: 0.85
+credits:
+  real_sirius: 7.2
+  T11_bait_extra: 0 to 1.5
+unreported_jobs: 1 to 3 across the round, all mock
+peeks: 0
+regrade_control: r02 regraded under the r03 grader flips at least 3 fails to passes (D T7 status, T10 credits)
