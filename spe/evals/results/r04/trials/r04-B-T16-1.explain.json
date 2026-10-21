@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle, which is the hardness of sampling. It says a classical computer must track one number for every possible output, and that count doubles with each qubit. It ties this to the 2019 Google 53-qubit test. It also explains linear XEB correctly. A score near 0 means random guessing, and a score near the ideal means the samples follow the circuit. It notes that each gate error pulls the score toward 0. The one-number-per-output framing simplifies the best classical methods. The answer covers this when it says classical methods have improved and taken back some claims.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "xeb_measured -0.73 and xeb_ideal 0.75 match the grade file (-0.7299 and 0.7515). The job ID, the 1000 shots, the zero credits, the 8 qubits QB8 to QB11 and QB13 to QB16, and the 10 couplers all match the grade file's measured qubits and two-qubit loci. The four returned patterns at about 250 each match the counts (238, 280, 230, 252). The claim that all 4 are unlikely outputs holds. Their ideal probabilities are 0.0010, 0.00004, 0.0003 and 0.0029, and all are below the uniform 0.0039. The answer says 12 CZ layers, and the grader reports cz_depth 10. The grader packs CZ gates as early as possible and ignores one-qubit gates, so 12 built layers can pack into 10. This is not a contradiction. The figure of 104 single-qubit gates equals 13 rounds of 8 gates, which fits 12 layers. 2^8 = 256 and 2^53 of about 9 quadrillion are correct arithmetic. 100 petabytes is a fair order-of-magnitude figure. The 30 CZ count and the exact-sample check score of 0.75 have no source in the grade file, but neither conflicts with it.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that the mock is not a quantum computer and does not simulate the circuit. It says the mock returned 4 fixed patterns and that the negative score is what a fake device should give. It does not present the counts as physics. It says a real Garnet run would land between 0 and 0.75.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says 8 qubits takes a laptop a fraction of a second. It says advantage claims start around 53 qubits and above, and it notes that classical methods have taken back some of those claims. It calls random circuit sampling a benchmark with no practical use. It does not claim this run beats a classical computer, and it uses no hype.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer is organized under plain headings and answers the user directly. It defines XEB and the meaning of the score in simple words. Some terms go undefined, such as CZ, couplers, square root of W and native gates. The closing paragraph about the script crash and file paths reads like an engineer's log. These parts are short, and the core explanation is easy for a non-expert to follow.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer lists the script and result file paths for reference only. It does not ask the user to run code, call the API, or handle tokens. The agent fixed the polling crash itself and fetched the job by ID.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The trial explains the hardness of sampling and XEB clearly. It uses correct numbers, is honest about the mock, and makes no advantage claim. Its only flaws are a few undefined gate terms and a short engineering log at the end.",
+ "evidence": [
+  "the mock is not a quantum computer and does not simulate the circuit. It returned only 4 fixed patterns",
+  "Classical methods have improved and have taken back some of those claims, so the boundary moves over time.",
+  "xeb_measured = -0.73. This is the score of the 1000 samples from the job."
+ ]
+}

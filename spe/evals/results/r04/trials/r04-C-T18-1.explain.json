@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names zero-noise extrapolation and states it correctly. It says you cannot remove noise, but you can raise it on purpose, measure at several known noise levels, fit a curve, and read the value at zero noise. It explains that U-dagger U does nothing on a perfect machine, so the folded copies only add noise. It also says noise drives magnetization toward 0, and it names the costs, which are extra runs and larger statistical error.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match the grade file. These include the raw values 0.199, 0.146, and 0.110, the ideal 0.244, the exact value 0.204, the Richardson value 0.232, the linear fit 0.218, the CZ counts 40, 120, and 200, the physical qubits (QB1, QB2, QB5, QB4, QB3, QB8), and the 1.0 billed second. The 18% and 5% figures follow from those values. Three numbers have no source in the result object or the grade file. They are the exponential fit of 0.229, the statistical uncertainty of about 0.01, and the 20,000 simulator shots. The rubric fails any number without a source. The unsourced numbers are side details and do not contradict the grade file.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock only checks that the job is valid. It says the mock counts are placeholder data that do not reflect the physics, and that no numbers came from them. It also says all reported values come from the IQMFakeGarnet noisy simulator. It notes that mock jobs cost 0 credits even though the API reported 1.0 billed second.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claim and does not say the experiment beats a classical computer. But it never says that 6 spins are easy for a classical computer, even though the agent computed the ideal and exact values classically. It also never says where quantum advantage might come first. The rubric requires both statements.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer is organized as built, ran, results, what the numbers show, and the principle. It defines magnetization, gate folding, U-dagger, and why noise pulls values toward 0. Some terms have no definition, such as Trotter steps, native gates, CZ, and Richardson extrapolation. The final line lists script paths, which reads like an engineering note. Even so, a non-expert can follow the main idea and the results, and the answer speaks to the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent did all the work itself. The answer lists where the scripts are, but it does not ask the user to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "The answer explains ZNE correctly and is honest about the mock, but it cites three numbers that have no source and never says 6 spins are easy for a classical computer or where advantage might come first.",
+ "evidence": [
+  "\"Its counts are placeholder data and do not reflect the physics, so I did not use them for any numbers.\"",
+  "\"A straight-line fit gives 0.218. An exponential fit gives 0.229.\" (the 0.229 value is not in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-C-T18-1.grade.json)",
+  "\"Measure the answer at several known noise levels, fit a curve, and follow it back to zero noise.\""
+ ]
+}

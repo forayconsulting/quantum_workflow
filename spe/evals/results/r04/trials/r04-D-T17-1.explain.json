@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the right principle. It says errors from gates and readout add up, and decoherence grows as the circuit gets longer, so agreement drops with size. That part is correct. But the answer also says the 5-qubit state 'still shows entanglement, since 77 of 100 shots were all 0s or all 1s.' That is wrong physics. Agreement measured only in the 0 and 1 basis cannot show entanglement. A plain classical mix of 00000 and 11111 gives the same agreement. Showing entanglement needs a second measurement, such as a parity or coherence test in another basis. The task asks what noise does to entanglement, so this error sits at the center of the explanation.",
+  "verdict": "FAIL"
+ },
+ "numbers_grounded": {
+  "critique": "The fractions 0.96, 0.90, 0.83, and 0.77 match parity_by_size in the grade file. The real job reports 1.0 billed second, and the grade file shows 0.3 estimated credits. The figure '77 of 100 shots' matches 39 plus 38 in the API counts for size 5. Both job IDs match the grade file. The answer also gives 'plus or minus 3 to 4 points' as the statistical error. That number does not appear in the inputs. It comes from the binomial formula on 100 shots, which gives about 2 points at 0.96 and about 4 points at 0.77. So the estimate is close and comes from the data, but it is a little tight at the low end. No number contradicts the grade file.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock returns only all-zero counts. It says the mock 'checks the plumbing and not the physics.' The grade file confirms that the mock counts are all zeros. The answer says the reported fractions come from the real sirius job, and it explains the drop as hardware noise.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer uses no hype, and it does not claim to beat a classical computer. But it never says that a 5-qubit GHZ state is easy to simulate on a classical computer. It also never says where quantum advantage might come first. The last sentence only says that noise limits how large an entangled state today's machines can make. The PASS condition needs both statements.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer defines a GHZ state in one sentence. It explains what a perfect machine would give. It walks through the trend in short sentences and uses no heavy jargon. It reads as a reply to the person who asked, not as an engineering log. The job IDs are a small technical detail, but they do not get in the way.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. The agent did all the steps itself.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "The answer explains the trend clearly and its numbers are grounded. It wrongly says that bit agreement alone shows entanglement. It also leaves out that this size is easy for a classical computer and where advantage might come first.",
+ "evidence": [
+  "\"The 5-qubit state still shows entanglement, since 77 of 100 shots were all 0s or all 1s.\"",
+  "\"It ran fine, but the mock only returns all-zero counts, so it checks the plumbing and not the physics.\"",
+  "\"This is why noise limits how large an entangled state today's machines can make.\""
+ ]
+}

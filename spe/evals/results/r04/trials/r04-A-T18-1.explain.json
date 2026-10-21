@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names zero-noise extrapolation and states it correctly. It says folding replaces U with U, then U undone, then U again. It says this leaves the ideal result unchanged but triples the gates and the noise. It says you measure at higher noise and follow the trend back to zero. It also says correctly that ZNE does not fix the Trotter step error, and that the remaining gap comes from the fit model.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The raw values 0.1346, 0.0879, 0.0615 and the mitigated value 0.1657 match the result object. The grader's Richardson fit is 0.1656, which agrees within rounding. The ideal value 0.1869, the exact value 0.2044, the CZ counts 40, 120 and 200, and the linear fit 0.1495 all match the grade file. The qubit line 0-1-4-3-2-7 matches the measured qubits QB1, QB2, QB5, QB4, QB3 and QB8. The claim of about 60 percent of the gap closed checks out at 59.5 percent. The job ID and the 1000 shots match. The 20,000 simulator shots are not in the grade file, but the trial script sets SIM_SHOTS = 20000. The 4 time steps fit the 40 CZ gates, since 5 pairs times 2 CZ per step times 4 steps is 40.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock device returns random placeholder counts that say nothing about the physics. It says the mock job only confirms that the server accepted the circuits. It keeps the physics numbers separate and credits them to the IQMFakeGarnet noisy simulator.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claim and does not say this run beats a classical computer. It even computes the exact answer classically. But it never says that 6 spins are easy for a classical computer. It also never says where quantum advantage might come first, for example at the much larger scale of IBM's 127-qubit utility run. The rubric requires both of these points.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer opens with the main result in one plain sentence. It explains folding and extrapolation in short steps, and it uses lists for the numbers. A few terms are used without a definition, such as RZZ, RX, CZ, compilation and Richardson extrapolation, though Richardson is glossed as a quadratic fit. The 'What it shows' paragraph gives the intuition clearly. Overall a non-expert can follow it, and it reads as an answer to the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The user is not asked to run anything. The answer gives the script and output paths only as a reference. It hands over no tokens, API calls or code steps for the user to do.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer explains ZNE correctly and honestly, with numbers that match the grade file. It fails only on advantage_honesty, because it never says 6 spins are easy for a classical computer or where advantage might first appear.",
+ "evidence": [
+  "\"gate folding replaces the circuit U with U, then U undone, then U again. On a perfect machine that equals U, so the ideal answer stays the same.\"",
+  "\"The mock device returns random placeholder counts, so those counts say nothing about the physics.\"",
+  "\"One more note: the exact smooth-time answer is 0.2044.\" (it gives a classical exact value but makes no statement about classical ease or where advantage might come first)"
+ ]
+}

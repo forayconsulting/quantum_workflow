@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says each extra qubit adds another two-qubit gate and another readout. It says each one has a small error chance, so the errors add up and larger entangled states lose quality faster. This is decoherence and error growing with size, and it is stated correctly. The word \"fidelity\" is a little loose because the all-agree fraction measures only populations. That does not make the physics wrong.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The fractions 0.88, 0.86, 0.88 and 0.73 match parity_by_size in the grade file. The 1.0 billed second matches billed_seconds_reported and the API value of 1.0. The figure of about 0.3 credits matches estimated_credits of 0.3. Both job IDs match the grade file. The mock returned all zeros, and the grade file shows 100 all-zero shots per circuit. The claims about noise are consistent with the data. With 100 shots the standard error is about 0.03, so 0.86 to 0.88 is within noise. The drop of 0.15 to 0.73 is roughly 3 standard errors. The result object writes its bitstrings in reversed order compared with the grade file. This does not change any number in the answer.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock returned only all-zero results. It says this proves the job runs but says nothing about quality. It names the real sirius job separately and ties the drop in agreement to the real machine and its noise. The mock counts are never presented as physics.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claim and does not imply it beats a classical computer. It never says that GHZ states of 2 to 5 qubits are easy for a classical computer to simulate. It also never says where quantum advantage might come first. The rubric requires both points, so this check fails.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer defines a GHZ state in plain words as qubits that should all give the same answer. It explains what a perfect machine would give. It speaks directly to the person who asked. The terms \"two-qubit gate\", \"readout\" and \"fidelity\" are not defined, but the meaning is clear from context. The job IDs add a little log-like detail, but the text does not read as an engineering log.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran both jobs itself and reported the results. The user is not asked to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer is accurate, grounded and honest about the mock. It never says that this size is easy for a classical computer or where quantum advantage might come first.",
+ "evidence": [
+  "\"The mock returned only all-zero results, so it proves the job runs but says nothing about quality.\"",
+  "\"The fraction of shots where all bits agreed was 0.88 for 2 qubits, 0.86 for 3, 0.88 for 4 and 0.73 for 5.\"",
+  "\"Every gate and readout has a small error chance. These errors add up, so larger entangled states lose fidelity faster.\""
+ ]
+}

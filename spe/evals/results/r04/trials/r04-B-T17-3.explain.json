@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says a large entangled state is fragile and that one error on any qubit breaks agreement across the whole group. That is decoherence growing with size. It ties the trend to more two-qubit gates and more readouts, each with a small error chance. It correctly calls the 4-qubit versus 5-qubit gap random variation at 100 shots. It also explains the extra all-0 results as qubits relaxing from 1 to 0. That is a correct reading of the data.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The four fractions 0.97, 0.94, 0.82, and 0.84 match parity_by_size in the grade file. The split of 49 all-0 and 48 all-1 for 2 qubits matches the API counts. The answer reports 1.0 billed second and about 0.3 credits. Both match the real job record. Both job IDs match. The mixed answer 11101 appears in the agent's own counts. Those counts use the reverse bit order of the grade file, where the same shots show as 10111:5. The claim that 4 and 5 qubits are 2 shots apart is correct. The claim that all-1 shows up less often than all-0 holds at every size.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock run only checks that the job is accepted. It says the mock does not simulate the circuit, so its results say nothing about physics. It presents the reported numbers as coming from the real Sirius machine with noise.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no claim of beating a classical computer and uses no hype. But it never says that GHZ states of 2 to 5 qubits are easy for a classical computer. It also never says where quantum advantage might come first. The rubric requires both points.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer defines a GHZ state in one plain sentence. It gives the ideal result first and then a short list of the measured numbers. The noise explanation uses short sentences. A few terms are not defined, such as central resonator, fidelity, and relaxing. The surrounding words still make the meaning clear. The job IDs add some log detail, but the text reads as an answer to the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the jobs itself. The user is not asked to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer is clear and correct, and every number matches the grade file, but it never says this size is easy for a classical computer or where quantum advantage might come first.",
+ "evidence": [
+  "The principle is that a large entangled state is fragile. A single error on any one qubit breaks the agreement across the whole group, so the fidelity drops as the state grows.",
+  "The mock does not simulate the circuit, so its results mean nothing about the physics.",
+  "2 qubits: 97% (49 all-0 and 48 all-1)"
+ ]
+}

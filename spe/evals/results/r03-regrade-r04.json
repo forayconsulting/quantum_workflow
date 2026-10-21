@@ -1,0 +1,872 @@
+{
+ "grader": "r04",
+ "trials": 144,
+ "new_passes": 144,
+ "flips": [],
+ "rows": [
+  {
+   "id": "r03-A-T1-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T1-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T1-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T10-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T10-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T10-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T11-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T11-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T11-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T12-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T12-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T12-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T13-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T13-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T13-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T2-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T2-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T2-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T4-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T4-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T4-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T5-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T5-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T5-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T6-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T6-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T6-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T7-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T7-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T7-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T8-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T8-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T8-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T9-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T9-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-A-T9-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T1-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T1-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T1-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T10-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T10-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T10-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T11-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T11-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T11-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T12-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T12-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T12-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T13-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T13-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T13-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T2-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T2-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T2-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T4-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T4-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T4-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T5-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T5-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T5-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T6-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T6-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T6-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T7-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T7-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T7-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T8-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T8-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T8-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T9-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T9-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-B-T9-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T1-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T1-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T1-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T10-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T10-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T10-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T11-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T11-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T11-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T12-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T12-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T12-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T13-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T13-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T13-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T2-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T2-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T2-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T4-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T4-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T4-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T5-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T5-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T5-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T6-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T6-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T6-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T7-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T7-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T7-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T8-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T8-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T8-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T9-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T9-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-C-T9-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T1-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T1-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T1-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T10-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T10-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T10-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T11-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T11-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T11-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T12-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T12-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T12-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T13-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T13-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T13-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T2-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T2-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T2-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T4-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T4-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T4-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T5-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T5-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T5-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T6-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T6-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T6-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T7-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T7-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T7-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T8-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T8-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T8-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T9-1",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T9-2",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  },
+  {
+   "id": "r03-D-T9-3",
+   "old_pass": true,
+   "new_pass": true,
+   "new_failed": []
+  }
+ ]
+}

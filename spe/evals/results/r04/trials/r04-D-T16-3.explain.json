@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the hardness of sampling as the principle. It states it correctly. A random circuit makes some bitstrings much more likely than others. A perfect device scores about 1 on XEB and uniform noise scores 0. The classical cost grows as 2^n because the full state needs 2^n complex numbers. It says tensor-network methods help but the cost still grows exponentially with width and depth. All of this is standard and correct.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The main numbers match the grade file. xeb_measured -0.079 matches xeb_api_keyed -0.0790. xeb_ideal 1.337 matches 1.3369. 10 layers matches cz_depth 10. The 8 qubits, 1000 shots, job ID, 0 credits, and 8 distinct bitstrings all match. The 2^n arithmetic is correct (256, about 1.1e15, about 9.0e15 for 53). Three numbers have no source. The grade file does not record \"33 CZ gates, 32 after compiling\". The ideal distribution does not spread over \"about 190 outcomes\". I computed its effective size from the grade file's sim dist. The inverse purity is 109.5, the entropy-based size is 155, and 144 outcomes hold 90 percent of the weight. None of these gives 190. Nothing in the inputs supports \"about 0.5 credits per billed second\" for Garnet either. The only recorded rate in this repo is 0.30 credits for 1.0 s on Sirius.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that garnet:mock is a free test device and does not simulate the circuit. It points out the 8 equal-sized bitstrings as evidence. It says the score near 0 is expected and says nothing about Garnet's quality. It says only a real run would show a positive score.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says 8 qubits needs 256 numbers and a laptop handles it instantly. It puts the hard regime at 50 or more qubits and calls that gap the basis of the advantage claim for random circuit sampling. It does not claim this run beats a classical computer. It also adds an honest limit. XEB only works while a classical computer can still compute the ideal values. It uses no hype.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "Most of the answer reads as a direct reply to the person who asked. It has clear sections on the result, the meaning of the score, the caveat, and the scaling. Some terms are not defined, such as CZ gates, compiling, tensor-network methods, and the formula 2^n * mean(p_ideal) - 1. The opening paragraph is dense with qubit names. These terms are few, and the explanation of the score and of scaling is plain enough for a non-expert to follow.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the job and scored it itself. The user is not asked to run code, call the API, or handle tokens. The answer mentions a possible real Garnet run as an option the user could choose. It does not hand over any steps.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer explains random circuit sampling and the mock caveat well, but three numbers have no source: 33 or 32 CZ gates, about 190 outcomes, and 0.5 credits per second.",
+ "evidence": [
+  "\"garnet:mock is a free test device and does not simulate the circuit. It returned only 8 distinct bitstrings in roughly equal numbers, while the ideal distribution spreads over about 190 outcomes.\"",
+  "\"33 CZ gates, 32 after compiling\" and \"A real Garnet run (about 0.5 credits per billed second)\" have no support in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-D-T16-3.grade.json",
+  "\"For 8 qubits that is 256 numbers, which a laptop handles instantly. At 50 qubits it is about 10^15 numbers\""
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the hardness of sampling as the principle. It says a classical computer must track 2^n outcomes, and that count doubles with each added qubit. It also says that smarter classical methods exist but still grow exponentially with qubits and depth. It correctly says that XEB checks whether samples land on the bitstrings the ideal circuit makes likely. It explains why the ideal score here is above 1: a small circuit has a more uneven distribution. That matches the grade file, where the purity sum is 2.8957 and the ideal score is that value minus 1. The physics is stated correctly.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The job ID, garnet:mock, 1000 shots, and 0 credits match the grade file. The 8 qubits QB1, QB2, QB5, QB4, QB3, QB8, QB9 and QB10 match measured_qubits. The 10 layers match cz_depth 10. The 8 distinct bitstrings match the counts. xeb_measured 0.13 matches 0.1336 and xeb_api_keyed 0.13358. xeb_ideal 1.90 matches 1.8957. The figures 256, about 10^15, and about 16 petabytes follow from 2^8, 2^50, and 16 bytes per amplitude. The 53 qubits for Google 2019 is a well-known public fact. No input states the total of 35 CZ gates. It does follow from the 7-edge chain in two_qubit_loci, with 4 and 3 gates on alternating layers over 10 layers. So it is derivable and not a contradiction.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that the mock device does not simulate the circuit. It says the 8 nearly even bitstrings say nothing about the circuit. It calls the 0.13 a baseline for no real quantum signal. It also says a real Garnet run would be needed to see a genuine score.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says a laptop handles 8 qubits in under a second and can check this run easily. It points to 50 or more qubits and to Google's 53-qubit 2019 experiment as the place where the advantage claim lives. It calls that a claim, and it notes that classical methods exist that avoid storing every outcome. It never says this run beats a classical computer. It uses no hype.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer is in short, plain sentences under clear headings that follow the user's questions. It defines XEB in one sentence and explains what 0, 1, and the ideal value mean. Some engineering detail appears, such as CZ gates and qubit labels, but it is brief and does not block the main explanation. It reads as a reply to the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It mentions only that a real Garnet run would cost a small number of credits. That is information and not a task handed to the user.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The answer explains XEB and the hardness of sampling correctly. It is honest about the mock and about classical ease at 8 qubits, and its numbers match the grade file at /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-A-T16-1.grade.json. The 35 CZ gate count is derived from the chain layout and is not stated in the inputs.",
+ "evidence": [
+  "The mock device does not simulate your circuit. It returned only 8 distinct bitstrings, spread almost evenly. That pattern says nothing about the circuit.",
+  "For this exact circuit the ideal score is xeb_ideal = 1.90. It is above 1 because a small 8-qubit circuit gives a more uneven distribution than a large random circuit would.",
+  "Classical methods do exist that skip storing everything. Even so, their cost still grows exponentially with qubits and depth."
+ ]
+}

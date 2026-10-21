@@ -1,0 +1,36 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/c5f41822-6749-4459-a65b-e1e49f73c773/subagents/workflows/wf_664c303a-347/agent-a58f923ecfef3bc05.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 98.9,
+ "ended": "2026-10-21T21:13:33.871000Z",
+ "api_calls": 10,
+ "tokens": {
+  "input_tokens": 20,
+  "output_tokens": 832,
+  "cache_read_input_tokens": 467355,
+  "cache_creation_input_tokens": 34619,
+  "total": 502826,
+  "fresh": 35471
+ },
+ "tool_calls": 13,
+ "tool_errors": 1,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 1,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 9,
+  "Write": 2,
+  "Edit": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "grep -n -i \"billed\\|/api/v1/jobs\" /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md /Users/claytonchancey/Desktop/quantum/docs/iqm/05-results-and-data.md",
+  "grep -rn \"billed_seconds\" /Users/claytonchancey/Desktop/quantum/docs/iqm | head"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r04-A-T17-2"
+}

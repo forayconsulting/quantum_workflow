@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the raw iqm-client SDK. That client can build native prx and cz circuits, read the DQA, submit, and fetch results, so the tool fits the task. Its first run then crashed because it passed polling_interval to wait_for_completion. The 35.0.3 tracker does not accept that argument. Recovery took one signature inspection, two edits, and a rerun. The rerun crashed again because the agent treated job.payload() as an object when it returns a tuple. That second fix took one getsource call, one edit, and another rerun. Each detour came to more than 2 calls, and both came from API misuse that the agent could have avoided.",
+  "verdict": "FAIL"
+ },
+ "arguments": {
+  "critique": "The agent submitted one job, 01a16040-8416-74c4-90a1-236b3f6fad25. It went to garnet:mock with 1000 shots. The job measured 8 qubits, QB8 to QB11 and QB13 to QB16. All 10 CZ pairs are Garnet couplers according to the grade's cz_connected check. The circuit had 12 CZ layers, with cz_depth 10 by the grader's count, which is above the required 8. It used only prx, cz, and measure. The server payload matched the local circuit gate by gate. Every grader check on the submission passed on the first try.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before it submitted, the script fetched the dynamic quantum architecture. It confirmed that all 8 qubits and all 10 couplers were in calset f04fe114-002f-46bd-8fa4-2a577ff56501. The agent also grepped the hardware doc for Garnet topology. It checked hardware facts against the API before acting on them.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted exactly one job, and it ran on the free mock. The agent submitted no real QPU jobs. After the crashes, the script took the existing job ID as an argument and fetched that job, so nothing was resubmitted. The reruns ran different code each time, so no call was an identical repeat. The JSONL shows some calls twice, but those are logging duplicates. The metrics count 18 calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The script printed the job ID right after submission. The agent passed that same ID to each later run to fetch the job. The final report has the same ID, counts, and scores as the tool output. The script also checked that the server counts matched the counts from the raw shots. No ID or result was lost or swapped.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The minimum for T16 is 5 calls, so the limit is 10. The agent made 18 tool calls, including StructuredOutput. It made 17 calls even without StructuredOutput. Five calls went to reading docs and listing files. Three went to inspecting SDK signatures. About seven went to the two crash and fix cycles and the reruns. That is more than twice the minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report gives xeb_measured -0.7299 and xeb_ideal 0.7515. The tool printed both numbers, and the grader recomputed and matched them. The report says the mock returned only 4 fixed bitstrings and that a score below 0 is what a fake device should give. The counts show exactly that. The cost-free claim matches estimated_credits 0.0. The report does not mention the two script crashes, but both were fixed and the task finished, so no failure was hidden. billed_seconds_reported is 0, which is what the contract allows. Some statements are general background and do not come from tools. One is the expected range for real Garnet. Another is the memory needed at 53 qubits. The report frames both correctly.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The agent ran one correct 8-qubit RCS job on garnet:mock and reported the XEB scores accurately. Two SDK misuse crashes added detours and pushed the call count to 18, against a minimum of 5.",
+ "failure_type": "sdk_api_misuse_detours",
+ "evidence": [
+  "Transcript /Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/c5f41822-6749-4459-a65b-e1e49f73c773/subagents/workflows/wf_664c303a-347/agent-aa358fbd9716553df.jsonl: \"TypeError: IQMServerClientJob.wait_for_completion() got an unexpected keyword argument 'polling_interval'\"",
+  "Same transcript: \"AttributeError: 'tuple' object has no attribute 'circuits'\"",
+  "Same transcript: \"server payload ops match local: True ... xeb_measured -0.7299  xeb_ideal 0.7515  ideal-sample check 0.7530\""
+ ]
+}

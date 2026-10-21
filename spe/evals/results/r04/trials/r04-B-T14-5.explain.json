@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. The spins start aligned, the sideways field h flips them, and the neighbor links spread that motion along the chain. The average magnetization falls toward zero and stays near zero. This describes the loss of magnetic order, also called dephasing, and the description is correct. The ideal values show this fall from +1 to about 0. The answer also explains correctly that the time is split into small Trotter steps.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values +1.000, +0.743, +0.350, +0.112, +0.016, -0.001 match payload_ideal in the grade file. The exact values +1.000, +0.738, +0.343, +0.106, +0.013, -0.001 match t14.exact. The step error 'under 0.007' fits the largest gap of 0.0067 at t = 0.8. The measured values -0.008, -0.005, +0.007, -0.006, -0.043, -0.002 match the result object. The job ID, the 1000 shots, the 0 credits, and the six times also match. Qubits 0, 1, 4, 3, 2, 7 match QB1, QB2, QB5, QB4, QB3, QB8 counted from zero. The grade file does not list gate counts. The figures of 200 two-qubit gates at t = 2 and 120 at t = 1.2 follow from steps of 0.1 on 5 links with 2 CZ gates per link. Nothing in the answer contradicts the grade file.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock device returns random bits and does not simulate the physics. It points out that the t = 0 circuit has no gates and still came back near zero instead of +1. It says the mock result shows only that the job is valid. It does not present the mock counts as physics.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer avoids hype. It does not claim this run beats a classical computer. It says magnet simulation is expected to be an early use and that the hard part comes 'when the chain gets long'. It never says plainly that 6 spins are easy for a normal computer, even though it quotes an exact answer that a normal computer worked out. A non-expert may not see that this size gives no quantum advantage. The rubric asks for that statement, so this check fails.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer follows the user's three questions in order: the perfect machine, the test device, and real noise. It explains Trotterization in a few words and uses short sentences. A few terms, such as 'ZZ rotation', 'readout', and 'zero-noise extrapolation', get little or no definition. Still, a non-expert can follow the main story, and the answer is written to the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The user is not asked to run code, call the API, or handle tokens. The answer only asks for the user's OK before it spends credits on real Garnet.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer is accurate, grounded, and honest about the mock. It does not say plainly that 6 spins are easy for a classical computer.",
+ "evidence": [
+  "\"It does not simulate the physics. Even the t = 0 circuit, which has no gates, came back as random bits.\"",
+  "\"This loss of order is the hard part to simulate on normal computers when the chain gets long.\"",
+  "\"What a perfect quantum computer would show for these circuits: magnetization of +1.000, +0.743, +0.350, +0.112, +0.016, and -0.001.\""
+ ]
+}

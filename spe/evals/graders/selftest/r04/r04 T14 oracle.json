@@ -1,0 +1,50 @@
+{
+ "name": "r04 T14 oracle",
+ "task": "T14",
+ "expect_pass": true,
+ "result": {
+  "status": "done",
+  "job_ids": [
+   "01a16030-b09c-7410-a27e-fa48cfb07588"
+  ],
+  "quantum_computer": "garnet:mock",
+  "shots": 200,
+  "counts": {},
+  "counts_list": [],
+  "billed_seconds_reported": 0,
+  "observables": [
+   {
+    "label": "t=0.0",
+    "x": 0.0,
+    "ideal": 1.0,
+    "measured": -0.04666666666666667
+   },
+   {
+    "label": "t=0.5",
+    "x": 0.5,
+    "ideal": 0.6120267796746212,
+    "measured": 0.06166666666666667
+   },
+   {
+    "label": "t=1.0",
+    "x": 1.0,
+    "ideal": 0.18686105757026578,
+    "measured": 0.055
+   },
+   {
+    "label": "t=1.5",
+    "x": 1.5,
+    "ideal": 0.021167222930825888,
+    "measured": -0.020000000000000014
+   },
+   {
+    "label": "t=2.0",
+    "x": 2.0,
+    "ideal": 0.0017390770848261248,
+    "measured": 0.006666666666666665
+   }
+  ],
+  "values": {},
+  "answer": "Magnetization falls from 1 toward 0 as the spins dephase. The mock returns made-up counts, so the measured values are not physical results."
+ }
+}

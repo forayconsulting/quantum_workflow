@@ -94,3 +94,45 @@ Preamble changes for every config: each status value is defined, the `:mock` cos
 | R15 | Vary shots or circuit depth so billed seconds differ between trials | F13 |
 | R16 | Keep the dashboard reconciliation as a required close-out step | r03 had 0 unreported jobs after the print-the-ID line |
 | Harness | Keep answer notes out of trial checkouts, and return trials when the judge fails | F12, F14 |
+
+## Requirements, round 4 (in force from 2026-10-21)
+
+The user changed the target for round 4 ([transcript](transcripts/2026-10-21-r04.md)). Tasks are now plain-language experiment requests in the domains where quantum advantage is most likely to appear first. Round 3 requirements carry over except where changed here.
+
+| ID | Requirement | Source | Test |
+|---|---|---|---|
+| R20 | Each task is a plain-language request from a non-expert. It states a goal, never gates. The agent picks the model, qubits, circuits, and method | User story | T14 to T18. Prompt review in the dry run |
+| R21 | The agent explains the principle in plain language. Every number it reports matches the API counts or a simulation of its own payload | User story, decision 2 | Code checks on `observables` and `values`. Explanation judge as a second, descriptive outcome |
+| R22 | Higher complexity. At least 3 tasks use 6 or more qubits and 30 or more CZ gates per circuit. Workflows include multi-circuit jobs, a classical optimizer loop, error mitigation, and mock-then-real | User spec 2 | T14 to T18 payload checks |
+| R23 | Tasks come from the likeliest first-advantage domains: quantum dynamics of spin systems, chemistry ground states, random circuit sampling, and the error mitigation these depend on | User spec 3 | Task set |
+| R24 | The agent never presents mock counts as physics | r01 mock observation, user story | Regex check on the answer, plus judge check `mock_honesty` |
+| R25 | Every graded physics quantity has a cheap classical check at this size | README open question | The grader simulates every payload. Its limit rises from 14 to 20 components |
+| R19 | Adopted. Effort is the primary outcome: median tool calls, fresh tokens, and wall minutes per task. Pass rate is a gate | r03 proposal | `metrics.py`, scorecard |
+| R15 | Adopted. Billed seconds vary because the real job has 4 circuits of different sizes | r03 F13 | T17 `billed_seconds_match` |
+| R16 | Kept. Dashboard job reconciliation is a required close-out step | r03 proposal | Ledger |
+| R6 | The round 4 real cap is 6 credits, including the setup probe | Decision 1 | Credit gate and ledger |
+| R12, R4 | Metric-choice tasks are deferred to r05. Round 4 spends its task budget on the user's new focus | r03 F13 | None this round |
+
+T1 to T12 are retired from scoring. The r03 regrade control and the T13 anchor cover regression.
+
+- r04 (2026-10-21): R19 to R25 added. R15 and R16 adopted. R6 cap set to 6 credits.
+- r04 results (2026-10-21): 72 of 80 passed under the pre-registered grader, 73 under the fixed grader. Proposed changes for r05 are below.
+
+## Proposed for round 5 (not yet agreed)
+
+| ID | Proposed change | Why (round 4 evidence) |
+|---|---|---|
+| R21 | Name each convention in the contract: `ideal` is the submitted circuit's value, and energies are totals with nuclear repulsion | F18 (r04-B-T14-1, r04-D-T15-1) |
+| R21 | Ask for gate counts and measured qubits read back from the payload, and check them in code | F20. D's `numbers_grounded` rate was 0.57 |
+| R24 | Keep the regex, and report its agreement with the judge's `mock_honesty` on every trial | F16 |
+| R16 | At the end of each trial, the agent lists its jobs from the API and compares them with `job_ids` | F10 seen again: 3 unreported mock jobs |
+| R19 | Add lines of script and in-script time as effort measures | F22. Tool calls fell below r03's while tasks got harder |
+| R22 | Add a `cz_per_circuit` check so the "30 or more CZ" requirement has a test | Critic: R22 had no code check |
+| T16 | State the scrambling bar in the prompt, or drop it | F21 |
+| T15 | Check the optimizer loop: report the trace, and match its last energy to the payload | Critic: a hard-coded angle would pass |
+| T18 | Rerun IQMFakeGarnet on each payload with a fixed seed, and compare the raw values | Critic: made-up raw values would pass |
+| T17 | Check that the mock job held the same circuits as the real job. Use 1000 shots if billing stays at 1.0 second | Critic item 9. R15 still untestable at 100 shots |
+| New | A free noisy-simulator lane (IQMFakeGarnet) for T14 and T16, so "what real noise would do" gets a checkable number | Critic: mock "measured" values only test copying |
+| Configs | Add Sonnet without the helper, to split D's misses between the model and the helper | Critic confound 2 |
+| Trials | Use spare top-up slots to run T15, T16, and T18 to 5 trials in every config | Only 8 of 24 top-up slots were used |
+| Predict | Give every predicted number a band, such as 0.85 plus or minus 0.05, so each verdict is a clear hit or miss | r04 numbers had no bands, so Verdict meant exact equality |

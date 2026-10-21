@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names zero-noise extrapolation and states it correctly. It says folding adds U, then U reversed, then U, so the ideal answer stays the same while the gate noise grows about 3 times and 5 times. It says noise pulls the magnetization toward 0, and that the trend is followed back to zero noise. It also says correctly that folding does not amplify readout error, so extrapolation cannot remove that error. It also says correctly that extrapolation magnifies sampling noise.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The main numbers match. The raw values 0.1521, 0.1143, and 0.0902, the mitigated value 0.1761, and the ideal 0.1869 match the result object. The grade file has the exact value 0.2044, the CZ counts 40, 120, and 200, the linear fit 0.165, and the Richardson fit 0.176. The mock magnetizations 0.012, -0.021, and 0.016 match the result object. The physical qubits 8, 3, 4, 9, 10, and 5 match QB9, QB4, QB5, QB10, QB11, and QB6 in zero-based numbering. The 70 percent figure follows from the values. Some numbers have no source in either file. These are the exponential fit of 0.172, the readout value of 0.95 for the all-up state, the repeat-run range of 0.164 to 0.179, the 200,000 simulator shots, and the 62 single-qubit gates. The rubric fails any number with no source.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the test device only checks that the job is valid. It says the mock counts are placeholder data that do not depend on the circuit. It says the mock magnetizations mean nothing physically. It keeps the physics values separate and says they come from IQMFakeGarnet, a noisy simulator.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer uses no hype and does not claim to beat a classical computer. It never says that 6 spins are easy for a classical computer, though the ideal value it reports came from a classical simulation. It does not say where quantum advantage might come first. The rubric needs both points, and both are missing.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer opens with the result in plain words. It defines magnetization and explains folding step by step. Its closing paragraph explains the idea simply. A few terms are not defined, such as Trotter steps, CZ gates, and quadratic Richardson extrapolation. The file paths at the end read like an engineer's note. A non-expert can still follow the main story.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent built the circuits, submitted the job, and ran the simulator itself. The answer lists script paths for reference, but it does not ask the user to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "The answer explains zero-noise extrapolation correctly and labels the mock run honestly. It loses two checks. Some side numbers, such as the exponential fit of 0.172 and the 0.95 readout value, have no source in either file. It also never says this size is easy for a classical computer or where quantum advantage might come first.",
+ "evidence": [
+  "\"Its counts are placeholder data that do not depend on the circuit (only 000000, 111111, 100100 and 011011 appeared). So its magnetizations (0.012, -0.021 and 0.016) mean nothing physically.\"",
+  "\"We cannot remove the noise. We can add more of it in a controlled way, then follow the trend back to zero noise.\"",
+  "\"A straight-line fit gives 0.165. An exponential fit gives 0.172.\" (0.172 is not in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-A-T18-3.grade.json)"
+ ]
+}

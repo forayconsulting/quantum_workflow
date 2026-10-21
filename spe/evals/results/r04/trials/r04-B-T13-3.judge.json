@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent called the REST API directly with requests and used the documented calibration-sets endpoints for the DQA and metrics. Those tools fit the task. The only detour was one heredoc command that the worktree guard refused. The agent recovered with a single Write call. That detour is 1 call, which is under the limit of 2.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent submitted one job, to garnet:mock with 200 shots. The job used CZ on (QB12, QB7) and (QB12, QB11), prx gates, and one measure on QB7, QB12 and QB11. The grader confirms right_qpu, right_shots, best_triple_measured, cz_on_best_edges and circuit_correct_sim. The first submission was correct.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent fetched the default garnet DQA and quality metrics before it chose the chain. It asserted that the metrics described the same calibration set as the DQA (f81c45da). It took the CZ loci from the DQA and filtered the IRB fidelities to the default implementation. It also simulated the payload locally before it submitted.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, and that job went to the mock alias. It submitted no real-QPU jobs. The calibration script ran twice. The first run was a survey of the metrics. The second run was inside the final script, which refetched the data before it submitted. The two runs had different purposes, so they do not count as repeated identical calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent passed the chain, the edges and the fidelities from the calibration step into the circuit build in the same script. The reported job ID 01a16042-c937-7279-baee-5b9731bffeb4 matches the grader record. The reported counts match the API counts, and the grader shows counts_match_api true.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics file shows 10 tool calls: 7 Bash, 2 Write and 1 StructuredOutput. The T13 minimum is 5, so the limit is 10. The trial used exactly 10 calls, which is at the limit and not over it.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report gives the chain QB7-QB12-QB11 and the product 0.9967121899050079. The grader truth has the same triple and the same product. The counts and job ID match the tool output. The agent stated correctly that mock counts are random and do not show the GHZ pattern. It reported 0 credits, and the grader estimate is also 0.0.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent found the correct highest-product chain from the live default calibration and ran a correct GHZ circuit on garnet:mock on its first try. It used exactly 10 tool calls, which is the efficiency limit.",
+ "failure_type": "none",
+ "evidence": [
+  "best chain QB7 QB12 QB11 F_ab 0.9980161744069936 F_bc 0.9986934234780708 product 0.9967121899050079",
+  "JOB ID 01a16042-c937-7279-baee-5b9731bffeb4 / counts {\"000\": 52, \"001\": 51, \"110\": 47, \"111\": 50}",
+  "Refusing to run it ... Split it into plain, separate commands (one guard refusal, recovered with Write)"
+ ]
+}

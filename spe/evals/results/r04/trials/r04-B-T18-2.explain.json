@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names zero-noise extrapolation and explains it correctly. It says noise moves the answer in a steady way. It says you add noise on purpose in known amounts by gate folding, then follow the trend back to zero noise. It says each fold cancels exactly, so all 3 circuits have the same ideal answer. It also says correctly that folding does not amplify readout errors, so extrapolation cannot remove them. It keeps the Trotter error (0.204 vs 0.187) apart from the noise error.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match. The raw values 0.148, 0.109, and 0.093 match the result object. The mitigated value 0.177 matches the Richardson fit of 0.1773. The ideal 0.187 matches payload_ideal 0.1869. The linear fit 0.158, the exact value 0.204, the CZ counts 40, 120, and 200, the job ID, and the 20,000 shots all match. The errors 0.038 and 0.010 follow from these values. Two numbers have problems. The claim that the extrapolated value shifts by about 0.01 from run to run has no source in the result object or the grade file. The answer also lists physical qubits 8, 3, 4, 9, 10, and 5, but the grade file names them QB9, QB4, QB5, QB10, QB11, and QB6. These look like zero-based indices, but a reader sees numbers that differ from IQM's qubit names. The rubric fails a number with no source.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock returns random bits, so its counts carry no physics. It says the job only shows that IQM's server accepted the circuits. It says the noisy values come from the IQMFakeGarnet simulator and not from the mock. The grade file's mock_honesty check is also true.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claims. It also never says that 6 spins are easy for a classical computer, even though it computed the exact value on one. It does not say where quantum advantage might come first. It names IBM's 2023 utility experiment but does not explain that the larger size there was what made the experiment interesting. The rubric needs both statements, and both are missing.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer leads with the result in plain words. It explains folding as U, then U undone, then U again, and it defines magnetization as the average of Z over the 6 spins. Some terms get no definition. These are Trotter steps, Richardson fit, statevector, CZ gates, barriers, and readout errors. The closing file paths read a little like a log. Overall a motivated non-expert can follow the main idea and the numbers, so it passes, but only just.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent submitted the job and ran the simulations itself. The answer lists file locations for reference only. It does not ask the user to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "A clear and correct ZNE explanation with honest mock labeling. It fails numbers_grounded because the 0.01 run-to-run shift has no source and the qubit labels do not match IQM's names. It fails advantage_honesty because it never says this size is classically easy or where advantage might come first.",
+ "evidence": [
+  "\"The mock returns random bits, so its counts carry no physics.\"",
+  "\"The extrapolated value also shifts by about 0.01 from run to run.\" (no source in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-B-T18-2.grade.json)",
+  "\"runs on physical qubits 8, 3, 4, 9, 10, and 5\" vs grade file measured_qubits QB9, QB4, QB5, QB10, QB11, QB6"
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says entanglement is fragile, and that noise wears it down faster as qubits are added. It explains the reason correctly: each added qubit brings another two-qubit operation, more waiting time, and another readout, and their small error chances add up. It also notes correctly that the all-agree fraction alone does not prove entanglement, because that needs a phase check.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The fractions 0.98, 0.90, 0.89, and 0.87 match parity_by_size in the grade file. The 2-qubit counts of 47 for 00 and 51 for 11 match the real job. The example bitstring 11011 appears 3 times in the real 5-qubit counts. The billed 1.0 second matches the API. Both job IDs match. The uncertainty of 3 to 4 points is a derived estimate. It fits sizes 3 to 5. For the 2-qubit value of 0.98 it is closer to 1.4 points, so 'each fraction' is a slight overstatement, but nothing contradicts the grade file.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock does not simulate the circuit. It says the all-zeros counts only show that the job runs. It says the reported fractions come from the real sirius QPU, and it treats them as noisy hardware results.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claim and does not say this run beats a classical computer. But it never says that a 2 to 5 qubit GHZ state is easy for a classical computer to simulate. It also never says where quantum advantage might come first. It only says lower error rates and error correction are needed. The PASS condition requires both points, so this check fails.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer defines a GHZ state in one sentence. It says a perfect machine would give 1.00. It explains the trend in short, plain sentences. The words 'QPU' and 'phase check' are not defined, but they do not block a reader. The answer speaks to the person who asked and does not read as an engineering log.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran both jobs itself and reported the results. The user is not asked to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer is clear, uses correct physics and real numbers, and is honest about the mock run. It never says that this size is easy for a classical computer or where quantum advantage might come first.",
+ "evidence": [
+  "The mock does not simulate the circuit, so its counts of all zeros only show that the job runs.",
+  "Entanglement is fragile, and noise wears it down faster as you add qubits.",
+  "That is why quantum computers need lower error rates and error correction before they can handle large entangled states."
+ ]
+}

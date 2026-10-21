@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says the work a normal computer needs to simulate quantum states grows exponentially with the number of qubits. It explains 2^n outcomes, doubling per qubit, and the memory needed at 30 and 50 qubits. It notes that clever shortcuts exist but still take a long time for deep circuits. It also states the real limit that XEB itself needs exact probabilities, so it only works for circuits small enough to simulate. The XEB definition is correct: 256 times the average ideal probability, minus 1. One claim is a little tight. It says 9 petabytes is more memory than the largest supercomputers have. Frontier has roughly that much in total. This does not change the principle.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match. The job ID, garnet:mock, 1000 shots, and the 8 qubits QB4, QB5, QB6, QB9, QB10, QB11, QB14 and QB15 all match the grade file. The 12 CZ layers match cz_depth 12. xeb_measured of -0.117 and xeb_ideal of 0.977 match both files. The count of 8 distinct patterns matches the counts. The figures 256, a billion and 9 petabytes follow from 2^n arithmetic. Two numbers have no source in either file. The first is \"30 CZ gates in total\". The grade file lists only 10 distinct coupler pairs and a depth of 12. It does not count gates. The second is the check that \"100,000 samples ... scored 0.972\". Neither file records that run. The rubric fails any number without a source.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer states clearly that garnet:mock does not simulate the circuit. It says the mock returns made-up bitstrings and that none of them depends on the gates. It says the run tests only the workflow and measures no quantum effect. It also explains that a score near 0 is expected for this reason. It labels its guess for real hardware as an estimate and says it has not run that.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says 8 qubits took the laptop a fraction of a second. It places the classical difficulty at 50 or more qubits with deep circuits. It does not claim this run beat any classical computer. It says the run shows no quantum effect. The line about random circuit sampling being the first task where quantum computers beat supercomputers repeats the user's premise. The answer then adds a caveat about verifying XEB at that scale. It uses no hype.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer uses short headed sections and short sentences. It explains XEB step by step and gives the meaning of the scores 1, 0 and values in between. It explains the classical cost with concrete numbers of outcomes. A few gate names, sqrt(X), sqrt(Y) and sqrt(W), are not defined, but they are not needed to follow the main points. It reads as a reply to the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The user is not asked to run code, call the API, or handle tokens. The answer mentions that a real Garnet run would cost credits. It does not hand the user any steps.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "This answer teaches well and is honest about the mock. It fails numbers_grounded because two figures have no source in either file: the 30 CZ gates and the 0.972 score from a 100,000-sample check.",
+ "evidence": [
+  "\"garnet:mock does not simulate the circuit. It returns made-up bitstrings to test the software path.\"",
+  "\"It had 12 layers of two-qubit CZ gates, 30 CZ gates in total\" (the grade file at /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-B-T16-3.grade.json shows cz_depth 12 and no gate count)",
+  "\"As a check, 100,000 samples drawn on my laptop from the exact distribution scored 0.972.\" (not in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-B-T16-3.result.json or the grade file)"
+ ]
+}

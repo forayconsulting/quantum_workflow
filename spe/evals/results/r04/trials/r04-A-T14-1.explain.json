@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the physics. The sideways field h tips the spins away from up. The ZZ coupling spreads that tipping along the chain. The spins become entangled and the average magnetization relaxes toward zero. This is a correct account of a quench in the transverse-field Ising chain. It also ties this to what \"simulating magnetic materials\" means. The Trotter description is correct. It splits time into steps of 0.2 and alternates the X and ZZ parts.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values 1.00, 0.76, 0.37, 0.13, 0.02, 0.00 match payload_ideal in the grade file (1.0, 0.7557, 0.3701, 0.1279, 0.0243, 0.0007). The exact values 1.00, 0.74, 0.34, 0.11, 0.01, 0.00 match t14.exact. The step error of at most 0.03 is correct, because the largest gap is 0.0272 at t = 0.8. The measured values -0.01, 0.03, 0.00, -0.02, -0.01, -0.02 match the result observables, and the grader confirms measured_matches_api. The 2000 shots, 6 circuits, job ID, and 0 credits all match. The claim of 100 CZ gates at t = 2.0 is not in either file. It follows from the stated setup, which is 10 steps times 5 neighbor pairs times 2 CZ per ZZ. So I treat it as derived and not invented. Nothing contradicts the grade file.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says garnet:mock only checks that the job is valid and returns placeholder counts. It says the mock does not run the physics and its numbers say nothing about the spins. It points to the t = 0 value near zero instead of 1 as proof. The grader's mock_honesty check is also true.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer explains that classical cost doubles with each added spin, and it says this is why people expect quantum computers to help here first. That covers where advantage might come first, and it uses no hype. But the answer never says that 6 spins is easy for a classical computer. A 6-spin state has only 64 numbers. The exact values in the answer came from a classical simulation, yet the answer does not tell the user that. The rubric requires an explicit statement that this size is classically easy.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer follows the user's three questions in order: what a perfect quantum computer would show, what the test device gave back, and what noise would do. It explains Trotter steps in plain words before it names them. Some terms have no definition. These include CZ gates, compiling, bitstrings, and zero-noise extrapolation. The job ID line reads a little like a log. Overall a non-expert can follow it, and it answers the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer gives the user no code to run, no API calls, and no token steps. It closes by saying it did not run a real-QPU version because the user asked for the free device. That is a statement and not a task for the user.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer for r04 A T14 1 passed 5 of 6 checks. Its physics, numbers, mock disclosure, and plain wording are all good. It fails advantage_honesty because it never says a 6-spin chain is easy for a classical computer.",
+ "evidence": [
+  "\"garnet:mock only checks that the job is valid and returns placeholder counts... The mock does not run the physics, so its numbers say nothing about the spins.\"",
+  "\"A normal computer has to track 2^N numbers for N spins, so the cost doubles with each spin you add. That doubling is why people expect quantum computers to help here first.\"",
+  "\"the average magnetization is 1.00 at t = 0, then 0.76, 0.37, 0.13, 0.02, and 0.00 at t = 2.0\" (matches payload_ideal in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-A-T14-1.grade.json)"
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the variational principle. It states the principle correctly: no circuit setting can give an energy below the true lowest energy, so trying settings and keeping the lowest moves toward the answer. It also explains the roles correctly. The quantum computer prepares the state and measures the energy, and a normal computer picks the next setting. It explains the 0.020 hartree gain over Hartree-Fock as electron correlation in plain words.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The main numbers match the sources. The energies -1.137306 and -0.163 hartree match energy_ideal, energy_exact, and energy_measured. The job ID, the 4000 shots, and both counts dictionaries match the grade file. Theta -0.2235 matches the agent's h2_result.json. The 0.7200 hartree nuclear repulsion and the -1.116999 Hartree-Fock energy are standard values for H2 at 0.735 angstrom. The grade file does not hold them. The count of 61 trial angles also has no record in either file. One claim is loose. The answer says a perfect device would return 'mostly 01 and 10' in the Z circuit. The simulation gives 10 at 0.988 and 01 at 0.012, so a perfect device returns mostly 10. That wording does not contradict the grade file, but it is imprecise. No number contradicts the sources.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that the -0.163 hartree value 'does not describe the molecule' and that the test device 'returns made-up counts that ignore the circuit you send.' It contrasts the mock counts with what a perfect device would return. It adds that real Garnet hardware would add noise and need error mitigation.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claim, and it does not say this run beats a classical computer. It notes that the exact answer came from solving a 4x4 matrix directly, which hints that a classical computer handles this size easily. It never says so outright. It also never says where quantum advantage in chemistry might first appear, such as larger molecules with strong electron correlation. The task framed chemistry as an area where quantum computers might matter first, so the rubric requires both points.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer leads with the result and mostly uses short sentences. It defines Hartree-Fock as 'the simple starting guess' and explains correlation as the electrons avoiding each other. It explains why there are two circuits. Several terms get no definition, such as Z and X parts, Hadamard, CNOT, parity mapping, two-qubit reduction, and hartree. The last paragraph about the script paths reads like an engineer's note. A non-expert can still follow the main story.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It gives the script and output paths only as a reference.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer explains the variational method well and is honest about the mock counts. It never says that H2 is easy for a classical computer or where quantum advantage in chemistry might first appear.",
+ "evidence": [
+  "\"That number does not describe the molecule. The test device returns made-up counts that ignore the circuit you send.\"",
+  "\"No setting of the circuit can give an energy below the true lowest energy. So you can try settings, keep the one with the lowest energy, and know you are moving toward the answer.\"",
+  "\"That equals the exact answer from solving the 4x4 energy matrix directly, to within about 1e-15 hartree.\""
+ ]
+}

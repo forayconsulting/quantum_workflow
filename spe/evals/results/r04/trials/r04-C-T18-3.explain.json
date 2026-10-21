@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names zero-noise extrapolation and states it correctly. It says you raise the noise on purpose, measure how the answer changes, and follow that trend back to zero noise. It explains that folding with U, U-reverse, U leaves the ideal answer unchanged but triples the gates. It also gives true limits. Readout error does not grow with folding, the curve is not exactly a parabola, and extrapolation enlarges the statistical error.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The main numbers match. zne_raw values 0.143, 0.099, and 0.076, the mitigated 0.173, and the ideal 0.197 match the result object and the grade file (payload_ideal 0.1968). The exact value 0.204 matches exact_t1 0.2044. The CZ counts 60, 180, and 300 match cz_counts. The linear fit 0.156 matches linear_fit. The job ID and the 1000 shots match. The exponential fit 0.165 has no direct field, but I recomputed it from the three raw values and got 0.165. Three numbers have no source in the inputs. These are the 100,000 shots per simulated circuit, the error bar of about plus or minus 0.003, and the claim that extrapolation enlarges the error by about 2 to 3 times. The error bar is plausible for 100,000 shots, but neither file records it. The rubric fails any number without a source.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says garnet:mock only checks that the job is valid. It says the mock counts are random and carry no physics. It says the magnetization values came from the IQMFakeGarnet simulator. It does not present the mock counts as results.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer uses no hype, and it does not claim to beat a classical computer. It never says that 6 spins are easy to simulate on a laptop, though the agent itself computed the exact ideal value. It also never says where quantum advantage might come first. It only mentions that IBM used the method on a 127-qubit machine. Both parts of the PASS condition are missing.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer opens with a plain result. It says noise pulled the value from 0.197 down to 0.143, and extrapolation brought it back to 0.173. Most terms get a short definition. Trotter is explained as splitting the evolution into small time steps, folding as running the circuit forward, backward, and forward, and Richardson as fitting a parabola and reading it at zero. A few terms stay undefined. These are CZ gates, native gates, barriers, and magnetization itself. A non-expert can still follow the main story.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the job and the simulations itself. The answer asks the user to run no code, call no API, and handle no tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "The answer explains ZNE correctly and plainly, and it is honest about the mock run. It fails two checks. Some numbers, such as 100,000 shots and the plus or minus 0.003 error bar, have no source in the inputs. It also never says that 6 spins are easy for a classical computer, or where quantum advantage might come first.",
+ "evidence": [
+  "\"The mock only checks that the job is valid, and its counts are random, so they carry no physics.\"",
+  "\"Noisy values from IQMFakeGarnet (100,000 shots per circuit, statistical error about plus or minus 0.003)\"",
+  "\"IBM used it in 2023 to get trustworthy numbers from a 127-qubit noisy machine.\""
+ ]
+}

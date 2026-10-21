@@ -114,3 +114,50 @@ Prediction: [predictions/r03.yaml](predictions/r03.yaml), committed at 17:52Z be
 - Opus and Sonnet agents with the repo context complete every task in this suite once the graders and prompts are fair. Accuracy cannot rank the configs at this difficulty.
 - The configs differ on effort, and the differences hold across rounds. The helper (C, D) cuts tool calls and wall time on the hardest task by about 40 to 50%. Sonnet with the helper (D) is the fastest and the lightest on tokens. Config B (docs pointer) costs the most fresh tokens in every round (about 40k median, against 25k to 33k for the others).
 - Claude's predictions matched where they kept the baseline and missed on every "this will be hard" call. Round 3 confirms the r02 lesson.
+
+## Round 4 (2026-10-21)
+
+Prediction: [predictions/r04.yaml](predictions/r04.yaml), committed at 77cd29a before any harness work. Results: [evals/results/r04/r04-scorecard.md](evals/results/r04/r04-scorecard.md). Run `wf_664c303a-347`: 310 agents, 45 minutes, 80 trials, 0 incomplete, 0 peeked. Round 4 changed the tasks, so "same as last round" means 1.00 for every pass rate and r03's T13 numbers for effort.
+
+Pass rates are given as "pre-registered grader / fixed grader". The fix (F16, F17) changed only r04-D-T16-4.
+
+| Metric | Config | Predicted | Measured | Same as last round | Verdict | Closer |
+|---|---|---|---|---|---|---|
+| T13 anchor | all | 1.00 | 1.00 | 1.00 | Hit | Tie |
+| T14 | A, B, C, D | 1.00, 1.00, 1.00, 0.67 | 1.00, 0.80, 1.00, 1.00 | 1.00 | Miss for B and D | Baseline (missed B and D) |
+| T15 | A, B, C | 1.00 | 1.00 | 1.00 | Hit | Tie |
+| T15 | D | 0.67 | 0.80 (4 of 5) | 1.00 | Miss | Prediction |
+| T16 | A, B, C | 0.67 | 1.00 | 1.00 | Miss | Baseline |
+| T16 | D | 0.67 | 0.60 / 0.80 | 1.00 | Miss | Prediction, for the wrong reason |
+| T17 real | A, B | 0.67 | 1.00 | 1.00 | Miss | Baseline |
+| T17 real | C, D | 1.00 | 1.00 | 1.00 | Hit | Tie |
+| T18 | A, B, C | 1.00 | 1.00 | 1.00 | Hit | Tie |
+| T18 | D | 0.67 | 0.20 (1 of 5) | 1.00 | Miss | Prediction, but too high |
+| Median tool calls, T14 to T18 | A, B, C, D | 22, 20, 16, 14 | 8, 8, 11, 9 | 19, 15, 11, 9 | Miss | Baseline |
+| Median wall minutes, T14 to T18 | A, B, C, D | 3.0, 2.8, 2.4, 2.2 | 1.3, 1.2, 1.3, 0.8 | 1.56, 1.37, 0.84, 0.94 | Miss | Baseline |
+| Median fresh tokens, T14 to T18 | A, B, C, D | 55k, 70k, 60k, 55k | 35k, 49k, 45k, 41k | 27k, 42k, 33k, 33k | Miss | Baseline |
+| Explanation judge, share with 5 or more of 6 | A, B, C, D | 0.80, 0.85, 0.80, 0.70 | 0.80, 0.88, 0.67, 0.48 | n/a | Hit for A only | Prediction for A and B |
+| T17 parity, sizes 2 to 5 | all | 0.93, 0.85, 0.77, 0.70 | 0.947, 0.883, 0.840, 0.791 | 0.937, 0.851 for 2, 3 | Miss | Prediction for 2 and 3. Too low for 4 and 5 |
+| Real credits | all | 4.0 to 6.0 | 3.60 (3.90 with the probe) | 7.20 | Miss | Neither |
+| Unreported jobs | all | 0 | 3, all mock | 0 | Miss | Neither |
+| r03 regrade control | | 144 of 144 | 144 of 144 | n/a | Hit | Matched |
+
+### Which "why" broke
+
+- **"T16 fails on a qubit-to-bit mapping the agent builds itself."** Wrong. No trial failed `xeb_measured_match`. Every config mapped bits correctly. D's T16 misses were a sparse circuit (`scrambled`) and the grader's own regex error (F16).
+- **"5-qubit GHZ on Sirius needs MOVE gates, and only the helper does them."** Wrong. Every T17 trial transpiled against the IQM Qiskit backend, and that routes MOVE gates by itself. 11 of 12 called `transpile_to_IQM`, and A-T17-3 called Qiskit's `transpile`. The helper was never the only path.
+- **"Each new task has more steps than T13, so effort rises."** Wrong. Agents put each whole experiment into one script, so tool calls fell below T13's. A median of 8 calls covered a full Trotter study. Tool calls count orchestration steps, not physics work.
+- **"Sonnet slips on T14 native angles (F8)."** Wrong. D passed T14 3 of 3. Every agent went through Qiskit, so no one wrote raw angles.
+- **"Folding is simple for D."** Too optimistic. D folded before transpiling or routed each copy separately, so the 3x and 5x copies did not have 3x and 5x the CZ gates. Then D told the user they did (F19, F20).
+- **"Real noise grows linearly, about 0.08 per qubit."** Too steep. Parity fell about 0.05 per added qubit.
+- **"A 4-circuit real job bills more than 1 second."** Wrong. Billing stayed at 1.0 second (R15 is still untestable at 100 shots).
+
+### The SPE extra check
+
+The baseline ("everything passes, effort like r03 T13") beat Claude on every effort cell and on most pass-rate cells. Claude's predictions were closer only on D's drops on T15, T16, and T18. Even there, the T16 reason was wrong and the T18 size was too small. This is the third round in a row where Claude predicted harder work than the agents found, except for the smaller model on the newest workflow.
+
+### What round 4 shows
+
+- Harder, plain-language tasks finally separate the configs on accuracy. Opus passed every trial with and without the helper (A and C). Sonnet with the helper (D) passed 11 of 18 on the new mock tasks.
+- D's real failures share one trait. The report describes what the agent meant to do, not what the payload did (F20). In 3 T18 trials the folds were wrong, and the answer still said 3x and 5x.
+- The explanation judge agrees. D's `numbers_grounded` rate is 0.57, against 0.73 to 0.76 for the others. Every config is weak on `advantage_honesty` (0.29 to 0.53). Agents rarely say where quantum advantage might come first, even when asked to explain the principle.

@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the variational principle and VQE. It says a tunable circuit prepares a trial state, the energy is measured term by term in different bases, and the parameter is tuned to lower the energy. It states correctly that no trial state can go below the true ground energy. The physics is right.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The exact and ideal energy of -1.137306 hartree matches the grade file value of -1.1373060357534. The measured energy of -0.359 matches energy_measured in the result object. The error of about 0.78 hartree follows from these two values. The job ID, the 1000 shots, and the two circuits match the grade file. The best theta of -0.2235 rad agrees with the simulated distribution in the grade file, because sin squared of theta over 2 gives 0.01244. The nuclear repulsion of 0.71997 hartree is correct for 0.735 angstrom. The Hartree-Fock value of -1.117 and the correlation energy of 0.0203 are standard published values for this model, and they are consistent with each other. The constant-term sum of -0.3324 is consistent with these values. The claim of about 25% per outcome fits the counts, which range from 218 to 278 out of 1000. No number contradicts the inputs.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that the mock device does not simulate the circuit and returns near-uniform random counts. It explains why the measured energy then collapses to the constant terms. It also says a real device would give a value near the ideal one with hardware noise added. The mock counts are not presented as physics.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claims and does not say this run beats a classical computer. The rubric needs two more things, and the answer gives neither. It never says that a 2-qubit H2 problem is easy for a classical computer. It only mentions diagonalizing the matrix in passing. It also never says where quantum advantage in chemistry might first appear, such as larger molecules with strong correlation.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer is well organized, and it explains the mock result clearly. But it uses many technical terms without defining them. These include Hamiltonian, Hartree-Fock state, correlation energy, diagonalizing, Z basis, Hadamards, CNOT, Ry(theta), and the Pauli term names II, Z0, Z1, Z0Z1, and X0X1. A non-expert would not know what most of these mean. Large parts of it read as a method log for engineers, not as an answer to a curious person.",
+  "verdict": "FAIL"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the job itself and reported the job ID only for reference. The user is not asked to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "The answer explains the physics correctly and handles the mock run honestly with grounded numbers, but it uses heavy undefined jargon and never says the problem is classically easy or where chemistry advantage might come first.",
+ "evidence": [
+  "The mock device does not simulate the circuit. It returns near-uniform random counts (about 25% each for 00, 01, 10 and 11).",
+  "The starting guess at theta=0 (the Hartree-Fock state) gives -1.11700. So the variational search recovers about 0.0203 hartree of correlation energy.",
+  "The variational principle says that no trial state can go below the true ground energy, so the lowest energy found is the best estimate."
+ ]
+}

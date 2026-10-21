@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the variational principle and states it correctly. It says no trial state can go below the true ground-state energy. It says the lowest value found is an upper bound that approaches the exact answer. It also describes the loop correctly. The quantum computer prepares a trial state and measures its energy one Pauli term at a time, and a classical optimizer adjusts the circuit settings.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The key numbers match the grade file. energy_ideal is -1.1373060357534008 and energy_exact is -1.1373060357534 in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-C-T15-2.grade.json. Their gap is far below 1e-12 hartree, as claimed. I recomputed -0.163 hartree from the mock counts (00: 509, 11: 491 and 00: 511, 11: 489) with the standard coefficients and 0.71997 nuclear repulsion. It gives -0.16275, which matches energy_measured. The job ID, 2 circuits, 1000 shots, and 0 credits all match. The angle theta = -0.2235 rad matches the simulated distribution, because cos^2(theta/2) = 0.98756. The noiseless-sampler value of -1.1415 is not in the grade file. It fits the ideal energy within shot noise and does not contradict any source. The counts of 73 and 60 optimizer steps are process details that cannot be checked. No number contradicts the grade file.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that -0.163 hartree is not chemistry, because the mock device returns made-up counts. It also says the half 00 and half 11 pattern does not depend on the circuit. It does not present the mock result as a physical measurement.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claim, and it does not say this run beats a classical computer. It mentions that the 4x4 matrix was diagonalized on a normal computer. It never says directly that a problem this size is easy for classical computers. It also never says where quantum advantage in chemistry might come first, such as larger molecules or strongly correlated systems. The rubric requires both points, so this check fails.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer is well organized and says the main result first. Several terms are used without a definition, though. These include 'parity mapping with two-qubit reduction', 'Pauli terms', 'CNOT', 'Hadamard gates', 'shot noise', and 'hartree'. The model and final-job sections read like a methods log for an engineer. The answer also ends with a worktree script path that a non-expert cannot use. The answer explains a few things well, such as the mix of two electron arrangements and the 1.6 millihartree value for chemical accuracy. Most of the jargon is still undefined.",
+  "verdict": "FAIL"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It gives the script path for reference only. The agent ran all the work itself.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "The physics, the numbers, and the mock disclaimer are correct, but the answer never says this size is classically easy or where chemistry advantage might come first, and it uses jargon without defining it.",
+ "evidence": [
+  "That number is not chemistry, because the mock device returns made-up counts.",
+  "The variational principle says no trial state can go below the true ground-state energy, so the lowest value found is an upper bound that approaches the exact answer.",
+  "I used the standard H2 STO-3G Hamiltonian at 0.735 angstrom, in its 2-qubit form (parity mapping with two-qubit reduction)."
+ ]
+}

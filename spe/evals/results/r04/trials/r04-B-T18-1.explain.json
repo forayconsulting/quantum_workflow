@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names zero-noise extrapolation and states it correctly. It says you raise the noise on purpose by gate folding, measure how the answer changes, and fit back to noise 0. It also says correctly that ZNE removes noise error but not Trotter step error, so the target is +0.244 and not the exact +0.204.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The raw values 0.205, 0.153, 0.123, the mitigated 0.239, and the ideal 0.244 match the result object and the grade file. The exact value 0.204 matches exact_t1 0.2044. The CZ counts 40, 120, 200 match cz_counts. The linear fit 0.222 matches linear_fit 0.2218. The job ID and 4000 shots match. The grade file has no exponential fit. I recomputed a log-linear fit through the 3 reported points and got 0.2301, which matches the answer's 0.230. The shot noise figure of about 0.01 is labeled as approximate. It sits between the per-qubit and averaged binomial estimates, so it is a fair estimate.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock only checks that the job is valid. It says the mock counts are random patterns that say nothing about physics. It says the physical-looking numbers came from the IQMFakeGarnet noisy simulator and not from hardware.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claim and does not say this run beats a classical computer. But it never says that 6 spins is easy for a classical computer, and it computes the ideal and exact values classically without pointing that out. It also never says where quantum advantage might come first, for example at larger spin lattices like IBM's 127-qubit run. The rubric requires both statements.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer is written to the person who asked and walks through each step in order. It explains folding in plain words as doing U, undoing it, and doing it again. It explains the Trotter gap as the cost of splitting time into 4 steps. Some terms stay undefined, such as second-order Trotter, Richardson extrapolation, native gates, and shot noise. These are short asides, and a non-expert can still follow the main story.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The user is not asked to run code, call the API, or handle tokens. The answer only points to where the script and JSON output are saved.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer teaches ZNE clearly and accurately, and every number traces to the sources or recomputes from them. It loses the advantage check because it never says this size is classically easy or where advantage might come first.",
+ "evidence": [
+  "\"You cannot remove the noise. You can make it larger on purpose and in a controlled way, measure how the answer changes, and then extrapolate back to zero noise.\"",
+  "\"The mock only checks that the job is valid. Its counts are random patterns (000000, 011011, 100100, 111111 in roughly equal shares), so they say nothing about physics.\"",
+  "\"A straight-line fit gives +0.222, and an exponential fit gives +0.230.\" The exponential value is not in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-B-T18-1.grade.json, but a log-linear fit through the 3 raw points recomputes to 0.2301."
+ ]
+}

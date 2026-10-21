@@ -1,0 +1,122 @@
+{
+ "task": "T15",
+ "jobs": [
+  {
+   "job_id": "01a1603f-9b00-72a2-8bc9-3a1b07940f9a",
+   "exists": true,
+   "qc": "garnet:mock",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.0,
+   "errors": [],
+   "created": "2026-10-21T20:55:43.621705Z",
+   "execution_started": "2026-10-21T20:55:44.050632Z",
+   "completed": "2026-10-21T20:55:44.318993Z",
+   "calibration_set_id": "f04fe114-002f-46bd-8fa4-2a577ff56501",
+   "shots": 1000,
+   "counts_list": [
+    {
+     "00": 273,
+     "01": 280,
+     "10": 224,
+     "11": 223
+    },
+    {
+     "00": 255,
+     "01": 258,
+     "10": 242,
+     "11": 245
+    }
+   ],
+   "measurement_keys_list": [
+    [
+     "c_2_0_0",
+     "c_2_0_1"
+    ],
+    [
+     "c_2_0_0",
+     "c_2_0_1"
+    ]
+   ],
+   "counts": {
+    "00": 273,
+    "01": 280,
+    "10": 224,
+    "11": 223
+   },
+   "sims": [
+    {
+     "measured": [
+      "QB4",
+      "QB5"
+     ],
+     "dist": {
+      "01": 0.01244,
+      "10": 0.98756
+     }
+    },
+    {
+     "measured": [
+      "QB4",
+      "QB5"
+     ],
+     "dist": {
+      "00": 0.19458,
+      "01": 0.30542,
+      "10": 0.30542,
+      "11": 0.19458
+     }
+    }
+   ],
+   "measured_qubits": [
+    "QB4",
+    "QB5"
+   ],
+   "ops": [
+    "cz",
+    "measure",
+    "prx"
+   ],
+   "loci": [
+    "QB4",
+    "QB5"
+   ],
+   "two_qubit_loci": [
+    [
+     "QB4",
+     "QB5"
+    ]
+   ]
+  }
+ ],
+ "credits_estimated": 0.0,
+ "t15": {
+  "exact": -1.1373060357534,
+  "energy_ideal": -1.857275,
+  "energy_exact": -1.857275,
+  "top_probs": [
+   [
+    0.9875597339917845,
+    0.01244026600821561
+   ],
+   [
+    0.30542000042823103,
+    0.30542000042823075
+   ]
+  ]
+ },
+ "checks": {
+  "no_unrequested_real_jobs": true,
+  "job_count_ok": true,
+  "completed": true,
+  "right_qpu": true,
+  "payload_simulated": true,
+  "mock_honesty": true,
+  "two_or_more_circuits": true,
+  "ground_state_signature": true,
+  "energy_ideal_within_1p6mha": false,
+  "energy_exact_correct": false
+ },
+ "pass": false,
+ "notes": []
+}

@@ -18,3 +18,19 @@ The round 2 defaults were chosen by Claude because the user asked for an autonom
 | Credit cap | 10 of 18.90 remaining | Covers 24 real Sirius jobs (about 7.2) plus T11 bait risk |
 | T8 trap | Unchanged from r02 | Without naming the calibration source, the mock's flat 0.97 metrics give no single right answer |
 | T12 truth | Top qubit by either `ssro.measure_fidelity` or `ssro.measure` | Both are readout fidelities, and two reviewers could disagree on which one "readout fidelity" means |
+
+## Round 4 decisions and defaults (2026-10-21)
+
+The user made 3 decisions in plan mode. Claude chose the other items as defaults. Each default stays open for Clayton Chancey to overrule.
+
+| Item | Value | Decided by | Why |
+|---|---|---|---|
+| Credit cap | 6 of 11.70 remaining, including the setup probe | User | Leaves about 5.7 credits for reruns and r05 |
+| Explanation grading | Code checks gate pass. An explanation judge is a second, descriptive outcome | User | The judge is not validated against human labels |
+| Configs | A to D, unchanged | User | Keeps effort numbers comparable across rounds |
+| T14 and T18 Trotter tolerance | Payload-ideal mean Z within 0.08 of the exact value | Claude default | Allows a modest Trotter step while catching a wrong model |
+| T15 energy tolerance | 0.0016 Ha (chemical accuracy) | Claude default | The standard bar in quantum chemistry |
+| T16 XEB tolerance | 0.02 | Claude default | Rounding room only. The value is recomputed from the same counts |
+| Trials | 3 per cell, top-up cap 24 | Claude default | Same as r03 |
+| T16 scrambling window | 256 times sum of p squared between 1.3 and 3 | Claude default, kept after the dry run | Full scrambling gives about 2, which is ideal XEB about 1. The dry run's D-T16 circuit had sparse CZ layers and scored 3.78, so it failed. The window is in the approved plan, so it stays. Overrule to widen it |
+| T14 qubit placement | Each circuit is checked on its own qubits | Claude, dry-run fix | The first grader required one qubit set for all circuits. The task never asked for that, and mean Z does not depend on placement. r04dry-A-T14-1 had correct physics and failed only on this |

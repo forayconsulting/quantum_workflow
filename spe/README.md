@@ -6,10 +6,10 @@ This folder applies the SPE loop (Specify, Predict, Evaluate) from Clayton Chanc
 
 | Step | File | Status |
 |---|---|---|
-| Specify | [spec/spec.md](spec/spec.md), [spec/disagreements.md](spec/disagreements.md), raw record in [spec/transcripts/](spec/transcripts/) | r01 to r03 written 2026-10-21. r04 proposals at the end of spec.md |
-| Predict | [predictions/](predictions/) | r01 to r03 saved and committed before their runs. r04 draft |
-| Evaluate | [evals/](evals/) and the results in [evals/results/](evals/results/) | r01: 72 of 72 passed, 3.60 credits. r02: 115 of 126 passed by the pre-registered grader, 7.20 credits. r03: 144 of 144 passed, 7.20 credits, 0 unreported jobs |
-| Learn | [prediction-log.md](prediction-log.md), [failures.md](failures.md) | r01 to r03 written. Predictions matched only where they kept the baseline. Effort, not accuracy, separates the configs |
+| Specify | [spec/spec.md](spec/spec.md), [spec/disagreements.md](spec/disagreements.md), raw record in [spec/transcripts/](spec/transcripts/) | r01 to r04 written 2026-10-21. r05 proposals at the end of spec.md |
+| Predict | [predictions/](predictions/), approved plans in [plans/](plans/) | r01 to r04 saved and committed before their runs. r05 draft |
+| Evaluate | [evals/](evals/) and the results in [evals/results/](evals/results/) | r01: 72 of 72 passed, 3.60 credits. r02: 115 of 126 passed by the pre-registered grader, 7.20 credits. r03: 144 of 144 passed, 7.20 credits, 0 unreported jobs. r04: 72 of 80 passed (73 with the fixed grader), 3.60 credits, 3 unreported mock jobs |
+| Learn | [prediction-log.md](prediction-log.md), [failures.md](failures.md) | r01 to r04 written. The baseline beat Claude on every effort cell again. In r04, accuracy separated the configs for the first time |
 
 ## Layout
 
@@ -17,11 +17,13 @@ This folder applies the SPE loop (Specify, Predict, Evaluate) from Clayton Chanc
 |---|---|
 | `agent-tools/iqm_run.py` | The helper that config C and D agents may use. It is the only file in `spe/` an agent under test is told about |
 | `evals/configs/` | One file per configuration, plus the common preamble every trial gets |
-| `evals/tasks/` | T1 to T6 with prompts and pass rules |
-| `evals/graders/grade.py` | Code grader. Checks each reported job against the IQM API. `--selftest` runs 14 fixtures |
+| `evals/tasks/` | T1 to T18 with pass rules. Prompts are in each round's workflow script |
+| `evals/graders/grade.py` | Code grader. Checks each reported job against the IQM API and simulates its payload against exact physics. `--selftest` runs 57 fixtures |
 | `evals/graders/metrics.py` | Reads a trial's subagent transcript for tokens, tool calls, tool errors, wall time, and peeks |
 | `evals/graders/judge.md` | Process rubric for the LLM judge. Descriptive only |
-| `evals/harness/r01-workflow.js` | The Workflow script that ran the round |
+| `evals/graders/explain.md` | Explanation rubric for the r04 judge: does the answer teach a non-expert. Descriptive only |
+| `evals/harness/rNN-workflow.js` | The Workflow script that ran each round |
+| `evals/harness/r04_oracles.py` | Builds and submits the r04 oracle and negative jobs |
 | `evals/harness/ledger.md` | Credit balances and real-QPU spend |
 | `evals/results/rNN/` | Per-trial files, `rNN.json`, the scorecard, and the dashboard |
 
@@ -39,7 +41,7 @@ This folder applies the SPE loop (Specify, Predict, Evaluate) from Clayton Chanc
 .venv-iqm/bin/python -I spe/evals/graders/grade.py --selftest
 ```
 
-Then run the Workflow tool with `scriptPath: spe/evals/harness/r03-workflow.js` and `args: {"round": "r04", "creditCap": 10, "topupCap": 24, "root": "<absolute path to this repo>"}`. Write and commit `predictions/r04.yaml` first. The harness needs an IQM token in `.env` (see `.env.example`) and a Python 3.12 environment at `.venv-iqm` with `iqm-client[qiskit]==35.0.3`, `requests`, and `python-dotenv`.
+Then run the Workflow tool with `scriptPath: spe/evals/harness/r04-workflow.js` and `args: {"round": "r05", "creditCap": 5.7, "topupCap": 24, "root": "<absolute path to this repo>"}`. Write and commit `predictions/r05.yaml` first. The harness needs an IQM token in `.env` (see `.env.example`) and a Python 3.12 environment at `.venv-iqm` with `iqm-client[qiskit]==35.0.3`, `requests`, and `python-dotenv`.
 
 ## Git history is the loop
 
@@ -67,3 +69,7 @@ The IQM API docs (`docs/iqm/` and siblings), the account runbooks, `CLAUDE.md`, 
 - Do not commit `spe/` while a round is running. Worktree trials check out `HEAD`, so uncommitted graders and predictions stay out of their view.
 - `spe/` is committed, so trial worktrees contain the graders. `metrics.py` flags any read of a `spe/` path other than `agent-tools`, and the workflow halts on a peek. r02 had 0 peeks.
 - Real-QPU credits are capped per round in the ledger.
+
+## Round 4 in one paragraph
+
+The user asked for experiments a non-expert could request in plain language, in the areas where quantum advantage is most likely to appear first. The new tasks were spin-chain dynamics (T14), the hydrogen molecule's ground state (T15), random circuit sampling scored with XEB (T16), GHZ states of 2 to 5 qubits on real Sirius (T17), and zero-noise extrapolation (T18). The grader simulated every submitted circuit and compared it with exact physics. Accuracy separated the configs for the first time. A and C passed all 22 of their trials. B passed 21 of 22. D (Sonnet plus the helper) passed 11 of 18 on the new mock tasks, and 1 of 5 on T18. There it transpiled each folded copy separately, which broke the noise scaling, and then told the user the scaling was right (failures.md F19, F20). After the run, two grader bugs were fixed (F16, F17). They moved the total from 72 to 73 of 80. Real Sirius GHZ agreement fell from 0.947 at 2 qubits to 0.791 at 5. Every real job billed 1.0 second, and credits reconciled exactly at 7.80.

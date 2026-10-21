@@ -1,0 +1,8 @@
+id: T18
+name: zero-noise extrapolation on the 6-spin chain at t = 1, folded circuits on garnet:mock, noisy values from IQMFakeGarnet
+lane: mock
+round_added: r04
+domain: error mitigation, which near-term advantage claims depend on
+requirements: [R20, R21, R22, R23, R24, R25]
+prompt: see evals/harness/r04-workflow.js TASKS.T18
+pass_rule: one completed garnet:mock job with 3 circuits of 6 measured qubits. Equal payload-ideal mean Z (within 0.02), each within 0.08 of the exact value at t = 1. CZ count ratios 2.7 to 3.3 and 4.5 to 5.5. values.zne_mitigated within 0.02 of a least-squares line, Richardson, or 2-point extrapolation of the reported raw values. values.zne_ideal within 0.02 of the payload-ideal value. The answer says mock counts are not physical

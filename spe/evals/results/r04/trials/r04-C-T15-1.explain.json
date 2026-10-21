@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the variational principle. It says every circuit setting gives an energy equal to or above the true lowest energy, and that a classical loop keeps the lowest value. That is correct. It also explains the one-angle circuit as a mix of two electron arrangements, which is a fair description of the standard H2 ansatz.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "energy_ideal and energy_exact (-1.13730604) match the grade file t15 values. energy_measured (-0.1628) recomputes from the mock counts: the Z and X parities are all +1, so -1.05237 - 0.01128 + 0.18093 + 0.71997 = -0.16275. The gap of about 0.97 hartree is correct. The ideal splits (98.8 percent 10, and 19/31/31/19) match the grade file sims. The job ID, 2 circuits, 1000 shots, and 0 credits match. I reran the trial's own energy function on the 73-point grid. The grid angles 0.349 and 2.443 give +0.489 and -0.814, and pi gives -1.117. These match the answer once the angles are rounded. One small slip: the answer says 'about 1e-15' for the match. The grade file only shows agreement to 8 decimals, which is still far inside chemical accuracy.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock is a free test device that returns random bitstrings that do not depend on the circuit. It says the large gap comes from the mock and not from the method. It never presents -0.1628 as a physical result.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer does not claim advantage. It even shows that a classical solve of the 4x4 matrix gives the exact answer. But it never says plainly that a 2-qubit H2 problem is easy for a classical computer. It also never says where quantum advantage in chemistry might come first, such as larger molecules with strongly correlated electrons. The user opened by asking about chemistry as an early advantage area, and the answer leaves that question unaddressed. The rubric needs both points.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "Most of it reads as an answer to the person who asked. It explains theta, the two circuits, chemical accuracy with its value, and the variational principle in short sentences. Some terms go undefined. The Pauli formula (Z0, Z1, X0X1), 'full CI', and 'STO-3G basis' are given without plain glosses. Hartree-Fock gets only a short note. The closing job ID and file paths read a little like a log. On balance a non-expert can follow the main story, so it passes, but only just.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the simulation and the mock job itself. The answer lists script and result paths for reference only. It does not ask the user to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer is correct, well grounded in numbers, and honest about the mock, but it never says H2 is classically easy or where chemistry advantage might first appear. I checked the numbers against /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-C-T15-1.grade.json and by rerunning /Users/claytonchancey/Desktop/quantum/.claude/worktrees/wf_664c303a-347-12/vqe_h2.py.",
+ "evidence": [
+  "The mock is a free test device and returns random bitstrings that do not depend on the circuit.",
+  "Solving the 4x4 energy matrix exactly also gives -1.13730604 hartree, which is the known full CI value.",
+  "The principle is the variational principle. Every circuit setting gives an energy that is equal to or higher than the true lowest energy."
+ ]
+}

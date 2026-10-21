@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the variational method. It states the principle correctly: the energy of any trial state is never below the true ground energy, so the lowest energy found is the best estimate. It also states the quantum computer's role correctly. That role is to prepare the state and measure each energy term.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match the result object. These include -1.857275, -1.137306, 0.719969, theta -0.2235, -1.0077, -0.2877, the 1000 shots, and the job ID. The grade file's exact total of -1.1373060 matches the answer's -1.137306. The grade file's simulation puts 98.8 percent of the Z-basis counts on one bitstring. That supports the claim that the circuit makes a ground-state signature. Three numbers have no source in either file. These are the Hartree-Fock energy of about -1.8370, the correlation energy of about 0.020 hartree, and the match to about 1e-14. The -1.8370 value is physically plausible, but neither input records it. The rubric fails any number without a source. The result object also lists the first-circuit counts with 01 and 10 swapped compared with the grade file. The answer text does not quote those per-bitstring counts.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock returns essentially random counts that do not reflect the circuit. It says the measured -1.0077 carries no chemistry and only shows that the measurement pipeline works. It says a real QPU should land near the ideal value with some noise. The counts near 25 percent each in both files support this.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no claim that the experiment beats a classical computer, and it uses no hype. It mentions that theta was swept on a classical simulator. It never says that a 2-qubit H2 problem is easy for a classical computer. It also never says where quantum advantage in chemistry might come first, for example for larger molecules with strongly correlated electrons. The user's framing invited this point. The rubric requires both statements.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The closing paragraph on the variational method is clear. Calling theta one adjustable knob helps. Much of the answer uses terms it never defines, such as Z on each qubit, Z-Z, X-X, Hartree-Fock start, Ry(theta), CNOT, correlation energy, electronic energy versus nuclear repulsion, Z basis and X basis, and recombination pipeline. The answer also never says what a hartree is. The middle of the answer reads like an engineer's log of the method, not an answer to a non-expert.",
+  "verdict": "FAIL"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the job itself and reported the job ID. The answer does not ask the user to run code, call the API, or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 3,
+ "summary": "The answer states the variational principle correctly and is honest about the mock. It quotes a Hartree-Fock value and a correlation energy that neither input file contains. It skips the classical-ease and advantage points and leaves much jargon undefined.",
+ "evidence": [
+  "\"The energy of any trial state is never below the true ground energy, so you tune the circuit parameter to push the measured energy down and the lowest value you find is your best estimate.\"",
+  "\"For comparison, the Hartree-Fock starting point (theta = 0) gives about -1.8370, so the knob recovers the correlation energy of about 0.020 hartree.\" (neither number appears in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-D-T15-1.result.json or /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-D-T15-1.grade.json)",
+  "\"The reason is that the mock device returns essentially random counts that do not reflect the circuit (all four bitstrings land near 25%).\""
+ ]
+}

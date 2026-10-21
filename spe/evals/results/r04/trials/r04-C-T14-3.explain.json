@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says the spins start aligned, the sideways field h tips them, and the neighbor coupling J spreads that change down the chain, so the average magnetization falls toward zero by t=2. It also says the evolution is broken into small gate steps (Trotter steps), and that classical memory doubles with each spin while a quantum computer needs one more qubit per spin. Each of these statements is correct physics.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match the inputs. The ideal values 1.00, 0.74, 0.34, 0.11, 0.01, and about 0.00 match the grade file's exact values (1.0, 0.7381, 0.3429, 0.1063, 0.013, -0.0013). The claim 'within 0.007' holds, because the largest gap between payload_ideal and exact is 0.0067 at t=0.8. The measured values -0.01, 0.02, -0.02, 0.01, -0.03, 0.01 match the observables, and the grade file shows measured_matches_api true. The values for 1000 shots, the job ID, and 0 credits also match. The step length of 0.1 or less matches DT = 0.1 in the trial's ising_run.py. The claim that the t=2.0 circuit is '174 layers deep after compiling for Garnet' appears in neither the result object nor the grade file. The script prints depths but does not save them to ising_out.json. The rubric fails a number with no source, so this check fails on that one figure.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock's counts are fake and do not depend on the circuit. It points out that t=0 came back near 0 even though the true answer is exactly 1. It says the mock numbers show only that the job worked and say nothing about the physics. The answer is clear that the run used garnet:mock.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says six spins are still easy to check on a laptop. It says that simulating magnets is a likely early use, but only once hardware noise is low enough for long circuits. It does not claim that this run beats a classical computer, and it uses no hype.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer is written to the person who asked, in short sentences. It explains what each step of the circuit does. It also explains why noise pulls values toward 0: random bits average to zero. A few terms, such as 'second-order Trotter steps' and 'zero-noise extrapolation', get little or no definition. The closing list of file paths reads like an engineer's note. These are small issues, and a non-expert can still follow the answer.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It only lists the paths of the files the agent made, which is a reference and not a task for the user.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "This is a clear, honest answer about the mock run, and its physics is correct. It fails numbers_grounded only because the '174 layers deep' circuit depth has no source in the result object or the grade file.",
+ "evidence": [
+  "\"They do not depend on the circuit. So the mock numbers show only that the job worked. They say nothing about the physics.\"",
+  "\"The t=2.0 circuit is 174 layers deep after compiling for Garnet.\" (not in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-C-T14-3.result.json or /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-C-T14-3.grade.json)",
+  "\"Six spins are still easy to check on a laptop. This is why simulating magnets is a likely early use, once hardware noise is low enough for long circuits.\""
+ ]
+}

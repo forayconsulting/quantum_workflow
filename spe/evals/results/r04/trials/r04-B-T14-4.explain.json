@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the physics correctly. The sideways field h knocks the spins out of the all-up state. The spins become entangled, and the average magnetization falls from 1 toward 0 by time 2. It explains Trotterization in plain terms and shows the step error is small by comparing against the exact curve. It also says noise pushes the spins toward random values with average 0, which is correct for depolarizing noise.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Every number has a source. The ideal values 1.000, 0.756, 0.370, 0.128, 0.024, 0.001 match t14.payload_ideal in the grade file. The exact values 1.000, 0.738, 0.343, 0.106, 0.013, -0.001 match t14.exact. The measured values match the observables in the result object. I recomputed t=0 from the counts and got -0.002. The times, the 1000 shots, the 6 circuits, and the 0.2 step with up to 10 steps are consistent with the grade file. The quoted bitstrings 100100 and 011011 match the result object. The grade file lists them in reversed bit order as 001001 and 110110, which is the same data. The zero credit cost matches estimated_credits 0.0.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock device does not simulate the circuit and returns made-up bitstrings in about equal amounts. It points out that time 0 gave near 0 when the true answer must be exactly 1. It says the run only shows that the job was built and accepted, and that it shows no physics.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says a laptop can check the answer for 6 spins. It says the work is expected to become useful only at sizes a laptop cannot check and when hardware noise is low enough. It makes no claim that this run beats a classical computer and uses no hype.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer uses short sentences and is written to the person who asked. It defines magnetization, the Z value of an up or down spin, and Trotterization. Two terms are not defined: readout error and zero-noise extrapolation. They appear only once each and do not block understanding. The job ID is a small engineering detail, but it does not make the answer read like a log.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. The agent did all the work and reports the results.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The answer passes all 6 checks. The physics is correct, every number matches its source, the answer is open about the mock, it makes no advantage claims, and a non-expert can follow it.",
+ "evidence": [
+  "\"These are all near 0, even at time 0 where the answer must be exactly 1. The reason is that the mock device does not simulate the circuit.\"",
+  "\"A perfect quantum computer running these circuits would give magnetization 1.000, 0.756, 0.370, 0.128, 0.024, and 0.001.\"",
+  "\"For 6 spins a laptop can check the answer. The work is expected to become useful at sizes where a laptop can no longer check it and the hardware noise is low enough.\""
+ ]
+}

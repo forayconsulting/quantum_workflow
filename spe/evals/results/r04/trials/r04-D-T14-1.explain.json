@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. The spins start aligned, and the sideways X field plus the neighbor ZZ coupling scramble them, so the average magnetization falls from +1 toward 0. That matches the exact curve in the grade file. One noise claim is simplified. The answer says all hardware errors pull the result toward 0. Depolarizing noise does that. Relaxation (T1) pulls qubits toward the up state, which pushes the magnetization toward +1. This simplification does not change the main physics, so the check passes.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values in the answer are +1.00, 0.74, 0.34, 0.11, 0.01 and about 0.00. They match the grade file's exact values of 1.0, 0.7381, 0.3429, 0.1063, 0.013 and -0.0013. The times 0, 0.4, 0.8, 1.2, 1.6 and 2.0 match t14.times. The 1000 shots and the job ID match the API record. The answer gives the measured range as -0.02 to +0.013. The result object's measured values run from -0.0207 to +0.0127, so the range is correct after rounding. The claim that each of the four strings is about 25 percent matches counts of 235 to 283 out of 1000. The 0.1 Trotter step size cannot be checked directly, but the grader's trotter_within_tol check passed. One problem sits outside the answer text. The result object's counts_list has 100100 and 011011 where the API has 001001 and 110110, so its bit order is reversed. The answer does not quote those strings, so this check passes.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says clearly that garnet:mock does not simulate the circuit. It says the counts are fixed patterns that average to about 0 whatever the physics is. It points out that t=0 should read exactly +1 but the mock gave about 0. It says the mock only checks that a job is accepted and returns data.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says the ideal values came from an exact classical calculation of all 6 spins. It also says this kind of dynamics gets too hard to compute classically as the spin count grows. Together these say that 6 spins is easy for a classical computer and that any advantage would come at larger sizes. It never claims this run beats a classical computer, and it uses no hype. It would be clearer if it said in plain words that a laptop handles 6 spins easily.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer follows the user's three questions in order: the perfect machine, the test device, and real noise. That makes it easy to follow. It explains the scrambling in plain words, and it explains zero-noise extrapolation in one sentence. Some terms are not defined. These are Trotter steps (only loosely explained), ZZ rotations, decoherence, and readout errors. The job ID line is aimed at engineers, but it is short. Overall a non-expert can follow it.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It reports that the job ran and that no real QPU credits were spent.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "This is a clear answer grounded in the data. Its numbers match the exact simulation, and it says plainly that the mock output is not physics. It has two small gaps. Its noise model is simplified, since T1 relaxation pushes toward +1 and not toward 0. It also leaves a few terms undefined, such as Trotter steps and decoherence.",
+ "evidence": [
+  "\"The mock does not simulate the circuit. Its counts are only the strings 000000, 111111 and two other fixed patterns, each about 25 percent, so the average is about 0 regardless of the physics.\"",
+  "\"the average magnetization starts at +1.00 and falls to 0.74 (t=0.4), 0.34 (t=0.8), 0.11 (t=1.2), 0.01 (t=1.6) and about 0.00 (t=2.0). The ideal values come from an exact classical calculation of the full 6-spin evolution.\"",
+  "\"real hardware errors (gate errors, readout errors, decoherence) pull each result toward the fully random answer, which is a magnetization of 0.\""
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the variational principle and states it correctly. It says the quantum computer prepares a trial state and measures its energy, a classical computer adjusts the settings, and the best energy can never be below the true lowest energy. It also says this makes the result a trustworthy upper bound. All of this is correct physics.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The answer's energies match the result object and the grade file. The exact energy and energy_ideal are both -1.13731, and the grade file's t15 block has -1.1373060357534. The measured energy, -0.33392, matches energy_measured in the result object. The 0.80 hartree gap is correct, since -0.33392 minus -1.13731 is 0.80339. The job ID, the 2 circuits, and the 2000 shots match the grade file. The claim of about 500 counts per bitstring matches counts_list in both files. The perfect-device averages also match the grade file's sims. The first circuit puts 0.98756 on 10 and 0.01244 on 01, which gives Z averages of plus and minus 0.975 and a ZZ of -1.0. The second circuit gives an XX of 0.38916 minus 0.61084, which is -0.222. The nuclear repulsion of 0.71997 hartree equals 1/R for 0.735 angstrom in bohr. The search details (1785 settings and a 41 by 41 grid) come from the agent's own account of its search. Neither file confirms them, but neither file contradicts them. They describe the method and are not result values.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says in its first paragraph that garnet:mock returns random bits and that its measured energy carries no chemistry. Later it explains that the mock checks that the circuits are valid but does not simulate them. It says a real Garnet run would give a value near -1.137 with hardware noise. The mock counts are never presented as physics.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says a laptop can still check the answer for a molecule this small. It says the method only becomes useful for molecules too large to solve exactly on classical computers. That tells the reader where an advantage might come first. It does not claim one here, and it uses no hype.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer speaks to the person who asked and opens with the result. It is written in short, clear sentences. The sections on the setup, the search, and the job are easy to follow, and the principle is explained in plain words. Some terms are not defined: Z, ZZ, XX, CNOT, Hadamard, shots, and STO-3G. A non-expert would not know what Z on qubit 0 means. The overall logic still comes through. The text reads as an explanation and not as an engineer's log, so it passes, but only just.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It names a real-hardware run only as something the agent chose not to do because it costs credits.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "Trial r04-B-T15-1 scored 6 of 6. It explains the variational principle correctly, its numbers match the files, and it is honest about the mock run and about quantum advantage. Its one weakness is that it leaves terms like Z, XX, CNOT, and Hadamard undefined. Files read: /Users/claytonchancey/Desktop/quantum/spe/evals/graders/explain.md, /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-B-T15-1.result.json, /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-B-T15-1.grade.json.",
+ "evidence": [
+  "That device returns random bits, so its measured energy, -0.33392 hartree, carries no chemistry.",
+  "The best energy can never be below the true lowest energy. That is why the lowest energy found is a trustworthy upper bound, and here it reached the exact value.",
+  "For a molecule this small, a laptop can still check the answer. The method only becomes useful for molecules too large to solve exactly on classical computers."
+ ]
+}

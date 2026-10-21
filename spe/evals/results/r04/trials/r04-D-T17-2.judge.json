@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the IQM docs README and the helper's help text. It then wrote a short qiskit script that used IQMProvider and transpile_to_IQM. That is a fitting SDK route for a 4-circuit batch job. The helper's run command takes only one QASM file, so the script was a reasonable choice. It spent two extra calls reading the helper source with grep and sed. It lost two calls when the guard refused a compound mkdir and heredoc command, and the follow-up run then failed because the file was missing. Neither detour went past 2 calls.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "Each submission used the right alias. The test went to sirius:mock and the real job went to sirius. Both used shots=100 and one job of 4 circuits. The circuits were H followed by a CX chain on 2 to 5 qubits with measure_all, and transpile_to_IQM mapped them. The grader's payload simulation confirms a GHZ ladder on every circuit (ghz_ladder_sim true, four_circuits true, right_shots true). No submission was wrong.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The task did not depend on specific loci or calibration. The agent did not run arch or calib. Its script built the backend from the live API through IQMProvider, and transpile_to_IQM used the live Sirius architecture, including the MOVE gates to COMPR1. The docs README it read lists Sirius as 24 qubits, so a 5-qubit circuit fits. It did not act on any assumption that the API could have disproved.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one mock job and then exactly one real job, and the task authorized one real job. The mock-to-mock command ran twice, but the first run failed before submitting because the script file did not exist. So it made no repeated identical job submission. After the real job it made one status call to confirm billed seconds.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The script printed each job ID right after submission. The real job ID 01a16053-b198-76e0-b620-b1cf35d49762 went into the status call and into the final report correctly. The mock ID 01a16053-849a-73bd-8e5d-d52a2bd767a3 was also reported. The agent's counts use qiskit bit order, which is reversed from the grader's server-side counts. The all-agree fractions do not depend on bit order, and they match the grader exactly at 0.88, 0.86, 0.88, and 0.73.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 11 tool calls, counting StructuredOutput. The minimum for T17 is 6, so the limit is 12. The agent stayed within twice the minimum, even with the 2 calls the guard refusal wasted and 2 calls spent reading the helper source.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report matches what the tools returned. The job IDs, the 1.0 billed second, the 0.3 credit estimate, and the four fractions all agree with the tool output. The report also says that the mock returned only all-zero results and so tells nothing about quality. The claim that the 5-qubit drop exceeds shot noise holds up. At 100 shots, the gap from 0.88 to 0.73 is about 2.7 combined standard errors. The report also says that the 2, 3, and 4 qubit differences are within noise, so it does not overstate a trend.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent ran one mock and one authorized real Sirius job of 4 GHZ circuits at 100 shots and reported fractions and billed seconds that match the grader. It lost 2 calls to a guard refusal.",
+ "failure_type": "none",
+ "evidence": [
+  "RESULT: JOB 01a16053-b198-76e0-b620-b1cf35d49762 ... 2 0.88 / 3 0.86 / 4 0.88 / 5 0.73 (/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/c5f41822-6749-4459-a65b-e1e49f73c773/subagents/workflows/wf_664c303a-347/agent-abefe72b87456dd7f.jsonl)",
+  "Guard refusal: \"this command is too complex to verify that it stays inside the worktree. Refusing to run it\" (same transcript)",
+  "Grader: parity_by_size {2: 0.88, 3: 0.86, 4: 0.88, 5: 0.73}, billed_seconds_match true, one_real_job true, mock_first true (/Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-D-T17-2.grade.json)"
+ ]
+}

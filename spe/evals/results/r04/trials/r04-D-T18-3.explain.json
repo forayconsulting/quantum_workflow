@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names zero-noise extrapolation and states it correctly. It says noise lowers the signal in a predictable way as it is amplified, so you measure at several noise levels and extend the trend back to zero. It also says correctly that the method recovers only part of the lost signal. It separates the Trotter error from the hardware noise.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The raw values 0.128, 0.085, and 0.056 match zne_raw_1, zne_raw_3, and zne_raw_5 in the result object. The ideal 0.204 matches exact_t1 0.2044 in the grade file. The Richardson value 0.155 matches 0.15531. The linear value 0.144 matches 0.14376. The Trotterized ideal 0.187 matches payload_ideal. The errors 0.049 and 0.076 follow from these numbers. The 4-step Trotter count fits the 40 CZ gates in the grade file. The job ID and 100 shots match. The one number without a source in the files is 4000 shots per circuit. It is a setting of the agent's own script and not a result, so it does not contradict anything.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock counts are random and were not used for physics. It says the noisy numbers came from IQMFakeGarnet. It says no real QPU credits were spent. The grade file shows the job ran on garnet:mock with 0 estimated credits.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claims. It also never says that 6 spins are easy for a classical computer. It never says where quantum advantage might come first. The rubric requires both statements.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The core sentence about the principle is plain and clear. Gate folding is explained in a few words. But Trotter circuit, Trotter error, quadratic Richardson fit, and shot noise are used without any definition. The answer also ends with a script path, which reads like a note for engineers. A non-expert would lose the thread at these terms.",
+  "verdict": "FAIL"
+ },
+ "no_api_burden": {
+  "critique": "The answer reports results the agent produced itself. It gives a script path for reference but does not ask the user to run it. It asks for no tokens and no API calls.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "The answer explains zero-noise extrapolation correctly with grounded numbers and honest mock labeling. It never says the problem is classically easy, and it leaves Trotter and Richardson undefined.",
+ "evidence": [
+  "Mock counts are random, so I did not use them for physics.",
+  "noise lowers the signal in a predictable way as you amplify it, so you measure at several noise levels and extend the trend back to zero noise.",
+  "Extrapolating back to zero noise with a quadratic Richardson fit gives 0.155."
+ ]
+}

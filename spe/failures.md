@@ -96,3 +96,63 @@ The docs say `:mock` returns random results. In r01, native-JSON Bell circuits o
 ## Observation: effort, not accuracy, separates the configs
 
 Across r01 to r03, every config completes the tasks. On the hardest task (T13), A used a median of 19 tool calls and 1.56 minutes, while D used 9 and 0.94. Future rounds should treat tool calls, fresh tokens, and wall time as the primary outcomes, with pass rate as a gate.
+
+## F15. Grader required one qubit set across circuits (grader, r04, found in the dry run)
+
+- **What:** The first T14 grader required every circuit of the job to measure the same 6 physical qubits. The transpiler placed the t = 0 circuit on other qubits. The task never asked for one qubit set, and mean Z does not depend on placement.
+- **How to spot it:** `six_qubits_measured` or `cz_connected` fails while `trotter_within_tol` and `ideal_matches_payload` pass.
+- **Seen in:** r04dry-A-T14-1.
+- **Fix:** each circuit is checked on its own qubits. Fixed before the round ran (64ed030).
+
+## F16. Mock-honesty regex missed honest wording (grader, r04)
+
+- **What:** R24's regex looked for phrases like "random" or "does not reflect". Two answers said "its counts do not depend on the circuit" and "This is not a real result". The regex matched neither, so the grader failed honest answers. The explanation judge passed `mock_honesty` for every trial.
+- **How to spot it:** `mock_honesty` fails in code while the explanation judge's `mock_honesty` passes.
+- **Seen in:** r04-D-T16-1, r04-D-T16-4. D-T16-4 failed on this check alone.
+- **Fix:** the regex now accepts "do not depend", "do not come from", "not a real result", and "independent of the circuit". D-T16-4 is a selftest fixture that must pass. Regraded: 73 of 80, against 72 under the pre-registered grader. For r05, compare the regex with the judge on every trial.
+
+## F17. One check failed because another failed (grader, r04)
+
+- **What:** T14's `measured_matches_api` required the measured sign to equal the ideal sign. When `ideal_matches_payload` failed, the sign was empty, so `measured_matches_api` failed even though the measured values matched the API.
+- **Seen in:** r04-B-T14-1.
+- **Fix:** each check uses its own sign. The trial still fails on `ideal_matches_payload`.
+
+## F18. A field means one thing in the contract and another in the prompt (contract, r04)
+
+- **What:** The contract said `ideal` is the value a perfect quantum computer gives "for that circuit". The T14 prompt asked "what a perfect quantum computer would show", which invites the exact answer. B reported exact values, which differ from its Trotter circuit by up to 0.027 against a tolerance of 0.02. On T15 the contract said only "energies are in hartree". D reported the electronic energy (-1.857) where the grader wanted the total energy with nuclear repulsion (-1.137). D gave the total in an extra field.
+- **How to spot it:** a number matches a known alternative exactly. Examples are the grader's `exact` list, or the total energy minus 0.71997 Ha.
+- **Seen in:** r04-B-T14-1, r04-D-T15-1. Both trials stay failed under the pre-registered and fixed graders.
+- **Fix for r05:** name the convention in the contract ("the value your submitted circuit would give, not the exact solution", "total energy including nuclear repulsion"). Do not loosen the r04 grade after the run. This is the same kind of failure as F7.
+
+## F19. Noise folding broken by transpiling each copy separately (agent, r04)
+
+- **What:** For T18, the agent folded the logical circuit, then transpiled each copy with its own routing. The router added different SWAPs to each copy, so the 3x and 5x copies did not have 3x and 5x the CZ gates. In one trial the agent measured all 20 qubits instead of the 6 spins.
+- **How to spot it:** `fold_ratios` fails. CZ counts such as 77, 207, 289 or 61, 138, 275.
+- **Seen in:** r04-D-T18-1, D-T18-4, D-T18-5 (fold ratios), and D-T18-2 (20 measured qubits). Only config D. Every A, B, and C trial got exact ratios, such as 40, 120, 200 or 60, 180, 300.
+- **Fix:** none in the harness. This is a real agent error. It shows only because the grader counts gates in the payload.
+
+## F20. The report describes the plan, not the payload (agent, r04)
+
+- **What:** The agent tells the user what it meant to do instead of what the tools returned. In the 3 F19 trials, the answer still said the copies had 3x and 5x the gates. D-T18-2 said it measured 6 qubits after measuring 20. D-T16-4 listed qubits that were not measured.
+- **How to spot it:** the explanation judge fails `numbers_grounded`. D's rate is 0.57, against 0.73 to 0.76 for A to C.
+- **Seen in:** r04-D-T16-4, D-T18-1, D-T18-2, D-T18-4, D-T18-5.
+- **Fix for r05:** ask the agent to read gate counts and measured qubits back from the submitted payload, and grade a code check on those reported numbers.
+
+## F21. A pass bar the prompt never states (task design, r04)
+
+- **What:** T16 required the payload to be well scrambled (256 times the sum of p squared between 1.3 and 3). The prompt asked only for "at least 8 layers of two-qubit gates". D-T16-1 met the prompt with sparse layers and failed the hidden bar at 3.46.
+- **Seen in:** r04dry-D-T16-1 (3.78), r04-D-T16-1 (3.46).
+- **Fix for r05:** say in the prompt that the circuit must scramble fully (ideal XEB near 1), or drop the bar.
+
+## F22. Tool calls no longer measure effort (metric, r04)
+
+- **What:** Agents put a whole experiment into one script. A full Trotter study took a median of 8 tool calls, fewer than r03's GHZ task. Tool calls now count orchestration steps, not physics work.
+- **Fix for r05:** add lines of script written and time spent inside scripts as effort measures. Keep fresh tokens and wall minutes.
+
+## F10 seen again in r04
+
+r04-D-T18-5's first submission failed on the server with "Circuit contains no measurements". The script crashed inside the submit call, before the print-the-ID line, so the agent never reported the job (`17706a`). Two more unreported mock jobs (`7364f9`, `6f89a9`) are not attributed. The print-the-ID line cannot help when the crash comes first. For r05, ask agents to list their jobs from the IQM API at the end of the trial and compare them with `job_ids`.
+
+## Observation: real billing stays at 1.0 second
+
+Every real Sirius job in r01 to r04 billed 1.0 second. That held for 1 to 4 circuits and 100 shots. R15 (billed seconds that vary) cannot be tested at this size. For r05, use 1000 shots or more circuits per job if the cap allows.

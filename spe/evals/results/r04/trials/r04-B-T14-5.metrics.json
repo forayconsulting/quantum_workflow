@@ -1,0 +1,36 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/c5f41822-6749-4459-a65b-e1e49f73c773/subagents/workflows/wf_664c303a-347/agent-a39017f7359778d87.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 75.6,
+ "ended": "2026-10-21T21:34:23.784000Z",
+ "api_calls": 8,
+ "tokens": {
+  "input_tokens": 16,
+  "output_tokens": 2189,
+  "cache_read_input_tokens": 402634,
+  "cache_creation_input_tokens": 64348,
+  "total": 469187,
+  "fresh": 66553
+ },
+ "tool_calls": 9,
+ "tool_errors": 0,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 6,
+  "Read": 1,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -n -i \"mock\\|batch\\|list of circuits\" /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md | head -60"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r04-B-T14-5"
+}

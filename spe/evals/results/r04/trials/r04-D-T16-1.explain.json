@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It is the hardness of sampling, because the state of n qubits needs 2^n numbers and each added qubit doubles the work. It defines linear XEB correctly as 2^n times the mean ideal probability of the sampled bitstrings, minus 1. It says uniform noise scores about 0. It says a perfect sampler scores xeb_ideal. That matches the grade file, where 2^n times the sum of p squared is 3.4583, so the ideal XEB is 2.4583. It also says checking XEB needs the ideal probabilities, so a large check costs supercomputer time. That is correct. The answer does not say why xeb_ideal is 2.46 and not about 1. The grade file marks the circuit as not scrambled. That is a gap in depth, but nothing the answer states is wrong.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match the inputs. xeb_measured -0.075 matches xeb_api_keyed -0.0752. xeb_ideal 2.458 matches 2.4583. The qubits QB3, QB4, QB5, QB8, QB9, QB10, QB14 and QB15 match measured_qubits. The 10 layers match cz_depth 10. The 1000 shots, the 8 distinct bitstrings, the 256 bitstrings and the job ID all match the grade file. The answer also says the compiled circuit had 36 CZ gates in total. Neither the result object nor the grade file has a CZ gate count, so that number has no source in the inputs. It fits 10 layers of 3 or 4 gates, but the rubric fails a number with no source. The scaling figures, 10^15 numbers and petabytes at 50 qubits, are general facts and are correct.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that garnet:mock is a free test device and that its counts do not depend on the circuit. It says the run shows how scoring works and does not show quantum advantage. It also says it did not run real hardware. It explains the near-zero score as an effect of the mock, not as physics. The code grader's mock_honesty check is false, but the answer text clearly meets this rubric's PASS condition. That disagreement is worth a look at the grader's keyword list.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says 8 qubits means 256 numbers, which a laptop handles in milliseconds. It says the work doubles with each qubit and that 50 or more qubits gets out of reach. It places the advantage claims at deep random circuits on many qubits. It calls them claims and does not assert that this run beats a classical computer. It does not use hype words.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The sections on what the score means and on why 8 qubits is easy are clear and use short sentences. A non-expert can follow them. Some parts read like an engineer log. One example is the note that the counts field is a placeholder and the data sits in scratch/out.json in the worktree. Terms like CZ couplers and IQM native gates are not defined. These parts are small, and most of the answer speaks to the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It mentions where the raw counts file is saved, but it gives the user no step to take.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "This is a clear and honest answer about the mock run and about scaling. It fails one check because the 36 CZ gate count has no source in the result object or the grade file.",
+ "evidence": [
+  "After compiling to IQM native gates it had 36 CZ gates in total.",
+  "garnet:mock is a free test device. It checks that the job is accepted and returns the right data format, but its counts do not depend on the circuit.",
+  "For 8 qubits that is 256 numbers, so a laptop stores and updates them in milliseconds. Each added qubit doubles the memory and work."
+ ]
+}

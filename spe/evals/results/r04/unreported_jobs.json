@@ -1,0 +1,5 @@
+[
+ {"suffix": "17706a", "created_pdt": "2026-10-21 14:33", "qc": "garnet:mock", "circuits": 3, "shots": 1000, "status": "failed", "attributed_to": "r04-D-T18-5", "evidence": "transcript shows a failed first submission: Circuit contains no measurements"},
+ {"suffix": "7364f9", "created_pdt": "2026-10-21 13:58", "qc": "garnet:mock", "circuits": 1, "shots": 200, "status": "completed", "attributed_to": null, "evidence": "no transcript contains the suffix"},
+ {"suffix": "6f89a9", "created_pdt": "2026-10-21 13:58", "qc": "garnet:mock", "circuits": 3, "shots": 1000, "status": "completed", "attributed_to": null, "evidence": "no transcript contains the suffix"}
+]

@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the right tools. It used the IQM Python SDK for the calibration metrics, the dynamic architecture, and the mock submission. Its first run script imported Circuit and Instruction from iqm.iqm_client, which does not export them. The script failed with an ImportError. The agent then spent 6 calls grepping and reading SDK source and 1 sed call to patch the script before it reran it. It also spent 3 grep calls to find the IRB field names in the metrics dump. The import detour alone is more than 2 calls.",
+  "verdict": "FAIL"
+ },
+ "arguments": {
+  "critique": "The agent submitted 1 job. It went to garnet:mock with 200 shots. The circuit measured QB7, QB12, and QB11. It placed CZ only on (QB12, QB7) and (QB12, QB11). These are the best edges in the grader truth. The grader's sim check gave a 50/50 split of 000 and 111. The failed run crashed at import before any submission, so it does not count as a wrong submission.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before it chose qubits, the agent read the default calibration set ID f81c45da from the dynamic architecture. It read the 28 CZ loci and pulled the IRB CZ fidelities from get_calibration_quality_metrics. It also checked the prx angle units in the SDK source before submitting. No step relied on an unchecked assumption.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent ran no real QPU jobs. It submitted 1 mock job only. The calibration fetch and the run script each ran twice in the extracted transcript, but those are duplicated log entries. The metrics show 1 tool error, not 2. No repeated identical submission happened.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent saved the metrics to a file and read them back in the run script. The chain, the fidelities, and the product carried into the report unchanged. The job ID 01a16043-4fc8-71d1-bab4-f0028db1d2c1 and the counts in the report match the tool output and the grader.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 19 tool calls. The minimum for T13 is 5, so the limit is 10. The import debugging and the field-name greps pushed the count past twice the minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report gives the chain QB7-QB12-QB11, the product 0.9967121899050079, the default calibration set f81c45da, and the counts 000:40, 001:49, 110:56, 111:55. All of these match the tool output. The report says correctly that mock counts do not reflect the circuit. The second and third place chains match the printed top 3. counts_list is empty and billed_seconds_reported is 0, which the contract allows.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The agent found the correct chain QB7-QB12-QB11 and ran a correct GHZ circuit on garnet:mock in 1 submission. A wrong SDK import cost about 7 extra calls, so it used 19 calls against a minimum of 5.",
+ "failure_type": "sdk_api_misuse_detour",
+ "evidence": [
+  "ImportError: cannot import name 'Instruction' from 'iqm.iqm_client'",
+  "top 3: [(0.9967121899050079, 'QB7', 'QB12', 'QB11'), (0.9946889570021465, 'QB12', 'QB11', 'QB16'), ...]",
+  "JOB_ID 01a16043-4fc8-71d1-bab4-f0028db1d2c1 status completed counts {'000': 40, '001': 49, '110': 56, '111': 55}"
+ ]
+}

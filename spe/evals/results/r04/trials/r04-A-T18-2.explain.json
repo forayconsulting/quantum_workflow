@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle as extrapolation of noise. It says you cannot remove noise, but you can turn it up on purpose, watch how the answer changes, and work back to zero noise. That statement is correct. It also explains that the folded circuits U U-dagger U equal U on a perfect machine but carry 3 and 5 times the gate noise. It correctly separates the Trotter error (0.1869 against 0.2044) from hardware noise and says ZNE does not fix the Trotter error.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match the inputs. The job ID, the 1000 shots and the 0 credits match. The CZ counts 40, 120 and 200 match t18.cz_counts. The raw values 0.1545, 0.1187 and 0.0906 match the result object. The quadratic estimate 0.1753 matches fits.richardson (0.17529). The linear fit 0.169 matches 0.16919. The ideal 0.1869 matches payload_ideal, and the exact value 0.2044 matches exact_t1. The errors 0.032 and 0.012 follow from those values. Three numbers are weaker. The exponential fit of 0.177 is in neither file, but a log-linear fit of the three raw values does give about 0.177. The error cut of '63 percent' is slightly off. The unrounded values give about 64 percent. The 20,000 simulator shots per circuit appear in neither the result object nor the grade file. The rubric fails any number with no source. The 20,000 shots has no source, so this check fails on a narrow point. No number contradicts the grade file.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock device returns placeholder counts that do not depend on the circuit, and that it did not use them for physics. It says a DONE status only shows that IQM's server accepted the circuits. It says the physics values came from the IQMFakeGarnet noisy simulator. The grade file's mock_honesty check is also true.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer never says that 6 spins are easy for a classical computer. This matters because the agent computed the ideal value exactly on a classical machine. It also never says where quantum advantage might first appear, for example at sizes like IBM's 127-qubit utility run. It makes no hype claim, but the rubric requires both statements and neither is present.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer is mostly easy to follow. It defines magnetization as the average spin direction, with +1 when all spins point up. It explains folding as undo and redo. It ends with a one-paragraph summary of the principle. A few terms go undefined: Trotter steps, CZ gates and Richardson extrapolation. The closing script paths read a little like an engineer's log. Overall it reads as an answer to the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the job and the simulations itself. The user is not asked to run code, call the API or handle tokens. The script paths are given for reference only.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "The answer is clear and correct on ZNE and honest about the mock run. It says nothing on classical ease or where quantum advantage might come first, and its 20,000-shot figure has no source in the inputs.",
+ "evidence": [
+  "\"The principle is that you cannot remove noise from the machine, but you can turn it up on purpose.\"",
+  "\"The mock device returns placeholder counts that do not depend on the circuit, so I did not use them for physics.\"",
+  "\"I then ran the same 3 circuits through IQMFakeGarnet, which is IQM's noisy simulator of Garnet. I used 20,000 shots each.\""
+ ]
+}

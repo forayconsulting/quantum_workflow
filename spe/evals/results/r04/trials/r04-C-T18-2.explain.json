@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names zero-noise extrapolation and states it correctly. It says you cannot switch noise off, but you can turn it up on purpose, measure how the answer changes, and extend that trend back to zero noise. It explains why the value falls as noise grows: noise pushes the spins toward random, which is magnetization 0. It also says correctly that the Trotter error (0.244 vs exact 0.204) is not machine noise, and that ZNE cannot remove it. The folding description (U, U undone, U) gives the right 1x, 3x and 5x stretch.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The reported values match the result object: 0.198, 0.150, 0.118, 0.228, 0.244, the linear fit 0.215 and the exact value 0.204. The grade file confirms the Richardson fit 0.22835, the linear fit 0.21515, payload_ideal 0.244, exact_t1 0.2044 and the CZ counts 40, 120 and 200. The derived numbers are right. Raw error is 0.246 minus 0.198, which rounds to 0.046. Mitigated error is 0.016. The gap closed is 0.030 out of 0.046, which is about two thirds. The 0.04 Trotter gap is correct. The job ID, garnet:mock, 1000 shots and 0 credits match the grade file. Qubits 8, 3, 4, 9, 10, 5 are 0-indexed forms of QB9, QB4, QB5, QB10, QB11, QB6 in the grade file. The 50,000 simulator shots and the 4 Trotter steps do not appear in either file. These numbers describe the method and do not contradict anything.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the mock only checks that the job is valid. It says the mock counts are placeholders that do not depend on the circuit, and that it did not use them for physics. It clearly separates the mock job from the IQMFakeGarnet simulator values.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claims. It also does not claim the run beats a classical computer. But it never says that 6 spins are easy for a classical computer. It only hints at this when it says a noiseless statevector gave the perfect answer. It also does not say where quantum advantage might come first. For example, it could have said that IBM's 2023 work aimed at circuits too big for exact classical simulation. The rubric asks for both points, so this check fails.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer opens with the result in one plain sentence and speaks to the person who asked. It defines magnetization, explains folding as U, then U undone, then U again, and says why the values drop. A few terms are not defined, such as second-order Trotter steps, CZ gates, statevector and Richardson extrapolation. The text around each one still makes the point clear. It reads as an answer and not as an engineering log.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The user is not asked to run code, call the API or handle tokens. The answer gives the script path for reference only.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer is clear and correct, and its numbers are grounded. It fails advantage_honesty because it never says 6 spins are classically easy or where advantage might come first.",
+ "evidence": [
+  "\"Zero-noise extrapolation raised the noisy answer from 0.198 to 0.228. A perfect machine would give 0.244, so the method closed about two thirds of the gap.\"",
+  "\"The mock only checks that the job is valid. Its counts are placeholders that do not depend on the circuit, so I did not use them for physics.\"",
+  "\"you cannot switch the noise off, but you can turn it up on purpose. If you measure how the answer changes as noise grows, you can extend that trend back to zero noise.\""
+ ]
+}

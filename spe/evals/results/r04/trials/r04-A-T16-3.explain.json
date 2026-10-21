@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle directly. It says the classical work grows exponentially with the number of qubits, and that this makes sampling hard at 50 or more qubits. It explains linear XEB correctly. A score of 0 matches random guessing, the ideal score is the target, and the score roughly tracks the chance that the circuit ran without error. It also notes that ideal probabilities cannot be computed directly at large sizes. The physics is stated correctly.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The reported values match the grade file. The answer gives 0.066 and 0.882. The grade file has xeb_api_keyed 0.0655 and xeb_ideal 0.8823. The answer says 10 layers of two-qubit gates, and the grade file has cz_depth 10. The job ID, 1000 shots, the 8 qubits QB1 to QB10, and the 8 distinct bitstrings all match. The grade file does not hold the numbers 0.918, 28 CZ gates, and 64 single-qubit gates. The agent's saved file at /Users/claytonchancey/Desktop/quantum/.claude/worktrees/wf_664c303a-347-54/rcs_result.json does hold them: xeb_sampled_ideal 0.918, cz 28, and r 64. Only the transpiled depth of 22 has no source I could find. The other figures come from arithmetic or public facts: 2^8 = 256, 2^50 is about 10^15, about 16 PiB at 16 bytes per amplitude, and Google 2019 at 53 qubits. None of them contradicts the grade file. Side note: the counts in the result object are bit-reversed compared with the API counts in the grade file. The answer only names the palindromes 00000000 and 11111111, so the text is not affected.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says garnet:mock does not simulate the circuit and returns placeholder counts. It says the 0.066 tells us nothing about Garnet's hardware. It also says a real score needs real Garnet. The mock counts are not presented as physics.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says 8 qubits means 256 numbers, which any laptop handles instantly. It also says the exact simulation took a fraction of a second. It places possible advantage at 53 or more qubits with enough layers, and it says Google and others 'claimed' it. It does not say this run beats a classical computer. It uses no hype.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer is organized under plain headings that follow the user's questions. It explains XEB as one question in simple words. A few terms go undefined, such as sqrt X, sqrt Y, sqrt W, transpiling, and circuit depth. They sit only in the 'What I ran' part, and a non-expert can skip them. The sections on what the score means and why size matters are easy to follow.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The user is not asked to run code, call the API, or handle tokens. The answer lists the script and result file paths for reference only. It says a real run would cost credits, but it gives the user no steps to do it.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "This is a clear and correct answer for a non-expert. It is honest about the mock and modest about advantage. Its key numbers match the grade file, and the gate counts match the agent's saved result file.",
+ "evidence": [
+  "\"It does not simulate your circuit. It returns placeholder counts.\"",
+  "\"The principle is that the work for a classical simulation grows exponentially with the number of qubits.\"",
+  "\"xeb_measured is 0.066 and xeb_ideal is 0.882.\""
+ ]
+}

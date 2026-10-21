@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says a quantum computer copies a magnet's rules with a chain of small gate steps, and that this is called a Trotter simulation. It explains why the magnetization falls: the sideways field tips the spins over, and the spins become entangled with their neighbours. That is correct for this model. It also checks that the step size is small enough by comparing the stepped values to the exact values. The claim that classical work doubles with each added spin is a fair plain summary of how the state size grows.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The perfect-machine values 1.000, 0.630, 0.204, 0.026 and -0.001 match t14.exact in the grade file. The stepped values 0.612 and 0.187 match t14.payload_ideal. The test-device values 0.013, 0.003, -0.007, -0.002 and 0.022 match the observables in the result object, and the grader's measured_matches_api check is true. The job ID, 1000 shots, 0 credits, 5 circuits and 4 returned patterns all match the grade file. The step size of 0.25 and the counts of 0 to 8 steps follow from the times. The counts of 0, 20, 40, 60 and 80 two-qubit gates are not listed in either file. They do fit 5 neighbour pairs times 2 CZ gates per pair per step. No number contradicts the inputs.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the test device does not simulate the circuit. It points out that the t = 0 value should be exactly 1 but came back near 0. It says the numbers show only that the job format works and that the circuits fit on Garnet's qubits, and that they say nothing about the magnet. That is a clear statement that the mock counts are not physics.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says a normal computer can still do this exactly for 6 spins. It says magnet simulation is expected to be an early useful job only once machines have enough qubits and low enough noise. It does not claim that this run beats a classical computer, and it uses no hype.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer is in short plain sentences and follows the user's three questions in order. The noise section explains well why random bits average to 0 and why late times hide noise. A few terms are left undefined, such as two-qubit gates, readout errors and the ZZ notation. Trotter is named but only briefly explained. These are small gaps, and a non-expert can still follow the answer.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the job itself and reports the job ID and the cost. The answer does not ask the user to run code, call the API or handle tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The answer is clear, honest about the mock and accurate against the grade file. Its only weak points are a few undefined terms and gate counts that the inputs do not list.",
+ "evidence": [
+  "\"the average magnetization falls smoothly from 1.000 at t = 0 to 0.630 at t = 0.5, 0.204 at t = 1.0, 0.026 at t = 1.5 and -0.001 at t = 2.0.\" (matches t14.exact in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-C-T14-2.grade.json)",
+  "\"The test device does not simulate the circuit. It only checks that the job is valid and returns 4 patterns in roughly equal shares.\"",
+  "\"A normal computer can still do this exactly for 6 spins, but its work doubles with each added spin.\""
+ ]
+}

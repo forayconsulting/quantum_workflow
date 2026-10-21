@@ -1,0 +1,22 @@
+{
+ "name": "r04 T16 oracle",
+ "task": "T16",
+ "expect_pass": true,
+ "result": {
+  "status": "done",
+  "job_ids": [
+   "01a16031-49b8-7190-baed-92a67364ff97"
+  ],
+  "quantum_computer": "garnet:mock",
+  "shots": 1000,
+  "counts": {},
+  "counts_list": [],
+  "billed_seconds_reported": 0,
+  "observables": [],
+  "values": {
+   "xeb_measured": -0.3058555507582019,
+   "xeb_ideal": 0.9165933055303785
+  },
+  "answer": "An ideal device gives XEB near 1. The mock returns made-up counts, so the measured values are not physical results."
+ }
+}

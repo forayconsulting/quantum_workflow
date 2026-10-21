@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the variational principle and states it correctly. It says the quantum computer prepares a trial state and measures its energy one group of terms at a time. It says a normal computer adjusts the setting. It also says no trial state can go below the true ground state energy, so the best value is an upper bound. The note that the state mixes the bonding and antibonding electron configurations is also correct for this model.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The energies match the result object and the grade file. The values are -1.13731 exact, -1.13731 ideal, and -0.324 measured. The gap of 0.81 hartree is -0.324 minus -1.137. The ideal averages match the grade file simulation. The -0.975 value equals 0.01244 minus 0.98756. The -1.0 ZZ value matches the odd-parity-only distribution. The -0.222 XX value equals 0.389 minus 0.611. The theta of -2.918 is consistent with the simulated probability 0.01244, which equals cos squared of theta/2. The agent's own h2_result.json also records it. The job ID, the 4000 shots, and the roughly 1000 counts per outcome match. The scan count of 73 appears only in the agent's account of its own process. The nuclear repulsion of 0.71997 and the 0.0016 chemical accuracy figure are standard constants. No number contradicts the sources.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says up front that garnet:mock returns random bits and that its measured energy is not meaningful. It explains that the near-uniform counts pull every average toward 0, so the energy falls to the constant term. It keeps the noiseless simulation result apart from the mock job result. It also says real hardware would give a value near -1.137 with noise. It does not claim to have measured that.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says this small H2 model can be solved exactly on a laptop. It says the method matters for bigger molecules where exact solving becomes impossible. That points to where advantage might come without claiming it here. It contains no hype words. The phrase 'becomes impossible' is a little strong, but it describes classical exact solving, not a quantum win.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer leads with what was found and what the mock run means. It uses short sentences and explains why the measured energy is off in plain terms. Some terms are left undefined, such as 'parity mapping with two-qubit reduction', 'Z on qubit 0', 'Hadamard gate', and 'CNOT'. The setup steps lean technical. Still, a non-expert can follow the main story, and the answer is written to the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It names the script and output file paths for reference only. The agent ran the job itself.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The answer explains the variational method correctly, says honestly that the mock energy means nothing, and all its numbers match the grade file, though a few setup terms are left undefined.",
+ "evidence": [
+  "The final job ran on garnet:mock, which returns random bits, so its measured energy is not meaningful.",
+  "The lowest energy any trial state can reach is never below the true ground state energy, so the best value found is an upper bound that gets close to the exact answer.",
+  "For H2 this small model can be solved exactly on a laptop. The method matters for bigger molecules where exact solving becomes impossible."
+ ]
+}

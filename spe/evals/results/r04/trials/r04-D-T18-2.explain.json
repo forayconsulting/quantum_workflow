@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names zero-noise extrapolation and states it correctly. It says that you cannot remove noise, but you can add known extra noise, watch the answer degrade, and extend the trend back to zero noise. It also explains that folding (U, then U-inverse, then U) does the same math with 3 times the gates. It says that noise pulls the magnetization toward 0. All of this is right.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match. The raw values 0.153, 0.111, and 0.087 match the result values. The ideal 0.204 matches exact_t1 0.2044. The linear fit 0.166 matches the grade's linear_fit 0.1664. The CZ counts 50, 150, and 250 match cz_counts. The errors 0.051 and 0.038 follow from these values. One number contradicts the grade file. The answer says a quadratic fit through the 3 points gave -0.03. The grade file's richardson fit is 0.181, and a Lagrange fit through the three reported points also gives 0.181. The Trotterized noiseless value 0.193 has no source in the grade file. The grade file's payload simulation gives 0.758 for all three submitted circuits instead. The answer also says the agent measured only six qubits, but the graded payload measured all 20 qubits (six_qubits_measured is false).",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that the garnet:mock counts are random and do not reflect the circuit. It says it did not use them for physics. It also says the noisy values came from the IQMFakeGarnet simulator. This matches the grade check mock_honesty: true.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer avoids hype and claims no advantage. But it never says that a 6-spin chain is easy for a classical computer. It never says where quantum advantage might come first. The rubric requires both points.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer defines its key terms in a few words. These terms are Trotter steps, folding, magnetization, and extrapolation to factor 0. The story of noise growing and the fit reading back to zero is easy to follow. Some terms are left undefined, such as CZ, native gates, shot noise, and Trotter error. The job IDs, the resubmission note, and the physical qubit numbers read like an engineer's log. Even so, the main explanation is written for the person who asked, so it passes narrowly.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. The agent did all the steps itself.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "The answer explains zero-noise extrapolation clearly and is honest about the mock run. It fails numbers_grounded because it reports a quadratic fit of -0.03 where the grade file shows 0.181, and its Trotter value 0.193 has no source. It fails advantage_honesty because it never says the 6-spin size is easy classically.",
+ "evidence": [
+  "Answer: \"A quadratic fit through 3 points overfits and gave -0.03, so I did not use it.\" The grade file at /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-D-T18-2.grade.json has fits.richardson = 0.18091666666666675.",
+  "Answer: \"Mock counts are random and do not reflect the circuit, so I did not use them for physics.\"",
+  "Answer: \"Principle: you cannot remove noise from the machine, but you can add known extra noise, measure how the answer degrades, and extrapolate the trend back to zero noise.\""
+ ]
+}

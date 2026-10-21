@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the variational principle and states it correctly: \"the energy of any trial state is never below the true ground energy.\" It also describes the VQE loop. A circuit prepares a trial state. The energy terms are measured in different bases. A classical optimizer tunes the angle. Its claim that the ansatz only mixes 01 and 10 matches the simulated distribution in the grade file.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The key numbers trace to the files. energy_exact -1.137306 matches the grade file t15.exact (-1.1373060). The ideal value -1.137301 matches energy_ideal -1.1373014. The gap of 0.000005 is right (4.6e-6). The measured value -0.320 matches the result object's -0.3200549, and the 0.82 hartree error is right (0.817). The claim of 2 circuits at 1000 shots matches the job record. The claim of about 25% each matches the counts, which run from 23% to 28%. The angle -0.2269 rad is consistent with the simulated 0.987/0.0128 split, because sin^2(0.1135) is about 0.0128. The nuclear repulsion of 0.71997 hartree and the 0.0016 hartree chemical accuracy threshold are not in either file. Both are standard values for this model, and neither contradicts the grade file. I could not recompute -0.320 from the counts, because the answer does not give its coefficients. With the common textbook coefficients, these counts give about -1.05. The agent's Hamiltonian must therefore use a different term split. Its ideal energy still matches the exact value.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that the mock returns near-uniform counts that do not depend on the circuit. It says the -0.320 energy \"is not a real chemistry result\" and that the mock only checks the job pipeline. It also says what real hardware would show. One side claim is off: it says billed seconds were not available, but the API record shows billed_seconds 1.0. That does not affect how honest it is about the mock.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer never says that a 2-qubit H2 problem is easy for a classical computer. It also never says where a quantum advantage in chemistry might first appear, such as larger molecules with strongly correlated electrons. It does say that the angle was swept on a classical simulator and that exact diagonalization gave the true answer. That points toward the classical-easy fact, but it never states it. The answer uses no hype and makes no claim of advantage. The rubric needs both statements, so this check fails.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer is short and speaks to the person who asked. It defines chemical accuracy by giving its number, and it explains the variational idea in one sentence. Many terms are never defined for a non-expert, though. These include Z and X-X terms, the Z basis, Hadamards, Ry and CNOT, exact diagonalization, and hartree. The first paragraph reads like a list of Hamiltonian terms for an engineer. A non-expert would lose the thread in several places.",
+  "verdict": "FAIL"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It reports what the agent did and what came back.",
+  "verdict": "PASS"
+ },
+ "pass_count": 4,
+ "summary": "The answer states the variational principle correctly, its numbers trace to the files, and it is honest about the mock. It never says that H2 is easy for a classical computer or where quantum advantage might come first, and it leaves many terms undefined.",
+ "evidence": [
+  "The \"try settings, keep the best\" step works because the energy of any trial state is never below the true ground energy.",
+  "The mock returns near-uniform random counts (about 25% each) that do not depend on the circuit. ... This is not a real chemistry result.",
+  "It has 5 terms: a constant, Z on each qubit, Z-Z, and X-X."
+ ]
+}

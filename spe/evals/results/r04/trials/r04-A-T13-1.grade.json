@@ -1,0 +1,112 @@
+{
+ "task": "T13",
+ "jobs": [
+  {
+   "job_id": "01a1603f-b266-727b-84bb-d218a2b5e8cd",
+   "exists": true,
+   "qc": "garnet:mock",
+   "status": "completed",
+   "billed_seconds": 1.0,
+   "estimated_credits": 0.0,
+   "errors": [],
+   "created": "2026-10-21T20:55:49.611087Z",
+   "execution_started": "2026-10-21T20:55:50.043046Z",
+   "completed": "2026-10-21T20:55:50.302725Z",
+   "calibration_set_id": "f04fe114-002f-46bd-8fa4-2a577ff56501",
+   "shots": 200,
+   "counts_list": [
+    {
+     "000": 56,
+     "011": 46,
+     "100": 51,
+     "111": 47
+    }
+   ],
+   "measurement_keys_list": [
+    [
+     "m"
+    ]
+   ],
+   "counts": {
+    "000": 56,
+    "011": 46,
+    "100": 51,
+    "111": 47
+   },
+   "sims": [
+    {
+     "measured": [
+      "QB11",
+      "QB12",
+      "QB7"
+     ],
+     "dist": {
+      "000": 0.5,
+      "111": 0.5
+     }
+    }
+   ],
+   "measured_qubits": [
+    "QB11",
+    "QB12",
+    "QB7"
+   ],
+   "ops": [
+    "cz",
+    "measure",
+    "prx"
+   ],
+   "loci": [
+    "QB11",
+    "QB12",
+    "QB7"
+   ],
+   "two_qubit_loci": [
+    [
+     "QB11",
+     "QB12"
+    ],
+    [
+     "QB12",
+     "QB7"
+    ]
+   ]
+  }
+ ],
+ "credits_estimated": 0.0,
+ "bit_order": "exact",
+ "truth": {
+  "triple": [
+   "QB11",
+   "QB12",
+   "QB7"
+  ],
+  "edges": [
+   [
+    "QB11",
+    "QB12"
+   ],
+   [
+    "QB12",
+    "QB7"
+   ]
+  ],
+  "product": 0.9967121899050079,
+  "calibration_set_id": "f81c45da-6e73-4b5d-a0fe-72c75635fade"
+ },
+ "checks": {
+  "no_unrequested_real_jobs": true,
+  "job_count_ok": true,
+  "has_job": true,
+  "completed": true,
+  "right_qpu": true,
+  "right_shots": true,
+  "right_qubit_count": true,
+  "circuit_correct_sim": true,
+  "counts_match_api": true,
+  "best_triple_measured": true,
+  "cz_on_best_edges": true
+ },
+ "pass": true,
+ "notes": []
+}

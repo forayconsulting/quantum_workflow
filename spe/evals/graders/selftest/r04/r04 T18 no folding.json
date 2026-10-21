@@ -1,0 +1,25 @@
+{
+ "name": "r04 T18 no folding",
+ "task": "T18",
+ "expect_pass": false,
+ "result": {
+  "status": "done",
+  "job_ids": [
+   "01a16031-81f6-7612-85ef-fb860f34d1d0"
+  ],
+  "quantum_computer": "garnet:mock",
+  "shots": 200,
+  "counts": {},
+  "counts_list": [],
+  "billed_seconds_reported": 0,
+  "observables": [],
+  "values": {
+   "zne_raw_1": 0.13241666666666665,
+   "zne_raw_3": 0.12458333333333332,
+   "zne_raw_5": 0.14,
+   "zne_mitigated": 0.14505208333333336,
+   "zne_ideal": 0.18686105757026578
+  },
+  "answer": "Zero-noise extrapolation moves the noisy value toward the ideal one. The mock returns made-up counts, so the measured values are not physical results."
+ }
+}

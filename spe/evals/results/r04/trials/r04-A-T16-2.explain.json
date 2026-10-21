@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the hardness of sampling as the principle. It says a random circuit spreads its output unevenly over an exponentially large set of results. It says a quantum computer samples that pattern directly and a classical computer must calculate it. It explains that XEB measures how closely the samples follow the true pattern, and that noise pulls the score toward 0. These statements are correct. One small physics slip is in the circuit description. It calls the square root of X, Y or W a \"half-turn rotation\". The script /Users/claytonchancey/Desktop/quantum/.claude/worktrees/wf_664c303a-347-34/rcs_xeb.py applies pi/2 rotations, and pi/2 is a quarter turn. This slip does not touch the principle.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The key numbers match the grade file. The job ID is 01a16041-8c95-7595-8f93-c2815faa19db. The device is garnet:mock and the run used 1000 shots. xeb_measured is 0.543, and the grade file has xeb_api_keyed 0.5434. xeb_ideal is 0.883, and the grade file has 0.88301. The 8 qubits QB1, QB2, QB5, QB4, QB3, QB8, QB9 and QB10 match measured_qubits. The 8 CZ layers match cz_depth 8. The claim of 8 distinct bitstrings at about 125 each matches the counts. The claim of 0 credits matches estimated_credits 0.0. The answer also gives 28 CZ gates, which an 8-qubit brickwork of 4,3,4,3 layers produces. The 0.873 sampled check matches xeb_sim 0.8727 in the agent's saved file at /Users/claytonchancey/Desktop/quantum/.claude/worktrees/wf_664c303a-347-34/rcs_result.json. The 64 compiled single-qubit gates come from count_ops in the script. That number is plausible after the compiler merges gates, but the grade file does not confirm it. The scaling claims are correct: 2^8 is 256, and 2^50 is about 1.1 times 10^15. The only defect is the \"half-turn\" label described above. No reported value contradicts the grade file.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that the mock does not run the circuit. It says the mock returned a fixed test pattern of 8 bitstrings. It says \"Do not read this number as hardware quality\". It explains that the 0.543 only reflects chance overlap with likely bitstrings. It also says a real Garnet run would probably score well below 0.883.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says 8 qubits took the laptop well under a second. It explains the doubling cost and puts the hard region at about 50 to 70 qubits with enough layers. It credits the advantage claims to Google and others at 53 or more qubits. It never says this run beats a classical computer. The phrase \"would need years or more\" is a little strong, because later classical methods simulated some of those circuits. The words \"with enough layers\" soften it, so this is not hype.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer is in short plain sentences, grouped under clear headings, and it reads as a reply to the person who asked. It defines XEB in words and says what scores near 0 and near the ideal mean. A few terms are not defined: \"brickwork pattern\", \"CZ\", and the \"W\" gate. They sit in the circuit details and do not block the main explanation.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It notes that a real Garnet run would cost a few credits, but it does not hand that step to the user. It gives the script and result paths for reference only.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "This is a clear and honest answer, and its XEB numbers match the grade file. Its one slip is calling the pi/2 gates a \\\"half-turn\\\".",
+ "evidence": [
+  "The result: xeb_measured is 0.543. Do not read this number as hardware quality. The mock device does not run the circuit.",
+  "The ideal score for this circuit is 0.883. ... I drew 1000 samples from the exact distribution as a check, and they scored 0.873.",
+  "Before each layer, every qubit got a random half-turn rotation (square root of X, Y or W)"
+ ]
+}

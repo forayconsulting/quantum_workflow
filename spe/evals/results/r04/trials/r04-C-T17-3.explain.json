@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer says noise grows as the GHZ state gets bigger. It explains that each extra qubit adds more gates and one more readout. It says each step has a small chance of error and one error breaks the agreement. This correctly states that errors build up with size. It also notes a real limit. All-bits-agree only checks the all-0 and all-1 patterns and does not prove entanglement without measurements in other bases.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The fractions 94%, 92%, 80%, and 80% match parity_by_size in the grade file. The 1.0 billed second and 0.30 credits match the real job's billed_seconds and estimated_credits. The 47 shots of 00000 and 33 shots of 11111 match the real counts. Both job IDs match. The uncertainty of about 4 to 5 points is the agent's own estimate. The binomial error at 80% with 100 shots is 4.0 points, so the claim is fair for the flat step it explains. It is high for the 94% point, where the error is about 2.4 points. Outside the answer text, the result object's counts_list has some keys in reversed bit order compared with the API, for example 10:4 and 01:2 where the API has 01:4 and 10:2. The answer does not quote those counts.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the sirius:mock run only checked that the job was built correctly. It says the mock returns placeholder results that do not depend on the circuit. It says the reported fractions come from the real Sirius QPU and blames the drop on noise. The grade file confirms that the mock returned all zeros.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer makes no hype claim. But it never says that GHZ states of 2 to 5 qubits are easy for a classical computer to simulate. It also never says where quantum advantage might come first. The rubric needs both points to pass.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The answer defines a GHZ state in one sentence and gives the results as plain percentages next to the ideal 100%. It gives a concrete count example. Two terms go undefined: MOVE operations through the central resonator, and measurements in other bases. These are short asides, and a non-expert can still follow the main point. The answer is written to the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer asks the user to run nothing. It reports job IDs only for reference. It does not ask the user to handle code, API calls, or tokens.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer explains error buildup with size, uses numbers that match the grade file, and is honest about the mock run. It never says this size is easy for a classical computer or where quantum advantage might come first. Files judged are /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-C-T17-3.result.json and /Users/claytonchancey/Desktop/quantum/spe/evals/results/r04/trials/r04-C-T17-3.grade.json.",
+ "evidence": [
+  "the mock device returns placeholder results that do not depend on the circuit",
+  "the share of shots where all bits agreed was 94% for 2 qubits, 92% for 3 qubits, 80% for 4 qubits, and 80% for 5 qubits",
+  "Every operation has a small chance of error, and one error anywhere is enough to break the agreement."
+ ]
+}

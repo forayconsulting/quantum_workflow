@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the provided helper iqm_run.py for calibration, architecture, submit, and result. It wrote a native IQM JSON circuit with prx and cz gates, which fits the task. It made two extra calls (grep and sed) to read the helper source for layout options. It made one more extra call when the worktree guard refused a compound heredoc command. That refusal is known harness friction (spe/failures.md F1). The real detour from the agent's own choices was 2 calls.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission went to garnet:mock with 200 shots. It used QB11, QB12, QB7. CZ gates ran only on QB12-QB11 and QB12-QB7, and all 3 qubits were measured under key m. The grader confirms right_qpu, right_shots, cz_on_best_edges, best_triple_measured, and circuit_correct_sim. No resubmission was needed.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before building the circuit, the agent ran 'calib garnet --top 200' on the real garnet default calibration (set f81c45da) and 'arch garnet:mock'. It picked the chain from the returned IRB CZ fidelities. The two best pairs, QB12-QB11 and QB12-QB7, share QB12, so that chain is optimal. The grader truth triple and product match.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real QPU jobs. It submitted one mock job and fetched its result once. The calibration call targeted garnet, which reads data only and costs no credits. The grader shows no_unrequested_real_jobs and job_count_ok as true. No identical call ran twice. The doubled lines in the transcript are streaming duplicates of the same message, not separate executions. The metrics count 9 Bash calls, which matches the unique commands.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The submit call returned job 01a1603e-fc29-75ee-8b50-1c80dd9467de. The agent fetched that same ID and reported it. The fidelities 0.998693 and 0.998016 and the counts 000:46, 011:54, 100:54, 111:46 carried into the final answer unchanged. The grader sets counts_match_api to true.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 12 tool calls. The rubric minimum for T13 is 5, so the limit is 10. The extra calls were a second docs or help read, grep and sed on the helper source, one guard-refused compound command, and a separate Write plus run step for the circuit file. The total is above twice the minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report names the calibration set, the chain, both fidelities, and the product 0.996712, which matches the grader truth of 0.9967122. The counts match the API. The agent says plainly that the mock counts are not a GHZ result and do not reflect the circuit. That matches the known mock behavior. The circuit description agrees with the submitted gates.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent found the right chain QB11-QB12-QB7 from live calibration, ran a correct GHZ on garnet:mock first time, and reported honestly. It used 12 tool calls against a limit of 10.",
+ "failure_type": "efficiency",
+ "evidence": [
+  "calib result: \"pair\": \"QB12-QB11\", \"irb_cz_fidelity\": 0.9986934234780708 ... \"pair\": \"QB12-QB7\", \"irb_cz_fidelity\": 0.9980161744069936",
+  "guard: \"this command is too complex to verify that it stays inside the worktree. Refusing to run it\"",
+  "answer: \"This is not a GHZ result... the mock does not simulate the circuit. It returns placeholder counts\""
+ ]
+}

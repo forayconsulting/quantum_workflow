@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle directly. It says the classical cost of simulating quantum states grows exponentially with the number of qubits. It ties that to the hardness of sampling. It defines linear XEB correctly as 256 times the mean ideal probability minus 1. It says uniform noise scores about 0 and a perfect device scores about 1. It cites Google's 53-qubit Sycamore run correctly. It also says correctly that large experiments check XEB on smaller or simplified circuits and extend the result to full size. One line is a little loose. It says samples that do not come from the circuit score 'at or below 0', but uniform random samples score near 0 and can land slightly above it. This is a small point and does not make the physics wrong.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The reported values match the grade file. xeb_measured is -0.627 and the grade file has -0.6268. xeb_ideal is 0.993 and the grade file has 0.9929. The job ID, 1000 shots, and 0 credits all match. The 8 qubits QB3, QB4, QB5, QB8, QB9, QB10, QB14, and QB15 match measured_qubits. The 10 couplers match the 10 two_qubit_loci. The 10 CZ layers match cz_depth 10. The 8 returned bitstrings match the counts. Their ideal probabilities are low in the sims, for example 0.00076 for 00000000 and 0.000166 for 00010011. The math numbers are correct: 2^8 is 256, and 2^50 times 16 bytes is about 18 petabytes. One number cannot be checked. The answer says the circuit has 37 CZ gates, and neither file records that count. It fits the confirmed depth and coupler count, and nothing contradicts it.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that garnet:mock is a test service that does not simulate the circuit. It says the 8 bitstrings follow a fixed pattern 'that has nothing to do with my circuit'. It explains that this is why the score is below 0. It labels its guess about a real Garnet score as its own judgment and says it did not measure it.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says 8 qubits took the laptop well under a second. It places the advantage claim at about 50 or more qubits with enough depth and low noise. It does not say this run beats a classical computer. It mentions tensor networks as a smarter classical method. It contains no hype.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer is organized under clear plain headings: what I ran, the score, what the measured number means, and why 8 is easy but 50 is not. It defines XEB in plain words and explains why a real device lands on likely outputs. The memory argument is concrete. A few terms are left undefined, such as CZ, square root of W, native gates, and couplers. These terms sit in the description of the setup and do not block the main points. The file paths at the end read a little like a log, but they are short.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It lists the paths of the builder and scorer files for reference only.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The answer is clear and correct. Its numbers match the grade file, and it is honest about the mock and about where the advantage claim applies. The only gap is the 37-CZ-gate count, which neither file records.",
+ "evidence": [
+  "garnet:mock is a test service. It does not simulate the circuit. It returned only 8 bitstrings in roughly equal amounts. Those bitstrings follow a fixed pattern that has nothing to do with my circuit.",
+  "For this circuit, the ideal score (xeb_ideal) is 0.993. The measured score (xeb_measured) is -0.627.",
+  "The principle here is that the classical cost of simulating quantum states grows exponentially with the number of qubits."
+ ]
+}

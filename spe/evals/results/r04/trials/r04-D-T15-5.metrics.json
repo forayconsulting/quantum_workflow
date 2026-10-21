@@ -1,0 +1,35 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/c5f41822-6749-4459-a65b-e1e49f73c773/subagents/workflows/wf_664c303a-347/agent-a6ae99f1cb9e19e62.jsonl",
+ "model": "claude-sonnet-5-5",
+ "wall_seconds": 38.1,
+ "ended": "2026-10-21T21:33:46.675000Z",
+ "api_calls": 5,
+ "tokens": {
+  "input_tokens": 10,
+  "output_tokens": 153,
+  "cache_read_input_tokens": 228348,
+  "cache_creation_input_tokens": 38394,
+  "total": 266905,
+  "fresh": 38557
+ },
+ "tool_calls": 6,
+ "tool_errors": 1,
+ "tool_errors_by_class": {
+  "guard": 1,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Read": 1,
+  "Bash": 3,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": true,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r04-D-T15-5"
+}
