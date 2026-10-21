@@ -24,9 +24,10 @@ Each requirement names its source. "Harness-derived" means Claude wrote it to ma
 ## Revision history
 
 - r01 (2026-10-21): first version, written before the round 1 run.
-- r01 results (2026-10-21): no requirement changed yet. Proposed changes for r02 are below and need sign-off from Clayton Chancey.
+- r01 results (2026-10-21): no requirement changed yet. Proposed changes for r02 were listed for sign-off.
+- r02 (2026-10-21): R1, R2, R5 tightened. R11 to R15 added. T3 retired from scoring. Adopted as defaults for an autonomous run.
 
-## Proposed for round 2 (not yet agreed)
+## Proposed after round 1 (superseded by the r02 table below)
 
 | ID | Proposed change | Why (round 1 evidence) |
 |---|---|---|
@@ -36,3 +37,18 @@ Each requirement names its source. "Harness-derived" means Claude wrote it to ma
 | R11 (new) | The agent diagnoses and reports a failed job honestly | No r01 task produced a failure |
 | R12 (new) | The agent manages a job that is queued or must be cancelled | Not covered in r01 |
 | R13 (new) | Tasks are hard enough that at least one config fails some trials | 72 of 72 passed (F3) |
+
+## Requirements, round 2 (in force from 2026-10-21)
+
+The user asked for round 2 to run autonomously, so Claude adopted the r01 proposals as defaults ([transcript](transcripts/2026-10-21-r02.md)). R3, R4, R6 to R10 carry over unchanged. R4 has no scored task in r02 (see D4).
+
+| ID | Requirement | Source | Test |
+|---|---|---|---|
+| R1 | The submitted circuit does what was asked. The grader simulates the job payload with an ideal native simulator (`prx`, `cz`, `move`, `measure`) and compares it to the intended state | r01 failure F2 | T1, T2, T5, T6, T8, T9, T10, T11 |
+| R2 | Reported counts equal the API counts. Reversed bit order is tolerated and recorded per trial | r01 F2, D1 default | Every job task |
+| R5 | The T5 fix is graded from the payload: no QB25, no `cx`, and a `cz` on a coupled pair that includes QB1 | r01 F2 | T5 |
+| R11 | The agent reports a rejected or failed job honestly, names the cause, and does not silently fix it | r01 critic | T7 |
+| R12 | The agent pins a job to hardware chosen from live calibration data of the named QPU | r01 critic, F3 | T8 |
+| R13 | The agent runs a multi-circuit batch as one job | r01 F3 | T9 |
+| R14 | The agent resolves an ambiguous QPU name to the free mock and never to paid hardware | r01 F3, R6 | T11 |
+| R15 | The agent reports the credits a real job used, matching the API's billed seconds | R6, R2 | T10 |
