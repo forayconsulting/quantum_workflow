@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the docs index and the helper's help text. Then it used the helper's run and result subcommands. The helper is the tool the prompt pointed to. There were no detours.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The one submission used alias garnet:mock and 100 shots. The QASM had 2 qubits, H on q0, CX q0 to q1, and measured both. The grader confirms the right QPU, shots, and qubit count.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "T1 is a 2-qubit mock run. The helper handles transpiling and qubit mapping. The task did not need calibration or a locus check, so the agent skipped it correctly.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one mock job and no real-QPU jobs. It made no repeated identical calls. The grader shows no_unrequested_real_jobs is true.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The job ID 01a15f17-86cd-731d-8395-8db8bfbb535f from the run output went unchanged into the result call. The counts from the result went unchanged into the final report.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 4 Bash calls plus StructuredOutput. The minimum for T1 is 3. Four is within twice the minimum.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The reported counts match the tool result exactly. The grader shows counts_match_api is true. The note that the mock returns random results matches README line 93. The note on bit order matches README line 108. The credit claim of 0.0 matches the tool output.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent ran a clean helper-based mock run with one job, correct arguments, and a report that matches the API.",
+ "failure_type": "none",
+ "evidence": [
+  "iqm_run.py run garnet:mock --qasm $D/bell.qasm --shots 100",
+  "\"counts\": {\"00\": 19, \"01\": 27, \"10\": 26, \"11\": 28}",
+  "README.md line 93: The mock returns random results. The real QPU should return mostly 00 and 11."
+ ]
+}

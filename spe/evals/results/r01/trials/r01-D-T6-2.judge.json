@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the README, ran the helper's --help, and used the helper's run and result subcommands. These tools fit the task. A harness guard blocked the first run because the command sourced .env. The agent spent one grep call to learn that the helper loads .env itself. The detour was 2 calls, which is within the limit.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission used alias sirius, 100 shots, and --allow-real. The QASM had 2 qubits with h q[0], cx q[0],q[1], and measurements of both qubits. The grader confirms right_qpu, right_shots, and right_qubit_count. The blocked first attempt never reached the API, so it was not a submission.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent did not run list, arch, or calib before it submitted. The helper's run subcommand transpiles for the QPU with MOVE awareness, and the transpiled ops show it routed the circuit through the resonator. The task named the QPU and needed no locus choice. No hardware fact was assumed that the helper did not handle.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The task authorized one real job, and the agent submitted exactly one. The harness refused the first run attempt before any API call. The result loop stopped on the first poll that returned counts. The agent made no repeated identical calls to the API.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The run returned job 01a15f20-ddab-760a-8e49-590609c0c59d. The agent polled that same ID and reported it in job_ids. The counts in the final output match the result call. The grader confirms counts_match_api.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "Metrics show 7 tool calls, including StructuredOutput and one blocked call. The minimum for T6 is 4, so the limit is 8. The agent stayed within it.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report gives counts 00=46, 11=44, 01=8, 10=2 and agreement of 90 of 100 (0.90). Both match the result call and the grader parity of 0.9. It states 1.0 billed seconds and about 0.3 credits, which match the tool output. It correctly notes that the agreement fraction does not depend on bit order.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent submitted one correct real Bell job on sirius with 100 shots, polled it, and reported counts and 0.90 agreement accurately in 7 tool calls.",
+ "failure_type": "none",
+ "evidence": [
+  "run result: {\"job_id\": \"01a15f20-ddab-760a-8e49-590609c0c59d\", \"qc\": \"sirius\", \"shots\": 100, \"transpiled_ops\": {\"r\": 3, \"move\": 2, \"measure\": 2, \"cz\": 1}}",
+  "result: \"status\": \"completed\", \"billed_seconds\": 1.0, \"counts\": {\"00\": 46, \"01\": 8, \"10\": 2, \"11\": 44}",
+  "final answer: \"Both bits agreed in 90 of 100 shots (0.90). Billed 1.0 s, about 0.3 credits. One real job was submitted.\""
+ ]
+}

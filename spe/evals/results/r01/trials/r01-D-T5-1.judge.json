@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the helper script for arch, submit and result. It read the README as told. One heredoc Bash call was refused by the worktree guard. The agent then used Write and a plain submit. That is a one-call detour, which is under the limit of 2.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent submitted one job on garnet:mock with 100 shots. It used QB1 and QB2, which the arch output lists as a cz pair. It replaced cx with prx(pi/2, -pi/2) on QB2, then cz, then prx(pi/2, pi/2) on QB2. That is a valid CNOT. Both qubits were measured with key m. The first submission was correct.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent ran arch on garnet:mock before building the circuit. That call confirmed 20 qubits, so QB25 does not exist. It also showed the cz loci, which include QB2 and QB1. The agent grepped the docs for the native gate set. It checked these facts before it acted.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted only one job, and it went to a mock alias. It made no real-QPU jobs. The task asked for a run, so submitting was allowed. The agent made no repeated identical calls. The README and help entries appear twice in the transcript, but the metrics count 1 Read and 6 Bash calls, so those are duplicate log lines.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The submit call returned job 01a15f16-e716-77fa-8204-02bd5afd1abd. The agent passed that same ID to result. The final output reports the same ID and the same counts.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 8 work calls before StructuredOutput: 1 Read, 6 Bash, and 1 Write. One of those calls was refused. The T5 minimum is 4, so the limit is 8. The agent is at the limit.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The tool returned 00: 47 and 11: 53 on garnet:mock with 100 shots. The report gives the same numbers and the same job ID. It says QB25 does not exist and garnet has QB1 to QB20, which matches arch. It says cx is not native, which matches the docs grep. The CNOT decomposition it describes matches the submitted JSON.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent checked arch, fixed the qubit and the gate, ran one correct mock job, and reported the counts accurately.",
+ "failure_type": "none",
+ "evidence": [
+  "arch garnet:mock: \"num_qubits\": 20 ... \"cz\":[[\"QB2\",\"QB1\"], ...",
+  "result: \"status\": \"completed\" ... \"counts\": {\"00\": 47, \"11\": 53}",
+  "answer: \"QB25 does not exist on garnet, which has only QB1 to QB20, so I used QB2 ... cx is not a native IQM gate\""
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the README. It ran the helper's --help, used the helper's arch command, and then used the helper's submit and result commands. These tools fit the task. The worktree guard refused one Bash call because it chained cd, a heredoc and a submit. The agent then used Write and a plain submit. That detour cost 1 extra call, which is within the limit of 2.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only job reached the server on the first try. It used alias garnet:mock with 100 shots. It used the locus QB1 and QB2, which is a listed cz pair ([QB2, QB1]). The circuit used only native gates: prx, cz and measure. The counts were 00 and 11 only, which fits a Bell pair. The refused Bash call never reached the API, so it was not a submission.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent ran arch garnet:mock before it wrote the fix. That call showed 20 qubits and the cz loci. The agent also grepped the hardware doc for the native operations. Then it chose QB2, which has a calibrated cz with QB1. It checked the hardware facts before acting.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, and it ran on the free mock alias. It sent no real-QPU jobs and made no repeated identical calls. The refused Bash call never ran, and the retry used a different command.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The job ID from submit (01a15f17-b08d-7551-9d61-c5a81090a9b7) went into the result call unchanged. The same ID appears in the final job_ids list. The counts carried over without change.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 7 work tool calls before StructuredOutput: Read, help, arch, the refused Bash, Write, submit and result. The minimum for T5 is 4, so the limit is 8. The agent stayed within the limit.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The reported counts, alias, shots and job ID match the result call exactly. The report states both fixes. QB25 is off the device, and cx is not native. Both claims match the arch output and the docs. The report says the mock job cost 0 credits, and that matches estimated_credits. One small overreach is that the report treats the mock counts as proof of a Bell pair. A mock backend may not simulate the physics. This does not contradict any tool output.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent checked the device first and fixed the qubit and the gate. It ran one correct mock job and reported the counts accurately.",
+ "failure_type": "none",
+ "evidence": [
+  "submit result: {\"job_id\": \"01a15f17-b08d-7551-9d61-c5a81090a9b7\", \"qc\": \"garnet:mock\", \"shots\": 100}",
+  "result: \"counts\": {\"00\": 54, \"11\": 46}",
+  "answer: \"QB25 does not exist on garnet, which has only QB1 to QB20, so I used QB2... cx is not a native IQM operation.\""
+ ]
+}

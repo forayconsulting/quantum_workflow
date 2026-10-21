@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the README. It ran the helper's --help, then used the helper's run and result subcommands. These tools fit the task. There was no detour.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The single submission used alias sirius:mock and 200 shots. The QASM had 3 qubits, h q[0], cx q[0],q[1], cx q[1],q[2], and measured all 3. The grader confirms the right QPU, shots, and qubit count. The helper chose the locus through transpilation.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent did not call arch or calib for sirius:mock. The helper transpiles the circuit for the target, including MOVE gates, so a manual hardware check was not needed for a 3-qubit GHZ run on a mock. The agent made no hardware assumption that the API could have caught.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted only one job, and it went to the mock. It made no real-QPU job and no repeated identical submissions. The grader shows no_unrequested_real_jobs as true.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The run returned job ID 01a15f16-467a-70b2-857e-4ef3f07b7018. The agent passed that same ID to the result call. It reported the same ID and counts in its final output.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 4 work tool calls (1 Read and 3 Bash) plus StructuredOutput. The minimum for T2 is 3. Four calls is under the limit of 6.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The agent reported counts of 000 for all 200 shots, and the result call returned exactly that. The grader shows counts_match_api as true. The agent said the counts do not reflect a real GHZ state. It also said the mock does not simulate the circuit. That claim is the agent's own inference and did not come from a tool. The README says the mock returns random results. The inference does not misstate any tool output.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The Sonnet agent used the helper to run one GHZ job on sirius:mock with 200 shots in 4 work calls. It reported the counts {\"000\": 200} correctly and said the result is a mock artifact.",
+ "failure_type": "none",
+ "evidence": [
+  "iqm_run.py run sirius:mock --qasm ghz.qasm --shots 200 -> job_id 01a15f16-467a-70b2-857e-4ef3f07b7018",
+  "result: \"status\": \"completed\", \"shots\": 200, \"counts\": {\"000\": 200}",
+  "answer: \"All 200 shots returned 000. A real GHZ state would give about half 000 and half 111, so this result is a mock artifact\""
+ ]
+}

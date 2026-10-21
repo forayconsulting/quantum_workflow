@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the tested helper script for arch, submit, and result. It used grep on the IQM docs to confirm the native gate set. Two Bash calls were refused by the worktree guard because they sourced .env or used a heredoc. The agent recovered at once with a plain call and with the Write tool. Those were not detours to the wrong tool. Neither recovery added more than 2 calls.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission used garnet:mock and 100 shots. It replaced QB25 with QB2, and QB2-QB1 is a listed cz locus in the architecture. It replaced cx with prx, cz, prx on the target, and that is a valid CNOT decomposition up to a phase on the control. The result is still a Bell pair. Both qubits were measured under key m. The grader confirms right_qpu, right_shots, and right_qubit_count.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent fetched the garnet:mock architecture before it changed the circuit. The architecture showed 20 qubits and listed the cz loci. The agent used that output to drop QB25 and to choose QB2 as a coupled neighbor of QB1. It also checked the docs for native gates before it replaced cx.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, and that job ran on the free mock alias. It ran no real QPU jobs. The extraction shows the Write and submit lines twice, but both show the same job ID. The metrics count 1 Write and 7 Bash calls, so no call was repeated. The grader lists one job.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent passed job ID 01a15f17-a7fa-70a5-a663-bf714b523356 from the submit output to the result call without error. It copied the counts 00 56 and 11 44 into the final object exactly. The grader confirms counts_match_api.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 8 work calls before StructuredOutput. Those were 7 Bash calls and 1 Write. The minimum for T5 is 4, so the limit is 8. The agent hit the limit exactly. Two of the calls were refused by the worktree guard, and those refusals caused the overhead.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The final report matches the tool output. It gives the job ID, the alias, 100 shots, the counts, and 0 estimated credits. It names both fixes and gives the reason for each. QB25 is not on the 20-qubit Garnet, and cx is not a native gate. The report also says that the mock returns random results, so the counts do not prove entanglement. That caveat is accurate.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent checked the architecture, fixed the qubit and the gate, ran one correct mock job, and reported the result accurately. Two calls were refused by the worktree guard.",
+ "failure_type": "none",
+ "evidence": [
+  "Arch call returned \"num_qubits\": 20 with cz locus [\"QB2\", \"QB1\"] before any submission.",
+  "Single submit returned {\"job_id\": \"01a15f17-a7fa-70a5-a663-bf714b523356\", \"qc\": \"garnet:mock\", \"shots\": 100} and result gave counts {\"00\": 56, \"11\": 44}.",
+  "Answer: \"The mock backend returns random results, so these counts do not prove that the qubits are entangled.\""
+ ]
+}

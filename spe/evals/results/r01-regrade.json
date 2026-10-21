@@ -1,0 +1,433 @@
+{
+ "note": "r01 trial results regraded with the r02 grader on 2026-10-21. T3 excluded (retired).",
+ "trials": 60,
+ "flipped_to_fail": 0,
+ "flips": [],
+ "bit_order_counts": {
+  "exact": 37,
+  "reversed": 11,
+  "null": 12
+ },
+ "rows": [
+  {
+   "id": "r01-A-T1-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "reversed"
+  },
+  {
+   "id": "r01-A-T1-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "reversed"
+  },
+  {
+   "id": "r01-A-T1-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "reversed"
+  },
+  {
+   "id": "r01-A-T2-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-A-T2-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-A-T2-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-A-T4-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": null
+  },
+  {
+   "id": "r01-A-T4-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": null
+  },
+  {
+   "id": "r01-A-T4-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": null
+  },
+  {
+   "id": "r01-A-T5-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-A-T5-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-A-T5-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-A-T6-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "reversed"
+  },
+  {
+   "id": "r01-A-T6-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-A-T6-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "reversed"
+  },
+  {
+   "id": "r01-B-T1-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "reversed"
+  },
+  {
+   "id": "r01-B-T1-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "reversed"
+  },
+  {
+   "id": "r01-B-T1-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "reversed"
+  },
+  {
+   "id": "r01-B-T2-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-B-T2-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-B-T2-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-B-T4-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": null
+  },
+  {
+   "id": "r01-B-T4-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": null
+  },
+  {
+   "id": "r01-B-T4-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": null
+  },
+  {
+   "id": "r01-B-T5-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-B-T5-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-B-T5-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-B-T6-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "reversed"
+  },
+  {
+   "id": "r01-B-T6-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "reversed"
+  },
+  {
+   "id": "r01-B-T6-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "reversed"
+  },
+  {
+   "id": "r01-C-T1-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-C-T1-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-C-T1-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-C-T2-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-C-T2-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-C-T2-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-C-T4-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": null
+  },
+  {
+   "id": "r01-C-T4-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": null
+  },
+  {
+   "id": "r01-C-T4-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": null
+  },
+  {
+   "id": "r01-C-T5-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-C-T5-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-C-T5-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-C-T6-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-C-T6-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-C-T6-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-D-T1-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-D-T1-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-D-T1-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-D-T2-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-D-T2-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-D-T2-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-D-T4-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": null
+  },
+  {
+   "id": "r01-D-T4-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": null
+  },
+  {
+   "id": "r01-D-T4-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": null
+  },
+  {
+   "id": "r01-D-T5-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-D-T5-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-D-T5-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-D-T6-1",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-D-T6-2",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  },
+  {
+   "id": "r01-D-T6-3",
+   "r01_pass": true,
+   "r02_grader_pass": true,
+   "failed_checks": [],
+   "bit_order": "exact"
+  }
+ ]
+}

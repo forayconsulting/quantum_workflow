@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the tested helper iqm_run.py for the arch, submit, and result steps. It read the docs README and a short slice of the hardware doc. The harness refused 2 calls because of the worktree guard. One refusal was for `source .env` and one for a heredoc plus submit in one command. The agent split these into plain calls right away. That is 2 extra calls, which stays inside the limit of 2.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "There was one submission, job 01a15f18-70ae-72bf-8c8c-ba4110f88c79. It used garnet:mock and 100 shots. It moved QB25 to QB2, and QB1-QB2 is a listed cz locus. It replaced cx with prx(-pi/2, pi/2), then cz, then prx(pi/2, pi/2) on QB2. It measured both qubits. The grader shows right_qpu, right_shots, and right_qubit_count as true.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent ran `arch garnet:mock` before it built the fix. It filtered the cz loci that touch QB1 and got [['QB2','QB1'], ['QB4','QB1']]. It picked QB2 from that live data and did not guess.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent sent no real-QPU jobs. It made one mock submission and one result fetch. The transcript repeats the Write and submit entries, but both show the same job ID. The metrics count 1 Write and 7 Bash calls, and the grader sees one job. So the repeat is a logging artifact and not a second call.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The job ID from submit was passed unchanged to the result call. The same ID and the counts {00: 50, 11: 50} appear in the final output.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 8 working tool calls plus StructuredOutput. The minimum for T5 is 4, so the limit is 8. Two of the 8 calls were harness refusals. The total is at the limit and does not go over it.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report gives the job ID, the alias, 100 shots, and counts that match the result tool and the grade file. It names both fixes and gives reasons. QB25 does not exist on the 20-qubit garnet, and cx is not native. Its claim that QB4 is the only other qubit coupled to QB1 matches the loci output. It reports 0 credits, which matches estimated_credits.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent checked live loci, fixed both bugs in one mock submission, and reported the job and counts accurately. Two harness refusals added extra calls.",
+ "failure_type": "none",
+ "evidence": [
+  "arch loci filter returned [['QB2', 'QB1'], ['QB4', 'QB1']]",
+  "result: job 01a15f18-70ae-72bf-8c8c-ba4110f88c79 status completed, counts {\"00\": 50, \"11\": 50}",
+  "harness refusal: 'this command is too complex to verify that it stays inside the worktree'"
+ ]
+}

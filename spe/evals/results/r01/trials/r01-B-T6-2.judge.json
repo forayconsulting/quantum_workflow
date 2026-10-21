@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used qiskit with IQMProvider from iqm-client 35.0.3, plus one REST GET to list aliases. Both tools fit the task. The only detour was one Bash call that the worktree guard refused. The agent then wrote the script with Write. That detour is 1 call, which is under the limit of 2.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The final job used alias sirius, 100 shots, and 2 qubits (QB1 and QB2). The circuit was H on qubit 0, CX from 0 to 1, and measure_all. The transpiler added the MOVE gates that the Star QPU needs. The free mock job used the same correct settings. No submission had a wrong alias, shot count, locus, or gate.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent read the docs on sirius and its MOVE requirement. It listed the live aliases with GET /api/v1/quantum-computers before submitting. It transpiled against the live backend, which loads the device architecture. Then it checked the flow on sirius:mock before the paid run.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The task authorized one real job. The agent submitted exactly one real sirius job. The other job ran on sirius:mock, which is free, and the grader shows 0.0 credits for it. The tool-call metrics show no repeated identical calls. The doubled lines in the raw transcript come from duplicate log entries.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent reported both job IDs in order, with the real sirius job last. The final counts and alias belong to job 01a15f1f-7af1-71d8-be93-d4e92ce2b9b9. The grader confirms that the counts match the API. There were no mix-ups.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 8 tool calls, and StructuredOutput is one of them. The minimum for T6 is 4, so the limit is 8. The run used 7 working calls plus the output call. That is within twice the minimum.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report gives counts 00 45, 11 50, 01 1, 10 4, and an agreement fraction of 0.95. These numbers match the tool output. The grader lists 01 4 and 10 1 because it uses the API's qubit order. The agent used Qiskit's little-endian order instead. The grader's counts_match_api check is true, so the two orders agree. The report also says the extra job was a free mock run that used no credits.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent ran one free sirius:mock check, then one authorized real sirius job with correct settings, and reported 0.95 agreement accurately.",
+ "failure_type": "none",
+ "evidence": [
+  "Tool result: ['emerald', 'emerald:mock', 'garnet', 'garnet:mock', 'sirius', 'sirius:mock'] (transcript /Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_1a6926f8-f6c/agent-a031903c76ae1075b.jsonl)",
+  "Tool result: JOBID 01a15f1f-7af1-71d8-be93-d4e92ce2b9b9 SUCCESS True COUNTS {\"11\": 50, \"00\": 45, \"01\": 1, \"10\": 4}",
+  "Grade file /Users/claytonchancey/Desktop/quantum/spe/evals/results/r01/trials/r01-B-T6-2.grade.json: mock job estimated_credits 0.0, real job 0.3, parity 0.95, pass true"
+ ]
+}

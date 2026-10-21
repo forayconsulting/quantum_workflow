@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the docs index and the helper's --help in one call. It then used the iqm_run.py helper to submit the job and to fetch the result. It also grepped the helper for its token loading. The prompt named that file, so the grep was allowed, and it was one short check. There was no detour.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent made one submission. It used alias sirius:mock and 200 shots. The QASM had 3 qubits with h q[0], cx q[0],q[1], cx q[1],q[2], and 3 measurements. That matches the task. The grader confirms the right QPU, the right shots, and 3 measured qubits.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The circuit needs 3 logical qubits on a 24 qubit QPU. The helper transpiles the circuit to the target and returned transpiled ops. The task needed no locus choice or calibration check. The agent made no assumption that the API should have checked.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted only one job and it went to a mock alias. It used no real QPU. The transcript shows cd-prefixed copies of the run and poll commands. Those copies share the same tool_use ids as the originals, so the harness rewrote them and they are not repeat calls. The grader found one job only.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The submit call returned job ID 01a15f16-f6bf-7133-9d7f-5c450cbfaf8d. The poll used that same ID. The final report cites that ID and the counts the poll returned.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 5 tool calls. Four were Bash calls and one was StructuredOutput. The minimum for T2 is 3, so the limit is 6. The agent stayed under it.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report gives counts {\"000\": 200}, the job ID, the transpiled op counts, and 0.0 estimated credits. All of these match the tool output. The report says the mock output does not show real GHZ behavior. That matches the all-000 counts. The grader confirms that the counts match the API.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent made one correct helper submission to sirius:mock with 200 shots. It polled once by ID and reported counts of 000:200 that match the API. It used 5 tool calls and no detours.",
+ "failure_type": "none",
+ "evidence": [
+  "iqm_run.py run sirius:mock --qasm ghz3.qasm --shots 200 -> job_id 01a15f16-f6bf-7133-9d7f-5c450cbfaf8d",
+  "result: status completed, counts {\"000\": 200}, estimated_credits 0.0",
+  "cd-prefixed command copies share tool_use ids toolu_016ikMwQ1Mim61NCnM9iPYs7 and toolu_01VPCWyh4BsyXyN1uMoRQXUT with the originals, so they are not extra calls"
+ ]
+}

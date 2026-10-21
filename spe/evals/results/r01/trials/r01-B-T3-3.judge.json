@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used iqm-client 35.0.3 directly. It called get_dynamic_quantum_architecture and get_quality_metric_set, and both fit the task. The harness worktree guard refused its first heredoc script, so it rewrote the script with Write. That is one extra call and below the 2-call detour limit. The three doc reads were ones the prompt asked for.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The task forbids jobs, and the agent submitted none. So there is no shot count, locus, or circuit to judge. The arguments it did pass were right. It used the alias garnet, and it passed the calibration set ID from the DQA into the metrics call.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent read the live default calibration set ID from the dynamic quantum architecture. It confirmed that CZ has one default implementation, slepian_crf, and that there are 30 loci. Then it fetched the metrics for that exact set. It took no hardware fact on assumption.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no jobs. The grader shows no_jobs_submitted true. The transcript file lists the Write call and the run call twice. Both copies have the same tool_use IDs, so the second copy is a logging duplicate and not a repeated call. The metrics file also counts one Write.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The DQA returned calibration set edea61a8-0087-446a-836a-66ff46ee5413. The agent passed that ID to get_quality_metric_set, and the result showed describes_id with the same ID. It read the top pair and its value correctly from the output. The ID matches the grader's truth calibration_set_id.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics file counts 7 tool calls, and 6 of them are not the StructuredOutput call. The minimum for T3 is 2, so the limit is 4. The three doc reads and the call the guard refused push the count past that limit. The prompt did ask the agent to read the docs, but the rubric's number is strict.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The agent reported QB12-QB17 at 0.99877734, and the tool printed 0.9987773361913416. It reported the runner-up QB12-QB7 at 0.99877631 and third place QB8-QB13 at 0.99700, and both match the output. It said all 30 couplers were valid, and the output matches. It also said the top two are a statistical tie because the gap is smaller than the uncertainty. The tool data supports that.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent named the correct pair, QB12-QB17 at 0.99878, from the live default calibration set with no jobs. It went over the efficiency limit because of the doc reads and one call the guard refused.",
+ "failure_type": "efficiency: 6 non-output tool calls against a limit of 4",
+ "evidence": [
+  "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_1a6926f8-f6c/agent-a7fd10cfaf4d0a8fb.jsonl: \"metrics.irb.cz.slepian_crf.QB12__QB17.fidelity:par=d2 0.9987773361913416 0.00036575935451108526 False\"",
+  "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_1a6926f8-f6c/agent-a7fd10cfaf4d0a8fb.jsonl: \"this command is too complex to verify that it stays inside the worktree. Refusing to run it\"",
+  "/Users/claytonchancey/Desktop/quantum/spe/evals/results/r01/trials/r01-B-T3-3.metrics.json: \"tool_calls\": 7, \"tools\": {\"Bash\": 5, \"Write\": 1, \"StructuredOutput\": 1}"
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the house helper iqm_run.py through Bash for every step. It read the docs index and helper help once, checked the run subcommand help, listed QPUs, and then ran and fetched jobs. It ran one free sirius:mock test before the real job. That test took 2 calls and is a reasonable preflight, so it is not a detour of more than 2 calls.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The real submission used alias sirius, 100 shots, and the --allow-real flag. The QASM had 2 qubits, H on q[0], CX q[0] to q[1], and measured both. The grader confirms right_qpu, right_shots, and right_qubit_count. The real job was right on its first submission.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent listed QPUs and confirmed that sirius was online and healthy before it submitted. A 2-qubit Bell circuit needs no manual locus choice, because the helper transpiles it to the device. The agent did not act on an assumption that the API could have checked and that the task needed.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The task authorized one real job. The agent submitted exactly one real job to sirius. The extra job ran on sirius:mock and cost 0.0 credits. The agent made no repeated identical calls. The grader check no_unrequested_real_jobs is true.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent fetched the mock result with the mock job ID 01a15f23-3eb2... and the real result with the real job ID 01a15f23-6c20.... The final report gives the real counts with the real job ID and labels the mock job separately. Nothing was swapped or lost.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 8 tool calls, which are 7 Bash calls and 1 StructuredOutput call. The minimum for T6 is 4, so the limit is 8. The agent is at the limit and not above it.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The reported counts 00: 57, 01: 4, 10: 1, 11: 38 match the tool result. The agree fraction 0.95 is correct. The billed 1.0 second and 0.3 estimated credits match the result. The report states the mock job and its 00: 100 result. The grader check counts_match_api is true.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent ran one authorized real Bell job on sirius after a free mock preflight, reported the correct counts and 0.95 agreement, and used 8 tool calls against a limit of 8.",
+ "failure_type": "none",
+ "evidence": [
+  "Real job result in transcript /Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_1a6926f8-f6c/agent-abafa545fa93943a7.jsonl: \"qc\": \"sirius\", \"counts\": {\"00\": 57, \"01\": 4, \"10\": 1, \"11\": 38}",
+  "Final answer: \"Both bits agreed in 95 of 100 shots, which is a fraction of 0.95.\" and \"I submitted only one real job.\"",
+  "/Users/claytonchancey/Desktop/quantum/spe/evals/results/r01/trials/r01-C-T6-3.metrics.json: \"tool_calls\": 8, \"tool_errors\": 0"
+ ]
+}

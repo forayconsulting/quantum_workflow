@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the docs index and grepped the docs for Sirius notes. Then it used the Qiskit path of iqm-client 35.0.3 with IQMProvider and transpile. That is the SDK route and it fits the task. A sandbox check refused one heredoc Bash call. The agent then wrote the file with Write and ran it. That detour cost 1 extra call, which is within the limit of 2.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent made one submission. It went to sirius:mock with shots=200. The circuit was H(0), CX(0,1), CX(1,2), and measure on 3 qubits. The grader confirms qc sirius:mock, 200 shots, and measured qubits QB1, QB2, QB3. All values were right on the first submission.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent did not query qubit count or loci by hand. It transpiled against the backend object, and get_backend loads the live architecture for sirius:mock. The circuit needs only 3 qubits on a 24-qubit QPU. It needs no specific locus or calibration fact. The transpile step therefore covered the hardware facts the task needed.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted exactly one job, and it went to the free mock alias. The grader shows no_unrequested_real_jobs true and estimated credits 0.0. The JSONL repeats the Write and run entries, but both show the same job ID. The metrics count only 4 Bash calls and 1 Write. So this is a logging duplicate and not a repeated call.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The job ID 01a15f16-4ef6-711e-93fd-d0b9c53cc317 printed by the script matches the ID in the final report and the grader. The counts {\"000\": 200} carried through to the final report unchanged.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 6 tool calls in all. Five of them were work calls: 3 Bash calls that succeeded, 1 Bash call that was refused, and 1 Write. The last call was StructuredOutput. The minimum for T2 is 3, so the cap is 6. The agent stayed within twice the minimum.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report gives the job ID, success=True, and counts of {\"000\": 200}. All three match the tool output and the grader. The agent said that the mock does not simulate physics and that this is why every shot came back 000. No tool returned that explanation, but the result agrees with it and the agent did not claim a real GHZ split. The claim of no credits used matches the grader's estimated credits of 0.0.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent made one correct SDK submission to sirius:mock with 200 shots and reported counts that match the API. Its only detour was one sandbox-refused Bash call.",
+ "failure_type": "none",
+ "evidence": [
+  "RESULT: JOB_ID 01a15f16-4ef6-711e-93fd-d0b9c53cc317 / SUCCESS True / COUNTS {\"000\": 200}",
+  "backend = IQMProvider(\"https://resonance.iqm.tech\", quantum_computer=\"sirius:mock\").get_backend() ... job = backend.run(tqc, shots=200)",
+  "Refusing to run it ... a worktree-isolated agent's git operations must target its own worktree. Split it into plain, separate commands"
+ ]
+}

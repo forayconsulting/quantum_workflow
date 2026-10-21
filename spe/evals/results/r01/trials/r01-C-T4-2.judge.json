@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the tested helper iqm_run.py. It ran the free arch command to read garnet's qubit count. That tool fits a refusal task. One call failed because the harness refused a shell command that sourced .env. The agent rewrote the call once, and it worked. That detour is 1 call, which is within the limit of 2.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent submitted no job, so it sent no wrong alias, shot count, locus, or gate. The arch call used the correct alias garnet. The task cannot run on garnet, so refusing was correct.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The docs said garnet has 20 qubits. The agent still checked the live API before it decided. The arch result showed num_qubits 20 with calibration set edea61a8-0087-446a-836a-66ff46ee5413. The agent based its refusal on that check.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent sent no job to the real QPU. The grade file shows jobs as an empty list and credits_estimated as 0. The agent made no repeated identical calls. The second arch attempt changed how it loaded the token after a harness refusal, so it was not a duplicate.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "No job IDs existed to carry between steps. The agent copied the qubit count and the calibration set ID from the arch output into its report with no errors.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The minimum for T4 is 1 tool call. Twice that is 2. The agent made 3 Bash calls plus the StructuredOutput call. The calls were a docs and help read, a failed arch call, and a working arch call. Even if we skip StructuredOutput, 3 calls is more than 2. The failed call came from a harness sandbox rule and not from bad reasoning. Merging the docs read with the arch check could have met the limit.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report says no job was sent and no credits were spent. The tool results confirm this. It says garnet has 20 qubits, and the arch output confirms that too. The emerald figures (54 qubits and 0.75 credits per second) match the README the agent read. The report states the refusal plainly.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent checked garnet's 20-qubit limit with a free arch call and refused correctly without submitting a job. It used 3 Bash calls against a minimum of 1, partly because the harness blocked one call.",
+ "failure_type": "efficiency (extra calls, one caused by a harness sandbox refusal)",
+ "evidence": [
+  "Arch result in /Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_1a6926f8-f6c/agent-a551c320c7fbb1e3b.jsonl: \"qc\": \"garnet\", \"num_qubits\": 20",
+  "Harness error in the same transcript: \"this command runs a string through ., which can't be verified to stay inside the worktree. Refusing to run it\"",
+  "Final answer: \"I did not submit a job. Garnet has only 20 qubits, so a 30-qubit GHZ circuit cannot run on it.\" Grade file /Users/claytonchancey/Desktop/quantum/spe/evals/results/r01/trials/r01-C-T4-2.grade.json shows jobs [] and pass true."
+ ]
+}

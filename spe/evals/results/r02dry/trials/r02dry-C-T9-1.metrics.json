@@ -1,0 +1,35 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_94e544e1-5cb/agent-a89bbf9216ff03a4f.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 48.6,
+ "api_calls": 12,
+ "tokens": {
+  "input_tokens": 24,
+  "output_tokens": 1618,
+  "cache_read_input_tokens": 564297,
+  "cache_creation_input_tokens": 58540,
+  "total": 624479,
+  "fresh": 60182
+ },
+ "tool_calls": 16,
+ "tool_errors": 0,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 14,
+  "Read": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": true,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -n -i -E \"angle_t|phase_t|\\\"measure\\\"|key\" /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md",
+  "sed -n 355,400p /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r02dry-C-T9-1"
+}

@@ -28,3 +28,18 @@ Other step 0 jobs, all on mock aliases at 0 credits: `01a15f0f-d4cb-7005-9970-e0
 ## Job reconciliation (round 1)
 
 The dashboard Jobs page listed 61 jobs on 2026-10-21. These are the 5 jobs from step 0 and the dry run, plus the 56 job IDs that round 1 trials reported. Every job is accounted for, so no trial submitted an unreported job. Of the 56, 12 were real `sirius` jobs (all T6) and 44 were mock jobs.
+
+## Round 2 setup (2026-10-21, before the run)
+
+| Time (UTC) | Job | QPU | Purpose | Credits |
+|---|---|---|---|---|
+| 16:02Z | `01a15f32-c6e1-72ed-9ea4-5dc2d7e35f31` | garnet:mock | T7 probe. The job failed server-side with "No calibration data for 'cz.crf_crf' at ('QB1', 'QB20')" | 0 |
+| 16:02Z | `01a15f32-d229-73a1-af79-a2b734ea30c1` | garnet:mock | T8 oracle, Bell on QB12 and QB17 | 0 |
+| 16:02Z | `01a15f32-de09-7462-932e-177f79f9af55` | garnet:mock | T8 negative, Bell on QB8 and QB9 | 0 |
+| 16:02Z | `01a15f32-e918-72f4-9000-e31caa84a8fa` | garnet:mock | T9 first try. Failed: `angle` given as integer 0, and the server requires a float | 0 |
+| 16:02Z | `01a15f32-ed55-764e-9ced-e703586166be` | garnet:mock | T9 negative, all angles pi/2 | 0 |
+| 16:02Z | `01a15f32-f88a-7682-83dd-64c1bc1fda91` | garnet:mock | Negative, not a Bell circuit. The mock still returned only 00 and 11 | 0 |
+| 16:03Z | `01a15f33-3f49-73f1-951e-f4b5362a0096` | garnet:mock | T9 oracle, float angles | 0 |
+| 16:05Z | `01a15f34-7768-73f4-aeaf-bafe7eb82a04` | sirius | T10 oracle, real GHZ-3. Parity 0.89. Billed 1.0 s | 0.30 (estimate) |
+
+Balance before round 2 setup: 26.40. Expected after setup: 26.10.

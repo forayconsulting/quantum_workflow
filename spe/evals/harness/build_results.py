@@ -13,7 +13,12 @@ from pathlib import Path
 
 SPE = Path("/Users/claytonchancey/Desktop/quantum/spe")
 CONFIGS = ["A", "B", "C", "D"]
-TASKS = ["T1", "T2", "T3", "T4", "T5", "T6"]
+TASKS_BY_ROUND = {
+    "r01": {"all": ["T1", "T2", "T3", "T4", "T5", "T6"], "groups": {"T1_T5": ["T1", "T2", "T3", "T4", "T5"]}},
+    "r02": {"all": ["T1", "T2", "T4", "T5", "T6", "T7", "T8", "T9", "T10", "T11"],
+            "groups": {"regression": ["T1", "T2", "T4", "T5"], "new_mock": ["T7", "T8", "T9"], "real_lane": ["T6", "T10", "T11"]}},
+}
+TASKS = TASKS_BY_ROUND["r01"]["all"]
 CHECKS = ["tool_choice", "arguments", "when_to_call", "when_not_to_call", "multi_step", "efficiency", "honesty"]
 
 
@@ -45,6 +50,9 @@ def main():
     a.add_argument("--workflow-output", required=True)
     args = a.parse_args()
     rnd = args.round
+    global TASKS
+    TASKS = TASKS_BY_ROUND.get(rnd, TASKS_BY_ROUND["r02"])["all"]
+    groups = TASKS_BY_ROUND.get(rnd, TASKS_BY_ROUND["r02"])["groups"]
     tdir = SPE / f"evals/results/{rnd}/trials"
     wf = load_workflow(args.workflow_output)
     by_id = {t["id"]: t for t in wf["trials"]}
@@ -63,6 +71,8 @@ def main():
         except json.JSONDecodeError:
             metrics = {"error": "metrics file unreadable"}
         w = by_id.get(tid, {})
+        if w.get("judge"):
+            (tdir / f"{tid}.judge.json").write_text(json.dumps(w["judge"], indent=1))
         status = "COMPLETE"
         if "error" in metrics or "error" in grade:
             status = "INCOMPLETE"
@@ -77,8 +87,13 @@ def main():
     per_cfg = {}
     for c in CONFIGS:
         rs = [r for r in scored if r["config"] == c]
-        mock = [r for r in rs if r["task"] != "T6"]
+        mock = [r for r in rs if r["task"] in groups.get("T1_T5", groups.get("regression", []) + groups.get("new_mock", []))]
         k = sum(r["pass"] for r in mock)
+        grp = {}
+        for g, ts in groups.items():
+            gr = [r for r in rs if r["task"] in ts]
+            kk = sum(r["pass"] for r in gr)
+            grp[g] = {"pass": kk, "n": len(gr), "rate": round(kk / len(gr), 3) if gr else None, "ci95": wilson(kk, len(gr))}
         cells = {}
         for t in TASKS:
             ct = [r for r in rs if r["task"] == t]
@@ -93,8 +108,12 @@ def main():
             "trials_scored": len(rs),
             "pass_at_1_T1_T5": round(k / len(mock), 3) if mock else None,
             "pass_at_1_T1_T5_ci95": wilson(k, len(mock)),
-            "pass3_cells_T1_T5": sum(cells[t]["pass3"] for t in TASKS[:5]),
+            "groups": grp,
+            "pass3_cells_mock": sum(cells[t]["pass3"] for t in TASKS if t not in ("T6", "T10", "T11")),
             "T6_passes": f'{cells["T6"]["pass"]} of {cells["T6"]["n"]}',
+            "median_fresh_tokens": med([r["metrics"].get("tokens", {}).get("fresh") for r in rs]),
+            "guard_errors_per_trial": round(sum(r["metrics"].get("tool_errors_by_class", {}).get("guard", 0) for r in rs) / len(rs), 2) if rs else None,
+            "agent_errors_per_trial": round(sum(r["metrics"].get("tool_errors_by_class", {}).get("agent", 0) for r in rs) / len(rs), 2) if rs else None,
             "median_tool_calls": med([r["metrics"].get("tool_calls") for r in rs]),
             "median_total_tokens": med([r["metrics"].get("tokens", {}).get("total") for r in rs]),
             "median_output_tokens": med([r["metrics"].get("tokens", {}).get("output_tokens") for r in rs]),
@@ -106,7 +125,7 @@ def main():
 
     t6 = []
     for r in scored:
-        if r["task"] == "T6" and r["grade"].get("jobs"):
+        if r["task"] in ("T6", "T10") and r["grade"].get("jobs"):
             j = r["grade"]["jobs"][-1]
             t6.append({"id": r["id"], "parity": r["grade"].get("parity"), "qc": j.get("qc"),
                        "credits_estimated": r["grade"].get("credits_estimated"),
@@ -121,14 +140,21 @@ def main():
     (res / f"{rnd}.json").write_text(json.dumps(out, indent=1))
 
     # Scorecard
-    L = [f"# Scorecard, round {rnd}", "",
+    L = [f"# Scorecard, round {rnd}", "", "## Pass rate by task group (95% Wilson interval)", "",
+         "| Config | " + " | ".join(groups) + " |", "|---" * (len(groups) + 1) + "|"]
+    for c, p in per_cfg.items():
+        L.append(f"| {c} | " + " | ".join(f"{p['groups'][g]['pass']} of {p['groups'][g]['n']} ({p['groups'][g]['ci95'][0]} to {p['groups'][g]['ci95'][1]})" for g in groups) + " |")
+    L += ["", "## Efficiency", "", "| Config | Median fresh tokens | Guard errors per trial | Agent errors per trial |", "|---|---|---|---|"]
+    for c, p in per_cfg.items():
+        L.append(f"| {c} | {p['median_fresh_tokens']} | {p['guard_errors_per_trial']} | {p['agent_errors_per_trial']} |")
+    L += ["",
          f"Trials: {out['counts']['COMPLETE']} complete, {out['counts']['INCOMPLETE']} incomplete, {out['counts']['PEEKED']} peeked. "
          f"Estimated real-QPU credits: {out['credits_estimated_total']}.", "",
-         "| Config | pass@1 T1-T5 (95% CI) | pass^3 cells of 5 | T6 | Median tool calls | Median total tokens | Median output tokens | Median wall min | Tool errors |",
+         "| Config | pass@1 mock (95% CI) | pass^3 mock cells | T6 | Median tool calls | Median total tokens | Median output tokens | Median wall min | Tool errors |",
          "|---|---|---|---|---|---|---|---|---|"]
     for c, p in per_cfg.items():
         ci = p["pass_at_1_T1_T5_ci95"]
-        L.append(f"| {c} | {p['pass_at_1_T1_T5']} ({ci[0]} to {ci[1]}) | {p['pass3_cells_T1_T5']} | {p['T6_passes']} | "
+        L.append(f"| {c} | {p['pass_at_1_T1_T5']} ({ci[0]} to {ci[1]}) | {p['pass3_cells_mock']} | {p['T6_passes']} | "
                  f"{p['median_tool_calls']} | {p['median_total_tokens']} | {p['median_output_tokens']} | {p['median_wall_minutes']} | {p['tool_errors_total']} |")
     L += ["", "## Passes per cell (pass of n)", "", "| Config | " + " | ".join(TASKS) + " |", "|---" * (len(TASKS) + 1) + "|"]
     for c, p in per_cfg.items():
@@ -136,7 +162,7 @@ def main():
     L += ["", "## Judge PASS rate per check (descriptive, unvalidated)", "", "| Config | " + " | ".join(CHECKS) + " |", "|---" * (len(CHECKS) + 1) + "|"]
     for c, p in per_cfg.items():
         L.append(f"| {c} | " + " | ".join(str(p["judge_pass_rate"][ch]) for ch in CHECKS) + " |")
-    L += ["", "## T6 real-hardware jobs", "", "| Trial | QPU | P(00)+P(11) | Est. credits | Created | Execution started |", "|---|---|---|---|---|---|"]
+    L += ["", "## Real-hardware jobs (T6, T10)", "", "| Trial | QPU | Parity | Est. credits | Created | Execution started |", "|---|---|---|---|---|---|"]
     for t in t6:
         L.append(f"| {t['id']} | {t['qc']} | {t['parity']} | {t['credits_estimated']} | {t['created']} | {t['execution_started']} |")
     L += ["", "## Failed trials", "", "| Trial | Failed checks | Judge summary |", "|---|---|---|"]
@@ -157,7 +183,7 @@ def main():
                     f'<line x1="{x+30}" x2="{x+30}" y1="{230 - (hi or 0)*200}" y2="{230 - (lo or 0)*200}" stroke="var(--fg)" stroke-width="2"/>'
                     f'<text x="{x+30}" y="250" text-anchor="middle">{c}</text>'
                     f'<text x="{x+30}" y="{224 - h}" text-anchor="middle">{v:.2f}</text>')
-    table = "".join(f"<tr><td>{c}</td><td>{p['pass_at_1_T1_T5']}</td><td>{p['pass3_cells_T1_T5']}</td><td>{p['T6_passes']}</td>"
+    table = "".join(f"<tr><td>{c}</td><td>{p['pass_at_1_T1_T5']}</td><td>{p['pass3_cells_mock']}</td><td>{p['T6_passes']}</td>"
                     f"<td>{p['median_tool_calls']}</td><td>{p['median_total_tokens']}</td><td>{p['median_wall_minutes']}</td></tr>"
                     for c, p in per_cfg.items())
     page = f"""<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">

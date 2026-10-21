@@ -8,13 +8,14 @@ Output: one JSON object with tokens, tool calls, tool errors, wall time, tools u
 """
 import argparse
 import collections
+import re
 import json
 import sys
 from datetime import datetime
 from pathlib import Path
 
 SESSIONS = Path.home() / ".claude/projects/-Users-claytonchancey-Desktop-quantum"
-PEEK = ("spe/evals", "spe/predictions", "spe/prediction-log", "spe/failures", "spe/spec")
+PEEK = re.compile(r"spe/(?!agent-tools)")
 
 
 def find(trial_id):
@@ -37,7 +38,7 @@ def ts(s):
 
 def measure(path):
     usage, seen = collections.Counter(), set()
-    tools, errors, peeks, times = collections.Counter(), 0, [], []
+    tools, errors, peeks, times = collections.Counter(), collections.Counter(), [], []
     bash_cmds, files_read = [], []
     model = None
     for line in path.open():
@@ -63,24 +64,33 @@ def measure(path):
                         bash_cmds.append(b["input"].get("command", "")[:300])
                     if b["name"] == "Read":
                         files_read.append(b["input"].get("file_path", ""))
-                    if any(k in inp for k in PEEK):
+                    if PEEK.search(inp):
                         peeks.append(inp[:200])
         if o.get("type") == "user":
             for b in m.get("content") if isinstance(m.get("content"), list) else []:
                 if isinstance(b, dict) and b.get("type") == "tool_result" and b.get("is_error"):
-                    errors += 1
+                    c = b.get("content")
+                    txt = c if isinstance(c, str) else json.dumps(c)
+                    if "isolated in the worktree" in txt or "stays inside the worktree" in txt:
+                        errors["guard"] += 1
+                    elif "Exit code" in txt or "Traceback" in txt:
+                        errors["agent"] += 1
+                    else:
+                        errors["other"] += 1
     total = sum(usage.values())
     return {
         "transcript": str(path),
         "model": model,
         "wall_seconds": round((max(times) - min(times)).total_seconds(), 1) if times else None,
         "api_calls": len(seen),
-        "tokens": {**usage, "total": total},
+        "tokens": {**usage, "total": total,
+                   "fresh": usage["input_tokens"] + usage["output_tokens"] + usage["cache_creation_input_tokens"]},
         "tool_calls": sum(tools.values()),
-        "tool_errors": errors,
+        "tool_errors": sum(errors.values()),
+        "tool_errors_by_class": {"guard": errors["guard"], "agent": errors["agent"], "other": errors["other"]},
         "tools": dict(tools),
         "used_helper": any("iqm_run.py" in c for c in bash_cmds),
-        "read_docs": sorted({f for f in files_read if "/docs/" in f} | {c for c in bash_cmds if "docs/iqm" in c and "cat " in c}),
+        "read_docs": sorted({f for f in files_read if "/docs/" in f} | {c for c in bash_cmds if "docs/iqm" in c and re.search(r"\b(cat|head|tail|sed|grep|less|awk)\b", c)}),
         "peeked": bool(peeks),
         "peek_evidence": peeks[:5],
     }

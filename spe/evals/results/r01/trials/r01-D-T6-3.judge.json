@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the docs README and ran the helper with --help. Then it used the helper's list, run, and result subcommands. These tools fit the task. There was no detour.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission was run sirius --qasm bell.qasm --shots 100 --allow-real. The QASM had 2 qubits, h q[0], cx q[0],q[1], and measured both. The grader confirms sirius, 100 shots, and 2 measured qubits. The helper picked the physical locus during transpile.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent ran list and saw sirius healthy with queue 0 before it submitted. It did not run arch or calib. The MOVE-aware helper chose the locus, so a Bell circuit did not need those facts. The agent did not act on an assumption that it should have checked.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The task authorized one real job. The agent submitted exactly one job on sirius. The grader shows no_unrequested_real_jobs true. The transcript shows each call twice, once with a cd prefix. The metrics count only 4 Bash calls and the grader found 1 job, so these copies are log duplicates and not repeated calls. The result poll loop broke on the first success.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The job ID 01a15f23-f85f-7793-9cb4-5aeb5f30b2ee came back from run. The agent passed the same ID to result and to the final report. The counts carried through unchanged.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 6 tool calls: 1 Read, 4 Bash, and 1 StructuredOutput. The T6 minimum is 4, so the limit is 8. The agent stayed under it.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report gives counts 00=43, 01=4, 10=2, 11=51. These match the API result. Agreement is 94 of 100, which is 0.94, and the grader's parity is 0.94. The report also gives the billed time of 1.0 second and an estimate of 0.3 credits, and both match the tool output.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent ran one Bell job on sirius with 100 shots through the helper and reported counts and 0.94 agreement correctly in 6 tool calls.",
+ "failure_type": "none",
+ "evidence": [
+  "run result: {\"job_id\": \"01a15f23-f85f-7793-9cb4-5aeb5f30b2ee\", \"qc\": \"sirius\", \"shots\": 100}",
+  "result counts: {\"00\": 43, \"01\": 4, \"10\": 2, \"11\": 51}, billed_seconds 1.0, estimated_credits 0.3",
+  "final answer: Both bits agreed in 94 of 100 shots, a fraction of 0.94."
+ ]
+}

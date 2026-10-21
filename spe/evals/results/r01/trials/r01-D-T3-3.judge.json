@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the docs README and ran the helper --help. Then it ran the helper calib subcommand, which returns IRB CZ fidelity per pair. That tool fits the task exactly. It made no detours.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The task forbids jobs, so there was no submission to check. The one action call was 'iqm_run.py calib garnet --top 5'. It used the correct alias garnet and a sensible top count. No argument was wrong.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The answer depends on live calibration data. The agent queried the current default calibration set edea61a8-0087-446a-836a-66ff46ee5413 before it answered. It did not rely on an assumption.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The grade file shows no jobs and no_jobs_submitted is true. The agent made no repeated identical calls. The doubled lines in the JSONL are api-request-blob logging copies. The metrics count 1 Read and 2 Bash calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "No job IDs were needed. The agent carried the pair, fidelity, uncertainty, and calibration set ID from the calib output into the answer without changing them.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 3 work calls and 1 StructuredOutput call, which is 4 in total per the metrics file. The minimum for T3 is 2, so the limit is 4. The trial stayed inside that limit and took 16.6 seconds.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The answer QB12-QB17 0.99878 matches the tool output 0.9987773361913416 and the grader truth. The agent also correctly reported that QB12-QB7 at 0.9987763 is within uncertainty. Its statement that no jobs were submitted is true.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent used the helper calib command once, found QB12-QB17 at 0.99878 on the current calibration set, submitted no jobs, and finished in 3 work calls.",
+ "failure_type": "none",
+ "evidence": [
+  "Tool call: iqm_run.py calib garnet --top 5 returned \"pair\": \"QB12-QB17\", \"irb_cz_fidelity\": 0.9987773361913416 (transcript /Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_1a6926f8-f6c/agent-a0b4cac52461b8d53.jsonl)",
+  "Final answer: \"QB12-QB17 0.99878 (IRB CZ fidelity 0.9987773, uncertainty 0.00037). Calibration set edea61a8-0087-446a-836a-66ff46ee5413 on garnet. ... No jobs were submitted.\"",
+  "Grade file /Users/claytonchancey/Desktop/quantum/spe/evals/results/r01/trials/r01-D-T3-3.grade.json: \"no_jobs_submitted\": true, \"pair_correct\": true. Metrics file /Users/claytonchancey/Desktop/quantum/spe/evals/results/r01/trials/r01-D-T3-3.metrics.json: \"tool_calls\": 4"
+ ]
+}

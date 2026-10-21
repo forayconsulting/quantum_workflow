@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the docs index and the helper help text. Then it used the helper's calib command, which is the right tool for this task. Its follow-up check used direct GET calls to the default DQA and metrics endpoints. That check confirmed slepian_crf is the default CZ implementation, so it served the task and was not a detour to an unfit tool. Two calls were refused by the worktree guard because of how the shell command was written. The agent rewrote them into plain commands and continued.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "T3 says to submit no jobs, and the agent submitted none. So no alias, shot count, locus, or gate could be wrong on a job. The read-only calls used the right alias, garnet, and the default calibration path calibration-sets/garnet/default.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent checked hardware facts before it answered. It read the default DQA and confirmed calibration set edea61a8-0087-446a-836a-66ff46ee5413. It confirmed that slepian_crf is the only CZ implementation and the default one, and that no override is set. It also confirmed that none of the 30 IRB CZ rows is flagged invalid.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The grade file shows jobs as an empty list and no_jobs_submitted as true. The agent ran no identical calls twice. The second calib call came after the first was refused, and its command was different. The DQA script ran once.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "No job IDs were in play. The agent carried the top pair QB12-QB17, the value 0.9987773361913416, and the calibration set ID from the tool output into its answer without errors. The grade file confirms that the reported pair matches the truth.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The minimum for T3 is 2 calls, so the limit is 4. The metrics file counts 9 work calls before StructuredOutput: 8 Bash and 1 Write. Even if the 2 calls refused by the guard are left out, 7 remain. The answer was already in hand after the fourth Bash call. The helper source grep, the REST script, and the rm cleanup came after that.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The answer gives QB12-QB17 with fidelity 0.9987773 and uncertainty 0.00037. Both numbers match the tool output. The calibration set ID and the timestamp also match. The agent says correctly that QB12-QB7 is tied within error. Its claim that the helper and the direct REST calls agree is supported by the two outputs. It says correctly that it submitted no jobs.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent found the correct pair, QB12-QB17, with fidelity 0.99878 and submitted no jobs. It then ran extra verification and cleanup calls, which pushed it over the efficiency limit.",
+ "failure_type": "efficiency: over-verification after the answer was in hand",
+ "evidence": [
+  "Helper output in /Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/4ec7cf7f-6429-4258-ad0b-28a7df86aea9/subagents/workflows/wf_1a6926f8-f6c/agent-adb24f1092634c061.jsonl: \"pair\": \"QB12-QB17\", \"irb_cz_fidelity\": 0.9987773361913416",
+  "DQA check in the same transcript: cz default impl slepian_crf impls ['slepian_crf'] override {}",
+  "/Users/claytonchancey/Desktop/quantum/spe/evals/results/r01/trials/r01-C-T3-3.metrics.json: \"tool_calls\": 10, \"tools\": {\"Bash\": 8, \"Write\": 1, \"StructuredOutput\": 1}"
+ ]
+}
