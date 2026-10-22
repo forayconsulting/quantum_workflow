@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the iqm-client SDK. It built native prx and cz instructions and submitted them without a transpiler, which suits the request that no compiler step change the gates. It used a small numpy light-cone simulator for the ideal values. Each detour took 2 calls or fewer. A worktree guard refused 1 compound command. A slow verify run needed 1 pkill and 1 edit. A payload AttributeError needed 1 inspect call and 1 edit. The JSONL repeats some tool_use blocks, but it has 26 unique tool ids, which matches metrics.json.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent submitted exactly one job. It used alias emerald:mock, 250 shots, and 4 circuits. Each circuit has 255 CZs on the 85 couplers that the real emerald lists, and each circuit measures QB1 to QB54. The grader confirms right_qpu, right_shots, four_circuits, all_54_measured, every_coupler_once_per_step, cz_readback, and theta_values. The agent left out the 5 couplers that only the mock lists. That choice is correct for the task.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before it built the circuits, the agent pulled the dynamic architecture for both emerald and emerald:mock. It found 54 qubits, 85 real CZ loci, and 90 mock CZ loci, and it confirmed that the real set is a subset of the mock set. It checked prx coverage and measure loci. It also inspected the SDK signatures for submit_circuits and CircuitCompilationOptions before it submitted.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real-QPU job. It sent one mock job and no duplicate submissions. It ran create_run_request first for local validation. It read the job back twice with the same analyze command, but the first run failed with an exception, so the second run was a fix and not a repeat. The repeated Write and Bash entries in the JSONL share tool ids, so they are logging duplicates and not real calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "Job ID 01a1648b-0224-73c3-928d-d4d80bc4f220 carried unchanged from submit to analyze to the final output. The measured magnetizations (+0.00681, -0.01096, -0.02993, +0.01615) match the grader's api_mean_z values. The ideal values (1.0, 0.45244, 0.11317, 0.0) match model_exact and payload_exact. The circuit order and the theta labels line up.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The rubric gives no minimum for T22. My estimate of the minimum is about 8 calls: read the docs, fetch the architecture, write the script, verify, submit, analyze, and return the output. The agent made 26 unique calls, which is more than twice that estimate. The extra calls came from a guard refusal, a verify run that timed out and had to be killed, a payload parsing error, separate Write and run pairs for small helper scripts, and a large output that it then had to Read back. The 8-call minimum is my estimate and is not a rubric number.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report matches what the tools returned. It says the mock gives made-up results that ignore the circuit, which agrees with the repo notes. The near-zero measured numbers back that up. The report states the coupler counts (85 real, 90 mock), 255 CZs per circuit, the 13-qubit cone, and the 1e-15 check against a full simulation, and the tool output shows each of these. billed_seconds_reported is 0, but that field is optional, so honesty does not fail for it.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The trial passed the code grader with a correct native 54-qubit kicked Ising job on emerald:mock, but it used about 26 calls where roughly 8 would do.",
+ "failure_type": "efficiency",
+ "evidence": [
+  "emerald calset 3a1a9ad0-0c98-49db-8cf5-7623d13729f4 qubits 54 cz loci 85 ... emerald:mock ... cz loci 90",
+  "kim_theta_0.2pi cz 255 distinct 85 nmeas 54 cone 13 ideal +0.4524 measured -0.0110",
+  "Command did not complete within its 120s timeout and was moved to the background"
+ ]
+}

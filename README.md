@@ -7,7 +7,7 @@ This project asks two simple questions.
 
 ## Start here
 
-[Can an AI assistant run materials experiments on a quantum computer?](spe/knowledge/quantum-materials-explainer.md) is a plain-language write-up of the latest round. It needs no background in AI tools or quantum computing.
+[Did a 54-qubit quantum computer get the physics right?](spe/knowledge/emerald-magnet-explainer.md) is a plain-language write-up of the latest round. It needs no background in AI tools or quantum computing. The round before it is [Can an AI assistant run materials experiments on a quantum computer?](spe/knowledge/quantum-materials-explainer.md)
 
 ## Where this is going
 

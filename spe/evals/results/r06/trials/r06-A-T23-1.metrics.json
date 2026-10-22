@@ -1,0 +1,38 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/e7751dc6-866f-4ba0-8f69-f893e3aab683/subagents/workflows/wf_8d7e6233-d69/agent-acdfc75481e415f38.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 331.5,
+ "ended": "2026-10-22T16:51:33.010000Z",
+ "api_calls": 24,
+ "tokens": {
+  "input_tokens": 48,
+  "output_tokens": 33686,
+  "cache_read_input_tokens": 1726232,
+  "cache_creation_input_tokens": 105351,
+  "total": 1865317,
+  "fresh": 139085
+ },
+ "tool_calls": 31,
+ "tool_errors": 3,
+ "tool_errors_by_class": {
+  "guard": 1,
+  "agent": 2,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 23,
+  "Write": 5,
+  "Edit": 1,
+  "Read": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "grep -n -i -E \"prx|phase|angle|move|optimiz|merge|heralding|dynamic|Circuit\\(|Instruction\\(|submit_circuits|get_job|counts|billed\" /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md",
+  "grep -rn -i \"billed\\|compute_time\\|execution_time\" /Users/claytonchancey/Desktop/quantum/docs/iqm/05-results-and-data.md",
+  "sed -n 170,200p /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md; sed -n 465,530p /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md; cat /Users/claytonchancey/Desktop/quantum/.claude/worktrees/wf_8d7e6233-d69-7/scripts/check_iqm.py"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r06-A-T23-1"
+}

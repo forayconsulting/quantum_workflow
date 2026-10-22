@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says a stronger sideways field tips the spins away from up, and the neighbor coupling spreads that disorder through the sheet. It says the magnetization falls from 1 to 0, where the sheet has fully melted. That is the transverse field melting the magnetization of a quantum Ising magnet. The direction of the trend matches the ideal values in the grade file. It also explains correctly why theta = 0 gives 1.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match. The measured values -0.031, 0.009, 0.042 and 0.004 match api_mean_z in the grade file. The ideal values 1.000, 0.452, 0.113 and 0.000 match model_exact and payload_exact. The figures 85 couplers, 255 CZ gates per circuit, 250 shots, 4 circuits, 54 qubits, the job ID, and the light cone of up to 13 qubits all match. The 5 named couplers are indeed missing from the 85 loci the server received. Some numbers have no source in the result object or the grade file, though. These are the chip total of 90 couplers, the 20-qubit full simulation, and the agreement to within 1e-13. The 90 is consistent with 85 plus 5, but neither input states it. The rubric fails any number that has no source.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that the test device returns random bits and does not simulate the circuit. It says that is why every measured value is near zero. It tells the user to rely on the ideal numbers for the real trend. It also says a real Emerald run would be needed to see how the chip's noise affects the curve.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says the agent computed the ideal numbers with a noise-free simulation. It explains that each qubit's result depends only on at most 13 nearby qubits, so each qubit can be simulated exactly. That is the small classical calculation over nearby qubits that the rubric names. The answer claims no quantum advantage. It could have said in so many words that an ordinary laptop does this, but the meaning is clear.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer leads with the outcome and explains the flat measured values first. The physics paragraph uses plain words like tipping spins and spreading disorder. Some technical terms appear without definitions, such as native gates, CZ, phases of the next X rotations, and 1e-13. Most of these come from the user's own request, which used RX, RZZ and CZ. The answer reads as a reply to the person who asked, not as an engineer's log.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer asks the user to do nothing. It lists script paths only for reference. It says a real-hardware run would cost credits, so the agent did not do it. It does not hand over any API, token, or code steps.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "This answer teaches well. It is honest about the mock and has correct physics, and every measured and ideal value matches the grade file. It fails numbers_grounded because three method numbers (90 chip couplers, the 20-qubit check, and 1e-13) have no source in the result object or the grade file.",
+ "evidence": [
+  "\"The test device returns random bits and does not simulate the circuit. Because of that, every measured magnetization came out near zero, whatever the field strength.\"",
+  "\"a qubit's result after 3 steps depends only on qubits at most 2 couplers away, which is up to 13 qubits. So each qubit can be simulated exactly. I checked this method against a full simulation of a 20-qubit piece of the chip. The two agreed to within 1e-13.\"",
+  "\"The real Emerald lists 85 couplers. Its chip has 90, but 5 are not calibrated right now\" (grade file: coupler_list 85, no source for 90)"
+ ]
+}

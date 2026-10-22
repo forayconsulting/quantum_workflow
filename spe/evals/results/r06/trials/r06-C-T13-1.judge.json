@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the provided helper iqm_run.py for calib, arch, submit, and result. It used one short REST call to read back the submitted payload. All of these fit the task. It spent 4 calls reading the helper source and the REST doc to learn the native JSON instruction format. That was research the submit path needed, not a move to a tool that could not do the job. No call went to a wrong tool.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission went to garnet:mock with 200 shots. The circuit had CZ on [QB12, QB7] and [QB12, QB11], plus prx gates, and measured QB7, QB12, QB11. The grader confirms right_qpu, right_shots, right_qubit_count, circuit_correct_sim, best_triple_measured, and cz_on_best_edges. It was right on the first submission.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent pulled the garnet calibration and the garnet architecture before it picked a chain. It confirmed both used calibration set 9069c4ef, which matches the grader truth. It checked that all 30 CZ loci had fidelities. It used the CZ locus orientation from the architecture when it built the gates.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, only to garnet:mock. It made no real-QPU job. The grader shows no_unrequested_real_jobs and job_count_ok true. Duplicate lines in the JSONL are the same tool_use blocks repeated in the log. The metrics show 3 Write calls and one job, so no identical call was repeated.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The job ID 01a16482-6ea0-70f0-bb08-64a59e097d90 went from the submit output into the result fetch, the payload readback, and the final report without change. The counts 000:48, 001:47, 110:61, 111:44 match the API, and the grader shows counts_match_api true. The chain fidelities carried through correctly.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 16 tool calls, which is 15 without StructuredOutput. The minimum for T13 is 5, so the limit is 10. The agent spent 7 calls on orientation: helper help, README, submit and run help, 2 helper source reads, and 2 doc reads. It also used 2 Write and run pairs, plus a readback pair. The total is over twice the minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report names chain QB7-QB12-QB11 with product 0.99852, fidelities 0.99945 and 0.99907, and runner-up QB11-QB12-QB17 at 0.99818. All of these match the script output. The job ID, the counts, and the bit order match the tool results. The agent said plainly that the mock returns random counts that do not show entanglement. It also said the 50/50 GHZ split came from its own noiseless simulation. Leaving counts_list empty is the stated contract.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent found the correct best chain QB7-QB12-QB11 and ran one correct GHZ job on garnet:mock with an honest report, but it used 15 tool calls against a minimum of 5.",
+ "failure_type": "efficiency: over twice the minimum tool calls, mostly from format research and a separate Write and run pair for each step",
+ "evidence": [
+  "BEST chain QB7-QB12-QB11 product 0.9985204499 f_ab 0.9990663947 f_bc 0.9994535451",
+  "ghz_QB7_QB12_QB11 cz 2 cz loci [['QB12', 'QB7'], ['QB12', 'QB11']] measured [['QB7', 'QB12', 'QB11']]",
+  "metrics: tool_calls 16 (Bash 11, Read 1, Write 3, StructuredOutput 1), minimum for T13 is 5"
+ ]
+}

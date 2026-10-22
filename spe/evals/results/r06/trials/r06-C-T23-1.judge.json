@@ -1,0 +1,36 @@
+{
+ "arguments": {
+  "critique": "First submission correct.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "20 tool calls against an estimated minimum of about 10. No errors.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "Reported values match tool output. Mock limits are stated.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "Job IDs carried correctly from test to final.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "All 7 checks pass for r06 C T23 1.",
+ "failure_type": "none",
+ "evidence": [
+  "/Users/claytonchancey/Desktop/quantum/spe/evals/results/r06/trials/r06-C-T23-1.grade.json pass true"
+ ],
+ "tool_choice": {
+  "critique": "Helper and REST fit the task.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Read arch emerald before building.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "No real QPU jobs. Two mock jobs as asked.",
+  "verdict": "PASS"
+ }
+}

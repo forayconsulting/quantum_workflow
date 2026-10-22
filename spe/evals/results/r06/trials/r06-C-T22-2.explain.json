@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says a sideways field tips each spin, and the spin-spin coupling spreads those tips through entanglement. It says this wipes out the order, so the magnetization falls from 1 to 0. That is a correct account of a transverse field melting the magnetization of a kicked Ising magnet. The detail that theta = 0.5 pi is a quarter turn is also correct.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The main numbers match the grade file. The ideal values 1.000, 0.446, 0.102 and 0.000 match model_exact. The measured values -0.005, 0.031, -0.006 and 0.002 match api_mean_z. The figures 83 couplers, 249 CZ gates, 250 shots, billed_seconds 1.0 and 0 credits also match. Some other numbers have no source in either file. These are the calibration set ID 3a1a9ad0 (the job's own set is 0584192b), the 90 mock couplers and the 7 extras, the 12-qubit check with agreement to 1e-15, and the rate of 0.75 credits per second. None of them contradicts the files, but the rubric fails any number with no source.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer states that the mock does not simulate the circuit and returns random bitstrings. It explains that this is why theta = 0 reads near 0 instead of 1. It also says the run cannot show the physics and only shows that the job is valid.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says the ideal values came from an exact noise-free simulation. It explains that after 3 steps each qubit feels only qubits up to 2 couplers away, so an exact calculation covers all 54 qubits. That tells the reader an ordinary computer produced these values. It never claims a quantum advantage. It does not use the words \"classical computer\", but the point is clear.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The physics part is plain. It defines magnetization as the average of Z, and it says that a 0 counts +1 and a 1 counts -1. Its explanation of what a perfect machine would show is easy to follow. The \"What I built\" paragraph is heavier. It uses calibration set IDs, native gate format, and Z rotations folded into RX phases without defining them. That paragraph is short, and the answer still reads as a reply to the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It offers to run the circuits on real hardware only with the user's OK, and the agent would do that run itself.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer explains the melting physics and the mock limits clearly, and all its observable values match the grade file. It fails numbers_grounded only because it cites a few figures that neither input file contains, such as the 90 mock couplers and 0.75 credits per second.",
+ "evidence": [
+  "The mock does not simulate the circuit. It returns random bitstrings. That is why even theta = 0 reads about 0 and not 1.",
+  "After 3 steps, each qubit can only feel qubits up to 2 couplers away. That makes an exact calculation possible for all 54 qubits.",
+  "That costs credits at about 0.75 credits per second, so I did not run it without your OK."
+ ]
+}

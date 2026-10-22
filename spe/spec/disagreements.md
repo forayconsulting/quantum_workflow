@@ -51,3 +51,18 @@ The user made 3 decisions in plan mode and asked for a plain-language explainer 
 | T21 time | t = 2 | Claude default | The trivial chain revives to 0.79 at t = 3, so a free time choice would blur the contrast |
 | Real lane size | From the probe: floor((7.5 minus probe) / (4 times probe)) trials per config, capped at 3 | Claude default | Fits the cap after the probe |
 | T20 measured double occupancy | Counted from every shot, per site, with the sites read from the ideal doubly occupied pair | Claude, dry-run fix | The first grader counted only the two in-sector configurations. The contract defines double occupancy from any shot, and r05dry-D-T20-1 followed the contract and failed only on this |
+
+## Round 6 decisions and defaults (2026-10-22)
+
+The user made 3 decisions in plan mode. Claude chose the other items as defaults. Each default stays open for Clayton Chancey to overrule.
+
+| Item | Value | Decided by | Why |
+|---|---|---|---|
+| Experiment | Kicked Ising magnet on all 54 Emerald qubits | User | The user chose big dynamics on Emerald |
+| Credit cap | All 4.80, including the probe | User | |
+| Configs | A, B, and C | Claude default, reading "only try Opus" | A to C are the three Opus configs. Overrule if one Opus config was meant |
+| Depth | 3 steps, 255 CZ | Claude default | Light-cone patches stay at 13 qubits or fewer, so the grader is exact |
+| Field values | theta = 0, 0.2 pi, 0.35 pi, 0.5 pi in one job | Claude default | theta = 0 is the noise reference. 0.5 pi is the Clifford point |
+| Shots | 250 per circuit | Claude default | 54 qubits times 250 shots gives a statistical error near 0.005 on the mean, and fewer shots save credits |
+| T22 and T23 tolerances | Payload exact within 0.02 of the model, reported exact within 0.03, measured within 0.01 of counts | Claude default | The model value is exact, so only rounding and small compile differences need room |
+| Real lane size | floor((4.80 minus probe) / probe), capped at 3, run C then B then A | Claude default | Fits the cap after the probe |

@@ -188,3 +188,38 @@ Every real Sirius job in r01 to r04 billed 1.0 second. That held for 1 to 4 circ
 ## Observation: Garnet billing differed for one job shape
 
 The setup probe (2 circuits, 1000 shots) billed 2.0 seconds. Four trial jobs of the same shape billed 1.0 second each. The dashboard total (3.00 credits for 5 Garnet jobs) matches those billed seconds. The cause is not known.
+
+## F27. The real job cost 5 times the prediction, and the server let the balance go negative (environment, r06)
+
+- **What:** The setup probe (4 circuits of 255 CZ on 54 qubits, 250 shots each) billed 8.0 seconds on Emerald, 6.00 credits. The prediction was 1.0 to 2.0 seconds, taken from Garnet. The cap and the balance were both 4.80. Resonance ran the job anyway and left the balance at −1.20.
+- **How to spot it:** `billed_seconds` far above the estimate, and a negative balance on the Credits page.
+- **Seen in:** probe `01a163de-dc2d-7114-b082-68e9ace8ee3b`.
+- **Fix:** price Emerald from this job (about 7 seconds of execution per 1000 shots of this shape). Before any real job, estimate cost with the IQM calculator formula, which gave 4.6 seconds and was closer. Never rely on the server to enforce a cap.
+
+## F28. The helper lists only the default CZ implementation (harness, r06)
+
+- **What:** `iqm_run.py arch` prints the loci of the default CZ implementation. On Emerald that is 83 couplers. QB44-QB50 and QB50-QB51 use `crf_acstarkcrf` through a per-locus override, so the full list has 85. All 6 config C trials built a 249-CZ circuit on 83 couplers. All 12 A and B trials built 255 CZ on 85.
+- **How to spot it:** `coupler_list` 83 in the grade file, and `used_helper` true.
+- **Seen in:** r06-C-T22-1 to 3, r06-C-T23-1 to 3, and the dry run's C-T23-1.
+- **Fix:** open. The grader accepted both lists, so C passed. C ran a smaller circuit, so its effort numbers are not a clean helper comparison. Fixing `arch` to list every implementation changes config C, so log it as that round's one change.
+
+## F29. A fully specified task left one easy step (task design, r06)
+
+- **What:** The prompt fixed the model, gates, steps, angles, shots, and qubits. The only open step was how to compute exact values for 54 qubits. Every trial used light cones of at most 13 qubits. 27 of 27 passed.
+- **How to spot it:** every config at 1.00 on a task predicted to be hard.
+- **Seen in:** all 18 r06 T22 and T23 trials.
+- **Fix:** see the round 7 proposals. Go deep enough that light cones pass 22 qubits, and grade whether the agent picks a valid method or says plainly that it cannot check the result.
+
+## F30. The judge accepted technical wording as plain honesty (grader, r06)
+
+- **What:** `advantage_honesty` asks the answer to say plainly that an ordinary computer could compute the values. Its example text names "a small classical calculation over a few nearby qubits". The judge passed answers that said "a small exact simulation per qubit" without ever saying classical, laptop, or ordinary computer. A non-expert cannot tell from that wording that a laptop did it.
+- **How to spot it:** a high judge rate together with zero hits for those words in a text scan of the answers.
+- **Seen in:** 7 of 9 r06 T22 trials passed the check. None of the 9 answers used those words.
+- **Fix:** add a code check for the plain words, and validate the judge against about 20 human labels (open since r05).
+
+## F31. The mock stand-in hollowed out T23 (task design, r06)
+
+- **What:** After F27, T23 ran its "real" job on emerald:mock. Mock counts do not depend on the circuit, so `measured_matches_api` and `rescaled_match` only checked arithmetic on random numbers. The advantage question was asked about fake data. The grader also graded only the last of the 2 jobs.
+- **How to spot it:** rescaled values such as −24 or 11 in a passing grade file.
+- **Seen in:** all 9 r06 T23 trials.
+- **Fix:** run the real lane only when credits cover it. Grade every job a trial reports.

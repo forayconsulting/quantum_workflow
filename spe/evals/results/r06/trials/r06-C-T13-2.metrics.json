@@ -1,0 +1,36 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/e7751dc6-866f-4ba0-8f69-f893e3aab683/subagents/workflows/wf_8d7e6233-d69/agent-ac813ad65fc99092b.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 70.9,
+ "ended": "2026-10-22T16:47:13.631000Z",
+ "api_calls": 9,
+ "tokens": {
+  "input_tokens": 18,
+  "output_tokens": 5244,
+  "cache_read_input_tokens": 513884,
+  "cache_creation_input_tokens": 52101,
+  "total": 571247,
+  "fresh": 57363
+ },
+ "tool_calls": 11,
+ "tool_errors": 0,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 7,
+  "Read": 2,
+  "Write": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": true,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -n -A3 '\"prx\"\\|\"locus\"\\|\"measure\"' /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r06-C-T13-2"
+}

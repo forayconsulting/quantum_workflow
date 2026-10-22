@@ -1,0 +1,12 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SPE r06 dashboard</title><style>
+:root{--bg:#fff;--fg:#1a1a1a;--bar:#3b6ea8;--line:#ddd}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e8e8e8;--bar:#6c9bd2;--line:#333}}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif;margin:0 auto;max-width:760px;padding:16px}
+svg text{fill:var(--fg);font-size:13px} table{border-collapse:collapse;width:100%} td,th{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left}
+</style></head><body><h1>SPE r06: IQM agent eval</h1>
+<p>27 complete trials. Estimated real-QPU credits: 0.</p>
+<h2>pass@1 on mock tasks, with 95% Wilson interval</h2>
+<svg viewBox="0 0 520 260" width="100%" role="img" aria-label="pass at 1 by config"><rect x="60" y="230" width="60" height="0" fill="var(--bar)"/><line x1="90" x2="90" y1="230" y2="230" stroke="var(--fg)" stroke-width="2"/><text x="90" y="250" text-anchor="middle">A</text><text x="90" y="224" text-anchor="middle">0.00</text><rect x="170" y="230" width="60" height="0" fill="var(--bar)"/><line x1="200" x2="200" y1="230" y2="230" stroke="var(--fg)" stroke-width="2"/><text x="200" y="250" text-anchor="middle">B</text><text x="200" y="224" text-anchor="middle">0.00</text><rect x="280" y="230" width="60" height="0" fill="var(--bar)"/><line x1="310" x2="310" y1="230" y2="230" stroke="var(--fg)" stroke-width="2"/><text x="310" y="250" text-anchor="middle">C</text><text x="310" y="224" text-anchor="middle">0.00</text><rect x="390" y="230" width="60" height="0" fill="var(--bar)"/><line x1="420" x2="420" y1="230" y2="230" stroke="var(--fg)" stroke-width="2"/><text x="420" y="250" text-anchor="middle">D</text><text x="420" y="224" text-anchor="middle">0.00</text><line x1="40" x2="500" y1="230" y2="230" stroke="var(--line)"/></svg>
+<h2>Per config</h2><table><tr><th>Config</th><th>pass@1</th><th>pass^3 cells</th><th>T6</th><th>Tool calls</th><th>Total tokens</th><th>Wall min</th></tr><tr><td>A</td><td>None</td><td>3</td><td>n/a</td><td>23</td><td>1514429</td><td>5.3</td></tr><tr><td>B</td><td>None</td><td>3</td><td>n/a</td><td>25</td><td>1677361</td><td>5.7</td></tr><tr><td>C</td><td>None</td><td>3</td><td>n/a</td><td>18</td><td>993839</td><td>3.8</td></tr><tr><td>D</td><td>None</td><td>0</td><td>n/a</td><td>None</td><td>None</td><td>None</td></tr></table>
+<p>Source: r06.json. Tokens and latency only. No dollar cost.</p></body></html>

@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the effect the user asked about. It says the sideways field pushes each spin away from up, the neighbor couplings spread that change across the sheet, and a stronger field melts the order faster. This is the transverse-field melting of an Ising magnet, and the answer states it correctly. Its explanations of the end points also hold up. With theta = 0 nothing tilts, so the magnetization stays at 1. At theta = 0.5 pi the average is exactly zero, and the simulation gives 6e-18. The answer never uses the word quantum for the principle, but the physics it states is right.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values 1.000, 0.452, 0.113 and 0.000 match the grade file's model_exact and payload_exact values (1.0, 0.4524, 0.1132, 6e-18). The measured values 0.013, -0.003, 0.019 and 0.011 match api_mean_z. The answer says 85 couplers and 255 CZ gates per circuit, and the grade file has coupler_list = 85 and cz_per_circuit = 255. The answer also gives the job ID, 250 shots, 4 circuits, 0 credits, and 54 measured qubits, and all of these match the grade file. The claim that the mock lists 90 couplers matches a comment in /Users/claytonchancey/Desktop/quantum/spe/evals/graders/grade.py. Two numbers come only from the agent's own checking: the 14-qubit piece and the 1e-15 agreement. Neither file confirms them, but neither file contradicts them. They describe the agent's checks, not results, so they do not change the verdict.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the job ran on emerald:mock, IQM's free test version. It says the mock's counts do not depend on the circuit, so these numbers say nothing about physics. It points out that theta = 0 returned 0.013 when the true answer must be 1. It also says only a run on the real Emerald would show the melting curve. This is clear and honest.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer claims no quantum advantage. But it never says plainly that an ordinary computer could work out these values. It says 'I simulated the exact circuits I sent' and mentions a 'shortcut method' and a 14-qubit piece. A non-expert would not learn from this that a small classical calculation over nearby qubits gives the exact answer. The rubric requires a plain statement that a classical computer could do this, and the answer does not give one.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "Most of the answer uses short, plain sentences. It defines magnetization as the average spin, where +1 means every spin points up. It explains each field value in everyday words. Some parts are written for engineers: 'native gates', 'CZ', 'folded into the next rotation', '1e-15', the counts_list field, and the paragraph of scratch file paths. These parts are small, and the main story is still easy to follow. The answer reads as a reply to the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It mentions that a real Emerald run would cost credits, but it does not hand the user steps to do it. The file paths are given only for reference.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer explains the melting correctly, reports grounded numbers, and is honest about the mock, but it never says plainly that a classical computer could compute the ideal values.",
+ "evidence": [
+  "The mock device checks that a job is valid and runs it, but its counts do not depend on the circuit. So these numbers say nothing about physics.",
+  "theta = 0.2 pi: 0.452. A weak field already removes more than half the magnetization in 3 steps.",
+  "I checked the simulation two ways. A full simulation of a 14-qubit piece agreed with my shortcut method to about 1e-15."
+ ]
+}

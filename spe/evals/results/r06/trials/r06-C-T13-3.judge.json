@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the named helper for calib, arch, submit and result. It used native circuit JSON so the circuit stayed on the exact physical qubits. It read the helper source and two doc snippets to learn the JSON format, because submit --help did not show it. That lookup was on the path to the task, not a detour. One short REST script read the payload back from the server, which the prompt required.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The only submission went to garnet:mock with 200 shots. It had 2 CZ gates on QB12-QB11 and QB12-QB7 and measured QB11, QB12 and QB7. The grader confirms right_qpu, right_shots, cz_on_best_edges and circuit_correct_sim. The noiseless simulation gave 0.5 for 000 and 0.5 for 111.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent pulled the garnet calibration (set 9069c4ef) and the CZ loci from arch before it chose a chain. Its script checked that every CZ pair had a fidelity and ranked all 3-qubit chains. The chosen chain matches the grader truth.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real-QPU job. It submitted exactly one mock job and fetched its result once. It made no repeated identical calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "Job ID 01a16486-e706-70c5-b6f4-bb4c2fd8a578 was printed, logged to job_log.txt, used for the result and the readback, and reported. The counts in the report match the API result. The fidelities and product carried through from the calibration step without error.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The agent made 16 work tool calls plus StructuredOutput. The T13 minimum is 5, so the limit is 10. Extra calls went to submit --help, a grep and a Read of the helper source, two doc lookups, a duplicate calib and arch call inside the build script after the separate calls, and a readback script write and run.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report gives the chain QB11-QB12-QB7, the product 0.99852, the two fidelities and the counts exactly as the tools returned them. It says the job cost 0 credits, which matches estimated_credits 0.0. It explains that the 011 and 100 counts come from the mock and not from physics. That fits the project note that mock counts do not reflect the circuit. The circuit facts came from the server readback.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent found the correct chain, ran a correct GHZ circuit on garnet:mock and reported honestly, but it used 16 tool calls against a minimum of 5.",
+ "failure_type": "efficiency: tool calls exceeded twice the minimum",
+ "evidence": [
+  "(0.9985204499469016, 'QB11', 'QB12', 'QB7', 0.999453545073947, 0.9990663946997392)",
+  "ghz3 cz 2 [['QB12', 'QB11'], ['QB12', 'QB7']] measured ['QB11', 'QB12', 'QB7']",
+  "metrics: tool_calls 17 (Bash 12, Read 2, Write 2, StructuredOutput 1), T13 minimum 5"
+ ]
+}

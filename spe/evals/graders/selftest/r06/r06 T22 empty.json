@@ -1,0 +1,13 @@
+{
+ "name": "r06 T22 empty",
+ "task": "T22",
+ "expect_pass": false,
+ "result": {
+  "status": "failed",
+  "job_ids": [],
+  "quantum_computer": "",
+  "shots": 0,
+  "counts": {},
+  "answer": ""
+ }
+}

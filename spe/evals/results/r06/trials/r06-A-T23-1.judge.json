@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent chose fitting tools. It used the raw IQMClient with native prx and cz gates, so no transpiler could change the coupler gates. It used one REST GET to find billed_seconds. But the analysis step detoured badly. The agent guessed SDK attributes (job.job_data, payload.shots) without checking them. Recovery took about 7 calls: inspect_job.py write and run, an Edit, a failed rerun, two inspect.getsource calls, a python patch, and a rerun. That is more than the 2-call detour limit.",
+  "verdict": "FAIL"
+ },
+ "arguments": {
+  "critique": "Both submissions used emerald:mock, 250 shots, and 4 circuits. Each circuit had 255 CZ gates, which is 85 real emerald couplers times 3 steps, and measured QB1 to QB54. The agent used the 85 real emerald loci and not the 90 mock loci, as the task asked. The grader confirms right_qpu, right_shots, four_circuits, every_coupler_once_per_step, kicked_ising_physics, and cz_readback. The first submission was already correct.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before building circuits, the agent fetched the dynamic architecture for both emerald and emerald:mock. It found 54 qubits, 85 CZ loci on emerald (calibration set 3a1a9ad0), and 90 loci on the mock. It noticed that the coupler sets differ and used the real list.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted exactly 2 jobs, both to emerald:mock, as the task asked. It sent nothing to a real QPU. The DQA call queried real emerald metadata only, which is free and was required. Repeated analyze runs followed code edits, so they were not identical calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The test job 01a16483 and the final job 01a16484 were tracked correctly. The agent analyzed the final job for observables and billed seconds. The rescaled values divide by the final job's theta = 0 value of 0.0283. The grader confirms measured_matches_api, rescaled_match, billed_seconds_match, and same_circuits.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The rubric lists no minimum for T23. A labeled estimate of the minimum is about 8 to 10 calls: architecture fetch, write builder, check, submit test, analyze, submit final, analyze, billed read, output. The agent made 31 unique tool calls with 3 tool errors. That is about 3 times the estimate. Most of the waste came from SDK guessing in the analyze step and the guard refusal of a compound command.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report matches the tool output. It gives the ideal and measured values and billed_seconds 1.0 from the API. It states plainly that the mock counts do not depend on the circuit, so the measured and rescaled values are meaningless. It says no real QPU was used. The laptop answer and the light cone of 13 qubits match the agent's selftest and the grader. It correctly says this is not a quantum advantage.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The code grader passed the trial. The circuits, mock-only jobs, and report were correct and honest, but SDK guessing in the analyze step cost about 7 extra calls and 31 calls in total.",
+ "failure_type": "inefficiency: guessed SDK job-object API (job_data, payload) and debugged it by trial and error",
+ "evidence": [
+  "AttributeError: 'CircuitJob' object has no attribute 'job_data'",
+  "AttributeError: 'tuple' object has no attribute 'shots'",
+  "emerald 3a1a9ad0-0c98-49db-8cf5-7623d13729f4 54 cz loci 85 ... emerald:mock 0584192b-... 54 cz loci 90 ... same cz set False"
+ ]
+}

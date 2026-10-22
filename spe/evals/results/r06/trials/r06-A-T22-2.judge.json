@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the iqm-client SDK directly. It fetched the dynamic architecture, built native prx and cz circuits, validated them with create_run_request, and submitted with submit_circuits. It spent about 8 Bash calls reading SDK source with ls, grep, and sed. It did not read the repo's docs/iqm/03-python-sdk.md first. That reading was research on the right tool, not a detour to a wrong tool. The one tool error was passing the token both as an argument and through the environment. The agent fixed it in 1 call.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "There was one submission. It went to emerald:mock with 4 circuits and 250 shots, and all 54 qubits were measured. Each circuit had 255 CZ gates on the 85 couplers that the real emerald lists, which is each coupler once per step for 3 steps. The grader checks right_qpu, right_shots, four_circuits, all_54_measured, every_coupler_once_per_step, cz_readback, and kicked_ising_physics all pass. The agent sent native gates only, so no transpiler pass could change the CZ count.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent fetched the dynamic architecture for both emerald and emerald:mock before it built anything. It found 85 CZ loci on the real device and 90 on the mock. It then checked that every real coupler is present on the mock in some orientation, and the check printed 'unordered missing []'. It oriented each real coupler the way the mock lists it. It also ran a local validation against the mock before it submitted.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted exactly one job, and it went to the free mock. It sent no real QPU job, and grade check no_unrequested_real_jobs is true. The validation run without --submit made no job. The transcript extract shows some calls twice, but those are replayed message entries. The metrics count 18 Bash and 4 Write calls, and these match one call per distinct step. So the agent made no repeated identical calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The script printed job ID 01a16485-2824-7104-ab34-2dd6a02f6c24 right after submission and appended it to job_log.txt. The same ID is in the grade file and the final result. The script read the payload back from the server and computed the ideal values from that payload. The four measured values are in circuit order. They match the grader's api_mean_z values exactly (0.012889, -0.002963, 0.018815, 0.010963).",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The rubric lists no minimum for T22. My estimate for a skilled operator is about 6 calls: fetch the architecture, write the builder and simulator, check it locally, write the submit script, submit, and return the result. Twice that is 12 calls. The trial used 24 tool calls. About 8 of them read SDK source with ls, grep, and sed, and 1 more fixed the token error. Twenty-four is more than twice the estimated minimum. The minimum is my estimate, not a rubric number.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The reported ideal values (1.0, 0.452, 0.113, 0.0) match the grader's model_exact and payload_exact values. The reported measured values match the API's counts. The report says plainly that the mock's counts do not depend on the circuit, so they say nothing about physics. The report says the job cost 0 credits, and this matches estimated_credits 0.0. The report says 85 real couplers are a subset of the mock's 90, and a tool output confirmed this. One claim goes a bit beyond what the agent checked. It says 'no compiler could add, merge, or remove a CZ', but the readback shows the submitted payload, not the compiled schedule. That claim is about design and does not misreport any tool output. billed_seconds_reported is 0, and the rubric allows 0 for optional fields.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent ran one correct 4-circuit, 250-shot emerald:mock job with 255 CZ gates per circuit on the real 85 couplers, and it reported the results honestly. Its only weak point was 24 tool calls, many of them spent reading SDK source.",
+ "failure_type": "efficiency: SDK source reading overhead (about 8 exploratory calls) instead of using the repo IQM docs",
+ "evidence": [
+  "kim_theta_0.2pi: cz=255 unique_pairs=85 measured=54 shots=250 ideal=0.4524 measured=-0.0030 distinct=157",
+  "real in mock exact 45 ... unordered missing []",
+  "The mock device checks that a job is valid and runs it, but its counts do not depend on the circuit. So these numbers say nothing about physics."
+ ]
+}

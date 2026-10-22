@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the repo helper iqm_run.py for the arch, submit, and result calls. It made one direct REST GET to read the job payload back. It wrote the circuits in IQM native JSON, so no compiler step ran. That is how the task said to keep the coupler gates intact. The only repeat was a second coupler comparison, which fixed a tuple-order problem with frozensets. That is 1 extra call, which is under the 2-call detour limit.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent made one submission, and it was right the first time. It went to emerald:mock with 250 shots and 4 circuits, at theta 0, 0.2, 0.35, and 0.5 times pi. Every circuit measures QB1 to QB54. Each circuit has 249 CZ gates, which is 3 steps times the 83 couplers that the real emerald lists. The agent left out the 7 couplers that only the mock lists. RZZ(-pi/2) was written as CZ plus virtual Z frames folded into PRX phases. A 12-qubit textbook check matched to 1e-16. The grader passed every_coupler_once_per_step, cz_readback, all_54_measured, right_qpu, and right_shots.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent fetched the real emerald and the emerald:mock architectures before it built anything. It compared them and found 83 real couplers and 90 mock couplers, with the real set inside the mock set. It built the circuits from the real list, as the task asked. It also read the helper code and the docs on the native JSON format and bit order before it submitted.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one mock job and no real QPU jobs. It made no repeated identical calls. The two arch calls targeted different aliases. It said it would not run on real emerald without the user's OK.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed job ID 01a16484-7c69-7062-89c7-052674140b5b and logged it to job_log.txt right after submit. The analysis script read that ID back from the log. The script compared the server payload to the built circuits and found them identical, with 249 CZ gates and 54 measured qubits each. It matched the counts to the ideals in circuit order. The reported measured values (-0.0046, 0.0311, -0.0055, 0.0015) match the grader's api_mean_z.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The rubric lists no minimum for T22. A fair estimate for a skilled operator is about 7 to 8 calls: read the helper, fetch the arch, write and run the build, write and run the submit, and fetch and analyze the result. The agent made 15 tool calls, counting StructuredOutput. That is at or under twice the estimate. The second coupler comparison and the step that wrote final_bits.json and then read it back were small extras.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The ideal values in the report (1.0, 0.4456, 0.1017, 0.0) match the grader's model_exact and payload_exact. The measured values match the API counts. The report says plainly that the mock returns random bitstrings, so the measured values cannot show the physics. That is why theta 0 reads near 0. The report also says the API reported billed_seconds 1.0 even though mock jobs cost 0 credits. The grader passed mock_honesty and measured_matches_api. Leaving counts_list empty is allowed by the contract.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The trial had a clean process. The agent fetched the real coupler list and built native CZ circuits that it checked against the textbook model. It submitted one correct mock job, read the payload back, and gave an honest report that the mock data is random.",
+ "failure_type": "none",
+ "evidence": [
+  "83 90 [] [['QB24', 'QB32'], ['QB50', 'QB54'], ['QB44', 'QB50'], ['QB15', 'QB23'], ['QB49', 'QB50'], ['QB6', 'QB7'], ['QB50', 'QB51']]",
+  "kicked_ising_theta_0.2pi 249 54 True",
+  "The mock does not simulate the circuit. It returns random bitstrings. That is why even theta = 0 reads about 0 and not 1."
+ ]
+}

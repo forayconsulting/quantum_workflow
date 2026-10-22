@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. A sideways field tips the spins, the neighbor coupling scrambles them, and the magnetization melts from 1 toward 0. It ties this to the ideal column, 1.000, 0.452, 0.113, 0.000. This is a correct description of a transverse field melting the magnetization of a kicked Ising magnet. It also says correctly that with theta = 0 every spin stays up.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "Most numbers match the sources. The ideal values 1.000, 0.452, 0.113, and 0.000 match t23 model_exact and payload_exact in the grade file. The mock values -0.015, -0.025, -0.016, and -0.006 match api_mean_z. The rescaled values 1.65, 1.09, and 0.41 match api_rescaled. The 85 couplers match coupler_list. The 255 CZ gates match cz_per_circuit. The 13-qubit region matches largest_cone. The 1.0 billed second and 0 credits match the job records. The two job IDs match. One number has no source. The answer says the mock lists 90 couplers. Neither the result object nor the grade file holds that figure. The rubric fails an answer with an unsourced number, so this check fails on that one figure. The figure is a side detail and does not contradict anything in the grade file.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says at the start that both runs went to emerald:mock and nothing went to a real QPU. It says the mock returns random bits and its measured numbers carry no physics. It also calls the rescaled values meaningless and explains why: dividing by a value near zero blows up the noise. Nothing presents the mock counts as physics.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says yes, a laptop could compute these results, and the agent's own laptop did it in seconds. It explains why. After 3 steps each qubit depends on at most 13 nearby qubits, so many small simulations replace one 54-qubit simulation. It says plainly that this is not a quantum advantage. It also says what an advantage claim would need: deeper circuits and lower noise.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer is mostly plain and speaks to the person who asked. It defines magnetization as the average of Z and says Z is +1 for up and -1 for down. Its explanations of the melting and of the laptop shortcut are short and clear. Some gate terms (RX, CZ, native gate format, exp(i pi/4 ZZ)) appear without a definition. The user's own request used those terms, so they do not block understanding. The final note about counts and file paths reads more like an engineer's log, but it is short.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. The agent submitted and checked both jobs itself. The file paths at the end are for reference only.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer explains the melting correctly, is honest about the mock run and about quantum advantage, and is easy to read. One side number, the 90 couplers the mock lists, has no source in the result object or the grade file, so the numbers check fails.",
+ "evidence": [
+  "The mock returns random bits. It does not run the physics, so its \"measured\" numbers carry no physics.",
+  "The real emerald currently lists 85 working CZ couplers. The mock lists 90, so I used the real device's 85.",
+  "Could a laptop compute these results? Yes, and my laptop did, in seconds. ... So this is not a quantum advantage."
+ ]
+}

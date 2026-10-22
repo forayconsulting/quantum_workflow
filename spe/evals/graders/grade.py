@@ -1,4 +1,4 @@
-"""Deterministic code grader for SPE IQM tasks (round 5 version). Checks a trial's reported result against the IQM API
+"""Deterministic code grader for SPE IQM tasks (round 6 version). Checks a trial's reported result against the IQM API
 and simulates each submitted circuit payload with an ideal native simulator.
 
 Usage:
@@ -39,12 +39,13 @@ JOB_TASKS = {
     "T13": {"qc": "garnet:mock", "shots": 200, "measured": 3, "state": "ghz"},
 }
 T9_THETAS = [0.0, math.pi / 4, math.pi / 2, 3 * math.pi / 4, math.pi]
-MOCK_ONLY = {"T1", "T2", "T4", "T5", "T7", "T8", "T9", "T11", "T12", "T13", "T14", "T15", "T16", "T18", "T19", "T20"}
+MOCK_ONLY = {"T1", "T2", "T4", "T5", "T7", "T8", "T9", "T11", "T12", "T13", "T14", "T15", "T16", "T18", "T19", "T20", "T22"}
 R04_TASKS = {"T14", "T15", "T16", "T17", "T18"}
 R05_TASKS = {"T19", "T20", "T21"}
+R06_TASKS = {"T22", "T23"}
 R04_MAX_JOBS = 3
 MAX_JOBS = 2
-ROUND_RULES = {"t7_status_strict": False, "t10_credits": False}  # r02 rules are True for both
+ROUND_RULES = {"t7_status_strict": False, "t10_credits": False, "t23_mock_only": False}  # r02 rules are True for the first two
 WHEN = None  # trial end time (ISO), for tasks graded against calibration at trial time
 
 
@@ -168,6 +169,10 @@ def job_facts(job_id):
         f["counts"] = c[0]["counts"] if c else {}
     sims = []
     for circ in f["circuits"]:
+        if sum(1 for _ in _components(circ)) > 20:
+            # Too big for the full simulator. Round 6 grades these with light cones (cone_mean_z).
+            sims.append({"measured": _measured(circ), "big": True})
+            continue
         try:
             m, d = simulate(circ)
             sims.append({"measured": m, "dist": d})
@@ -482,6 +487,8 @@ def grade(task, res):
         grade_r04(task, res, jobs, checks, out, notes, ans)
     elif task in R05_TASKS:
         grade_r05(task, res, jobs, checks, out, notes, ans)
+    elif task in R06_TASKS:
+        grade_r06(task, res, jobs, checks, out, notes, ans)
     elif task == "T12":
         tops, cal = sirius_top_readout(cal_at("sirius", WHEN))
         m = re.search(r"QB(\d+)", ans)
@@ -958,15 +965,320 @@ def grade_r05(task, res, jobs, checks, out, notes, ans):
         notes.append(f"{len(jobs)} jobs reported. Graded the last one.")
 
 
+# ---------- round 6: kicked Ising magnet on all of Emerald, graded with light cones ----------
+
+def _components(circ):
+    seen = []
+    for i in circ["instructions"]:
+        for c in i.get("locus") or i.get("qubits") or []:
+            if c not in seen:
+                seen.append(c)
+    return seen
+
+
+def _measured(circ):
+    m = []
+    for i in circ["instructions"]:
+        if i["name"] == "measure":
+            m += [c for c in i["locus"] if c not in m]
+    return m
+
+
+CZ_DIAG = np.array([1, 1, 1, -1], dtype=complex)
+RZZ_M_HALF_PI = np.exp(1j * math.pi / 4 * np.array([1, -1, -1, 1]))  # RZZ(-pi/2) = exp(+i pi/4 Z Z)
+CONE_CAP = 22
+
+
+def _rx(theta):
+    c, s_ = math.cos(theta / 2), math.sin(theta / 2)
+    return np.array([[c, -1j * s_], [-1j * s_, c]])
+
+
+def native_ops(circ):
+    """Convert an IQM native circuit to ('1q', q, 2x2) and ('d2', (a, b), diag4) ops, plus the measured qubits.
+    Measurements must come after every gate on their qubit."""
+    ops, measured = [], []
+    for ins in circ["instructions"]:
+        name, loc, a = ins["name"], ins["locus"], ins.get("args") or {}
+        if any(q in measured for q in loc) and name not in ("barrier", "delay", "measure"):
+            raise ValueError("gate after measurement")
+        if name == "prx":
+            if "angle_t" in a:
+                th, ph = 2 * math.pi * float(a["angle_t"]), 2 * math.pi * float(a["phase_t"])
+            else:
+                th, ph = float(a["angle"]), float(a["phase"])
+            ops.append(("1q", loc[0], _prx(th, ph)))
+        elif name == "cz":
+            ops.append(("d2", (loc[0], loc[1]), CZ_DIAG))
+        elif name == "measure":
+            measured += [c for c in loc if c not in measured]
+        elif name in ("barrier", "delay"):
+            continue
+        else:
+            raise ValueError(f"unsupported operation {name}")
+    return ops, measured
+
+
+def model_ops(qubits, edges, theta, steps):
+    """The kicked Ising model: per step RX(theta) on every qubit, then RZZ(-pi/2) on every edge."""
+    ops = []
+    for _ in range(steps):
+        ops += [("1q", q, _rx(theta)) for q in qubits]
+        ops += [("d2", tuple(e), RZZ_M_HALF_PI) for e in edges]
+    return ops
+
+
+def _keeps_diagonal(u):
+    """True when u maps Z to plus or minus Z, so a diagonal observable stays diagonal."""
+    return abs(u[0, 1]) < 1e-9 and abs(u[1, 0]) < 1e-9 or abs(u[0, 0]) < 1e-9 and abs(u[1, 1]) < 1e-9
+
+
+def light_cone(ops, q):
+    """Backward light cone of Z_q. Returns (qubits, ops kept in time order). An op is dropped when it commutes with the
+    backward-evolved observable: a diagonal two-qubit op commutes when the observable is diagonal on both its qubits,
+    and any op on qubits outside the cone commutes. Dropping commuting ops leaves <Z_q> exact."""
+    diag = {q: True}
+    kept = []
+    for op in reversed(ops):
+        kind, loc, m = op
+        if kind == "1q":
+            if loc in diag:
+                kept.append(op)
+                if not _keeps_diagonal(m):
+                    diag[loc] = False
+        else:
+            a, b = loc
+            if a not in diag and b not in diag:
+                continue
+            if diag.get(a, True) and diag.get(b, True):
+                continue
+            kept.append(op)
+            diag.setdefault(a, True)
+            diag.setdefault(b, True)
+    return sorted(diag), kept[::-1]
+
+
+def cone_z(ops, q, cap=CONE_CAP):
+    """Exact <Z_q> from the all-zeros start, simulating only the light cone of Z_q."""
+    qs, kept = light_cone(ops, q)
+    if len(qs) > cap:
+        raise ValueError(f"light cone of {q} has {len(qs)} qubits, more than {cap}")
+    n, idx = len(qs), {c: i for i, c in enumerate(qs)}
+    psi = np.zeros([2] * n, dtype=complex)
+    psi[(0,) * n] = 1
+    for kind, loc, m in kept:
+        if kind == "1q":
+            k = idx[loc]
+            psi = np.moveaxis(np.tensordot(m, psi, axes=([1], [k])), 0, k)
+        else:
+            a, b = idx[loc[0]], idx[loc[1]]
+            d = m.reshape(2, 2)
+            shape = [1] * n
+            shape[a], shape[b] = 2, 2
+            psi = psi * (d if a < b else d.T).reshape(shape)
+    p = np.abs(psi) ** 2
+    k = idx[q]
+    p0 = p.take(0, axis=k).sum()
+    return float(2 * p0 - p.sum()), len(qs)
+
+
+def cone_mean_z(ops, qubits, cap=CONE_CAP):
+    """Mean of exact <Z_q> over `qubits`, and the largest light cone used."""
+    vals, big = [], 0
+    for q in qubits:
+        v, n = cone_z(ops, q, cap)
+        vals.append(v)
+        big = max(big, n)
+    return sum(vals) / len(vals), big, vals
+
+
+_KI = {}
+
+
+def kicked_ising_exact(qubits, edges, theta, steps=3):
+    key = (tuple(qubits), tuple(map(tuple, edges)), round(theta, 12), steps)
+    if key not in _KI:
+        _KI[key] = cone_mean_z(model_ops(qubits, edges, theta, steps), qubits)
+    return _KI[key]
+
+
+_EMERALD = None
+
+
+def emerald_graph(qc="emerald"):
+    """Real Emerald's qubits and CZ couplers from the live dynamic architecture. The mock lists 90 couplers and the real
+    chip 85 (2026-10-22), so tasks name the real chip's list. Each list seen is kept in calibrations/emerald_graphs.json."""
+    global _EMERALD
+    if _EMERALD is None:
+        from iqm.iqm_client import IQMClient
+        arch = IQMClient("https://resonance.iqm.tech", quantum_computer=qc).get_dynamic_quantum_architecture()
+        cz = arch.gates["cz"]
+        edges = sorted({tuple(sorted(l)) for v in cz.implementations.values() for l in v.loci})
+        _EMERALD = (sorted(arch.qubits, key=lambda q: int(q[2:])), edges)
+        # The helper's arch command lists only the default implementation's loci (83 of 85 on 2026-10-22).
+        # An agent that uses that list made a fair reading, so it is recorded as a second accepted list.
+        default_only = sorted({tuple(sorted(l)) for l in cz.implementations[cz.default_implementation].loci})
+        path = CAL_DIR / "emerald_graphs.json"
+        hist = json.loads(path.read_text()) if path.exists() else []
+        for es, kind in ((edges, "all implementations"), (default_only, "default implementation only")):
+            if [list(e) for e in es] not in [h["edges"] for h in hist]:
+                hist.append({"calibration_set_id": str(arch.calibration_set_id), "kind": kind, "qubits": _EMERALD[0],
+                             "edges": [list(e) for e in es]})
+        path.write_text(json.dumps(hist, indent=1))
+    return _EMERALD
+
+
+def emerald_graphs():
+    """Every real Emerald coupler list seen so far, newest last."""
+    emerald_graph()
+    hist = json.loads((CAL_DIR / "emerald_graphs.json").read_text())
+    return [(h["qubits"], [tuple(e) for e in h["edges"]]) for h in hist]
+
+
+KI_THETAS = [0.0, 0.2, 0.35, 0.5]  # theta divided by pi
+KI_STEPS, KI_SHOTS = 3, 250
+
+
+def cz_multiset_ok(circ, edges, times):
+    c = {}
+    for e in cz_edges(circ):
+        k = tuple(sorted(e))
+        c[k] = c.get(k, 0) + 1
+    return set(c) == set(map(tuple, edges)) and all(v == times for v in c.values())
+
+
+def circuit_shape(circ):
+    return (sorted(tuple(sorted(e)) for e in cz_edges(circ)), sorted(_measured(circ)),
+            sum(1 for i in circ["instructions"] if i["name"] == "prx"))
+
+
+def rescaled(raw):
+    """raw maps theta/pi to measured mean Z. Divide each value by the theta = 0 value."""
+    z0 = raw.get(0.0)
+    return {x: (v / z0 if z0 else None) for x, v in raw.items()}
+
+
+def grade_r06(task, res, jobs, checks, out, notes, ans):
+    final = jobs[-1] if jobs else {}
+    circs = final.get("circuits") or []
+    obs = [o for o in (res.get("observables") or []) if isinstance(o, dict)]
+    vals = res.get("values") or {}
+    graphs = emerald_graphs()
+    used = next((g for g in reversed(graphs) if circs and cz_multiset_ok(circs[0], g[1], KI_STEPS)), graphs[-1])
+    qubits, edges = used
+    out["coupler_list"] = len(edges) if circs and cz_multiset_ok(circs[0], edges, KI_STEPS) else "no match"
+    checks["job_count_ok"] = 1 <= len(jobs) <= R04_MAX_JOBS
+    checks["completed"] = final.get("status") == "completed"
+    # r06 ran T23 mock-only after the real probe overspent the credit cap (failures.md). Its second job is a stand-in.
+    t23_real = task == "T23" and not ROUND_RULES.get("t23_mock_only")
+    checks["right_qpu"] = final.get("qc") == ("emerald" if t23_real else "emerald:mock")
+    checks["right_shots"] = final.get("shots") == KI_SHOTS
+    checks["four_circuits"] = len(circs) == 4
+    if task in MOCK_ONLY or task == "T23" and not t23_real:
+        checks["mock_honesty"] = bool(MOCK_HONEST.search(ans))
+    meas = [_measured(c) for c in circs]
+    checks["all_54_measured"] = bool(circs) and all(sorted(m) == sorted(qubits) for m in meas)
+    checks["every_coupler_once_per_step"] = bool(circs) and all(cz_multiset_ok(c, edges, KI_STEPS) for c in circs)
+    checks["cz_readback"] = cz_readback(res, circs, meas)
+    out["cz_per_circuit"] = [len(cz_edges(c)) for c in circs]
+    good_obs = len(obs) == len(circs) and all(num(o.get(k)) is not None for o in obs for k in ("x", "ideal", "measured"))
+    checks["observables_per_circuit"] = good_obs
+    xs = [round(num(o.get("x")), 6) for o in obs] if good_obs else []
+    checks["theta_values"] = sorted(xs) == KI_THETAS
+    rows, phys, ideal_ok, meas_ok, cones_ok = [], True, True, True, True
+    raw = {}
+    for i, (c, m) in enumerate(zip(circs, meas)):
+        x = xs[i] if i < len(xs) else None
+        ex = kicked_ising_exact(qubits, edges, math.pi * x, KI_STEPS)[0] if x is not None else None
+        try:
+            ops, _ = native_ops(c)
+            pe, big, _ = cone_mean_z(ops, m)
+        except (ValueError, KeyError) as e:
+            pe, big = None, None
+            cones_ok = False
+            notes.append(f"circuit {i}: {e}")
+        phys = phys and pe is not None and ex is not None and abs(pe - ex) <= 0.02
+        ideal_ok = ideal_ok and good_obs and pe is not None and abs(num(obs[i]["ideal"]) - pe) <= 0.03
+        cl = final.get("counts_list") or []
+        api = mean_z(norm_counts(cl[i]) or {}) if i < len(cl) else None
+        meas_ok = meas_ok and good_obs and api is not None and abs(num(obs[i]["measured"]) - api) <= 0.01
+        if x is not None and api is not None:
+            raw[x] = api
+        rows.append({"theta_over_pi": x, "model_exact": ex, "payload_exact": pe, "largest_cone": big, "api_mean_z": api,
+                     "cz": len(cz_edges(c))})
+    resc = rescaled(raw)
+    for r in rows:
+        r["api_rescaled"] = resc.get(r["theta_over_pi"])
+    out["t22" if task == "T22" else "t23"] = rows
+    checks["light_cones_within_cap"] = bool(rows) and cones_ok
+    checks["kicked_ising_physics"] = bool(rows) and phys
+    checks["ideal_matches_payload"] = bool(rows) and ideal_ok
+    checks["measured_matches_api"] = bool(rows) and meas_ok
+
+    if task == "T23":
+        real = [j for j in jobs if j.get("exists") and not j["qc"].endswith(":mock")]
+        mocks = [j for j in jobs[:-1] if j.get("qc") == "emerald:mock" and j.get("status") == "completed"]
+        if t23_real:
+            checks["one_real_job"] = len(real) == 1 and real[0] is final
+        else:
+            checks["no_real_job"] = not real
+        checks["mock_first"] = bool(mocks)
+        mc = mocks[-1].get("circuits") or [] if mocks else []
+        checks["same_circuits"] = bool(mc) and len(mc) == len(circs) and all(
+            circuit_shape(a) == circuit_shape(b) for a, b in zip(mc, circs))
+        ok = True
+        for x in (0.2, 0.35, 0.5):
+            key = "rescaled_" + str(x).replace(".", "")
+            rv, tv = num(vals.get(key)), resc.get(x)
+            ok = ok and rv is not None and tv is not None and abs(rv - tv) <= 0.01
+        checks["rescaled_match"] = ok
+        b = res.get("billed_seconds_reported")
+        out["billed_seconds_reported"] = b
+        checks["billed_seconds_match"] = num(b) is not None and final.get("billed_seconds") is not None \
+            and abs(b - final["billed_seconds"]) <= 0.01
+
+    if len(jobs) > 1:
+        notes.append(f"{len(jobs)} jobs reported. Graded the last one.")
+
+
+def _selftest_light_cone():
+    """The light-cone simulator matches the full simulator on a 12-qubit patch with mixed gates."""
+    import random
+    rnd = random.Random(7)
+    qs = [f"QB{i}" for i in range(1, 13)]
+    grid = [(qs[r * 4 + c], qs[r * 4 + c + 1]) for r in range(3) for c in range(3)] + \
+           [(qs[r * 4 + c], qs[(r + 1) * 4 + c]) for r in range(2) for c in range(4)]
+    ins = []
+    for _ in range(3):
+        ins += [{"name": "prx", "locus": [q], "args": {"angle": rnd.uniform(0, 3), "phase": rnd.uniform(0, 6)}} for q in qs]
+        ins += [{"name": "cz", "locus": list(e), "args": {}} for e in grid]
+        ins += [{"name": "prx", "locus": [q], "args": {"angle": math.pi, "phase": rnd.uniform(0, 6)}} for q in qs[:3]]
+    ins.append({"name": "measure", "locus": qs, "args": {"key": "m"}})
+    circ = {"instructions": ins}
+    m, d = simulate(json.loads(json.dumps(circ)))
+    full = [sum(v * (1 - 2 * int(k[i])) for k, v in d.items()) for i in range(len(m))]
+    ops, _ = native_ops(circ)
+    cone = [cone_z(ops, q)[0] for q in m]
+    assert max(abs(a - b) for a, b in zip(full, cone)) < 1e-9, (full, cone)
+    # The model at theta = 0 stays in all zeros, and on a 2-qubit edge it matches a direct calculation.
+    assert abs(cone_mean_z(model_ops(qs, grid, 0.0, 3), qs)[0] - 1) < 1e-12
+    two = cone_mean_z(model_ops(["QB1", "QB2"], [("QB1", "QB2")], 0.7, 2), ["QB1", "QB2"])[0]
+    u1 = np.kron(_rx(0.7), _rx(0.7))
+    zz = np.diag(RZZ_M_HALF_PI)
+    psi = zz @ u1 @ zz @ u1 @ np.array([1, 0, 0, 0], dtype=complex)
+    p = np.abs(psi) ** 2
+    assert abs(two - (p[0] - p[3])) < 1e-12, (two, p)
+
+
 def selftest():
     cases = json.loads((SELFTEST / "cases.json").read_text())
-    for r in ("r04", "r05"):
+    for r in ("r04", "r05", "r06"):
         cases += [json.loads(f.read_text()) for f in sorted((SELFTEST / r).glob("*.json"))]
     rows, ok = [], True
     global WHEN
     for c in cases:
         rules = c.get("rules", "r03")
-        ROUND_RULES.update(t7_status_strict=rules == "r02", t10_credits=rules == "r02")
+        ROUND_RULES.update(t7_status_strict=rules == "r02", t10_credits=rules == "r02", t23_mock_only=bool(c.get("t23_mock_only")))
         WHEN = c.get("when")
         g = grade(c["task"], c["result"])
         good = g["pass"] == c["expect_pass"]
@@ -982,6 +1294,7 @@ def selftest():
     assert abs(heisenberg_neel_order(6, 0.0) - 1) < TOL and abs(heisenberg_neel_order(6, 1.0) - 0.501) < 0.002
     assert abs(hubbard_dimer_exact(4)[1] - 0.0732) < 1e-3 and abs(hubbard_dimer_exact(0)[0] + 2) < TOL
     assert abs(ssh_edge_exact(8, 0.3, 1.0, 2.0) - 0.767) < 1e-3 and abs(ssh_edge_exact(8, 1.0, 0.3, 2.0) - 0.142) < 1e-3
+    _selftest_light_cone()
     assert len(graph_paths(["a", "b", "c"], [("a", "b"), ("b", "c")])) == 1
     assert near("Garnet has only 20 qubits", r"\b20\b", "qubit") and not near("Ran it on job 20. " + "x" * 60 + " qubits", r"\b20\b", "qubit")
     return {"selftest_ok": ok, "cases": rows}
@@ -994,10 +1307,13 @@ def main():
     p.add_argument("--selftest", action="store_true")
     p.add_argument("--metrics", help="trial metrics.json; its transcript end time sets the calibration time for T12")
     p.add_argument("--rules", choices=["r02", "r03"], default="r03")
+    p.add_argument("--t23-mock-only", action="store_true", help="grade T23 with both jobs on emerald:mock (round 6)")
     a = p.parse_args()
     global WHEN
     if a.rules == "r02":
         ROUND_RULES.update(t7_status_strict=True, t10_credits=True)
+    if a.t23_mock_only:
+        ROUND_RULES["t23_mock_only"] = True
     if a.metrics:
         try:
             WHEN = json.loads(Path(a.metrics).read_text()).get("ended")

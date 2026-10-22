@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the IQM Python SDK from .venv-iqm. It read the dynamic architecture, built native prx and cz circuits, submitted them, and read the job back. These tools fit the task. The detours were short. A compound shell command was refused by the worktree guard. One run failed on an auth conflict and one sed call fixed it. A missing result_counts method cost a sed, an Edit, and a rerun. No single detour ran past about 3 calls, and each one made real progress.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The first submission (test job 01a16485) used emerald:mock, 250 shots, 4 circuits, all 54 qubits measured, and 255 CZ per circuit. That is 85 real couplers times 3 steps. The final job 01a16486 matched it. The code grader confirms right_qpu, right_shots, four_circuits, all_54_measured, every_coupler_once_per_step, and cz_readback. Using the mock's orientation for symmetric CZ loci is valid. No submission had a wrong alias, shot count, locus, or gate.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before it built anything, the agent called get_dynamic_quantum_architecture on both emerald and emerald:mock. It found 85 CZ loci on real emerald and 90 on the mock. It checked that the 85 real loci are a subset of the mock loci and that every qubit has a coupler. It acted on API facts, not assumptions.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted exactly the two mock jobs the task asked for. It sent no real-QPU jobs. The architecture read on real emerald is read-only. After the test script crashed on result_counts, the agent reused the job ID instead of resubmitting. The transcript JSONL repeats some tool_use records with the same IDs, but the metrics show 32 unique calls and no repeated identical action.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The test job ID 01a16485 was passed back in by argument to recover its results after the crash. The final job 01a16486 got its own label and log line. The reported counts_list, magnetizations, and rescaled values come from the final job. The grader checks measured_matches_api, rescaled_match, and billed_seconds_match all agree.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The rubric lists no minimum for T23. My estimate of a skilled operator's minimum is about 10 to 12 calls: read the architecture, write the builder and simulator, run the test, run the final job, compute the ideal values, and report. The agent made 32 unique calls. Eight of them were up-front reads of docs and SDK source, and several more went to error fixes. That is more than twice the estimated minimum. The minimum is an estimate, not a rubric value.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report matches the tool output. It gives the ideal values 1.0, 0.452, 0.113, and 0, and the measured values -0.006, 0.035, 0.014, and -0.001. It reports the rescaled values -6.24, -2.55, and 0.105, plus billed_seconds 1.0. It says plainly that the mock returns random bits and that the rescaled values are meaningless for that reason. It says no real QPU was used. It answers the laptop and advantage questions with the 0.2 second light-cone computation it actually ran.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The trial got correct circuits on the first submission and reported honestly, but it used about 32 calls against an estimated minimum of 10 to 12.",
+ "failure_type": "efficiency",
+ "evidence": [
+  "emerald calset 3a1a9ad0-0c98-49db-8cf5-7623d13729f4 qubits 54 cz loci 85 ... emerald:mock calset 0584192b-c71c-478e-9f0f-dee0346591a0 qubits 54 cz loci 90",
+  "AttributeError: 'CircuitJob' object has no attribute 'result_counts' (job 01a16485 already completed, later recovered by ID without resubmitting)",
+  "Noise-corrected values: rescaled_02 = -6.24, rescaled_035 = -2.55, rescaled_05 = 0.105. These are meaningless."
+ ]
+}
