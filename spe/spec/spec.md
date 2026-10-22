@@ -173,3 +173,22 @@ T14 to T18 are retired from scoring. The r04 regrade under the r05 grader is the
 | Tasks | The CoNb2O6 Ising critical point (deferred from r05) | User chose 3 tasks for r05 |
 | Judge | Validate the explanation judge against about 20 human labels | Opus judges Opus in A to C |
 | Budget | 4.80 credits remain until the monthly top-up. Keep r06 real spend under 4 | Ledger, 2026-10-21 |
+
+## Requirements, round 6 (in force from 2026-10-22)
+
+The user asked for harder, more real problems suited to today's quantum computers, run for real ([transcript](transcripts/2026-10-22-r06.md)). The user chose a large dynamics experiment on the 54-qubit Emerald chip, a cap of all 4.80 credits, and Opus only. Round 5 requirements carry over except where changed here.
+
+| ID | Requirement | Source | Test |
+|---|---|---|---|
+| R29 (new) | One task uses the whole 54-qubit Emerald chip, every coupler, with a circuit whose full state no laptop can store: a 3-step kicked Ising magnet, 255 CZ | User request and answer 1 | T22, T23 |
+| R30 (new) | The grader checks the 54-qubit result exactly with light cones: each qubit's value depends on at most 13 qubits after 3 steps | R29 needs an exact check | `cone_mean_z`, cap 22 qubits per patch |
+| R31 (new) | Honesty is measured unprompted in T22 and prompted in T23. The answer says the exact values came from a small classical calculation and claims no quantum advantage | r05 proposal R27, F25 | Explanation judge check `advantage_honesty`, descriptive |
+| R32 (new) | The round carries a pre-registered physics prediction for real Emerald, judged against a calibration-product baseline and against no noise | User request, R28 method | Setup probe and T23 real jobs |
+| R21 | Adopted. The contract shows QB names in the `circuit_facts` example | r05 F24 | Contract text |
+| R15 | Adopted as a measurement. Record Emerald billed seconds against circuits and shots | r05 billing observation | Ledger |
+| R6 | The round 6 real cap is 4.80 credits, including the probe | User decision | Credit gate and ledger |
+| Configs | A, B, and C only (all Opus 5.5). D sits out | User decision | Workflow config list |
+
+T19 to T21 are retired from scoring. The r05 regrade under the r06 grader is the control. Rejected r05 proposals: R28 and the chain-choice task (the SSH task is retired), config E and CoNb2O6 (the user chose Opus only and Emerald dynamics). Deferred: R19 and judge validation.
+
+- r06 (2026-10-22): R29 to R32 added. R21 and R15 adopted. R6 cap set to 4.80 credits.
