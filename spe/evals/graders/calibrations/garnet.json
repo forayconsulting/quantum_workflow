@@ -1,4 +1,17 @@
 [
- {"calibration_set_id": "edea61a8-0087-446a-836a-66ff46ee5413", "created": "2026-10-21T10:51:30.440421Z", "source": "GET calibration-sets/garnet/edea61a8..., read 2026-10-21"},
- {"calibration_set_id": "f81c45da-6e73-4b5d-a0fe-72c75635fade", "created": "2026-10-21T16:42:21.532385Z", "source": "GET calibration-sets/garnet/default, read 2026-10-21 after the r02 run"}
+ {
+  "calibration_set_id": "edea61a8-0087-446a-836a-66ff46ee5413",
+  "created": "2026-10-21T10:51:30.440421Z",
+  "source": "GET calibration-sets/garnet/edea61a8..., read 2026-10-21"
+ },
+ {
+  "calibration_set_id": "f81c45da-6e73-4b5d-a0fe-72c75635fade",
+  "created": "2026-10-21T16:42:21.532385Z",
+  "source": "GET calibration-sets/garnet/default, read 2026-10-21 after the r02 run"
+ },
+ {
+  "calibration_set_id": "3375709e-0eeb-410a-946a-3f10a7fdd65d",
+  "created": "2026-10-22T02:39:58.348584Z",
+  "source": "GET calibration-sets/garnet/default, recorded by grade.py"
+ }
 ]

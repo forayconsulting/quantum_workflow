@@ -197,3 +197,39 @@ The dashboard Jobs list, paged with its next button, showed 61 jobs created sinc
 | Mean of 5 | | | 0.693 | 0.235 | 3.25 (median 3.63) | 0.712 | 0.189 | 0.647, 0.654 |
 
 The edge qubit's T1 and readout error in set `f81c45da` do not explain the spread. QB1 (worst) and QB4 (second best) have similar T1 (24.8 and 22.4 microseconds) and readout fidelity (0.989 and 0.992).
+
+## Round 6 setup (2026-10-22)
+
+Balance before setup: 4.80 (round 5 close-out). Cap: 4.80 including the probe (user decision).
+
+| Task | Jobs | QPU | Purpose | Credits |
+|---|---|---|---|---|
+| T22 | `01a163db-8bf2-771c-b979-a979f8f76aa2` | emerald:mock | Oracle, 4 circuits of 255 CZ, 250 shots | 0 |
+| T22 | `01a163db-a281-70e4-8b60-f33eaab1499a` | emerald:mock | Negative, theta doubled | 0 |
+| T22 | `01a163db-b23c-7439-80ba-468af3653dc8` | emerald:mock | Negative, one CZ layer of step 2 dropped | 0 |
+
+Gate 1: selftest 71 of 71 as expected. Gate 2: r05 regraded under the r06 grader gives 42 of 44, the same as the fixed-grader r05 result.
+
+**Calibration-product baseline** (set `3a1a9ad0`, computed after prediction r06 was committed at 18c1292, before the probe). Median IRB CZ fidelity 0.9972, median readout assignment error 0.0121.
+
+| theta / pi | Exact (light cone) | Calibration product |
+|---|---|---|
+| 0 | 1.000 | 0.972 |
+| 0.2 | 0.452 | 0.408 |
+| 0.35 | 0.113 | 0.103 |
+| 0.5 | 0.000 | 0.000 |
+
+The real Emerald architecture lists 85 couplers. The mock lists 90. The helper's `arch` command shows 83, because QB44-QB50 and QB50-QB51 use the non-default `crf_acstarkcrf` implementation. The grader accepts either the 85 or the 83 list.
+
+**Real probe (gate 5).** Mock test `01a163de-cede-7319-9eee-68d37bd8643d` (emerald:mock, 0 credits), then real job `01a163de-dc2d-7114-b082-68e9ace8ee3b` on `emerald`, created 13:48:32Z. Calibration `3a1a9ad0`. 4 circuits of 255 CZ on all 54 qubits, 250 shots each. Execution took 6.97 s and the API billed **8.0 seconds, an estimated 6.00 credits at 0.75 per second**. That is more than the 4.80 cap and more than the 4.80 balance. The server ran the job anyway. The prediction was 1.0 to 2.0 billed seconds, from Garnet's 1.0 s for 2 circuits of 1000 shots. **HALT:** the probe crossed the round's credit cap. The dashboard balance could not be read, because the Resonance login page appeared. Gate 6 gives 0 real agent trials.
+
+| theta / pi | Exact | Calibration product | Real Emerald raw | Rescaled by theta = 0 |
+|---|---|---|---|---|
+| 0 | 1.000 | 0.972 | 0.987 | 1.000 |
+| 0.2 | 0.452 | 0.408 | 0.476 | 0.482 |
+| 0.35 | 0.113 | 0.103 | 0.154 | 0.156 |
+| 0.5 | 0.000 | 0.000 | 0.031 | 0.032 |
+
+The raw values sit above exact at every nonzero field. Decay toward 0 (amplitude damping) pushes Z up, so noise did not shrink the signal toward 0 as the prediction assumed.
+
+**Dashboard after the probe (about 13:55Z, user signed in).** Balance **−1.20 credits**. Credit history: "− 6.00 IQM Emerald | 1 jobs, Pay-as-you-go" on 22 Oct. So the 6.00 estimate matched the charge exactly, and Resonance lets a Starter balance go below zero. The page says "Need more credits? Contact your IQM Sales person to top up."
