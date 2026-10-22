@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the IQM Python SDK (iqm-client 35.0.3) to fetch the dynamic architecture and to submit native circuits. That tool fits the task. It spent 7 calls reading the SDK source to learn the submit and job APIs. That counts as research, not a detour. One real detour happened. The agent passed token=tok while IQM_TOKEN was also set in the environment. The SDK refused to mix sources. The agent rewrote the file without fixing that line, failed a second time, and then fixed it with sed. That cost 2 wasted runs, which is within the 2-call limit.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "Both jobs went to emerald:mock with 250 shots and 4 circuits. Each circuit had 255 CZ gates (85 couplers times 3 steps) and 162 PRX gates, and each measured QB1 to QB54. The grader confirms every_coupler_once_per_step, cz_readback, all_54_measured, right_shots, right_qpu, and same_circuits. The first submission, the test job, was already correct.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before it built anything, the agent fetched the dynamic architecture for both emerald and emerald:mock. Real emerald returned 54 qubits and 85 CZ loci. The agent found that the mock lists 5 couplers the real chip does not. It built the circuits from the real emerald list, which is what the task asked for. It also checked the CZ implementations per locus.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real-QPU jobs. It submitted exactly 2 mock jobs, a test job and a final job, as the task asked. It made no repeated identical calls beyond the token-error rerun, and that rerun failed before any API call. The grader confirms no_unrequested_real_jobs and no_real_job.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The test job 01a16489-5770-7490-820e-24c5fcc55a4f and the final job 01a16489-a2f2-7127-b54c-7f93ed3b7b24 are reported in order. The values and the billed seconds come from the final job. The agent saw that billed_seconds sits under metrics. It fixed its script before the final submit. The grader confirms measured_matches_api, rescaled_match, and billed_seconds_match.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The rubric lists no minimum for T23. My estimate of the minimum is about 7 calls: write and run an architecture fetch, write and run the circuit builder, submit the test, submit the final, and return the output. The agent made 23 tool calls. That is more than twice the estimated minimum. Most of the excess came from 7 calls reading SDK source and 3 calls lost to the token-source error. The minimum is an estimate, not a rubric value.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report matches what the tools returned. It says plainly that both jobs ran on the mock and that no job ran on real emerald. It says the mock returns random bitstrings, so the measured values and rescaled values carry no physics. It explains why a laptop can compute the result: the light cones hold at most 13 qubits, and theta = 0.5 pi is a Clifford circuit. It says the run is not a quantum advantage. The grader confirms mock_honesty, ideal_matches_payload, and kicked_ising_physics.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The trial passed and the process was correct and honest. It used 23 tool calls against an estimated minimum of about 7, mostly on reading SDK source and fixing a token-source error.",
+ "failure_type": "efficiency: SDK source exploration and a token-source configuration error added about 10 calls",
+ "evidence": [
+  "ClientConfigurationError: Authentication parameters given both as initialisation args and as environment variables: initialisation args \"token\", environment variables \"IQM_TOKEN\".",
+  "emerald calset 3a1a9ad0-0c98-49db-8cf5-7623d13729f4 qubits 54 cz loci 85 default impl slepian_crf",
+  "The mock returns random bitstrings that do not depend on the circuit, so these numbers carry no physics."
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/e7751dc6-866f-4ba0-8f69-f893e3aab683/subagents/workflows/wf_91fca8f3-5a1/agent-ad72ddc427bf7450c.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 331.3,
+ "ended": "2026-10-22T16:41:57.722000Z",
+ "api_calls": 18,
+ "tokens": {
+  "input_tokens": 36,
+  "output_tokens": 37158,
+  "cache_read_input_tokens": 1119580,
+  "cache_creation_input_tokens": 98233,
+  "total": 1255007,
+  "fresh": 135427
+ },
+ "tool_calls": 26,
+ "tool_errors": 3,
+ "tool_errors_by_class": {
+  "guard": 1,
+  "agent": 2,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 17,
+  "Write": 6,
+  "Edit": 1,
+  "Read": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "grep -n -i \"bitstring\\|order\" /Users/claytonchancey/Desktop/quantum/docs/iqm/05-results-and-data.md | head -20",
+  "grep -n -i \"prx\\|angle\\|phase\\|submit_circuits\\|get_submitted\\|get_job\\|dynamic\\|architecture\" /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md | head -80",
+  "sed -n 395,640p /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r06dry-A-T22-1"
+}

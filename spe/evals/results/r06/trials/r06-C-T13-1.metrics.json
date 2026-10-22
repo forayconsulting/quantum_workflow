@@ -1,0 +1,37 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/e7751dc6-866f-4ba0-8f69-f893e3aab683/subagents/workflows/wf_8d7e6233-d69/agent-ae1cbf11011cd0ffd.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 91.2,
+ "ended": "2026-10-22T16:47:31.756000Z",
+ "api_calls": 13,
+ "tokens": {
+  "input_tokens": 26,
+  "output_tokens": 6616,
+  "cache_read_input_tokens": 776254,
+  "cache_creation_input_tokens": 75025,
+  "total": 857921,
+  "fresh": 81667
+ },
+ "tool_calls": 16,
+ "tool_errors": 0,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 11,
+  "Read": 1,
+  "Write": 3,
+  "StructuredOutput": 1
+ },
+ "used_helper": true,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -n -E '\"name\": \"(prx|cz|measure)\"|\"locus\"|\"args\"' /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md | head -30",
+  "sed -n 370,420p /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r06-C-T13-1"
+}

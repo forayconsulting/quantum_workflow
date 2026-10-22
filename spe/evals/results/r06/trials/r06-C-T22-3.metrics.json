@@ -1,0 +1,38 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/e7751dc6-866f-4ba0-8f69-f893e3aab683/subagents/workflows/wf_8d7e6233-d69/agent-a0f9bc8c641055873.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 366.2,
+ "ended": "2026-10-22T16:57:39.919000Z",
+ "api_calls": 18,
+ "tokens": {
+  "input_tokens": 36,
+  "output_tokens": 33325,
+  "cache_read_input_tokens": 1287569,
+  "cache_creation_input_tokens": 83097,
+  "total": 1404027,
+  "fresh": 116458
+ },
+ "tool_calls": 22,
+ "tool_errors": 0,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 0,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 16,
+  "Read": 2,
+  "Write": 2,
+  "Edit": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": true,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "grep -n \"prx\\|\\\"name\\\"\\|locus\\|angle\\|phase\\|measure\\|\\\"key\\\"\" /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md | head -60",
+  "grep -n -i \"payload\\|submitted circuits\\|job definition\\|/request\\|circuits\\b\" /Users/claytonchancey/Desktop/quantum/docs/iqm/02-rest-api-reference.md /Users/claytonchancey/Desktop/quantum/docs/iqm/05-results-and-data.md | head -40"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r06-C-T22-3"
+}

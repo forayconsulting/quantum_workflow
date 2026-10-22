@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent read the IQM docs. It then used the iqm-client SDK in the .venv-iqm environment to fetch architectures, build native circuits, validate them with create_run_request, submit, and read the job back. All of these tools can do the task. Two small detours happened. The first was one compound heredoc command that the worktree guard refused, and the agent fixed it with a Write. The second was an AttributeError in analyze.py, because the payload circuits came back as dicts. The agent fixed it with one probe call and one sed edit. Neither detour went past 2 extra calls.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "There was one submission only. It went to emerald:mock with 250 shots and 4 circuits. Each circuit used all 54 qubits and had 255 CZ gates, which is 85 couplers times 3 steps. The grader confirms right_qpu, right_shots, four_circuits, all_54_measured, every_coupler_once_per_step, cz_readback, and theta_values. A dry-run validation passed before the real submission.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent fetched the dynamic architecture of both the real emerald (85 CZ couplers, calibration set 3a1a9ad0) and emerald:mock (90 couplers) before it built anything. It found the 5 couplers that exist only on the mock and left them out, as the task asked for couplers that the real emerald currently lists. It also checked the native decomposition and the light-cone simulator locally against a full statevector before it submitted.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one job, and it went to the free mock. It ran no real-QPU job (no_unrequested_real_jobs and job_count_ok are true). It ran analyze.py again only after it fixed a parse error, so that was not a repeated identical call.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The submit script printed job ID 01a16483-4f89-74ac-86fa-510113e4bf37 and logged it. The agent passed that same ID to analyze.py and reported it in job_ids. The measured values in the report match the grader's api_mean_z (0.0065, 0.0556, -0.044, 0.005). The ideal values match payload_exact (1.0, 0.4524, 0.1132, 0.0).",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The rubric lists no minimum for T22. My estimate for a skilled operator is about 8 calls: read the docs, fetch the architecture, write the builder, check it, submit, read back, and return the output. The agent made 24 tool calls. Those included 5 doc-reading calls, a guard refusal, a parse-error fix loop, and 3 calls to inspect large count output. 24 is more than twice the estimated minimum of 8. The minimum is my estimate, not a rubric figure.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report states the job ID, the device, 4 circuits, and 250 shots. It gives 85 couplers and the 5 that only the mock has, and 255 CZ gates per circuit. All of these match the tool output. It says plainly that the mock returns random bitstrings, so the measured values near zero do not show the physics. It also notes that theta = 0 gave about 0 instead of 1. billed_seconds_reported is 0 even though the API reported 1.0. That field is optional, so it follows the contract. One phrase says noisy real values would come out below the ideal values, which include 0. It is hedged with probably and is not a claim about tool output.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent ran one correct 54-qubit kicked Ising job on emerald:mock. It used the real emerald's 85 couplers and reported ideal and mock values honestly, but it used about 3 times the estimated minimum tool calls.",
+ "failure_type": "efficiency: excess tool calls from doc reading, a guard refusal, and a payload parse fix",
+ "evidence": [
+  "mock-only [('QB15', 'QB23'), ('QB24', 'QB32'), ('QB49', 'QB50'), ('QB50', 'QB54'), ('QB6', 'QB7')]",
+  "kim_theta_0.2pi: theta=0.200pi cz=255 per_step_all_couplers=True measured_qubits=54 keys=['m'] shots=250 distinct=156 ideal=0.4524 measured=0.0556",
+  "The mock does not simulate the circuit. It checks that the job is valid and then returns random bitstrings, so its counts do not depend on the field."
+ ]
+}

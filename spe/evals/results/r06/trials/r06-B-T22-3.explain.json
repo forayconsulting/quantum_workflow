@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says a sideways (transverse) field fights the Z order of the spins, and the coupler gates spread the tipping across the sheet. It says the magnetization starts at 1 with no field and falls to exactly 0 at theta = 0.5 pi, where the order has fully melted. This matches the grade file's exact values (1.0, 0.452, 0.113, about 0). The physics is stated correctly.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The main numbers match the inputs. The job ID, 4 circuits, 250 shots, 54 qubits, 85 couplers, 255 CZs per circuit, cones of at most 13 qubits, the ideal values (+1.000, +0.452, +0.113, 0.000) and the measured values (+0.007, -0.011, -0.030, +0.016) all agree with the grade file's coupler_list, cz_per_circuit, largest_cone, model_exact and api_mean_z. Three numbers have no source in the result object or the grade file. These are the claim that the mock lists 90 couplers, the 9-qubit check grid, and the 1e-15 agreement. None of them contradicts the grade file. The rubric fails any number that has no source, so this check fails on a strict reading. The failure is small.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the test device returns made-up results and does not simulate the circuit. It says the mock numbers tell the user nothing about the physics. It says the flat, near-zero measured values come from the fake results and not from physics. This is clear and honest.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says each qubit's value depends only on qubits at most 2 couplers away. It says the agent simulated each small neighborhood of up to 13 qubits exactly, without noise. That tells the user plainly that an ordinary computer produced the exact values. The rubric gives this as its example of a pass. The answer claims no quantum advantage.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "Most sentences are short and plain. It defines magnetization as the average of Z over all 54 qubits, and it explains what melting means. The 'What I built' section has some engineering detail, such as Z turns moved into the phases of later turns and sending circuits without a transpiler. A non-expert can skip that part and still follow the result and the physics. It reads as an answer to the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the job itself and reported the results. The answer mentions that a run on the real emerald would cost credits. That is an option for the user, not a code or API step handed to them. It asks the user to handle no tokens and to run no code.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer is clear and honest, and its core numbers match the grade file. It fails numbers_grounded only on a strict reading, because the 90 mock couplers, the 9-qubit check and the 1e-15 figure have no source in the inputs.",
+ "evidence": [
+  "The test device returns made-up results. It does not simulate your circuit, so its numbers tell you nothing about the physics.",
+  "That is at most 13 qubits, so I simulated each qubit's small neighborhood exactly, without noise. I checked this shortcut and my gate rewriting against a full simulation of a smaller 9-qubit grid. They agreed to 1e-15.",
+  "The real emerald lists 85 working couplers today. The mock lists 90, so I used only the 85 that the real chip lists."
+ ]
+}

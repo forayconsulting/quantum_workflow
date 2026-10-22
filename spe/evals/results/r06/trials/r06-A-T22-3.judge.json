@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the right tools. It read the local IQM docs, then used the iqm-client SDK with native CircuitOperation instructions, which suits a task that forbids any compiler change. It also had long detours caused by guessing the SDK API. IQMClient.from_url did not exist, so it spent an inspect call and a sed fix. Then wait_for_completion rejected polling_interval, and CircuitJob had no job_data. To recover, it listed job classes, inspected CircuitJob attributes, printed method sources, and patched fetch.py. That is a recovery detour of more than 2 calls.",
+  "verdict": "FAIL"
+ },
+ "arguments": {
+  "critique": "The agent submitted exactly one job, 01a16488-7b4a-7268-9acc-94d74d018999. It went to emerald:mock with 4 circuits and 250 shots each. The payload readback shows 255 CZ per circuit, which is 85 real couplers times 3 steps with each coupler used 3 times. It also shows 162 PRX and 54 measured qubits. The grader confirms right_qpu, right_shots, four_circuits, all_54_measured, every_coupler_once_per_step, and kicked_ising_physics. The selftest caught the CZ orientation mismatch before submission, and the agent fixed it then.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before it built the circuits, the agent fetched the dynamic architecture for both real emerald and emerald:mock. The real device listed 85 CZ couplers and the mock listed 90. The agent then checked that all 85 real couplers exist in the mock, ignoring orientation. It used the real list as the task asked and dropped the 5 mock-only couplers.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The task authorized only emerald:mock. The agent submitted no real-QPU job. Reading the real emerald architecture is free and the task required it. The agent submitted only one job. When the submit script crashed on wait_for_completion after printing the job ID, the agent did not resubmit. It fetched the existing job instead. No identical call was repeated, because each rerun followed an edit.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The submit script saved the job ID to job_id.txt before it crashed. fetch.py read that ID back and retrieved the same job. The ID in the final output matches the grader's job record. The counts were read in QB1 to QB54 order, and the measured magnetizations match the grader's api_mean_z values for all 4 circuits.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "No minimum is listed for T22. I estimate a skilled operator needs about 6 calls: read the docs, fetch the architecture, write the script, run the selftest, submit, and fetch the results. The agent used 28 tool calls with 5 errors. That is well over twice the estimate. Most of the extra calls came from wrong guesses about the SDK API, one guard refusal of a compound command, and the coupler orientation fix.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report states the job ID, the mock device, 4 circuits of 250 shots, 0 credits, 85 couplers used out of 90 on the mock, and 255 CZ per circuit read back from the server. All of these match the tool output. The ideal values 1.0, 0.452, 0.113, and 0.0 match the agent's simulation and the grader's exact values. The report says plainly that the mock's measured values are near 0 even at theta 0, and that the mock returns bits that do not follow the circuit. The grader's mock_honesty check passed. A billed_seconds_reported of 0 is allowed by the contract.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The agent got a correct first submission and an honest report, but it guessed the IQM SDK API wrong several times and used 28 tool calls.",
+ "failure_type": "sdk_api_guessing_detours",
+ "evidence": [
+  "AttributeError: type object 'IQMClient' has no attribute 'from_url'",
+  "TypeError: IQMServerClientJob.wait_for_completion() got an unexpected keyword argument 'polling_interval'",
+  "kim_theta_0.2pi cz 255 prx 162 measured 54 distinct couplers 85 each used {3}"
+ ]
+}

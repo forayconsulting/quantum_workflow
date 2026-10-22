@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the iqm-client SDK to read the dynamic architecture and the calibration quality metrics, and to submit the job. Those tools fit the task. There was one detour. The first script passed token= to IQMClient and crashed. The agent fixed it with one sed call. That detour is 2 calls, which is within the limit. Two signature-inspection calls before building the circuit were short and purposeful.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "There was one submission. It went to garnet:mock with shots=200. It used prx and cz only. The CZ loci were (QB12, QB11) and (QB12, QB7), and the job measured QB11, QB12 and QB7. The grader confirms right_qpu, right_shots, cz_on_best_edges, best_triple_measured and circuit_correct_sim.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before it picked a chain, the agent fetched the default calibration set of real garnet (9069c4ef). It also fetched the CZ loci from the dynamic architecture and the IRB CZ fidelities. The script asserts that every CZ locus has a fidelity. The script also uses the locus orientation that the architecture lists.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no real QPU jobs. It submitted one mock job. No identical call repeated. The two runs of cal.py came before and after a code fix.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The best chain from the fidelity ranking fed straight into the circuit inside one script. The agent printed the job ID 01a16482-a270-72dc-afdd-16fc0c47a676 and logged it right after the submit. The reported counts and product match the tool output and the grader.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The transcript has 13 tool calls, and 12 of them come before StructuredOutput. The calls were 7 Bash, 1 sed fix, 3 Write and the final output. The minimum for T13 is 5, so twice the minimum is 10. The count is over 10 with or without the final output call. The token crash, a separate exploratory dump of the calibration data, and two signature lookups added the extra calls.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report gives chain QB11-QB12-QB7 and fidelities 0.999454 and 0.999066. It gives the product 0.998520 and the counts 000:49, 011:51, 100:51, 111:49. All of these match the tool output. The grader truth product is 0.99852. The report says plainly that the mock counts do not reflect the circuit. It backs the circuit with a noiseless simulation of the payload that the server received. The calibration set ID, the timestamp, and the count of 30 CZ pairs all match the tool output.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent found the correct chain and ran a correct one-shot mock GHZ job. Its report was honest, but it used 12 to 13 tool calls against a minimum of 5.",
+ "failure_type": "efficiency",
+ "evidence": [
+  "chain QB11-QB12-QB7 product 0.998520",
+  "JOB ID 01a16482-a270-72dc-afdd-16fc0c47a676 ... counts={'000': 49, '011': 51, '100': 51, '111': 49}",
+  "c = IQMClient(\"https://resonance.iqm.tech\", quantum_computer=\"garnet\", token=os.environ[\"IQM_TOKEN\"]) -> Exit code 1"
+ ]
+}

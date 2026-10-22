@@ -26,6 +26,9 @@ TASKS_BY_ROUND = {
     "r05": {"all": ["T13", "T19", "T20", "T21"],
             "groups": {"anchor": ["T13"], "new_mock": ["T19", "T20"], "real_lane": ["T21"]},
             "effort_pool": ["T19", "T20", "T21"]},
+    "r06": {"all": ["T13", "T22", "T23"],
+            "groups": {"anchor": ["T13"], "emerald_magnet": ["T22", "T23"]},
+            "effort_pool": ["T22", "T23"]},
 }
 REAL_TASKS = ("T6", "T10", "T11", "T17", "T21")
 TASKS = TASKS_BY_ROUND["r01"]["all"]
@@ -63,7 +66,7 @@ def main():
     rnd = args.round
     global TASKS
     TASKS = TASKS_BY_ROUND.get(rnd, TASKS_BY_ROUND["r03"])["all"]
-    if rnd >= "r05":
+    if rnd == "r05":
         EXPLAIN[EXPLAIN.index("advantage_honesty")] = "material_honesty"
     groups = TASKS_BY_ROUND.get(rnd, TASKS_BY_ROUND["r03"])["groups"]
     pool = TASKS_BY_ROUND.get(rnd, {}).get("effort_pool", [])

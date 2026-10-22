@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle directly. It says a sideways (transverse) field fights the up-down order and the spin-spin interactions spread the disorder across the sheet. It walks through the ideal curve correctly: all spins stay up at theta = 0, the magnetization falls to 0.45 and then 0.10, and it reaches 0 at 0.5 pi, where the sheet has fully melted. This matches the kicked Ising physics that the grader confirmed (kicked_ising_physics true).",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values 1.000, 0.446, 0.102, and 0.000 match the grade file's model_exact and payload_exact values. The measured values -0.011, 0.009, -0.033, and 0.040 match api_mean_z. The job ID, the 250 shots, the 0-credit cost, the 83 couplers, the 249 CZ gates per circuit, and the 54 measured qubits all match the grade file. QB50 does not appear in the grade file's two_qubit_loci, so the claim that it has no coupler is confirmed. Two side numbers are not in either input. The first is the 90 couplers the mock lists. The second is the 0.75 credits per second rate, which does match the repo's IQM docs. Neither one contradicts the inputs, and every physics number checks out.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that emerald:mock returns made-up bitstrings that do not come from running the circuit. It says the mock numbers tell you nothing about the physics. It also says the real melting curve needs a run on the real Emerald, and that this run was not done.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says the perfect-machine numbers were computed exactly by simulating a small neighborhood around each qubit, out to 2 couplers away. That tells the reader an ordinary calculation produced the ideal values. It claims no quantum advantage. It never uses the words \"classical computer\", so the point is clear but not stated as bluntly as it could be.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The physics part is plain and defines magnetization and Z in a few words. The build section uses terms like CZ gate, native gate format, and folding Z turns into later pulse phases. Those terms answer the user's own request that no compiler step change the coupler gates, so they belong there. The closing lines about counts_list and script paths read like notes for an engineer. Overall a non-expert can still follow the main answer.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It says a real-hardware run would cost credits and that it was not done. It lists script paths for reference only.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "Trial r06-C-T22-3 passes all 6 checks. It names transverse-field melting correctly, every physics number matches the grade file, and it says the mock counts are not physics. Two side numbers are not in the inputs: the 90 mock couplers and the 0.75 credits per second rate. A few engineer-facing lines close the answer.",
+ "evidence": [
+  "\"The principle is that a sideways (transverse) field fights the up-down order, and the spin-spin interactions spread that disorder across the sheet.\"",
+  "\"The emerald:mock device checks that the circuits are valid and returns made-up bitstrings that do not come from running the circuit. Its numbers tell you nothing about the physics.\"",
+  "\"theta = 0.2 pi: a perfect machine gives 0.446. The test device gave 0.009.\" (grade file: model_exact 0.4456, api_mean_z 0.00919, /Users/claytonchancey/Desktop/quantum/spe/evals/results/r06/trials/r06-C-T22-3.grade.json)"
+ ]
+}

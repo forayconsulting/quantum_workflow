@@ -233,3 +233,19 @@ The real Emerald architecture lists 85 couplers. The mock lists 90. The helper's
 The raw values sit above exact at every nonzero field. Decay toward 0 (amplitude damping) pushes Z up, so noise did not shrink the signal toward 0 as the prediction assumed.
 
 **Dashboard after the probe (about 13:55Z, user signed in).** Balance **−1.20 credits**. Credit history: "− 6.00 IQM Emerald | 1 jobs, Pay-as-you-go" on 22 Oct. So the 6.00 estimate matched the charge exactly, and Resonance lets a Starter balance go below zero. The page says "Need more credits? Contact your IQM Sales person to top up."
+
+Verification item 3: the light-cone simulator matches the full statevector simulator on a 12-qubit patch with mixed gates to better than 1e-9 (`_selftest_light_cone` in grade.py, run by every selftest).
+
+Dry run `wf_91fca8f3-5a1` (r06dry, 2 cells, 8 agents, 9.2 minutes): A-T22-1 and C-T23-1 both passed, and both judges returned. C-T23-1 used the helper's 83-coupler list (249 CZ). 0 credits.
+
+## Round 6 run (`wf_8d7e6233-d69`, 22.8 minutes, 101 agents)
+
+| Item | Value | Source |
+|---|---|---|
+| Trials | 27 (T13, T22, T23 for A, B, C, 3 each). 0 top-ups, because no cell was split | Workflow output |
+| Real jobs by trials | 0. Every trial job went to a mock | Grade files, `credits_estimated` 0 |
+| Dashboard after the run | Balance still −1.20. No new credit line | Account, Credits page |
+
+## Job reconciliation (round 6)
+
+The dashboard Jobs list, paged with its next button, showed 44 jobs on 22 Oct (PDT), the earliest at 6:44 PDT (`…a979f8f76aa2`, the first setup oracle). The known set was 44: 5 from setup (3 T22 fixtures, the probe's mock test, and the real probe, which is the only real job), 3 from the dry run, and 36 reported by r06 trials. Every dashboard suffix matched a reported job, and every reported job appeared. **0 unreported jobs.**

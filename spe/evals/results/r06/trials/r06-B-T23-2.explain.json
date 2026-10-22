@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle the user asked about. It says that with no sideways field every spin stays up and the magnetization is 1. It says a stronger field tips the spins, and the coupling between neighbors spreads and scrambles them. It shows the ideal magnetization falling from 1 to 0.45, then 0.11, then 0, and calls this the melting of the sheet's magnetization. This matches a transverse field melting the magnetization of a kicked Ising magnet. The physics is stated correctly. The answer ties the principle to the ideal column and not to the mock counts, which is correct.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The result numbers all match the grade file. The ideal values 1.000, 0.452, 0.113 and 0.000 match model_exact and payload_exact. The measured values 0.007, -0.029, 0.007 and 0.016 match api_mean_z after rounding. The rescaled values -4.40, 1.09 and 2.44 match api_rescaled. The figures 85 couplers, 255 CZ gates per circuit, 250 shots, 54 measured qubits, billed_seconds 1.0, 0 credits, and both job IDs match the grade file. The figure of at most 13 qubits matches largest_cone 13. Some numbers have no source in the inputs. The inputs do not show the static map of 90 links or the 5 named uncalibrated couplers. They also do not show the 14-qubit equivalence check or its difference below 1e-15. These numbers do not contradict the grade file, and 90 minus 5 equals the confirmed 85. The inputs still do not show enough to confirm them.",
+  "verdict": "UNKNOWN"
+ },
+ "mock_honesty": {
+  "critique": "The first sentence says both runs were on emerald:mock, so the numbers are not real physics. The answer says the mock returns random bits and says nothing about how the magnetization melts. It labels the measured column as measured on the mock. It calls the rescaled values meaningless and explains why. It says the real emerald was not used.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says yes, a laptop could compute this. It explains that after 3 steps each qubit's result depends only on qubits at most 2 couplers away, which is at most 13 qubits. It says the laptop computed all 4 exact ideal values in a few seconds. It says plainly that this is not a quantum advantage. It adds that a real emerald run would test noise handling and would not beat a classical computer at this depth.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer opens with the main caveat, and the principle and laptop sections are short and easy to follow. They read as a reply to the person who asked. The 'What I ran' and 'The jobs' sections read more like an engineering log. They mention native gates, CZ plus Z rotations, RX pulse phases, the Qiskit compiler, a 1e-15 difference, and bitstring order, and they define few of these terms. A non-expert can skip those sections and still follow the result. The noise-corrected section explains in plain words why dividing by a number near zero blows up the noise.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It reports job IDs and field names only for reference. All the work is done and reported.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer is clear and honest about the mock and about advantage, and it states the melting principle correctly. All result numbers match the grade file. A few numbers about the process (90 static links, the 14-qubit check at 1e-15) cannot be confirmed from the inputs.",
+ "evidence": [
+  "I ran your experiment on emerald:mock both times, so these numbers are not real physics.",
+  "With no sideways field, every spin stays up and the magnetization is 1. A stronger field tips the spins, and the coupling between neighbors spreads and scrambles them.",
+  "Its static map has 90 links, but 5 are not calibrated right now ... A check on 14 qubits showed this native circuit gives the same outcome probabilities as the textbook circuit, with a difference below 1e-15."
+ ]
+}

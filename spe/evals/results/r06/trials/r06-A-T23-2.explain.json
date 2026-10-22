@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the physics. A sideways field tips the spins over and melts the magnetization. It says that with no field every spin stays up and the magnetization is 1. It says the magnetization falls to 0.45, then 0.11, then 0 at theta = 0.5 pi. Those values match the grade file's model_exact values. The answer adds that the neighbor couplings mix the spins. The physics is stated correctly.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values (1, 0.452, 0.113, 0) match model_exact and payload_exact in the grade file. The measured values (-0.006, 0.035, 0.014, -0.001) match api_mean_z. The rescaled values (-6.24, -2.55, 0.105) match api_rescaled. The 85 couplers match coupler_list. The 255 CZ gates per circuit match cz_per_circuit. Billed seconds of 1.0 matches the API. Both job IDs match. The bound of at most 13 qubits matches largest_cone. The calibration set ID 3a1a9ad0 is not in the grade file, but it matches /Users/claytonchancey/Desktop/quantum/spe/evals/graders/calibrations/emerald_graphs.json. Two side numbers cannot be checked from the inputs: the mock's 90 couplers and the 0.2 second laptop runtime. They describe how the agent worked, not the results, and nothing contradicts them. Every result number has a source.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The first paragraph says the run used only the free emerald:mock simulator. It says the mock returns random bits, so the measured numbers say nothing about real physics. The answer also calls the rescaled values meaningless and explains why: the mock's theta = 0 value is about 0 instead of 1. It says that nothing went to a real QPU.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says yes, a laptop could compute this. It says the agent computed every ideal value exactly on a laptop. It explains that after 3 steps each qubit's result depends on at most 13 nearby qubits. It says plainly that this is not a quantum advantage, and that a run on real emerald would not show one either.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The physics, noise-correction, and laptop sections use short plain sentences and speak to the user directly. The 'What I built' section reads more like an engineering log. It mentions native gates, folding Z rotations into RX pulse phases, a calibration set ID, and a 14-qubit equivalence check. The closing paragraph lists file paths and counts_list details. The user wrote the request in gate terms, so most of this vocabulary is the user's own. A non-expert can still follow the main points.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It points to script and result paths only as a record of the work.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "A clear and honest answer. Every result number matches the grade file. The mock and advantage caveats are explicit. The build section reads somewhat like an engineering log.",
+ "evidence": [
+  "The mock returns random bits, so the measured numbers say nothing about real physics.",
+  "After 3 steps, each qubit's result depends only on the qubits within 2 couplers of it, which is at most 13 qubits. That is a tiny simulation. So this is not a quantum advantage.",
+  "These are meaningless. The mock's theta = 0 result is about 0 instead of 1, so dividing by it amplifies random noise."
+ ]
+}

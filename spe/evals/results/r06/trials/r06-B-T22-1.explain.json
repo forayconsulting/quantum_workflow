@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says a sideways field fights the magnets' up-down order and melts the sheet's magnetization. It explains the mechanism correctly. The field tips each spin away from up at every kick, and the couplers mix each spin with its neighbors. It gives the right limits: full magnetization 1.0 at theta = 0 because nothing flips, and exactly zero at theta = 0.5 pi. The ideal values fall as the field grows, which matches the grader's simulation.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values in the answer are 1.000, 0.452, 0.113, and 0.000. They match the grader's model_exact and payload_exact values of 1.0, 0.4524, 0.1132, and 6e-18. The measured values are 0.007, 0.056, -0.044, and 0.005. They match the grader's api_mean_z. The grader confirms 85 couplers and 255 CZ gates per circuit, which is 85 times 3. The calibration set ID 3a1a9ad0 matches the reference coupler graph in /Users/claytonchancey/Desktop/quantum/spe/evals/graders/calibrations/emerald_graphs.json. The 5 dropped couplers named in the answer are all absent from that 85-coupler list. The claim that the mock lists 90 couplers is not in the grade file. It is consistent with 85 plus 5, so it does not contradict any source. The job ID, the 4 circuits, and the 250 shots all match.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that the mock run does not show the physics. It says the mock does not simulate the circuit and returns random bitstrings, so the counts do not depend on the field. It points to the clearest evidence: the theta = 0 circuit gave about 0 when the ideal is 1. It also says the run was on emerald:mock and cost no credits.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says it computed the noise-free values using each qubit's exact light cone. It never tells the user that this was a small calculation on an ordinary computer. It never says that a classical computer can produce these values, and it never says the run shows no quantum advantage. A non-expert cannot tell from the phrase \"exact light cone\" that the ideal curve came from a laptop. The rubric fails an answer that says nothing about whether a classical computer could do it. This answer only implies it.",
+  "verdict": "FAIL"
+ },
+ "plain_language": {
+  "critique": "The physics sections use short sentences and speak to the person who asked. Examples are \"With no sideways field, nothing flips, and every magnet stays up\" and the explanation of the dial from weak to strong field. The \"What I built\" paragraph is dense. It covers the calibration set ID, native CZ gates, Z turns folded into pulse phases, and the transpiler. Most of those terms come from the user's own request, which asked about couplers and compiler steps. Some new terms are not defined, such as \"light cone\" and \"average of Z\". The \"Data notes\" section about counts_list reads like a note for engineers. Overall a non-expert can still follow the main story, so this passes, but the build paragraph and the undefined terms are weak spots.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It suggests running the same job on the real emerald to see the true curve. That is a next step, and it gives no code or API steps. The file paths in the data notes are for reference only.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer states the melting physics correctly, matches every checked number, and is honest about the mock. It never says plainly that an ordinary computer computed the ideal values, so advantage_honesty fails. Files read: /Users/claytonchancey/Desktop/quantum/spe/evals/graders/explain.md, /Users/claytonchancey/Desktop/quantum/spe/evals/results/r06/trials/r06-B-T22-1.result.json, and /Users/claytonchancey/Desktop/quantum/spe/evals/results/r06/trials/r06-B-T22-1.grade.json.",
+ "evidence": [
+  "\"The mock does not simulate the circuit. It checks that the job is valid and then returns random bitstrings, so its counts do not depend on the field.\"",
+  "\"I computed the noise-free magnetization of the circuits I submitted, using each qubit's exact light cone.\"",
+  "\"A stronger sideways field tips the spins further out of the up direction at every kick. The couplers then mix each spin with its neighbors. Within 3 steps, the order melts.\""
+ ]
+}

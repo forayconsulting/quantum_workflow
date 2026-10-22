@@ -1,0 +1,35 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/e7751dc6-866f-4ba0-8f69-f893e3aab683/subagents/workflows/wf_8d7e6233-d69/agent-a67e98004f6682288.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 317.0,
+ "ended": "2026-10-22T16:52:31.261000Z",
+ "api_calls": 19,
+ "tokens": {
+  "input_tokens": 38,
+  "output_tokens": 34003,
+  "cache_read_input_tokens": 1393522,
+  "cache_creation_input_tokens": 86866,
+  "total": 1514429,
+  "fresh": 120907
+ },
+ "tool_calls": 24,
+ "tool_errors": 1,
+ "tool_errors_by_class": {
+  "guard": 0,
+  "agent": 1,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 18,
+  "Write": 4,
+  "Read": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "sed -n 55,80p /Users/claytonchancey/Desktop/quantum/.venv-iqm/lib/python3.12/site-packages/iqm/iqm_client/models.py; grep -n -i \"counts\\|bitstring\\|order\" /Users/claytonchancey/Desktop/quantum/docs/iqm/05-results-and-data.md | head -40"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r06-A-T22-2"
+}

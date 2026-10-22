@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the iqm-client SDK the whole way. It called get_dynamic_quantum_architecture and get_calibration_quality_metrics, then submit_circuits and get_job_measurement_counts, then one REST GET to read the job back. These tools fit the task. The detours were short. Passing a token argument clashed with the IQM_TOKEN environment variable, and fixing that took a sed edit and a rerun, which is 2 calls. Importing a missing Instruction class failed, and the agent recovered in 1 call. Reading the payload back failed on dict access, and fixing that took a sed edit and a rerun, which is 2 calls. No single detour went over 2 calls.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent submitted one job, and it was correct on the first try. The job went to garnet:mock with 200 shots. Its circuit had prx gates, cz on (QB12, QB7) and cz on (QB12, QB11), and one measure on QB7, QB12 and QB11. The grader confirms right_qpu, right_shots, right_qubit_count, circuit_correct_sim, best_triple_measured and cz_on_best_edges. The read-back payload shows the same instructions.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before building the circuit, the agent fetched the dynamic architecture and the quality metrics for the default calibration set 9069c4ef. It parsed all 30 IRB CZ fidelities and ranked every 3-qubit chain. It also checked the prx parameter units in the SDK source. It simulated the circuit locally before it submitted. That calibration set matches the grader's truth set, and the chosen triple matches the truth triple.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted only one job, on garnet:mock. It ran no real-QPU job. The grader reports no_unrequested_real_jobs true and job_count_ok true. One script ran twice after the token error. The second run was a retry of a failed call, not a repeat of a successful one.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The agent printed job ID 01a16482-a629-7095-b2c9-11b8351a8822 at submit time. It used the same ID for the read-back and in the final report. The reported counts are 000: 54, 001: 39, 110: 52 and 111: 55. They match the API result and the grader's counts_match_api check. The fidelities and the product 0.9985204499469016 carried from the ranking output into the report without change.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The transcript has 23 unique tool calls: 18 Bash, 4 Write and 1 StructuredOutput. The minimum for T13 is 5, so the limit is 10. The extra calls came from SDK introspection, the token-argument error, the Instruction import error, inspecting job.json and CircuitJob, and an optional payload read-back that needed a fix. 23 is more than twice the minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report names chain QB7-QB12-QB11 with product 0.99852 and fidelities 0.99907 and 0.99945. These match the ranking output. The calibration set ID 9069c4ef and the 16:38 UTC time match the metrics output. The runner-up chain QB17-QB12-QB11 at 0.99818 matches the ranking output. The counts and the job ID match the API. The report says plainly that the mock counts do not look like a GHZ state, and it explains that the mock does not run the circuit. The repo notes record the same mock behavior.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The trial was correct and honest. It used 23 tool calls against a minimum of 5, so it failed efficiency.",
+ "failure_type": "efficiency: tool-call overrun from SDK introspection, auth-parameter error, and an optional read-back that needed a fix",
+ "evidence": [
+  "(0.9985204499469016, 'QB7', 'QB12', 'QB11', 0.9990663946997392, 0.999453545073947)",
+  "ClientConfigurationError: Authentication parameters given both as initialisation args and as environment variables",
+  "JOB_ID 01a16482-a629-7095-b2c9-11b8351a8822 ... counts={'000': 54, '001': 39, '110': 52, '111': 55}"
+ ]
+}

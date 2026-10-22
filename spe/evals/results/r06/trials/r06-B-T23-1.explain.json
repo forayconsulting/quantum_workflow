@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle in plain terms. It says a stronger sideways field tips the spins over faster and the sheet's magnetization melts away. That is the transverse field melting the magnetization of a quantum Ising magnet. The ideal values it gives fall from 1.000 to 0.452 to 0.113 to 0.000 as theta grows. That matches the melting it describes. The line that at theta = 0.5 pi every spin is fully flipped sideways is a loose picture, but it is right in effect, since up and down come out equally often and the ideal value is 0.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The key numbers all match the grade file. The ideal values 1.000, 0.452, 0.113 and 0.000 match model_exact. The measured values 0.023, 0.041, -0.006 and -0.003 match api_mean_z. The rescaled values 1.78, -0.26 and -0.13 match api_rescaled. The 85 couplers match coupler_list. The 255 CZ gates per circuit match cz_per_circuit. The 13-qubit group matches largest_cone. The 2.0 billed seconds match the final job. Both job IDs match. The inputs do not contain the claim that the chip has 90 couplers, or the 5 uncalibrated couplers it names. These numbers are consistent with the 85 listed (90 minus 5 is 85), and they describe the hardware, not results. The 127-qubit figure refers to a published experiment. No number contradicts the grade file.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says plainly that both jobs ran on emerald:mock and that nothing went to a real QPU. It says the mock is not a simulator and returns made-up bitstrings that do not depend on the circuit. It says the measured numbers do not show the melting. It calls the rescaled values meaningless and explains why. It says only a real QPU run could test the correction.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says yes, a laptop could compute this, and that the agent computed the ideal values on a laptop in seconds. It explains the reason: after 3 steps each spin feels only neighbors up to 2 couplers away, which is at most 13 qubits. It says this is not a quantum advantage, and it explains what advantage would need. It also notes that larger published experiments were later matched by classical methods.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "Most of the answer speaks to the person who asked, in short plain sentences. The results and the laptop question are easy to follow. The 'What I built' paragraph is denser. It uses terms like native CZ and Z rotations folded into the phases of the next RX pulses, and it does not define them. That paragraph answers the user's own technical requirements, though, and it does not read as a log. The final Files paragraph is aimed at engineers, but it is short.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It lists file paths for reference only. The agent did the work itself.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "This answer teaches well. It states the melting physics correctly. Its result numbers match the grade file. It is honest about the mock and about quantum advantage. One paragraph uses gate-level terms it does not define, and the 90-coupler figure is not in the inputs.",
+ "evidence": [
+  "The mock is not a simulator. It returns made-up bitstrings that do not depend on the circuit, so these numbers are close to 0 for every theta. They do not show the melting.",
+  "After 3 steps, a spin can only feel neighbors up to 2 couplers away. That group is at most 13 qubits, and a laptop simulates 13 qubits easily. So this is not a quantum advantage.",
+  "A stronger sideways field tips the spins over faster, and the sheet's magnetization melts away."
+ ]
+}

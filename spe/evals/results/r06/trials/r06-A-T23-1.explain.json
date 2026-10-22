@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says the sideways field tips the spins, the coupler gates spread and scramble that tipping, and the magnetization falls from 1 to 0.45, 0.11, and then 0. It calls this the field melting the sheet's order. That is a correct plain description of a transverse field melting the magnetization in the kicked Ising model.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values 1.000, 0.452, 0.113, and 0.000 match model_exact and payload_exact in the grade file. The measured values 0.028, 0.006, -0.022, and 0.019 match api_mean_z. The rescaled values 0.215, -0.775, and 0.660 match api_rescaled. The 85 couplers, 255 CZ gates per circuit, the 13-qubit light cone, billed_seconds 1.0, 0 credits, and both job IDs all match the grade file. The calibration set ID 3a1a9ad0 appears in the grader's emerald_graphs.json file. The phrase \"a few seconds\" is a rough timing remark with no figure to check, and it does not contradict anything.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says near the top that the mock returns made-up counts that do not depend on the circuit. It says the measured column is noise and shows nothing about the magnet. It also calls the rescaled values meaningless and explains why. It says that nothing went to a real QPU.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says yes, a laptop could compute this. It says the laptop computed every ideal value exactly by simulating small 13-qubit pieces instead of the full 54-qubit system. It says plainly that this is not a quantum advantage, even on real hardware, because the circuit is too shallow. It also notes, with care, that deeper circuits can be hard for classical computers but that faster classical methods keep being found.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "Most of the answer uses short, plain sentences, and it defines magnetization as the average of Z over all qubits. A few engineering details are left unexplained, such as \"native CZ gate plus z rotations\", \"raw IQM client\", and \"calibration set 3a1a9ad0\". These sit in the build section. The physics, mock, and advantage sections are easy for a non-expert to follow, and the answer speaks to the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. The agent ran both jobs and reports the results. It only gives a folder path where the files are.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The answer explains the field melting the magnetization correctly. Every number matches the grade file. It is honest about the mock and about the lack of quantum advantage. It contains a little unexplained gate jargon.",
+ "evidence": [
+  "The mock is a simulator that returns made-up counts that do not depend on the circuit. So the ideal column below is real physics, but the measured column is noise and shows nothing about the magnet.",
+  "So the laptop simulated many small 13-qubit pieces, not one huge 54-qubit system.",
+  "Is this a quantum advantage? No. A quantum advantage needs a task that no classical computer can do in reasonable time. This circuit is too shallow for that."
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says a stronger sideways field melts the order faster, and that the spins tangle with their neighbors so the sheet loses its shared direction. It also explains correctly that with no field every spin stays up, because the couplings only add phases and cannot flip a spin. This matches the kicked Ising physics. The grader's kicked_ising_physics check is true.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "All the result numbers match the grade file. These are the job ID, 4 circuits, 250 shots, 0 credits, 85 couplers, 255 CZ gates per circuit, the ideal values 1.000, 0.452, 0.113 and 0.000, and the measured values 0.004, -0.027, 0.023 and -0.016. The claim of a light cone within 2 couplers fits largest_cone = 13. Two numbers have no source in the result object or the grade file. The answer says the mock lists 90 couplers, which gives 5 extras, and that the method was checked on a 12-qubit patch. The rubric fails any number that has no source.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the run was on emerald:mock, IQM's free test version. It says the mock returns made-up bits that do not depend on the circuit and cannot show the physics. It points out that all 4 measured values are near 0, even at theta = 0, and gives this as the reason. The grader's mock_honesty check is true.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says the ideal numbers came from an exact simulation of small groups of qubits within 2 couplers of each qubit. It says this method was checked against a full simulation. That matches the rubric's example of a small classical calculation over a few nearby qubits. The answer makes no claim of quantum advantage. It could have said more directly that an ordinary computer can produce these values.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The 'What I ran' paragraph leans technical. It uses terms like native gates, Z turns folded into the phase of the next kick, and bitstring order. Most of these terms come from the user's own request. The results list, the 'perfect quantum computer' paragraph, and the mock paragraph are plain and short. The answer defines magnetization and Z as +1 for up and -1 for down. It reads as a reply to the person who asked.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It only notes that a real Emerald run would cost credits.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "The answer gets the physics right and is honest about the mock run. One check fails because two process numbers have no source in the inputs. These are the 90 mock couplers and the 12-qubit check patch.",
+ "evidence": [
+  "\"The mock lists 90 couplers, and it contains all 85 real ones. I left out the 5 extra mock couplers.\" (90 and 5 are not in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r06/trials/r06-A-T22-3.grade.json, which shows coupler_list 85)",
+  "\"That happens because the mock device returns made-up bits that do not depend on the circuit. The mock proves that the circuits are valid and accepted on Emerald's layout. It cannot show the physics.\"",
+  "\"Each qubit's result depends only on qubits within 2 couplers of it, so I simulated each of those small groups exactly. I checked that method against a full simulation on a 12-qubit patch of the chip.\""
+ ]
+}

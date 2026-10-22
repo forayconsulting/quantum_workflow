@@ -1,0 +1,42 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/e7751dc6-866f-4ba0-8f69-f893e3aab683/subagents/workflows/wf_8d7e6233-d69/agent-a10bd75fb1eda77c4.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 934.8,
+ "ended": "2026-10-22T17:03:07.285000Z",
+ "api_calls": 20,
+ "tokens": {
+  "input_tokens": 40,
+  "output_tokens": 34081,
+  "cache_read_input_tokens": 1737745,
+  "cache_creation_input_tokens": 193215,
+  "total": 1965081,
+  "fresh": 227336
+ },
+ "tool_calls": 27,
+ "tool_errors": 2,
+ "tool_errors_by_class": {
+  "guard": 1,
+  "agent": 1,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 15,
+  "Read": 3,
+  "Write": 5,
+  "ToolSearch": 1,
+  "TaskStop": 1,
+  "Edit": 1,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "cd /Users/claytonchancey/Desktop/quantum/docs/iqm; grep -n -i \"payload\\|get_job\\|get_submitted\\|circuits_batch\\|measurement_counts\\|billed\" 03-python-sdk.md 05-results-and-data.md | head -60",
+  "cd /Users/claytonchancey/Desktop/quantum/docs/iqm; sed -n 468,660p 03-python-sdk.md; sed -n 491,512p 04-hardware-and-execution.md; sed -n 820,904p 05-results-and-data.md",
+  "grep -n \"^#\" /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md /Users/claytonchancey/Desktop/quantum/docs/iqm/03-python-sdk.md",
+  "sed -n 110,240p /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md; sed -n 357,500p /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md; sed -n 825,868p /Users/claytonchancey/Desktop/quantum/docs/iqm/04-hardware-and-execution.md"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r06-B-T22-2"
+}

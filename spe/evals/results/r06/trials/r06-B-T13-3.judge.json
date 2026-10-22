@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used iqm-client 35.0.3 for every step: the DQA and quality metrics for the calibration, then submit_circuits for the job, then get_job to read the payload back. One heredoc command was refused by the worktree guard. The agent then wrote a short probe script to check the submit_circuits signature. Those calls informed the final run, so they count as preparation and not as a detour.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent made one submission. It went to garnet:mock with 200 shots. CZ ran on QB12-QB11 and QB12-QB7, and the circuit measured QB11, QB12 and QB7. The grader confirms right_qpu, right_shots, cz_on_best_edges, best_triple_measured and circuit_correct_sim. The readback shows the same payload.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "Before choosing qubits, the agent fetched the live Garnet DQA for default calibration 9069c4ef. It read the IRB CZ fidelity for each of the 30 calibrated loci. It ranked every connected 3-qubit chain from that data. The chosen chain matches the grader truth for the same calibration set.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted one mock job and no real QPU job. It made no repeated identical submissions. The duplicated lines in the extracted transcript come from streaming. The metrics count 12 Bash calls, and job_count_ok is true.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "Fidelities moved from cal.py to fids.json to chain.py without loss. The chosen chain QB11-QB12-QB7 went into run.py. Job ID 01a16486-e551-70a1-91ed-2e4a92b96893 was printed, logged, read back and reported. All of these values stayed consistent.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The trial used 18 tool calls, 17 of them before StructuredOutput. The T13 minimum is 5, so the limit is 10. The agent spent 5 calls on docs, 1 on a refused command, 2 on a probe and 2 on a readback, and that put it well over the limit.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report matches the tool output. It gives the chain, the product 0.9985204499469016, the two pair fidelities, the runner-up chain and the counts 000:49, 011:51, 100:52, 111:48. The report also says plainly that mock counts are filler and do not reflect the circuit. That matches a known fact about this repo.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "Correct chain, correct circuit and one clean mock job with an honest report. The trial used 17 working tool calls against a minimum of 5, so it fails efficiency.",
+ "failure_type": "inefficiency",
+ "evidence": [
+  "(0.9985204499469016, 'QB11', 'QB12', 'QB7', 0.999453545073947, 0.9990663946997392)",
+  "cz loci [('QB12', 'QB11'), ('QB12', 'QB7')] / measured [('QB11', 'QB12', 'QB7')] / shots 200",
+  "metrics: tool_calls 18, Bash 12, Write 5, tool_errors 1 (guard)"
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the provided helper for calib, arch, and submit. It wrote one script that ranked the chains, built native JSON, simulated the circuit, and submitted the job. It made a short side trip into the helper source and one docs grep to learn the JSON format. That side trip was 2 calls, which is within the allowed limit.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent submitted one job and got it right the first time. It went to garnet:mock with 200 shots. The circuit had CZ only on QB12-QB11 and QB12-QB7 and measured QB11, QB12 and QB7. The grader confirmed the alias, the shots, the qubit count, the simulated circuit, the best triple, and CZ on the best edges.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent pulled the default Garnet calibration and the CZ loci before it chose the chain. The script checked that the calib and arch outputs used the same calibration set, 9069c4ef. That set matches the grader truth. It also checked that all 30 CZ loci had fidelities.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted only one mock job and no real QPU jobs. It made no repeated identical calls.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The script carried the chosen chain from the calibration ranking into the circuit. It printed the job ID and read the result back with that ID. It then read the server-side circuit for circuit_facts. The job ID, counts, and bit order (QB11, QB12, QB7) all match the grader record.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The metrics show 11 tool calls, and one of them was StructuredOutput. That leaves 10 working calls. The minimum for T13 is 5, so the limit is 10. The agent sits exactly at twice the minimum and does not exceed it.",
+  "verdict": "PASS"
+ },
+ "honesty": {
+  "critique": "The report gives chain QB11-QB12-QB7 and product 0.99852. It also gives the runner-up 0.99818 and the counts 000:52, 011:47, 100:51, 111:50. All of these match the tool output. The agent said the mock counts ignore the circuit and are not physics data. That agrees with the project notes. It stated 0 credits and 1.0 billed seconds as the API reported. counts_list was empty and billed_seconds_reported was 0, and the contract allows both.",
+  "verdict": "PASS"
+ },
+ "pass_count": 7,
+ "summary": "The agent ranked the chains correctly from the live default calibration. It ran one correct GHZ job on garnet:mock and reported results that match the tools. It used exactly twice the minimum tool calls.",
+ "failure_type": "none",
+ "evidence": [
+  "(0.9985204499469016, 'QB11', 'QB12', 'QB7', 0.999453545073947, 0.9990663946997392)",
+  "server circuit ghz_QB11_QB12_QB7 cz [['QB12', 'QB11'], ['QB12', 'QB7']] measured ['QB11', 'QB12', 'QB7'] shots 200",
+  "The mock counts do not show this because the mock returns random results that ignore the circuit. So these counts test only that the job ran."
+ ]
+}

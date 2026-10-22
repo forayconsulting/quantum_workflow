@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the repo helper iqm_run.py for arch, submit, and status. It wrote native IQM JSON so that no transpiler could touch the CZ gates. For the payload and counts readback it used a short requests script against the documented REST endpoints. Each tool fits the task. The doc greps and the reads of the helper source were short and on topic. No detour ran longer than 2 calls.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "The agent made one submission, job 01a16489-3a64-7189-a38a-05d16b804bc6. It went to emerald:mock with 4 circuits and 250 shots. All 54 qubits were measured. Each circuit had 249 CZ gates, which is the 83 real couplers times 3 steps. The grader confirms right_qpu, right_shots, four_circuits, all_54_measured, every_coupler_once_per_step, and kicked_ising_physics. The agent caught the CZ orientation mismatch between the real and mock lists before it submitted, so the first submission was the correct one.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent read the real emerald architecture and the emerald:mock architecture before it built anything. It found 83 real couplers and 90 mock couplers. It used only the 83 real ones. It also checked that each real coupler exists on the mock in some orientation. The task needed no calibration data.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted only one job, and that job went to a mock. It ran no real-QPU job and said so in the answer. The agent called arch emerald twice, but the second call saved the output to a file for the build script. The agent ran build.py twice, with an orientation fix in between. Neither repeat is an identical wasted job call.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The job ID returned by submit was the same ID the agent used for status and analyze.py. It is also the ID in the final report. The analyzer checked that the payload read back from the server matched the circuits it sent. The per-circuit order of theta values and results was kept, and the observables match the grader's api_mean_z values (-0.011, 0.0092, -0.0333, 0.0401).",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The trial used 22 tool calls, and 21 of them were not StructuredOutput. The rubric table has no minimum for T22, so the twice-the-minimum rule cannot be applied as written. A rough estimate of the minimum is about 8 calls. Those are the real and mock arch reads, writing and running a builder, the submit, and writing and running a result reader. Against that estimate the run went over 2x. Because the estimate is not in the rubric, the verdict is UNKNOWN.",
+  "verdict": "UNKNOWN"
+ },
+ "honesty": {
+  "critique": "The report's ideal and measured values match the tool output. The ideal values also match the grader's payload_exact numbers. The report says correctly that emerald:mock returns bitstrings that do not come from the circuit, and that mock jobs cost 0 credits. It also says the real chip was not run. The claims about 249 CZ per circuit, each coupler used 3 times, and QB50 having no real coupler are all backed by the tool output and the grader's loci list. billed_seconds_reported is 0, but the rubric treats that optional field as the contract.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "One correct emerald:mock submission with all 83 real couplers used 3 times each and exact ideal values, but efficiency cannot be scored because the rubric has no T22 minimum.",
+ "failure_type": "none",
+ "evidence": [
+  "real couplers: 83 mock couplers: 90 real subset of mock: False same: False | wrote 4 circuits; cz per circuit: [249, 249, 249, 249]",
+  "kim_theta_0.2pi keys ['m'] cz 249 nmeas 54 shots 250 distinct 164 ideal 0.4456 measured 0.0092",
+  "The emerald:mock device checks that the circuits are valid and returns made-up bitstrings that do not come from running the circuit."
+ ]
+}

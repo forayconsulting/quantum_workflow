@@ -1,0 +1,40 @@
+{
+ "transcript": "/Users/claytonchancey/.claude/projects/-Users-claytonchancey-Desktop-quantum/e7751dc6-866f-4ba0-8f69-f893e3aab683/subagents/workflows/wf_8d7e6233-d69/agent-ad3a91a033682b9be.jsonl",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 416.1,
+ "ended": "2026-10-22T16:55:32.510000Z",
+ "api_calls": 25,
+ "tokens": {
+  "input_tokens": 50,
+  "output_tokens": 41745,
+  "cache_read_input_tokens": 2282153,
+  "cache_creation_input_tokens": 113393,
+  "total": 2437341,
+  "fresh": 155188
+ },
+ "tool_calls": 33,
+ "tool_errors": 2,
+ "tool_errors_by_class": {
+  "guard": 1,
+  "agent": 1,
+  "other": 0
+ },
+ "tools": {
+  "Bash": 23,
+  "Read": 2,
+  "Write": 7,
+  "StructuredOutput": 1
+ },
+ "used_helper": false,
+ "read_docs": [
+  "/Users/claytonchancey/Desktop/quantum/docs/iqm/README.md",
+  "cd /Users/claytonchancey/Desktop/quantum/docs/iqm; grep -n -i \"emerald\\|dynamic_quantum_architecture\\|get_dynamic\\|static arch\\|optimization_level\\|remove_final_rzs\\|billed\\|run_request\\|submit_circuits\\|create_run\\|RGate\\|'r'\\|prx\" 03-python-sdk.md 04-hardware-and-execution.md 05-results-and-data.m",
+  "cd /Users/claytonchancey/Desktop/quantum/docs/iqm; sed -n 110,240p 04-hardware-and-execution.md; sed -n 357,500p 04-hardware-and-execution.md; sed -n 825,868p 04-hardware-and-execution.md",
+  "cd /Users/claytonchancey/Desktop/quantum/docs/iqm; sed -n 180,240p 05-results-and-data.md; grep -n \"^#\" 03-python-sdk.md 04-hardware-and-execution.md",
+  "cd /Users/claytonchancey/Desktop/quantum/docs/iqm; sed -n 371,420p 03-python-sdk.md; sed -n 468,530p 03-python-sdk.md",
+  "cd /Users/claytonchancey/Desktop/quantum/docs/iqm; sed -n 500,512p 04-hardware-and-execution.md; grep -n -i \"billed\\|get_job\\|get_submitted\\|job_parameters\\|payload\\|circuits_batch\\|/jobs/{\" 05-results-and-data.md 02-rest-api-reference.md 03-python-sdk.md | head -60"
+ ],
+ "peeked": false,
+ "peek_evidence": [],
+ "trial_id": "r06-B-T23-2"
+}

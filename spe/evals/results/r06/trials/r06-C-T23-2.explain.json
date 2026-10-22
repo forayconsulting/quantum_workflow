@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the principle. It says the ideal column shows the sideways field melting the magnetization. It says the value stays at 1 with no field and drops toward 0 as the field grows, reaching exactly 0 at theta = 0.5 pi. That matches the grade file's model_exact values of 1.0, 0.4456, 0.1017 and 0. It also explains correctly that after 3 steps each qubit depends only on qubits at most 2 couplers away. The physics is stated correctly.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The ideal values 1.000, 0.446, 0.102 and 0.000 match model_exact in the grade file. The measured values 0.007, 0.018, -0.009 and -0.046 match api_mean_z. The rescaled values 2.40, -1.22 and -6.24 match api_rescaled. The 83 couplers, 249 CZs per circuit, 250 shots, billed_seconds 1.0, 0 credits, both job IDs, and the 13-qubit largest cone all match the grade file. The calibration set ID 3a1a9ad0 differs from the mock jobs' set 0584192b. It does match the real emerald coupler graph in /Users/claytonchancey/Desktop/quantum/spe/evals/graders/calibrations/emerald_graphs.json, so it has a source. A few side figures cannot be checked here, such as the 6-qubit overlap of 1.000000000000, the comparison count of 84 couplers, and the 37 KB file size. None of them contradicts the inputs.",
+  "verdict": "PASS"
+ },
+ "mock_honesty": {
+  "critique": "The answer says in its first lines that the runs used only emerald:mock and that nothing went to a real QPU. It says the mock returns random bits, so the measured numbers say nothing about physics. It also says the rescaled values are meaningless because they divide by about 0.007. It explains what a real emerald run would show instead. The mock counts are never presented as physics.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says plainly that a laptop can compute this and that it is not a quantum advantage. It gives the reason: each qubit depends only on a neighborhood of at most 13 qubits. The agent simulated each neighborhood exactly in seconds. It notes that 54 qubits sounds large but that this shallow circuit is easy for ordinary computers. It claims no advantage.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The results table and the laptop section use short, clear sentences that answer the user's questions. The What I built section uses terms it does not define, such as PRX gates, native CZ, calibration set, and transpiler. It also describes folding Z rotations into phases, which a non-expert will not follow. The Files section reads like an engineer's log. The core points are still easy to find and follow. The user's own request already used terms like CZ coupler and RX, so most of the jargon matches how the user wrote. This passes, but it is close to the line.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The answer does not ask the user to run code, call the API, or handle tokens. It lists the files the agent wrote. It says the full counts can be fetched again by job ID, but it does not ask the user to do that.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The answer explains the melting correctly. Its numbers match the grade file, it is clear about the mock run, and it rules out a quantum advantage. Some build details use undefined jargon.",
+ "evidence": [
+  "Because a mock returns random bits, the measured numbers say nothing about physics. The ideal numbers do.",
+  "A laptop can compute this, and it is not a quantum advantage. After 3 steps, each qubit's value depends only on qubits at most 2 couplers away. That is at most 13 qubits.",
+  "Each coupler gate is exactly one native CZ plus a Z rotation on each qubit. I folded those Z rotations into the phases of the later PRX gates."
+ ]
+}

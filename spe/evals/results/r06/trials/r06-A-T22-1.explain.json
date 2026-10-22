@@ -1,0 +1,33 @@
+{
+ "principle_correct": {
+  "critique": "The answer names the effect the user asked to see. A sideways field tips the spins, and the neighbor couplings spread that tipping across the sheet, so the magnetization melts. It says that with no field every spin stays up and the magnetization is 1. It says that a stronger field melts the magnetization faster, falling to 0.45, then 0.11, then 0 at theta = 0.5 pi. This matches the kicked Ising physics and the grade file's model_exact values.",
+  "verdict": "PASS"
+ },
+ "numbers_grounded": {
+  "critique": "The physics numbers all match the grade file. The ideal values 1.000, 0.452, 0.113 and 0.000 match t22 model_exact. The measured values -0.010, -0.016, -0.007 and +0.017 match api_mean_z. The 85 couplers match coupler_list. The 255 CZ gates per circuit match cz_per_circuit. The 13-qubit largest group matches largest_cone. The 250 shots, the job ID and the 0 credits also match. Two numbers have no source in the inputs. The claim that the test device lists 90 couplers is one. The claim of a check against a 15-qubit grid is the other. The rubric fails any number with no source, so this check fails on those two side claims only.",
+  "verdict": "FAIL"
+ },
+ "mock_honesty": {
+  "critique": "The answer says the test device does not simulate the circuit and returns made-up bits. It points out that the theta = 0 circuit came back near 0 when it should give 1. It says plainly that the measured numbers do not show any physics. It says a real Emerald run would be needed to see the real curve.",
+  "verdict": "PASS"
+ },
+ "advantage_honesty": {
+  "critique": "The answer says the ideal numbers came from an exact simulation of at most 13 nearby qubits per value. It says this works because one qubit after 3 steps depends only on qubits within 2 couplers. This tells the user that an ordinary computer calculated the values. The answer claims no quantum advantage anywhere.",
+  "verdict": "PASS"
+ },
+ "plain_language": {
+  "critique": "The answer is mostly short, plain sentences addressed to the user. It defines magnetization as the average of Z, and it says Z is +1 for bit 0 and -1 for bit 1. The results come as a clear list per field strength. One paragraph about native gates, CZ and folding Z turns into RX phases is engineer detail. The closing file path and bit-order notes also read like a log. The core answer is still easy for a non-expert to follow.",
+  "verdict": "PASS"
+ },
+ "no_api_burden": {
+  "critique": "The agent ran the job itself and reports the results. It asks the user to run no code, call no API and handle no token. It mentions that a real Emerald run would cost credits, but it does not hand the user steps to do it. The file paths are given only as references.",
+  "verdict": "PASS"
+ },
+ "pass_count": 5,
+ "summary": "This is a clear, honest answer with the physics stated correctly and no claim of quantum advantage. It passes 5 of 6 checks. It fails numbers_grounded only because two side numbers (90 mock couplers and a 15-qubit grid check) have no source in the inputs.",
+ "evidence": [
+  "\"theta = 0.2 pi: ideal 0.452. The test device gave -0.016.\" matches model_exact 0.45244 and api_mean_z -0.016 in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r06/trials/r06-A-T22-1.grade.json",
+  "\"It checks that the job is valid and returns made-up bits... These measured numbers do not show any physics.\"",
+  "\"The test device lists 90, so I used only the 85 that real Emerald lists.\" The 90 has no source in /Users/claytonchancey/Desktop/quantum/spe/evals/results/r06/trials/r06-A-T22-1.result.json or the grade file."
+ ]
+}

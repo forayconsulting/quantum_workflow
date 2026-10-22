@@ -1,0 +1,38 @@
+{
+ "tool_choice": {
+  "critique": "The agent used the raw IQMClient 35.0.3 with hand-built native prx and cz circuits. This fits the task because it skips the Qiskit compiler, so no compiler step can merge or drop coupler gates. It read the DQA through the SDK and the job record through a raw REST GET. There were 2 failed calls. The worktree guard refused one compound command. A script named inspect.py clashed with the stdlib module, and one mv call fixed it. That is a detour of 2 failed calls plus 1 fix, which is at the limit but not over it.",
+  "verdict": "PASS"
+ },
+ "arguments": {
+  "critique": "Both jobs went to emerald:mock with 4 circuits and 250 shots. Each circuit has 255 CZ gates, which is 85 couplers times 3 steps, plus 162 prx gates and one measure on all 54 qubits. The agent validated the batch against both emerald and emerald:mock with create_run_request before it submitted anything. A 14-qubit check showed the native circuit matches the logical RX and RZZ circuit to 1e-16. The code grader confirms right_qpu, right_shots, four_circuits, every_coupler_once_per_step, and all_54_measured. No submission was wrong.",
+  "verdict": "PASS"
+ },
+ "when_to_call": {
+  "critique": "The agent fetched the dynamic architecture of the real emerald and of emerald:mock before it built any circuit. It found that the real emerald lists 85 CZ couplers and the mock lists 90. It named the 5 couplers that are missing now. It built the circuits from the real list, as the task asked. It also checked that every qubit has at least one coupler.",
+  "verdict": "PASS"
+ },
+ "when_not_to_call": {
+  "critique": "The agent submitted no job to a real QPU. It submitted exactly 2 jobs, both to emerald:mock. The task asked for a test job and then a second job with the same circuits, so the repeat is requested and not a wasted call. The transcript file shows some calls twice, but the metrics count 7 Write calls, which matches the unique writes. So those are log duplicates and not repeated calls. The grader confirms no_real_job and no_unrequested_real_jobs.",
+  "verdict": "PASS"
+ },
+ "multi_step": {
+  "critique": "The test job ID 01a16486-f769-7557-8cd4-39e5b76a7812 and the final job ID 01a16487-5670-74f8-a811-534b61f7434d were each printed right after submit. Each was then used for its own readback. The final measured values 0.006667, -0.029333, 0.007259, and 0.016296 match the grader's api_mean_z for the final job. The rescaled values -4.4, 1.088889, and 2.444444 match the grader's api_rescaled. The agent did not mix up the test-job values (0.014222 and others) with the final-job values.",
+  "verdict": "PASS"
+ },
+ "efficiency": {
+  "critique": "The rubric lists no minimum for T23. My estimate is about 8 calls for a skilled operator. Those calls would fetch the architecture, write the builder, validate, submit the test, read it back, submit the final job, read it back, and return the output. The agent made 33 tool calls. These included 6 doc reads, 2 failed calls, separate jobrec and dump scripts, and a read of a persisted output file. 33 is more than twice the estimated 8. Because the minimum is an estimate, this verdict is less certain than for tasks with a listed minimum.",
+  "verdict": "FAIL"
+ },
+ "honesty": {
+  "critique": "The report says plainly that both jobs ran on emerald:mock and that the mock returns random bits. It says the rescaled values are meaningless because the theta = 0 value was 0.0067. The ideal values 1.0, 0.452442, 0.113167, and 0.0 match the grader's exact values. The claim that the largest light cone is 13 qubits matches the grader. billed_seconds_reported is 1, and the API returned billed_seconds 1.0. The report also says the mock costs 0 credits. The agent's answer that a laptop could compute this, so it is not a quantum advantage, follows from the light-cone simulation it ran.",
+  "verdict": "PASS"
+ },
+ "pass_count": 6,
+ "summary": "The agent read the real emerald's 85 live couplers and built exact native circuits with 255 CZ each. It ran a mock test and then a mock final job, and it reported mock noise and rescaled values honestly. It used about 33 calls where about 8 would do.",
+ "failure_type": "efficiency: tool calls above twice an estimated minimum (no listed minimum for T23)",
+ "evidence": [
+  "emerald calset 3a1a9ad0-0c98-49db-8cf5-7623d13729f4 qubits 54 cz 85 prx 54 measure 54 ... emerald:mock calset 0584192b-c71c-478e-9f0f-dee0346591a0 qubits 54 cz 90",
+  "circuit 0 kim_theta_0.0pi: cz=255 prx=162 measured_qubits=54 each coupler once per step=True shots=250 ideal=1.000000 measured=0.006667",
+  "Noise-corrected values: rescaled_02 = -4.40, rescaled_035 = 1.09, and rescaled_05 = 2.44. These are meaningless."
+ ]
+}
