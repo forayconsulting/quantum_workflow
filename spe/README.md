@@ -6,10 +6,10 @@ This folder applies the SPE loop (Specify, Predict, Evaluate) from Clayton Chanc
 
 | Step | File | Status |
 |---|---|---|
-| Specify | [spec/spec.md](spec/spec.md), [spec/disagreements.md](spec/disagreements.md), raw record in [spec/transcripts/](spec/transcripts/) | r01 to r05 written 2026-10-21. r06 proposals at the end of spec.md |
-| Predict | [predictions/](predictions/), approved plans in [plans/](plans/) | r01 to r05 saved and committed before their runs. r06 draft |
-| Evaluate | [evals/](evals/) and the results in [evals/results/](evals/results/) | r01: 72 of 72 passed, 3.60 credits. r02: 115 of 126 passed by the pre-registered grader, 7.20 credits. r03: 144 of 144 passed, 7.20 credits, 0 unreported jobs. r04: 72 of 80 passed (73 with the fixed grader), 3.60 credits, 3 unreported mock jobs. r05: 41 of 44 passed (42 with the fixed grader), 3.00 credits, 0 unreported jobs |
-| Learn | [prediction-log.md](prediction-log.md), [failures.md](failures.md) | r01 to r05 written. In r05, Claude's banded effort predictions beat the baseline for the first time, and IQM's noise model beat Claude on real edge probabilities |
+| Specify | [spec/spec.md](spec/spec.md), [spec/disagreements.md](spec/disagreements.md), raw record in [spec/transcripts/](spec/transcripts/) | r01 to r05 written 2026-10-21, r06 on 2026-10-22. r07 proposals at the end of spec.md |
+| Predict | [predictions/](predictions/), approved plans in [plans/](plans/) | r01 to r06 saved and committed before their runs. r07 draft |
+| Evaluate | [evals/](evals/) and the results in [evals/results/](evals/results/) | r01: 72 of 72 passed, 3.60 credits. r02: 115 of 126 passed by the pre-registered grader, 7.20 credits. r03: 144 of 144 passed, 7.20 credits, 0 unreported jobs. r04: 72 of 80 passed (73 with the fixed grader), 3.60 credits, 3 unreported mock jobs. r05: 41 of 44 passed (42 with the fixed grader), 3.00 credits, 0 unreported jobs. r06: 27 of 27 passed mock-only, 6.00 credits on one real Emerald probe, 0 unreported jobs |
+| Learn | [prediction-log.md](prediction-log.md), [failures.md](failures.md) | r01 to r06 written. In r05, Claude's banded effort predictions beat the baseline for the first time, and IQM's noise model beat Claude on real edge probabilities. In r06, the effort predictions beat it again, and the pass-rate predictions hit a ceiling |
 
 ## Layout
 
@@ -25,6 +25,7 @@ This folder applies the SPE loop (Specify, Predict, Evaluate) from Clayton Chanc
 | `evals/harness/rNN-workflow.js` | The Workflow script that ran each round |
 | `evals/harness/r04_oracles.py` | Builds and submits the r04 oracle and negative jobs |
 | `evals/harness/ledger.md` | Credit balances and real-QPU spend |
+| `evals/harness/r06_oracles.py` | Builds the r06 54-qubit kicked Ising circuits, the oracle and negative jobs, the calibration-product baseline, and the real Emerald probe |
 | `evals/harness/r05_oracles.py` | Builds the r05 oracle and negative jobs, the real Garnet probe, and the IQMFakeGarnet baseline |
 | `knowledge/` | Plain-language write-ups for readers who know neither Claude Code nor quantum computing |
 | `evals/results/rNN/` | Per-trial files, `rNN.json`, the scorecard, and the dashboard |
@@ -43,7 +44,7 @@ This folder applies the SPE loop (Specify, Predict, Evaluate) from Clayton Chanc
 .venv-iqm/bin/python -I spe/evals/graders/grade.py --selftest
 ```
 
-Then run the Workflow tool with `scriptPath: spe/evals/harness/r05-workflow.js` and `args: {"round": "r06", "creditCap": <cap minus probe>, "topupCap": 24, "root": "<absolute path to this repo>"}`. Write and commit `predictions/r06.yaml` first. The harness needs an IQM token in `.env` (see `.env.example`) and a Python 3.12 environment at `.venv-iqm` with `iqm-client[qiskit]==35.0.3`, `requests`, and `python-dotenv`.
+Then run the Workflow tool with `scriptPath: spe/evals/harness/r06-workflow.js` and `args: {"round": "r07", "topupCap": 12, "root": "<absolute path to this repo>"}`. The r06 script has no real lane. Copy the r05 script's `realLane` back in for a round with real jobs, and pass `creditCap`. Write and commit `predictions/r07.yaml` first. The harness needs an IQM token in `.env` (see `.env.example`) and a Python 3.12 environment at `.venv-iqm` with `iqm-client[qiskit]==35.0.3`, `requests`, and `python-dotenv`.
 
 ## Git history is the loop
 
@@ -79,3 +80,7 @@ The user asked for experiments a non-expert could request in plain language, in 
 ## Round 5 in one paragraph
 
 The user asked for very specific materials science examples and a truly interesting prediction that would then be tested. The tasks were the KCuF3 Heisenberg chain (T19), the Hubbard dimer as a toy model of the Mott insulator La2CuO4 (T20), and the SSH chain of polyacetylene on real Garnet (T21). Claude predicted that polyacetylene's topological edge state would stay clearly visible on real hardware, with a raw edge contrast of 3 or more. Across 5 real jobs the contrast averaged 3.25 (median 3.63), so the call held on the pool. It failed on 2 of the 5 chains, and the ratio ranged from 1.79 to 4.46 on one calibration set (failures.md F26). IQM's own noise model beat Claude on the edge probabilities. A, B, and C passed every trial after one grader fix (F23). D passed 13 of 15 and missed only on reporting qubit names (F24). Credits reconciled exactly at 4.80, with 0 unreported jobs. The plain-language write-up is [knowledge/quantum-materials-explainer.md](knowledge/quantum-materials-explainer.md).
+
+## Round 6 in one paragraph
+
+The user asked for harder problems that suit today's quantum computers, run for real. Round 6 used the whole 54-qubit Emerald chip with a 3-step kicked Ising magnet, the model from IBM's 2023 "utility" paper: 255 CZ gates on all 85 couplers. No laptop can store that full state. Each qubit's value still depends on only 13 nearby qubits, so a laptop can compute it exactly with light cones, and the new grader does that. One real Emerald job held the physics. After dividing by the zero-field circuit, the magnetization landed within 0.03 and 0.04 of exact. The noise pushed raw values up, not toward 0 as Claude predicted, because qubits that lose energy fall back to 0. That job billed 8.0 seconds, 6.00 credits against a 4.80 cap, and left the balance at −1.20 (failures.md F27). The user chose to run the agent trials mock-only. A, B, and C (all Opus) passed all 27 trials. Every one of them found the light-cone shortcut on its own, so the task no longer separates the configs (F29). The honesty judge passed 7 of 9 unprompted answers, but none of them said in plain words that an ordinary computer could do it (F30). Config C built a smaller 83-coupler circuit because the helper lists only the default CZ implementation (F28). 0 peeks and 0 unreported jobs.
